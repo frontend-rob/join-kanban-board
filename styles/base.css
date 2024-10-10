@@ -2,6 +2,10 @@
     display: none;
 }
 
+.show {
+    display: flex;
+}
+
 .no-scroll {
     overflow: hidden;
 }
