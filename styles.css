@@ -1,0 +1,22 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+:root {
+    --bg-base-100: #ffffff;
+    --bg-base-200: #f6f7f8;
+    --bg-primary: #2a3647;
+    --bg-accent: #29abe2;
+    --bg-neutral: #d1d1d1;
+    --bg-neutral-accent: #a8a8a8;
+    --bg-error: #ff001f;
+    --base-content: #2a3647;
+    --primary-content: #ffffff;
+    --error-content: #ff8190;
+    --input-border-col: #d1d1d1;
+    --shadow-md: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    --shadow-lg: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
+}
