@@ -1,0 +1,93 @@
+nav {
+  display: flex;
+  align-items: center;
+  width: 232px;
+  height: 100vh;
+  padding-top: 32px;
+  padding-bottom: 32px;
+  background-color: #2a3647;
+  flex-direction: column;
+}
+
+.logo {
+  width: 100px;
+  height: 122px;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  margin-top: 64px;
+  padding-left: 0;
+  list-style: none;
+  width: 100%;
+}
+
+.menu li {
+  margin: 8px 0;
+}
+
+.menu a {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-decoration: none;
+  color: #cdcdcd;
+  height: 46px;
+  width: 100%;
+  padding: 0 16px;
+  transition: background-color 0.2s;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding-left: 40px;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.menu-item svg {
+  height: 1.5rem;
+  width: 1.5rem;
+  fill: #ffffff;
+}
+
+.menu a:not(.nav-active):hover {
+  background-color: #2a3d59;
+  transform: translate(-1px, -1px);
+}
+
+.nav-icon {
+  padding-right: 8px;
+}
+
+.nav-active {
+  background-color: #091931;
+  cursor: default;
+  filter: brightness(1.5);
+}
+
+.nav-active:hover {
+  background-color: #091931 !important;
+}
+
+.footer-links {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-left: 52px;
+}
+
+.footer-links a {
+  text-decoration: none;
+  color: #a8a8a8;
+  padding: 8px;
+}
+
+.footer-links a:hover {
+  text-decoration: none;
+  color: #29a6dc;
+  font-weight: 600;
+}

@@ -1,0 +1,52 @@
+header {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: calc(100% - 232px);
+  height: 96px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.project-name {
+  margin-left: 128px;
+  font-size: 20px;
+}
+
+.help-profile {
+  margin-right: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.help-icon:hover {
+  scale: 1.1;
+}
+
+.help-profile a {
+  margin-right: 16px;
+}
+
+.profile-button {
+  width: 50px;
+  height: 50px;
+  background-color: #ffffff;
+  border: 3px solid #2a3647;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 50px;
+}
+
+.profile-button:hover {
+  background-color: #e1e5ec;
+}
+
+.profile-initials {
+  color: #29abe2;
+  font-weight: bold;
+  font-size: 20px;
+}
