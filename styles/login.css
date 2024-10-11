@@ -82,6 +82,11 @@ main {
     gap: 0.375rem;
 }
 
+.eye-slash-icon:hover,
+.eye-icon:hover {
+    cursor: pointer;
+}
+
 .login-checkbox {
     display: flex;
     justify-content: start;

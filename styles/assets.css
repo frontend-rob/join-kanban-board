@@ -85,14 +85,14 @@
 }
 
 input {
-    height: 3rem;
     width: 100%;
     padding: 12px 21px;
     border-radius: .625rem;
     border: 1px solid var(--input-border-col);
     background-color: var(--bg-base-100);
     color: var(--base-content);
-    font-size: 1rem;
+    font-size: 1.25rem;
+    caret-color: var(--base-content);
 }
 
 input:focus-visible {

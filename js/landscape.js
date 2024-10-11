@@ -22,6 +22,7 @@ function checkOrientation() {
     }
 }
 
+
 /**
  * sets up event listeners for screen orientation and window resizing events to trigger checkOrientation.
  * the resize event listens for window size changes, while the orientation change event listens for device orientation changes.
@@ -33,6 +34,7 @@ window.addEventListener('resize', checkOrientation);
 if (window.screen.orientation) {
     screen.orientation.addEventListener('change', checkOrientation);
 }
+
 
 /**
  * calls the checkOrientation function on initial page load to ensure the correct layout is applied immediately.
