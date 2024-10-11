@@ -8,7 +8,7 @@
     height: 3rem;
     padding: 0 1rem;
     background-color: var(--bg-primary);
-    color: var(--primary-content);
+    color: var(--white-content);
     font-size: 1rem;
     font-weight: 400;
     font-size: 1rem;
@@ -29,7 +29,7 @@
 .btn svg {
     height: 1.5rem;
     width: 1.5rem;
-    fill: var(--base-content);
+    fill: var(--white-content);
 }
 
 .btn:hover {

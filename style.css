@@ -13,10 +13,15 @@
   --bg-neutral: #d1d1d1;
   --bg-neutral-accent: #a8a8a8;
   --bg-error: #ff001f;
+  --priority-urgent: #ff3d00;
+  --priority-medium: #fea800;
+  --priority-low: #7be129;
   --base-content: #2a3647;
-  --primary-content: #ffffff;
+  --white-content: #ffffff;
+  --black-content: #000000;
   --error-content: #ff8190;
   --input-border-col: #d1d1d1;
+  --shadow-sd: 0 4px 4px 0 rgba(0, 0, 0, 0.10);
   --shadow-md: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   --shadow-lg: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
 }

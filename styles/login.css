@@ -29,6 +29,7 @@ main {
     display: flex;
     align-items: center;
     gap: 2rem;
+    color: var(--base-content);
 }
 
 .main-logo {
@@ -54,6 +55,7 @@ main {
 
 .login-header h1 {
     font-size: 4rem;
+    color: var(--black-content);
 }
 
 .custom-divider {
@@ -87,6 +89,7 @@ main {
     padding-left: 2.5rem;
     width: 100%;
     gap: 1rem;
+    color: var(--base-content);
 }
 
 .custom-checkbox {
