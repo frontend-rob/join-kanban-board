@@ -40,7 +40,8 @@ main {
     flex-direction: column;
     align-items: center;
     max-width: 40rem;
-    padding: 3rem 7.75rem;
+    width: 100%;
+    padding: 3rem 1rem;
     border-radius: 1.875rem;
     background-color: var(--bg-base-100);
     box-shadow: var(--shadow-lg);
@@ -71,7 +72,8 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 25rem;
+    max-width: 25rem;
+    width: 100%;
     gap: 1.5rem;
 }
 
