@@ -128,3 +128,23 @@ main {
 .login-footer a:hover {
     color: var(--bg-accent);
 }
+
+
+/*  */
+/* SignUp Screen */
+/*  */
+
+
+
+
+
+
+/*  */
+/* Media Queries */
+/*  */
+
+@media screen and (max-width: 37.5rem){
+    .login-options {
+        flex-direction: column;
+    }
+}
