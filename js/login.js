@@ -53,3 +53,18 @@ function showPassword() {
 function hidePassword() {
     togglePasswordVisibility(false);
 }
+
+
+/**
+ * toggles the visibility of the login and sign-up boxes.
+ */
+function toggleSignUp() {
+    const loginBox = document.getElementById('login-wrapper');
+    const signupBox = document.getElementById('signup-wrapper');
+
+    // toggle visibility for login and signup boxes
+    loginBox.classList.toggle('hidden');
+    loginBox.classList.toggle('show');
+    signupBox.classList.toggle('hidden');
+    signupBox.classList.toggle('show');
+}
