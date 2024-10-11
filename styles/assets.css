@@ -27,10 +27,23 @@
     font-size: 1.25rem;
 }
 
+.btn-circle {
+    border-radius: 3rem;
+    padding: 0.25rem;
+    height: 3rem;
+    width: 3rem;
+}
+
 .btn svg {
     height: 1.5rem;
     width: 1.5rem;
     fill: var(--white-content);
+}
+
+.btn-accent svg {
+    height: 2rem;
+    width: 3rem;
+    fill: var(--bg-accent);
 }
 
 .btn:hover {
@@ -48,6 +61,16 @@
     background-color: transparent;
     border: 1px solid var(--bg-accent);
     color: var(--bg-accent);
+}
+
+.btn-ghost {
+    background-color: var(--bg-base-100);
+}
+
+.btn-ghost:hover {
+    background-color: var(--bg-base-200);
+    box-shadow: none;
+    
 }
 
 /* divider styles */
@@ -116,4 +139,11 @@ input::placeholder {
     color: var(--error-content);
     font-size: .75rem;
     padding-left: 0.5rem;
+}
+
+
+@media screen and (max-wdith: 48rem) {
+    input {
+        font-size: 1rem;
+    }
 }
