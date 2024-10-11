@@ -59,12 +59,27 @@ function hidePassword() {
  * toggles the visibility of the login and sign-up boxes.
  */
 function toggleSignUp() {
-    const loginBox = document.getElementById('login-wrapper');
-    const signupBox = document.getElementById('signup-wrapper');
+    const logInBox = document.getElementById('login-wrapper');
+    const signUpBox = document.getElementById('signup-wrapper');
+    const signUpCall = document.getElementById('call-to-signup');
 
-    // toggle visibility for login and signup boxes
-    loginBox.classList.toggle('hidden');
-    loginBox.classList.toggle('show');
-    signupBox.classList.toggle('hidden');
-    signupBox.classList.toggle('show');
+    logInBox.classList.add('hidden');
+    logInBox.classList.remove('show');
+    signUpBox.classList.remove('hidden');
+    signUpBox.classList.add('show');
+    signUpCall.classList.add('hidden');
+    signUpCall.classList.remove('show');
+}
+
+function togglelogIn() {
+    const logInBox = document.getElementById('login-wrapper');
+    const signUpBox = document.getElementById('signup-wrapper');
+    const signUpCall = document.getElementById('call-to-signup');
+
+    logInBox.classList.add('show');
+    logInBox.classList.remove('hidden');
+    signUpBox.classList.remove('show');
+    signUpBox.classList.add('hidden');
+    signUpCall.classList.add('show');
+    signUpCall.classList.remove('hidden');
 }

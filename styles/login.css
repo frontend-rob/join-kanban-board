@@ -13,20 +13,19 @@ main {
     align-items: center;
     width: 100%;
     flex-grow: 1;
-    padding: 1rem;
+    padding: 0 1rem;
+}
+
+.main-logo {
+    position: absolute;
+    top: 5rem;
+    left: 4.5rem;
 }
 
 .call-to-signup {
     position: absolute;
-    padding: 3.75rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    width: 100%;
-}
-
-.sign-up {
-    display: flex;
+    top: 4rem;
+    right: 4.5rem;
     align-items: center;
     gap: 2rem;
     color: var(--base-content);
@@ -36,7 +35,9 @@ main {
     width: 6.25rem;
 }
 
-.login-wrapper {
+.login-wrapper,
+.signup-wrapper {
+    position: relative;
     flex-direction: column;
     align-items: center;
     max-width: 40rem;
@@ -47,13 +48,22 @@ main {
     box-shadow: var(--shadow-lg);
 }
 
-.login-header {
+.login-header,
+.signup-header {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem
+    gap: 1.5rem;
+    text-align: center;
 }
 
-.login-header h1 {
+#back-to-login {
+    position: absolute;
+    top: 3rem;
+    left: 2rem;
+}
+
+.login-header h1,
+.signup-header h1 {
     font-size: 4rem;
     color: var(--black-content);
 }
@@ -68,7 +78,17 @@ main {
 }
 
 .login-form,
-.login-inputs {
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 25rem;
+    width: 100%;
+    gap: 2rem;
+}
+
+.login-inputs,
+.signup-inputs {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -88,14 +108,28 @@ main {
     cursor: pointer;
 }
 
-.login-checkbox {
+.login-checkbox,
+.signup-checkbox {
     display: flex;
-    justify-content: start;
+    justify-content: center;
     align-items: center;
-    padding-left: 2.5rem;
     width: 100%;
     gap: 1rem;
     color: var(--base-content);
+}
+
+.signup-checkbox a {
+    text-decoration: none;
+    color: var(--bg-accent);
+}
+
+.signup-checkbox a:hover {
+    text-decoration: underline;
+}
+
+.signup-checkbox label {
+    color: var(--bg-neutral-accent);
+    font-weight: 300;
 }
 
 .custom-checkbox {
@@ -103,7 +137,8 @@ main {
     height: 1.25rem;
 }
 
-.login-options {
+.login-options,
+.signup-options {
     display: flex;
     justify-content: center;
     width: 100%;
@@ -115,7 +150,7 @@ main {
     bottom: 0;
     display: flex;
     justify-content: center;
-    height: 3rem;
+    padding: 1.5rem;    
     width: 100%;
     gap: 2.5rem;
 }
@@ -129,22 +164,84 @@ main {
     color: var(--bg-accent);
 }
 
-
 /*  */
 /* SignUp Screen */
 /*  */
-
-
-
-
-
-
 /*  */
 /* Media Queries */
 /*  */
+@media screen and (max-width: 48rem) {
+    .main-logo {
+        top: 2rem;
+        left: 2rem;
+        width: 4rem;
+    }
 
-@media screen and (max-width: 37.5rem){
-    .login-options {
+    .call-to-signup {
+        top: unset;
+        right: unset;
+        bottom: 10%;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .login-header h1,
+    .signup-header h1 {
+        font-size: 3rem;
+    }
+
+    .login-wrapper,
+    .signup-wrapper {
+        padding: 2rem 1rem;
+    }
+}
+
+@media screen and (max-width: 35rem) {
+    .main-logo {
+        top: 1.25rem;
+        left: 1rem;
+        width: 2rem;
+    }
+
+    .login-header h1,
+    .signup-header h1 {
+        font-size: 2rem;
+    }
+
+    .login-options,
+    .signup-options {
         flex-direction: column;
+    }
+
+    #back-to-login {
+        top: 1.5rem;
+        left: 1rem;
+    }
+}
+
+@media screen and (max-width: 24rem) {
+
+    .login-wrapper,
+    .signup-wrapper {
+        padding: 1rem;
+    }
+
+    .login-form,
+    .signup-form {
+        gap: 1.5rem;
+    }
+
+    .login-header,
+    .signup-header {
+        gap: 1rem;
+    }
+
+    .login-inputs,
+    .signup-inputs {
+        gap: 1rem;
+    }
+
+    .login-options {
+        gap: 1rem;
     }
 }
