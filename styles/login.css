@@ -20,6 +20,8 @@ main {
     position: absolute;
     top: 5rem;
     left: 4.5rem;
+    width: 6.25rem;
+    height: auto;
 }
 
 .call-to-signup {
@@ -184,9 +186,6 @@ main {
     color: var(--bg-accent);
 }
 
-/*  */
-/* SignUp Screen */
-/*  */
 /*  */
 /* Media Queries */
 /*  */
