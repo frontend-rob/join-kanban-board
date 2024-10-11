@@ -57,29 +57,34 @@ function hidePassword() {
 
 /**
  * toggles the visibility of the login and sign-up boxes.
+ * 
+ * @param {boolean} isSignUp - if true, shows the sign-up box; if false, shows the login box.
+ * @returns {void}
  */
-function toggleSignUp() {
+function toggleAuth(isSignUp) {
     const logInBox = document.getElementById('login-wrapper');
     const signUpBox = document.getElementById('signup-wrapper');
     const signUpCall = document.getElementById('call-to-signup');
 
-    logInBox.classList.add('hidden');
-    logInBox.classList.remove('show');
-    signUpBox.classList.remove('hidden');
-    signUpBox.classList.add('show');
-    signUpCall.classList.add('hidden');
-    signUpCall.classList.remove('show');
+    toggleVisibility(logInBox, !isSignUp);
+    toggleVisibility(signUpBox, isSignUp);
+    toggleVisibility(signUpCall, !isSignUp);
 }
 
-function togglelogIn() {
-    const logInBox = document.getElementById('login-wrapper');
-    const signUpBox = document.getElementById('signup-wrapper');
-    const signUpCall = document.getElementById('call-to-signup');
 
-    logInBox.classList.add('show');
-    logInBox.classList.remove('hidden');
-    signUpBox.classList.remove('show');
-    signUpBox.classList.add('hidden');
-    signUpCall.classList.add('show');
-    signUpCall.classList.remove('hidden');
+/**
+ * toggles the 'hidden' and 'show' classes on a given element based on the provided flag.
+ * 
+ * @param {HTMLElement} element - the element whose visibility will be toggled.
+ * @param {boolean} shouldShow - if true, shows the element; if false, hides it.
+ * @returns {void}
+ */
+function toggleVisibility(element, shouldShow) {
+    if (shouldShow) {
+        element.classList.remove('hidden');
+        element.classList.add('show');
+    } else {
+        element.classList.add('hidden');
+        element.classList.remove('show');
+    }
 }
