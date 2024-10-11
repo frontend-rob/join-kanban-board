@@ -39,6 +39,7 @@ header {
   align-items: center;
   justify-content: center;
   line-height: 50px;
+  cursor: pointer;
 }
 
 .profile-button:hover {

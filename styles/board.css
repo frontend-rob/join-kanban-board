@@ -1,0 +1,168 @@
+main {
+    display: flex;
+}
+
+.board {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--bg-base-200);
+}
+
+.board-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 180px;
+    height: 73px;
+    width: 100%;
+    padding-left: 64px;
+    padding-right: 64px;
+    
+}
+
+.toolbar {
+    display: flex;
+
+}
+
+.board-text {
+    font-size: 61px;
+    font-weight: bold;
+}
+
+.input-field {
+    padding-right: 16px;
+}
+
+#add-task-btn {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.workflow {
+    display: flex;
+    padding-left: 64px;
+    padding-right: 64px;
+    margin-top: 20px;
+    flex-grow: 1;
+}
+
+.status-text {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--secondary-content);
+}
+
+.status {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    width: 100%;
+}
+
+.status-text-and-plus {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.status img {
+    cursor: pointer;
+}
+
+#search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+#divider-search {
+    position: absolute;
+    right: 72px;
+    height: 60%
+}
+
+#search-icon {
+    position: absolute;
+    right: 24px;
+}
+
+.drop-zone {
+    flex-grow: 1;
+
+}
+
+.no-tasks-field {
+    border: 1px dashed #A8A8A8;
+    background-color: #E7E7E7;
+    height: 48px;
+    padding: 4px;
+    border-radius: 10px;
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.no-tasks-text {
+    font-size: 16px;
+    color: #A8A8A8;
+}
+
+.task {
+    background-color: var(--bg-base-100);
+    box-shadow: var(--shadow-sd);
+    border-radius: 24px;
+    padding: 16px;
+    cursor: pointer;
+}
+
+.task-type {
+    background-color: #0038FF;
+    border-radius: 8px;
+    color: white;
+    padding: 4px 16px 4px 16px;
+    width: fit-content;
+    margin-bottom: 16px;
+    
+}
+.progress-container {
+    width: 128px;
+    border-radius: 8px;
+    background-color: #F4F4F4;
+    overflow: hidden;
+    height: 8px;
+}
+
+.progress-bar {
+    width: 50%;
+    height: 100%;
+    background-color: #4589FF;
+    transition: width 0.5s;
+}
+
+.task-title {
+    font-weight: 700;
+    color: var(--bg-primary);
+
+}
+
+
+.task-description {
+    margin-top: 16px;
+    margin-bottom: 24px;
+}
+
+.subtask-text {
+    color: black;
+    margin-right: 16px;
+}
+
+.subtask {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

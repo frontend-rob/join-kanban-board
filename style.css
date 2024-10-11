@@ -5,6 +5,7 @@
   font-family: "Inter", sans-serif;
 }
 
+
 :root {
   --bg-base-100: #ffffff;
   --bg-base-200: #f6f7f8;
@@ -17,6 +18,7 @@
   --priority-medium: #fea800;
   --priority-low: #7be129;
   --base-content: #2a3647;
+  --secondary-content: #42526E;
   --white-content: #ffffff;
   --black-content: #000000;
   --error-content: #ff8190;
@@ -24,4 +26,5 @@
   --shadow-sd: 0 4px 4px 0 rgba(0, 0, 0, 0.10);
   --shadow-md: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   --shadow-lg: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
+
 }

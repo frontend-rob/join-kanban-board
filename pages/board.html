@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Board</title>
+    <link rel="shortcut icon" href="../assets/img/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../styles/header.css">
+    <link rel="stylesheet" href="../styles/sidebar.css">
+    <link rel="stylesheet" href="../styles/assets.css">
+    <link rel="stylesheet" href="../styles/board.css">
+</head>
+
+<body onload="includeHTML()">
+    <header include-html="../templates/header.html"></header>
+
+    <main>
+        <aside include-html="../templates/sidebar.html"></aside>
+        <div class="board">
+            <div class="board-header">
+                <div>
+                    <span class="board-text">Board</span>
+                </div>
+                <div class="toolbar">
+                    <div class="input-field" id="search-bar">
+                        <input type="text" placeholder="Find Task">
+                        <div class="divider-vertical" id="divider-search"></div>
+                        <img src="../assets/icons/search.svg" alt="Search Icon" id="search-icon">
+                    </div>
+                    <button class="btn" id="add-task-btn">Add task <img src="../assets/icons/add.svg"
+                            alt="Add Icon"></button>
+                </div>
+            </div>
+
+            <div class="workflow">
+                <div class="status">
+                    <div class="status-text-and-plus">
+                        <span class="status-text">To do</span>
+                        <img src="../assets/icons/plus button.svg" alt="Plus Button">
+                    </div>
+                    <div class="drop-zone">
+                        <div class="no-tasks-field">
+                            <span class="no-tasks-text">No tasks To do</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="status">
+                    <div class="status-text-and-plus">
+                        <span class="status-text">In progress</span>
+                        <img src="../assets/icons/plus button.svg" alt="Plus Button">
+                    </div>
+                    <div class="drop-zone">
+                        <div class="task">
+                            <div class="task-type">User Story</div>
+                            <span class="task-title">Kochwelt Page & Recipe Recommender</span>
+                            <p class="task-description">Build start page with recipe recommendation...</p>
+                            <div class="subtask">
+                                <div class="progress-container">
+                                    <div class="progress-bar"></div>
+                                </div>
+                                <div class="subtask-text">1/2 Subtasks</div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="status">
+                    <div class="status-text-and-plus">
+                        <span class="status-text">Await feedback</span>
+                        <img src="../assets/icons/plus button.svg" alt="Plus Button">
+                    </div>
+                    <div class="drop-zone">
+
+                    </div>
+                </div>
+                <div class="status">
+                    <div class="status-text-and-plus">
+                        <span class="status-text">Done</span>
+                    </div>
+                    <div class="drop-zone">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <script src="../script.js"></script>
+</body>
+
+</html>

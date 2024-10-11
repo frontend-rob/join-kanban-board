@@ -63,13 +63,13 @@ nav {
 }
 
 .nav-active {
-  background-color: #091931;
+  background-color: #061121;
   cursor: default;
   filter: brightness(1.5);
 }
 
 .nav-active:hover {
-  background-color: #091931 !important;
+  background-color: #061121 !important;
 }
 
 .footer-links {
