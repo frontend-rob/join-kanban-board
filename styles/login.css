@@ -113,9 +113,9 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
     gap: 1rem;
     color: var(--base-content);
+    cursor: pointer;
 }
 
 .signup-checkbox a {
@@ -132,9 +132,29 @@ main {
     font-weight: 300;
 }
 
+.login-checkbox label:hover,
+.signup-checkbox label:hover {
+    cursor: pointer;
+}
+
 .custom-checkbox {
-    width: 1.25rem;
-    height: 1.25rem;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: unset;
+    width: 2rem;
+    padding: 0;
+    height: auto;
+    cursor: pointer;
+}
+
+.custom-checkbox::after {
+    content: url('../assets/icons/unchecked.svg');
+    height: 3.5rem;
+    width: 3.5rem;
+}
+.custom-checkbox:checked::after {
+    content: url('../assets/icons/checked.svg');
 }
 
 .login-options,
@@ -150,7 +170,7 @@ main {
     bottom: 0;
     display: flex;
     justify-content: center;
-    padding: 1.5rem;    
+    padding: 1.5rem;
     width: 100%;
     gap: 2.5rem;
 }

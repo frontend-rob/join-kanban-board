@@ -138,3 +138,10 @@ input::placeholder {
     font-size: .75rem;
     padding-left: 0.5rem;
 }
+
+
+@media screen and (max-wdith: 48rem) {
+    input {
+        font-size: 1rem;
+    }
+}
