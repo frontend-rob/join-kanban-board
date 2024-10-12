@@ -30,16 +30,22 @@ function checkOrientation() {
  * @function
  * @returns {void}
  */
-window.addEventListener('resize', checkOrientation);
-if (window.screen.orientation) {
-    screen.orientation.addEventListener('change', checkOrientation);
+function setupEventListeners() {
+    window.addEventListener('resize', checkOrientation);
+    if (window.screen.orientation) {
+        screen.orientation.addEventListener('change', checkOrientation);
+    }
 }
 
 
 /**
- * calls the checkOrientation function on initial page load to ensure the correct layout is applied immediately.
+ * main function that initializes everything.
  * 
  * @function
- * @returns {void}
+ * @returns {Promise<void>}
  */
-checkOrientation();
+async function init() {
+    await includeHTML();
+    checkOrientation();
+    setupEventListeners();
+}
