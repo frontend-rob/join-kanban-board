@@ -4,7 +4,7 @@
 
 let users = [
     {
-        'user': 'hans peter',
+        'user': 'hans meiser',
         'email': 'hans@test.de',
         'password': 'test123'
     }
