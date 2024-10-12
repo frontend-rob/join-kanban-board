@@ -200,8 +200,8 @@ function login(event) {
  * @returns {boolean} - returns true if both inputs are valid, false otherwise.
  */
 function validateLoginInputs(emailInput, passwordInput) {
-    const isEmailValid = validateEmail(emailInput);
-    const isPasswordValid = validatePassword(passwordInput);
+    const isEmailValid = validateLoginEmail(emailInput);
+    const isPasswordValid = validateLoginPassword(passwordInput);
     return isEmailValid && isPasswordValid;
 }
 
@@ -260,12 +260,11 @@ function handleFailedLogin(emailInput, passwordInput) {
 
 
 /**
- * validates email input in the login form.
- * adds error message if the email is invalid.
+ * Validates email input in the login form.
  * @param {HTMLInputElement} emailInput - the email input element.
  * @returns {boolean} true if email is valid, false otherwise.
  */
-function validateEmail(emailInput) {
+function validateLoginEmail(emailInput) {
     const errorEmail = document.getElementById('error-login-email');
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -280,13 +279,13 @@ function validateEmail(emailInput) {
     }
 }
 
+
 /**
- * validates the password input in the login form.
- * adds error message if the password is too short.
+ * Validates the password input in the login form.
  * @param {HTMLInputElement} passwordInput - the password input element.
  * @returns {boolean} true if password is valid, false otherwise.
  */
-function validatePassword(passwordInput) {
+function validateLoginPassword(passwordInput) {
     const errorPassword = document.getElementById('error-login-password');
 
     if (passwordInput.value.length < 6) {

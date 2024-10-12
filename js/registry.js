@@ -52,8 +52,8 @@ function getFormInputs() {
 function validateInputs(inputs) {
     return {
         isNameValid: validateName(inputs.name),
-        isEmailValid: validateEmail(inputs.email),
-        isPasswordValid: validatePassword(inputs.password),
+        isEmailValid: validateSignupEmail(inputs.email),
+        isPasswordValid: validateSignupPassword(inputs.password),
         isConfirmPasswordValid: validateConfirmPassword(inputs.password, inputs.confirmPassword),
         isCheckboxValid: validateCheckbox(inputs.checkbox)
     };
@@ -120,16 +120,14 @@ function validateName(nameInput) {
 
 
 /**
- * validates the user's email input.
- * checks if the email format is valid using a regex pattern.
+ * Validates the user's email input in the signup form.
  * @param {HTMLInputElement} emailInput - the email input element.
  * @returns {boolean} true if the email is valid, false otherwise.
  */
-function validateEmail(emailInput) {
+function validateSignupEmail(emailInput) {
     const errorEmail = document.getElementById('error-signup-email');
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    // check if the email matches the regex pattern
     if (!emailPattern.test(emailInput.value.trim())) {
         emailInput.classList.add('input-error');
         errorEmail.classList.remove('hidden');
@@ -143,15 +141,13 @@ function validateEmail(emailInput) {
 
 
 /**
- * validates the user's password input.
- * checks if the password length is at least 6 characters.
+ * Validates the user's password input in the signup form.
  * @param {HTMLInputElement} passwordInput - the password input element.
  * @returns {boolean} true if the password is valid, false otherwise.
  */
-function validatePassword(passwordInput) {
+function validateSignupPassword(passwordInput) {
     const errorPassword = document.getElementById('error-signup-password');
 
-    // check if password length is less than 6 characters
     if (passwordInput.value.length < 6) {
         passwordInput.classList.add('input-error');
         errorPassword.classList.remove('hidden');
