@@ -105,6 +105,10 @@ main {
     gap: 0.375rem;
 }
 
+.password-icon svg:hover {
+    cursor: pointer;
+}
+
 .eye-slash-icon:hover,
 .eye-icon:hover {
     cursor: pointer;

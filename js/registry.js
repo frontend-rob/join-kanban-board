@@ -1,6 +1,6 @@
-// signup logic
-// the array below should be the section in firebase!!!
-// fetch and push from data base needed
+// ! signup logic
+// ! the array below should be the section in firebase!!!
+// ! fetch and push from data base needed
 
 let users = [
     {
