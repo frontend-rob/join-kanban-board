@@ -4,8 +4,8 @@
 
 let users = [
     {
-        'user': 'hans meiser',
-        'email': 'hans@test.de',
+        'user': 'test user',
+        'email': 'user@test.de',
         'password': 'test123'
     }
 ];
