@@ -90,139 +90,107 @@ function toggleVisibility(element, shouldShow) {
 }
 
 
-
-
-// signup logic
-// the array below should be the section in firebase!!!
-
-let users = [
-    {
-        'user': 'hans peter',
-        'email': 'hans@test.de',
-        'password': 'test123'
-    }
-];
-
-
 /**
- * adds a new user if the form validation passes.
- * @param {Event} event - the event object from the form submission.
+ * processes the login of a user.
+ * @param {Event} event - the event triggered when the form is submitted.
  */
-function addUser(event) {
+function login(event) {
     event.preventDefault();
-    const inputs = getFormInputs();
-    const validations = validateInputs(inputs);
 
-    // if all validations pass, add the user and show success modal
-    if (areAllValid(validations)) {
-        addUserToList(inputs);
-        clearForm(inputs);
-        showSuccessModal();
+    const emailInput = document.getElementById('login-email');
+    const passwordInput = document.getElementById('login-password');
+
+    // perform validation
+    if (validateLoginInputs(emailInput, passwordInput)) {
+        // attempt to find the user
+        const user = findUser(emailInput.value, passwordInput.value);
+
+        if (user) {
+            handleSuccessfulLogin(user, emailInput, passwordInput);
+        } else {
+            handleFailedLogin(emailInput, passwordInput);
+        }
     }
 }
 
 
+
 /**
- * retrieves form input elements.
- * @returns {Object} an object containing the input elements.
+ * validates email and password inputs.
+ * @param {HTMLInputElement} emailInput - the email input field.
+ * @param {HTMLInputElement} passwordInput - the password input field.
+ * @returns {boolean} - returns true if both inputs are valid, false otherwise.
  */
-function getFormInputs() {
-    return {
-        name: document.getElementById('signup-name'),
-        email: document.getElementById('signup-email'),
-        password: document.getElementById('signup-password'),
-        confirmPassword: document.getElementById('signup-confirm-password'),
-        checkbox: document.getElementById('signup-checkbox')
-    };
+function validateLoginInputs(emailInput, passwordInput) {
+    const isEmailValid = validateEmail(emailInput);
+    const isPasswordValid = validatePassword(passwordInput);
+    return isEmailValid && isPasswordValid;
 }
 
 
 /**
- * validates all input fields.
- * @param {Object} inputs - the form input elements.
- * @returns {Object} an object containing validation results.
+ * finds a user by email and password in the users array.
+ * @param {string} email - the user's email.
+ * @param {string} password - the user's password.
+ * @returns {Object|null} - returns the user object if found, otherwise null.
  */
-function validateInputs(inputs) {
-    return {
-        isNameValid: validateName(inputs.name),
-        isEmailValid: validateEmail(inputs.email),
-        isPasswordValid: validatePassword(inputs.password),
-        isConfirmPasswordValid: validateConfirmPassword(inputs.password, inputs.confirmPassword),
-        isCheckboxValid: validateCheckbox(inputs.checkbox)
-    };
+function findUser(email, password) {
+    return users.find(user => user.email === email && user.password === password) || null;
 }
 
 
 /**
- * checks if all validations are true.
- * @param {Object} validations - the validation results.
- * @returns {boolean} true if all validations are valid, false otherwise.
+ * handles actions when login is successful.
+ * @param {Object} user - the logged-in user object.
+ * @param {HTMLInputElement} emailInput - the email input field.
+ * @param {HTMLInputElement} passwordInput - the password input field.
  */
-function areAllValid(validations) {
-    return Object.values(validations).every(valid => valid);
+function handleSuccessfulLogin(user, emailInput, passwordInput) {
+    alert(`Welcome back, ${user.user}!`);
+    clearLoginInputs(emailInput, passwordInput);
+    redirectToDashboard();
 }
 
 
 /**
- * adds the user to the users list.
- * @param {Object} inputs - the form input elements.
+ * clears the email and password input fields.
+ * @param {HTMLInputElement} emailInput - the email input field.
+ * @param {HTMLInputElement} passwordInput - the password input field.
  */
-function addUserToList(inputs) {
-    users.push({
-        user: inputs.name.value,
-        email: inputs.email.value,
-        password: inputs.password.value
-    });
+function clearLoginInputs(emailInput, passwordInput) {
+    emailInput.value = '';
+    passwordInput.value = '';
 }
 
 
 /**
- * clears the form inputs.
- * @param {Object} inputs - the form input elements.
+ * redirects the user to the dashboard or another page after login.
  */
-function clearForm(inputs) {
-    inputs.name.value = '';
-    inputs.email.value = '';
-    inputs.password.value = '';
-    inputs.confirmPassword.value = '';
-    inputs.checkbox.checked = false;
+function redirectToDashboard() {
+    window.location.href = './pages/summary.html';
 }
 
 
 /**
- * validates the user's name input.
- * checks if the name contains both first and last names.
- * @param {HTMLInputElement} nameInput - the name input element.
- * @returns {boolean} true if the name is valid, false otherwise.
+ * handles actions when login fails.
+ * @param {HTMLInputElement} emailInput - the input field for the email.
+ * @param {HTMLInputElement} passwordInput - the input field for the password.
  */
-function validateName(nameInput) {
-    const errorName = document.getElementById('error-signup-name');
-    const fullName = nameInput.value.trim();
-
-    // check if full name contains at least two words
-    if (fullName.split(' ').length < 2) {
-        nameInput.classList.add('input-error');
-        errorName.classList.remove('hidden');
-        return false; // invalid name
-    } else {
-        nameInput.classList.remove('input-error');
-        errorName.classList.add('hidden');
-        return true; // valid name
-    }
+function handleFailedLogin(emailInput, passwordInput) {
+    showFailedLoginModal(emailInput, passwordInput);
 }
 
 
 /**
- * validates the user's email input.
- * checks if the email format is valid using a regex pattern.
+ * validates email input in the login form.
+ * adds error message if the email is invalid.
  * @param {HTMLInputElement} emailInput - the email input element.
- * @returns {boolean} true if the email is valid, false otherwise.
+ * @returns {boolean} true if email is valid, false otherwise.
  */
 function validateEmail(emailInput) {
-    const errorEmail = document.getElementById('error-signup-email');
+    const errorEmail = document.getElementById('error-login-email');
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    // check if the email matches the regex pattern
     if (!emailPattern.test(emailInput.value.trim())) {
         emailInput.classList.add('input-error');
         errorEmail.classList.remove('hidden');
@@ -234,17 +202,15 @@ function validateEmail(emailInput) {
     }
 }
 
-
 /**
- * validates the user's password input.
- * checks if the password length is at least 6 characters.
+ * validates the password input in the login form.
+ * adds error message if the password is too short.
  * @param {HTMLInputElement} passwordInput - the password input element.
- * @returns {boolean} true if the password is valid, false otherwise.
+ * @returns {boolean} true if password is valid, false otherwise.
  */
 function validatePassword(passwordInput) {
-    const errorPassword = document.getElementById('error-signup-password');
+    const errorPassword = document.getElementById('error-login-password');
 
-    // check if password length is less than 6 characters
     if (passwordInput.value.length < 6) {
         passwordInput.classList.add('input-error');
         errorPassword.classList.remove('hidden');
@@ -258,66 +224,18 @@ function validatePassword(passwordInput) {
 
 
 /**
- * validates the confirmation password input.
- * checks if the confirmation password matches the original password.
- * @param {HTMLInputElement} passwordInput - the original password input element.
- * @param {HTMLInputElement} confirmPasswordInput - the confirmation password input element.
- * @returns {boolean} true if the confirmation password is valid, false otherwise.
+ * displays the modal for failed login attempts and hides it after 2 seconds.
+ * @param {HTMLInputElement} emailInput - the input field for the email.
+ * @param {HTMLInputElement} passwordInput - the input field for the password.
  */
-function validateConfirmPassword(passwordInput, confirmPasswordInput) {
-    const errorConfirmPassword = document.getElementById('error-signup-confirm-password');
-
-    // check if confirmation password matches the original password
-    if (confirmPasswordInput.value !== passwordInput.value) {
-        confirmPasswordInput.classList.add('input-error');
-        errorConfirmPassword.classList.remove('hidden');
-        return false; // invalid confirmation password
-    } else {
-        confirmPasswordInput.classList.remove('input-error');
-        errorConfirmPassword.classList.add('hidden');
-        return true; // valid confirmation password
-    }
-}
-
-
-/**
- * validates the user's checkbox input.
- * checks if the checkbox is checked and adds animation if not.
- * @param {HTMLInputElement} checkboxInput - the checkbox input element.
- * @returns {boolean} true if the checkbox is checked, false otherwise.
- */
-function validateCheckbox(checkboxInput) {
-    const checkboxContainer = document.querySelector('.signup-checkbox');
-
-    // check if the checkbox is not checked
-    if (!checkboxInput.checked) {
-        checkboxInput.classList.add('input-error');
-        checkboxContainer.classList.add('blink');
-
-        // remove the blink class after the animation ends
-        checkboxContainer.addEventListener('animationend', () => {
-            checkboxContainer.classList.remove('blink');
-        }, { once: true });
-        return false; // invalid checkbox
-    } else {
-        checkboxInput.classList.remove('input-error');
-        checkboxContainer.classList.remove('blink');
-        return true; // valid checkbox
-    }
-}
-
-
-/**
- * shows the success modal for a limited time.
- */
-function showSuccessModal() {
-    const modal = document.getElementById('success-modal');
+function showFailedLoginModal(emailInput, passwordInput) {
+    const modal = document.getElementById('failed-login-modal');
     modal.classList.remove('hidden');
     modal.classList.add('show');
 
     setTimeout(() => {
         modal.classList.add('hidden');
         modal.classList.remove('show');
-        toggleAuth(false);
+        clearLoginInputs(emailInput, passwordInput);
     }, 2000);
 }

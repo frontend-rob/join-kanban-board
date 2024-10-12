@@ -27,7 +27,7 @@
 
     <main>
         <div id="login-wrapper" class="login-wrapper show">
-            <form class="login-form">
+            <form class="login-form" onsubmit="login(event); return false;" novalidate>
                 <div class="login-header">
                     <h1>Log In</h1>
                     <div class="custom-divider"></div>
@@ -71,7 +71,7 @@
                     <label for="login-checkbox">Remember me</label>
                 </div>
                 <div class="login-options">
-                    <button class="btn btn-lg" aria-label="login">Log in</button>
+                    <button type="submit" class="btn btn-lg" aria-label="login">Log in</button>
                     <button class="btn btn-lg btn-outline" aria-label="guest-login">
                         Guest Log in
                     </button>
@@ -183,10 +183,19 @@
         </div>
     </div>
 
+    <!-- Modal Structure for Failed Login -->
+    <div id="failed-login-modal" class="confirmation-modal hidden">
+        <div class="confirmation-modal-content">
+            <p>Invalid email or password.</p>
+        </div>
+    </div>
+
+
 
 
     <script src="./script.js"></script>
     <script src="./js/landscape.js"></script>
+    <script src="./js/registry.js"></script>
     <script src="./js/login.js"></script>
 
 </body>
