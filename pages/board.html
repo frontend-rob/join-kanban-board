@@ -96,19 +96,69 @@
     <!-- Overlay -->
     <div id="overlay" class="overlay">
         <div class="overlay-content">
-            <span class="close" onclick="closeTaskOverlay()">&times;</span>
-            <h2 id="overlay-task-title">Kochwelt Page & Recipe Recommender</h2>
-            <p id="overlay-task-type">User Story</p>
-            <p id="overlay-task-description">Build start page with recipe recommendation...</p>
-            <div class="subtask">
-                <div class="progress-container">
-                    <div class="progress-bar" id="overlay-task-progress"></div>
+            <div class="task-type-and-close-container">
+                <p class="overlay-task-type">User Story</p>
+                <span class="close" onclick="closeTaskOverlay()"><img src="../assets/icons/Close.svg"
+                        alt="Close Icon"></span>
+            </div>
+
+            <h2 class="overlay-task-title">Kochwelt Page & Recipe Recommender</h2>
+            <p class="overlay-task-description">Build start page with recipe recommendation.</p>
+            <div class="task-date">
+                <span class="date-text">Due date:</span>
+                <span class="date">02/09/2023</span>
+            </div>
+            <div class="priority">
+                <span class="priority-text">Priority:</span>
+                <div>
+                    <span class="level">Medium</span>
+                    <img src="../assets/icons/priority-medium.svg" alt="">
                 </div>
-                <div class="subtask-text" id="overlay-task-subtasks">1/2 Subtasks</div>
+
+
+            </div>
+            <div class="assignet-to">
+                <span class="assigned-to-text">Assigned To:</span>
+                <div>
+                    <div class="user">
+                        <img src="../assets/icons/Profile icon.svg" alt="Profile icon">
+                        <span class="profie-name">Emmanuel Mauer</span>
+                    </div>
+                    <div class="user">
+                        <img src="../assets/icons/Profile icon.svg" alt="Profile icon">
+                        <span class="profie-name">Emmanuel Mauer</span>
+                    </div>
+                    <div class="user">
+                        <img src="../assets/icons/Profile icon.svg" alt="Profile icon">
+                        <span class="profie-name">Emmanuel Mauer</span>
+                    </div>
+                </div>
+            </div>
+            <div class="subtask-overlay">
+                <span class="subtask-header">Subtasks</span>
+                <div class="all-subtasks">
+                    <div class="single-subtask">
+                        <img src="../assets/icons/checked.svg" alt="checked"> <span>Establish CSS Methodology</span>
+                    </div>
+                    <div class="single-subtask">
+                        <img src="../assets/icons/checked.svg" alt="checked"> <span>Setup Base Styles</span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="action">
+                <div class="action-type">
+                    <img src="../assets/icons/delete.svg" alt="Delete Icon">
+                    <span>Delete</span>
+                </div>
+                <div class="divider-vertical divider-action"></div>
+                <div class="action-type">
+                    <img src="../assets/icons/edit.svg" alt="Edit Icon">
+                    <span>Edit</span>
+                </div>
             </div>
         </div>
     </div>
-
 
     <script src="../script.js"></script>
     <script src="../js/openTaskOverlay.js"></script>

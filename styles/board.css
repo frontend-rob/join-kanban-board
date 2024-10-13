@@ -47,6 +47,7 @@ main {
     padding-right: 64px;
     margin-top: 20px;
     flex-grow: 1;
+    gap: 2rem;
 }
 
 .status-text {
@@ -58,15 +59,14 @@ main {
 .status {
     display: flex;
     flex-direction: column;
-    margin-right: 20px;
     width: 100%;
+    gap: 1rem;
 }
 
 .status-text-and-plus {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 16px;
 }
 
 .status img {
@@ -127,7 +127,6 @@ main {
     padding: 4px 16px 4px 16px;
     width: fit-content;
     margin-bottom: 16px;
-    
 }
 .progress-container {
     width: 128px;
@@ -149,7 +148,6 @@ main {
     color: var(--bg-primary);
 
 }
-
 
 .task-description {
     margin-top: 16px;

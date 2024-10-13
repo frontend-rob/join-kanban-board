@@ -55,7 +55,6 @@ nav {
 
 .menu a:not(.nav-active):hover {
   background-color: #2a3d59;
-  transform: translate(-1px, -1px);
 }
 
 .nav-icon {
@@ -63,13 +62,15 @@ nav {
 }
 
 .nav-active {
-  background-color: #061121;
+  background-color: #091931;
   cursor: default;
-  filter: brightness(1.5);
+    .menu-item {
+      filter: brightness(1.5);
+    }
 }
 
 .nav-active:hover {
-  background-color: #061121 !important;
+  background-color: #091931 !important;
 }
 
 .footer-links {
@@ -89,5 +90,4 @@ nav {
 .footer-links a:hover {
   text-decoration: none;
   color: #29a6dc;
-  font-weight: 600;
 }
