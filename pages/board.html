@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../styles/sidebar.css">
     <link rel="stylesheet" href="../styles/assets.css">
     <link rel="stylesheet" href="../styles/board.css">
+    <link rel="stylesheet" href="../styles/task-overlay.css">
 </head>
 
 <body onload="includeHTML()">
@@ -35,24 +36,28 @@
             </div>
 
             <div class="workflow">
+                <!-- Drop-Zone: To Do -->
                 <div class="status">
                     <div class="status-text-and-plus">
                         <span class="status-text">To do</span>
                         <img src="../assets/icons/plus button.svg" alt="Plus Button">
                     </div>
-                    <div class="drop-zone">
+                    <div class="drop-zone" id="to-do" ondrop="drop(event)" ondragover="allowDrop(event)">
                         <div class="no-tasks-field">
                             <span class="no-tasks-text">No tasks To do</span>
                         </div>
                     </div>
                 </div>
+
+                <!-- Drop-Zone: In Progress -->
                 <div class="status">
                     <div class="status-text-and-plus">
                         <span class="status-text">In progress</span>
                         <img src="../assets/icons/plus button.svg" alt="Plus Button">
                     </div>
-                    <div class="drop-zone">
-                        <div class="task">
+                    <div class="drop-zone" id="in-progress" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        <div class="task" draggable="true" ondragstart="drag(event)" id="task1"
+                            onclick="openTaskOverlay()">
                             <div class="task-type">User Story</div>
                             <span class="task-title">Kochwelt Page & Recipe Recommender</span>
                             <p class="task-description">Build start page with recipe recommendation...</p>
@@ -62,34 +67,52 @@
                                 </div>
                                 <div class="subtask-text">1/2 Subtasks</div>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
+
+                <!-- Drop-Zone: Await Feedback -->
                 <div class="status">
                     <div class="status-text-and-plus">
                         <span class="status-text">Await feedback</span>
                         <img src="../assets/icons/plus button.svg" alt="Plus Button">
                     </div>
-                    <div class="drop-zone">
-
+                    <div class="drop-zone" id="await-feedback" ondrop="drop(event)" ondragover="allowDrop(event)">
                     </div>
                 </div>
+
+                <!-- Drop-Zone: Done -->
                 <div class="status">
                     <div class="status-text-and-plus">
                         <span class="status-text">Done</span>
                     </div>
-                    <div class="drop-zone">
-
+                    <div class="drop-zone" id="done" ondrop="drop(event)" ondragover="allowDrop(event)">
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
+    <!-- Overlay -->
+    <div id="overlay" class="overlay">
+        <div class="overlay-content">
+            <span class="close" onclick="closeTaskOverlay()">&times;</span>
+            <h2 id="overlay-task-title">Kochwelt Page & Recipe Recommender</h2>
+            <p id="overlay-task-type">User Story</p>
+            <p id="overlay-task-description">Build start page with recipe recommendation...</p>
+            <div class="subtask">
+                <div class="progress-container">
+                    <div class="progress-bar" id="overlay-task-progress"></div>
+                </div>
+                <div class="subtask-text" id="overlay-task-subtasks">1/2 Subtasks</div>
+            </div>
+        </div>
+    </div>
+
 
     <script src="../script.js"></script>
+    <script src="../js/openTaskOverlay.js"></script>
+    <script src="../js/dragAndDrop.js"></script>
 </body>
 
 </html>

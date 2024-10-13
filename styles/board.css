@@ -96,7 +96,7 @@ main {
 }
 
 .no-tasks-field {
-    border: 1px dashed #A8A8A8;
+    border: 1px dashed var(--bg-neutral-accent);
     background-color: #E7E7E7;
     height: 48px;
     padding: 4px;
@@ -109,7 +109,7 @@ main {
 
 .no-tasks-text {
     font-size: 16px;
-    color: #A8A8A8;
+    color: var(--bg-neutral-accent);
 }
 
 .task {
@@ -121,7 +121,7 @@ main {
 }
 
 .task-type {
-    background-color: #0038FF;
+    background-color: var(--task-color-blue);
     border-radius: 8px;
     color: white;
     padding: 4px 16px 4px 16px;
