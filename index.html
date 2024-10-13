@@ -26,7 +26,8 @@
     </div>
 
     <main>
-        <div id="login-wrapper" class="login-wrapper show">
+
+        <section id="login-wrapper" class="login-wrapper show">
             <form class="login-form" onsubmit="login(event); return false;" novalidate>
                 <div class="login-header">
                     <h1>Log In</h1>
@@ -63,9 +64,9 @@
                     </button>
                 </div>
             </form>
-        </div>
+        </section>
 
-        <div id="signup-wrapper" class="signup-wrapper hidden">
+        <section id="signup-wrapper" class="signup-wrapper hidden">
             <button id="back-to-login" class="btn btn-ghost btn-circle btn-accent" onclick="toggleAuth(false)">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                     <path d="M228,128a12,12,0,0,1-12,12H69l51.52,51.51a12,12,0,0,1-17,17l-72-72a12,12,0,0,1,0-17l72-72a12,12,0,0,1,17,17L69,116H216A12,12,0,0,1,228,128Z">
@@ -123,8 +124,8 @@
                     <button type="submit" class="btn btn-lg" aria-label="signup">Sign up</button>
                 </div>
             </form>
-
-        </div>
+        </section>
+        
     </main>
 
     <footer class="login-footer">
