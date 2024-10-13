@@ -15,7 +15,7 @@ let users = [
  * adds a new user if the form validation passes.
  * @param {Event} event - the event object from the form submission.
  */
-function addUser(event) {
+async function addUser(event) {
     event.preventDefault();
     const inputs = getFormInputs();
     const validations = validateInputs(inputs);
@@ -23,8 +23,8 @@ function addUser(event) {
     // if all validations pass, add the user and show success modal
     if (areAllValid(validations)) {
         addUserToList(inputs);
+        await showSuccessModal(); // wait for the modal to hide
         clearForm(inputs);
-        showSuccessModal();
     }
 }
 
@@ -212,15 +212,19 @@ function validateCheckbox(checkboxInput) {
 
 /**
  * shows the success modal for a limited time.
+ * @returns {Promise<void>} a promise that resolves when the modal is hidden.
  */
 function showSuccessModal() {
-    const modal = document.getElementById('success-modal');
-    modal.classList.remove('hidden');
-    modal.classList.add('show');
+    return new Promise((resolve) => {
+        const modal = document.getElementById('success-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('show');
 
-    setTimeout(() => {
-        modal.classList.add('hidden');
-        modal.classList.remove('show');
-        toggleAuth(false);
-    }, 2000);
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            modal.classList.remove('show');
+            toggleAuth(false);
+            resolve(); // resolve the promise after the modal is hidden
+        }, 2000);
+    });
 }

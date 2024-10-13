@@ -135,7 +135,7 @@ function getEyeSvg() {
 
 
 /**
- * toggles the visibility of the login and sign-up boxes.
+ * toggles the visibility of the login and sign-up boxes and resets validation errors.
  * 
  * @param {boolean} isSignUp - if true, shows the sign-up box; if false, shows the login box.
  * @returns {void}
@@ -148,6 +148,42 @@ function toggleAuth(isSignUp) {
     toggleVisibility(logInBox, !isSignUp);
     toggleVisibility(signUpBox, isSignUp);
     toggleVisibility(signUpCall, !isSignUp);
+
+    if (isSignUp) {
+        resetLoginErrors();
+    } else {
+        resetSignupErrors();
+    }
+}
+
+
+/**
+ * resets the error messages and styles for the login form.
+ * 
+ * @returns {void}
+ */
+function resetLoginErrors() {
+    document.getElementById('error-login-email').classList.add('hidden');
+    document.getElementById('error-login-password').classList.add('hidden');
+    document.getElementById('login-email').classList.remove('input-error');
+    document.getElementById('login-password').classList.remove('input-error');
+}
+
+
+/**
+ * resets the error messages and styles for the sign-up form.
+ * 
+ * @returns {void}
+ */
+function resetSignupErrors() {
+    document.getElementById('error-signup-name').classList.add('hidden');
+    document.getElementById('error-signup-email').classList.add('hidden');
+    document.getElementById('error-signup-password').classList.add('hidden');
+    document.getElementById('error-signup-confirm-password').classList.add('hidden');
+    document.getElementById('signup-name').classList.remove('input-error');
+    document.getElementById('signup-email').classList.remove('input-error');
+    document.getElementById('signup-password').classList.remove('input-error');
+    document.getElementById('signup-confirm-password').classList.remove('input-error');
 }
 
 
