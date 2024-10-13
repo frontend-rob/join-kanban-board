@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Test Template</title>
+
+    <link rel="stylesheet" href="../styles/assets.css">
+    <link rel="stylesheet" href="../styles/landscape.css">
+    <link rel="stylesheet" href="../styles/template.css">
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body onload="init()">
+
+    <header>
+        <span class="header-text">Kanban Project Management Tool</span>
+        <img class="header-logo-mobile" src="../assets/img/logo-dark.png" alt="Join Logo">
+        <div class="header-nav">
+            <a href="#" class="help-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                    <path
+                        d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z">
+                    </path>
+                </svg>
+            </a>
+            <div class="user-icon">G</div>
+        </div>
+    </header>
+
+
+    <aside class="sidebar" id="sidebar">
+        <nav>
+            <a href="#" class="main-img">
+                <img src="../assets/img/join-logo.svg" alt="Join Logo">
+            </a>
+            <div class="menu-wrapper">
+                <div class="nav-container">
+                    <a href="#" class="nav-item active">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                            <path
+                                d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,16V96H40V56ZM40,112H96v88H40Zm176,88H112V112H216v88Z">
+                            </path>
+                        </svg>
+                        Summary
+                    </a>
+                    <a href="#" class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                            <path
+                                d="M229.66,58.34l-32-32a8,8,0,0,0-11.32,0l-96,96A8,8,0,0,0,88,128v32a8,8,0,0,0,8,8h32a8,8,0,0,0,5.66-2.34l96-96A8,8,0,0,0,229.66,58.34ZM124.69,152H104V131.31l64-64L188.69,88ZM200,76.69,179.31,56,192,43.31,212.69,64ZM224,128v80a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h80a8,8,0,0,1,0,16H48V208H208V128a8,8,0,0,1,16,0Z">
+                            </path>
+                        </svg>
+                        Add Task
+                    </a>
+                    <a href="#" class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                            <path
+                                d="M216,48H40a8,8,0,0,0-8,8V208a16,16,0,0,0,16,16H88a16,16,0,0,0,16-16V160h48v16a16,16,0,0,0,16,16h40a16,16,0,0,0,16-16V56A8,8,0,0,0,216,48ZM88,208H48V128H88Zm0-96H48V64H88Zm64,32H104V64h48Zm56,32H168V128h40Zm0-64H168V64h40Z">
+                            </path>
+                        </svg>
+                        Kanban Board
+                    </a>
+                    <a href="#" class="nav-item">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                            <path
+                                d="M83.19,174.4a8,8,0,0,0,11.21-1.6,52,52,0,0,1,83.2,0,8,8,0,1,0,12.8-9.6A67.88,67.88,0,0,0,163,141.51a40,40,0,1,0-53.94,0A67.88,67.88,0,0,0,81.6,163.2,8,8,0,0,0,83.19,174.4ZM112,112a24,24,0,1,1,24,24A24,24,0,0,1,112,112Zm96-88H64A16,16,0,0,0,48,40V64H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v24a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V40A16,16,0,0,0,208,24Zm0,192H64V40H208Z">
+                            </path>
+                        </svg>
+                        Contacts
+                    </a>
+                </div>
+                <div class="terms-container">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Legal Notice</a>
+                </div>
+            </div>
+        </nav>
+    </aside>
+
+    <main>
+        <section class="headline-wrapper">
+            <h1 class="main-headline">Join 360</h1>
+            <div class="divider-vertical divider-accent"></div>
+            <span>Key Metrics at a Glance</span>
+        </section>
+
+        <section class="summary-wrapper">
+            <div class="summary-stats-container">
+                <div class="first-stats-section">
+                    <div id="summary-todo" class="summary-card">
+                        <div class="summary-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256">
+                                <path
+                                    d="M230.14,70.54,185.46,25.85a20,20,0,0,0-28.29,0L33.86,149.17A19.85,19.85,0,0,0,28,163.31V208a20,20,0,0,0,20,20H92.69a19.86,19.86,0,0,0,14.14-5.86L230.14,98.82a20,20,0,0,0,0-28.28ZM91,204H52V165l84-84,39,39ZM192,103,153,64l18.34-18.34,39,39Z">
+                                </path>
+                            </svg>
+                        </div>
+                        <div class="task-count">
+                            <span id="amount-todo" class="summary-card-number">1</span>
+                            <span class="summary-card-label">To-Do</span>
+                        </div>
+                    </div>
+
+                    <div id="summary-done" class="summary-card">
+                        <div class="summary-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256">
+                                <path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"></path>
+                            </svg>
+                        </div>
+                        <div class="task-count">
+                            <span id="amount-done" class="summary-card-number">1</span>
+                            <span class="summary-card-label">Done</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="second-stats-section">
+                    <div id="summary-priority" class="summary-card-secondary"></div>
+                </div> -->
+
+            <!-- <div class="third-stats-section">
+                    <div id="summary-total" class="summary-card"></div>
+                    <div id="summary-progress" class="summary-card"></div>
+                    <div id="summary-feedback" class="summary-card"></div>
+                </div> -->
+            </div>
+            <div class="summary-greeting-container">
+                <span id="greeting-time">Good afternoon</span>
+                <span id="greeting-user-name">Guest</span>
+            </div>
+        </section>
+
+
+
+    </main>
+
+
+    <nav class="bottom-nav" id="bottom-nav">
+        <a href="#" class="nav-item-mobile active">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                <path d="M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,16V96H40V56ZM40,112H96v88H40Zm176,88H112V112H216v88Z">
+                </path>
+            </svg>
+            Summary
+        </a>
+        <a href="#" class="nav-item-mobile">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                <path
+                    d="M229.66,58.34l-32-32a8,8,0,0,0-11.32,0l-96,96A8,8,0,0,0,88,128v32a8,8,0,0,0,8,8h32a8,8,0,0,0,5.66-2.34l96-96A8,8,0,0,0,229.66,58.34ZM124.69,152H104V131.31l64-64L188.69,88ZM200,76.69,179.31,56,192,43.31,212.69,64ZM224,128v80a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V48A16,16,0,0,1,48,32h80a8,8,0,0,1,0,16H48V208H208V128a8,8,0,0,1,16,0Z">
+                </path>
+            </svg>
+            Add Task
+        </a>
+        <a href="#" class="nav-item-mobile">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                <path
+                    d="M216,48H40a8,8,0,0,0-8,8V208a16,16,0,0,0,16,16H88a16,16,0,0,0,16-16V160h48v16a16,16,0,0,0,16,16h40a16,16,0,0,0,16-16V56A8,8,0,0,0,216,48ZM88,208H48V128H88Zm0-96H48V64H88Zm64,32H104V64h48Zm56,32H168V128h40Zm0-64H168V64h40Z">
+                </path>
+            </svg>
+            Board
+        </a>
+        <a href="#" class="nav-item-mobile">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                <path
+                    d="M83.19,174.4a8,8,0,0,0,11.21-1.6,52,52,0,0,1,83.2,0,8,8,0,1,0,12.8-9.6A67.88,67.88,0,0,0,163,141.51a40,40,0,1,0-53.94,0A67.88,67.88,0,0,0,81.6,163.2,8,8,0,0,0,83.19,174.4ZM112,112a24,24,0,1,1,24,24A24,24,0,0,1,112,112Zm96-88H64A16,16,0,0,0,48,40V64H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v24a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V40A16,16,0,0,0,208,24Zm0,192H64V40H208Z">
+                </path>
+            </svg>
+            Contacts
+        </a>
+    </nav>
+
+
+
+    <div include-html="../templates/landscape-modal.html"></div>
+
+    <script src="../script.js"></script>
+    <script src="../js/landscape.js"></script>
+
+
+</body>
+
+</html>
