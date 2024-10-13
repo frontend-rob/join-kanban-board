@@ -109,11 +109,11 @@ function validateName(nameInput) {
     // check if full name contains at least two words
     if (fullName.split(' ').length < 2) {
         nameInput.classList.add('input-error');
-        errorName.classList.remove('hidden');
+        errorName.classList.add('show');
         return false; // invalid name
     } else {
         nameInput.classList.remove('input-error');
-        errorName.classList.add('hidden');
+        errorName.classList.remove('show');
         return true; // valid name
     }
 }
@@ -130,11 +130,11 @@ function validateSignupEmail(emailInput) {
 
     if (!emailPattern.test(emailInput.value.trim())) {
         emailInput.classList.add('input-error');
-        errorEmail.classList.remove('hidden');
+        errorEmail.classList.add('show');
         return false; // invalid email
     } else {
         emailInput.classList.remove('input-error');
-        errorEmail.classList.add('hidden');
+        errorEmail.classList.remove('show');
         return true; // valid email
     }
 }
@@ -150,11 +150,11 @@ function validateSignupPassword(passwordInput) {
 
     if (passwordInput.value.length < 6) {
         passwordInput.classList.add('input-error');
-        errorPassword.classList.remove('hidden');
+        errorPassword.classList.add('show');
         return false; // invalid password
     } else {
         passwordInput.classList.remove('input-error');
-        errorPassword.classList.add('hidden');
+        errorPassword.classList.remove('show');
         return true; // valid password
     }
 }
@@ -173,11 +173,11 @@ function validateConfirmPassword(passwordInput, confirmPasswordInput) {
     // check if confirmation password matches the original password
     if (confirmPasswordInput.value !== passwordInput.value) {
         confirmPasswordInput.classList.add('input-error');
-        errorConfirmPassword.classList.remove('hidden');
+        errorConfirmPassword.classList.add('show');
         return false; // invalid confirmation password
     } else {
         confirmPasswordInput.classList.remove('input-error');
-        errorConfirmPassword.classList.add('hidden');
+        errorConfirmPassword.classList.remove('show');
         return true; // valid confirmation password
     }
 }

@@ -163,8 +163,8 @@ function toggleAuth(isSignUp) {
  * @returns {void}
  */
 function resetLoginErrors() {
-    document.getElementById('error-login-email').classList.add('hidden');
-    document.getElementById('error-login-password').classList.add('hidden');
+    document.getElementById('error-login-email').classList.remove('show');
+    document.getElementById('error-login-password').classList.remove('show');
     document.getElementById('login-email').classList.remove('input-error');
     document.getElementById('login-password').classList.remove('input-error');
 }
@@ -176,10 +176,10 @@ function resetLoginErrors() {
  * @returns {void}
  */
 function resetSignupErrors() {
-    document.getElementById('error-signup-name').classList.add('hidden');
-    document.getElementById('error-signup-email').classList.add('hidden');
-    document.getElementById('error-signup-password').classList.add('hidden');
-    document.getElementById('error-signup-confirm-password').classList.add('hidden');
+    document.getElementById('error-signup-name').classList.remove('show');
+    document.getElementById('error-signup-email').classList.remove('show');
+    document.getElementById('error-signup-password').classList.remove('show');
+    document.getElementById('error-signup-confirm-password').classList.remove('show');
     document.getElementById('signup-name').classList.remove('input-error');
     document.getElementById('signup-email').classList.remove('input-error');
     document.getElementById('signup-password').classList.remove('input-error');
@@ -306,11 +306,11 @@ function validateLoginEmail(emailInput) {
 
     if (!emailPattern.test(emailInput.value.trim())) {
         emailInput.classList.add('input-error');
-        errorEmail.classList.remove('hidden');
+        errorEmail.classList.add('show');
         return false; // invalid email
     } else {
         emailInput.classList.remove('input-error');
-        errorEmail.classList.add('hidden');
+        errorEmail.classList.remove('show');
         return true; // valid email
     }
 }
@@ -326,11 +326,11 @@ function validateLoginPassword(passwordInput) {
 
     if (passwordInput.value.length < 6) {
         passwordInput.classList.add('input-error');
-        errorPassword.classList.remove('hidden');
+        errorPassword.classList.add('show');
         return false; // invalid password
     } else {
         passwordInput.classList.remove('input-error');
-        errorPassword.classList.add('hidden');
+        errorPassword.classList.remove('show');
         return true; // valid password
     }
 }
