@@ -89,6 +89,10 @@
     gap: 8px;
 }
 
+.subtask-header {
+    color: var(--secondary-content);
+}
+
 .all-subtasks {
     display: flex;
     flex-direction: column;
@@ -100,6 +104,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
+    cursor: pointer;
 }
 
 .action {

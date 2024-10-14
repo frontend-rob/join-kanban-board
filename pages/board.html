@@ -4,94 +4,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Board</title>
+
+    <title>Join - Contacts</title>
+
     <link rel="shortcut icon" href="../assets/img/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../styles/base.css">
+    <link rel="stylesheet" href="../styles/assets.css">
+    <link rel="stylesheet" href="../styles/landscape.css">
     <link rel="stylesheet" href="../styles/header.css">
     <link rel="stylesheet" href="../styles/sidebar.css">
-    <link rel="stylesheet" href="../styles/assets.css">
     <link rel="stylesheet" href="../styles/board.css">
     <link rel="stylesheet" href="../styles/task-overlay.css">
+    <link rel="stylesheet" href="../style.css">
 </head>
 
-<body onload="includeHTML()">
-    <header include-html="../templates/header.html"></header>
+<body onload="init(), initializeDropZones()">
 
-    <main>
+    <div class="page-wrapper">
         <aside include-html="../templates/sidebar.html"></aside>
-        <div class="board">
-            <div class="board-header">
-                <div>
-                    <span class="board-text">Board</span>
-                </div>
-                <div class="toolbar">
-                    <div class="input-field" id="search-bar">
-                        <input type="text" placeholder="Find Task">
-                        <div class="divider-vertical" id="divider-search"></div>
-                        <img src="../assets/icons/search.svg" alt="Search Icon" id="search-icon">
-                    </div>
-                    <button class="btn" id="add-task-btn">Add task <img src="../assets/icons/add.svg"
-                            alt="Add Icon"></button>
-                </div>
-            </div>
-
-            <div class="workflow">
-                <!-- Drop-Zone: To Do -->
-                <div class="status">
-                    <div class="status-text-and-plus">
-                        <span class="status-text">To do</span>
-                        <img src="../assets/icons/plus button.svg" alt="Plus Button">
-                    </div>
-                    <div class="drop-zone" id="to-do" ondrop="drop(event)" ondragover="allowDrop(event)">
-                        <div class="no-tasks-field">
-                            <span class="no-tasks-text">No tasks To do</span>
+        <main>
+            <header include-html="../templates/header.html"></header>
+            <section class="main-content">
+                <div class="board">
+                    <div class="board-header">
+                        <div>
+                            <span class="board-text">Board</span>
+                        </div>
+                        <div class="toolbar">
+                            <div class="input-field" id="search-bar">
+                                <input type="text" placeholder="Find Task">
+                                <div class="divider-vertical" id="divider-search"></div>
+                                <img src="../assets/icons/search.svg" alt="Search Icon" id="search-icon">
+                            </div>
+                            <button class="btn" id="add-task-btn">Add task <img src="../assets/icons/add.svg"
+                                    alt="Add Icon"></button>
                         </div>
                     </div>
-                </div>
 
-                <!-- Drop-Zone: In Progress -->
-                <div class="status">
-                    <div class="status-text-and-plus">
-                        <span class="status-text">In progress</span>
-                        <img src="../assets/icons/plus button.svg" alt="Plus Button">
-                    </div>
-                    <div class="drop-zone" id="in-progress" ondrop="drop(event)" ondragover="allowDrop(event)">
-                        <div class="task" draggable="true" ondragstart="drag(event)" id="task1"
-                            onclick="openTaskOverlay()">
-                            <div class="task-type">User Story</div>
-                            <span class="task-title">Kochwelt Page & Recipe Recommender</span>
-                            <p class="task-description">Build start page with recipe recommendation...</p>
-                            <div class="subtask">
-                                <div class="progress-container">
-                                    <div class="progress-bar"></div>
+                    <div class="workflow">
+                        <!-- Drop-Zone: To Do -->
+                        <div class="status">
+                            <div class="status-text-and-plus">
+                                <span class="status-text">To do</span>
+                                <img class="plus-button" src="../assets/icons/plus button.svg" alt="Plus Button">
+                            </div>
+                            <div class="drop-zone" id="to-do" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                <div class="no-tasks-field">
+                                    <span class="no-tasks-text">No tasks To do</span>
                                 </div>
-                                <div class="subtask-text">1/2 Subtasks</div>
+                            </div>
+                        </div>
+
+                        <!-- Drop-Zone: In Progress -->
+                        <div class="status">
+                            <div class="status-text-and-plus">
+                                <span class="status-text">In progress</span>
+                                <img class="plus-button" src="../assets/icons/plus button.svg" alt="Plus Button">
+                            </div>
+                            <div class="drop-zone" id="in-progress" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                <div class="task" draggable="true" ondragstart="drag(event)" id="task1"
+                                    onclick="openTaskOverlay()">
+                                    <div class="task-type">User Story</div>
+                                    <span class="task-title">Kochwelt Page & Recipe Recommender</span>
+                                    <p class="task-description">Build start page with recipe recommendation...</p>
+                                    <div class="subtask">
+                                        <div class="progress-container">
+                                            <div class="progress-bar"></div>
+                                        </div>
+                                        <div class="subtask-text">1/2 Subtasks</div>
+                                    </div>
+                                    <div class="profile-icon-and-level">
+                                        <div class="profile-icon">
+                                            <img src="../assets/icons/Profile icon.svg" alt="">
+                                            <img src="../assets/icons/Profile icon.svg" alt="">
+                                            <img src="../assets/icons/Profile icon.svg" alt="">
+                                        </div>
+                                        <img class="level" src="../assets/icons/priority-medium.svg" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Drop-Zone: Await Feedback -->
+                        <div class="status">
+                            <div class="status-text-and-plus">
+                                <span class="status-text">Await feedback</span>
+                                <img class="plus-button" src="../assets/icons/plus button.svg" alt="Plus Button">
+                            </div>
+                            <div class="drop-zone" id="await-feedback" ondrop="drop(event)"
+                                ondragover="allowDrop(event)">
+                            </div>
+                        </div>
+
+                        <!-- Drop-Zone: Done -->
+                        <div class="status">
+                            <div class="status-text-and-plus">
+                                <span class="status-text">Done</span>
+                            </div>
+                            <div class="drop-zone" id="done" ondrop="drop(event)" ondragover="allowDrop(event)">
                             </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Drop-Zone: Await Feedback -->
-                <div class="status">
-                    <div class="status-text-and-plus">
-                        <span class="status-text">Await feedback</span>
-                        <img src="../assets/icons/plus button.svg" alt="Plus Button">
-                    </div>
-                    <div class="drop-zone" id="await-feedback" ondrop="drop(event)" ondragover="allowDrop(event)">
-                    </div>
-                </div>
-
-                <!-- Drop-Zone: Done -->
-                <div class="status">
-                    <div class="status-text-and-plus">
-                        <span class="status-text">Done</span>
-                    </div>
-                    <div class="drop-zone" id="done" ondrop="drop(event)" ondragover="allowDrop(event)">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+            </section>
+        </main>
+    </div>
 
     <!-- Overlay -->
     <div id="overlay" class="overlay">
@@ -159,10 +176,13 @@
             </div>
         </div>
     </div>
+    <div include-html="../templates/landscape-modal.html"></div>
 
     <script src="../script.js"></script>
+    <script src="../js/landscape.js"></script>
     <script src="../js/openTaskOverlay.js"></script>
     <script src="../js/dragAndDrop.js"></script>
 </body>
+
 
 </html>
