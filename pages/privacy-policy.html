@@ -18,12 +18,15 @@
 
 <body onload="init()">
 
-    <header include-html="../templates/header.html"></header>
-
-
-    <main>
+    <div class="page-wrapper">
         <aside include-html="../templates/sidebar.html"></aside>
-    </main>
+        <main>
+            <header include-html="../templates/header.html"></header>
+            <section class="main-content">
+                <!--Seiteninhalt einfügen-->
+            </section>
+        </main>
+    </div>
 
 
     <div include-html="../templates/landscape-modal.html"></div>
@@ -31,5 +34,6 @@
     <script src="../script.js"></script>
     <script src="../js/landscape.js"></script>
 </body>
+
 
 </html>
