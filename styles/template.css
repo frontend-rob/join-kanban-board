@@ -239,6 +239,9 @@ main {
     }
 }
 
+
+/* !!!! */
+
 .headline-wrapper {
     display: flex;
     align-items: center;
@@ -353,3 +356,4 @@ main {
     font-weight: 700;
     color: var(--bg-accent);
 }
+
