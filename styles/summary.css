@@ -97,7 +97,8 @@
     fill: var(--bg-base-100);
 }
 
-.task-count {
+.task-count,
+.due-date {
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -123,7 +124,21 @@
     background-color: var(--bg-base-100);
     border-radius: 1.875rem;
     box-shadow: var(--shadow-td);
-    /* padding: 1.75rem 3rem; */
+    padding: 0 4rem;
+}
+
+.second-stats-section:hover {
+    background-color: var(--bg-primary);
+    cursor: pointer;
+
+    .task-count,
+    .due-date {
+            span {
+                color: var(--bg-base-100);
+            }
+        }
+
+
 }
 
 .summary-card-urgent {
@@ -132,6 +147,7 @@
     align-items: center;
     height: 10.5rem;
     gap: 1.5rem;
+    
 }
 
 .divider-vertical-summary {
@@ -140,6 +156,21 @@
     height: 100%;
     border-radius: 1.5px;
 }
+
+.summary-card-date {
+    font-size: 1.75rem;
+    color: var(--bg-primary);
+    font-weight: 700;
+}
+
+.third-stats-section {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+
 
 /*  */
 /*  */
