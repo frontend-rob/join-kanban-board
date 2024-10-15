@@ -1,0 +1,179 @@
+{
+    "users": {
+        "0": {
+            "name": "Guest User",
+            "email": "guestuser@example.com",
+            "password": "join123"
+        },
+        "-LZq9X3Jc8qj7T3rXOi2": {
+            "name": "Jane Doe",
+            "email": "jane.doe@example.com",
+            "password": "test123"
+        }
+    },
+    "tasks": {
+        "-O1pL1Tzy1234Eue6HZu6": {
+            "assigned_to": [
+                {
+                    "color": "#0038ff",
+                    "email": "alice.smith@example.com",
+                    "id": "-O0Nob2HY-b8GwkHNQ1t",
+                    "initials": "AS",
+                    "name": "Alice Smith",
+                    "phone": "+49 111 0000000",
+                    "status": "normal"
+                },
+                {
+                    "color": "#ffa35e",
+                    "email": "john.doe@example.com",
+                    "id": "-O0Nob3TV3LADGyIeC4R",
+                    "initials": "JD",
+                    "name": "John Doe",
+                    "phone": "+49 111 1111111"
+                }
+            ],
+            "category": "Technical Task",
+            "description": "Fix login issue on mobile devices",
+            "due_date": "2024-07-12",
+            "id": "-O1pL1Tzy1234Eue6HZu6",
+            "priority": "high",
+            "status": "inprogress",
+            "subtasks": [
+                {
+                    "status": "unchecked",
+                    "text": "Identify root cause"
+                },
+                {
+                    "status": "unchecked",
+                    "text": "Implement fix"
+                },
+                {
+                    "status": "unchecked",
+                    "text": "Test on multiple devices"
+                }
+            ],
+            "title": "Mobile Login Bug Fix"
+        },
+        "-O1pM2Uzy5678Gue7HZu7": {
+            "assigned_to": [
+                {
+                    "color": "#ff5eb3",
+                    "email": "sarah.johnson@example.com",
+                    "id": "-O0Nob6T3m8--jcmOUbG",
+                    "initials": "SJ",
+                    "name": "Sarah Johnson",
+                    "phone": "+49 111 2222222"
+                },
+                {
+                    "color": "#00bee8",
+                    "email": "david.williams@example.com",
+                    "id": "-O0Nob9V23TjgsWOlIuH",
+                    "initials": "DW",
+                    "name": "David Williams",
+                    "phone": "+49 111 3333333",
+                    "status": "normal"
+                }
+            ],
+            "category": "User Story",
+            "description": "Implement user profile page",
+            "due_date": "2024-07-25",
+            "id": "-O1pM2Uzy5678Gue7HZu7",
+            "priority": "mid",
+            "status": "todo",
+            "subtasks": [
+                {
+                    "status": "unchecked",
+                    "text": "Design wireframe"
+                },
+                {
+                    "status": "unchecked",
+                    "text": "Develop backend"
+                },
+                {
+                    "status": "unchecked",
+                    "text": "Create frontend"
+                },
+                {
+                    "status": "unchecked",
+                    "text": "Test and deploy"
+                }
+            ],
+            "title": "User Profile Page"
+        }
+    },
+    "contacts": {
+        "-O0Nob2HY-b8GwkHNQ1t": {
+            "color": "#0038ff",
+            "email": "alice.smith@example.com",
+            "initials": "AS",
+            "name": "Alice Smith",
+            "phone": "+49 111 0000000",
+            "status": "normal"
+        },
+        "-O0Nob3TV3LADGyIeC4R": {
+            "color": "#ffa35e",
+            "email": "john.doe@example.com",
+            "initials": "JD",
+            "name": "John Doe",
+            "phone": "+49 111 1111111"
+        },
+        "-O0Nob4Ql0LRcnyVa8oP": {
+            "color": "#ffa35e",
+            "email": "linda.brown@example.com",
+            "initials": "LB",
+            "name": "Linda Brown",
+            "phone": "+49 111 2222222"
+        },
+        "-O0Nob5S9eiRacAj4uEJ": {
+            "color": "#1fd7c1",
+            "email": "michael.jones@example.com",
+            "initials": "MJ",
+            "name": "Michael Jones",
+            "phone": "+49 111 3333333"
+        },
+        "-O0Nob6T3m8--jcmOUbG": {
+            "color": "#ff5eb3",
+            "email": "sarah.johnson@example.com",
+            "initials": "SJ",
+            "name": "Sarah Johnson",
+            "phone": "+49 111 4444444"
+        },
+        "-O0Nob7PoeMn_cpxEmgW": {
+            "color": "#c3ff2b",
+            "email": "james.wilson@example.com",
+            "initials": "JW",
+            "name": "James Wilson",
+            "phone": "+49 111 5555555"
+        },
+        "-O0Nob8RbM6T6eUt6yn1": {
+            "color": "#0038ff",
+            "email": "emma.davis@example.com",
+            "initials": "ED",
+            "name": "Emma Davis",
+            "phone": "+49 111 6666666",
+            "status": "normal"
+        },
+        "-O0Nob9V23TjgsWOlIuH": {
+            "color": "#00bee8",
+            "email": "david.williams@example.com",
+            "initials": "DW",
+            "name": "David Williams",
+            "phone": "+49 111 7777777",
+            "status": "normal"
+        },
+        "-O0NobATY2jEbHXAHcAm": {
+            "color": "#6e52ff",
+            "email": "julia.clark@example.com",
+            "initials": "JC",
+            "name": "Julia Clark",
+            "phone": "+49 111 8888888"
+        },
+        "-O0NobB2ZY9Kuj0G4WxAa": {
+            "color": "#8b3aff",
+            "email": "charles.miller@example.com",
+            "initials": "CM",
+            "name": "Charles Miller",
+            "phone": "+49 111 9999999"
+        }
+    }
+}
