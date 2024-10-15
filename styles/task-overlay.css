@@ -108,19 +108,3 @@
     cursor: pointer;
 }
 
-.action {
-    display: flex;
-    gap: 8px;
-    justify-content: flex-end;
-}
-
-.action-type {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-}
-
-.divider-action {
-    height: auto;
-}
