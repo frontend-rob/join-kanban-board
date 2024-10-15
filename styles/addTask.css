@@ -1,132 +1,146 @@
-    .container {
-        background-color: #f8f8f8;
-        padding: 2rem;
-        display: flex;
-        justify-content: flex-start;
-        align-items: flex-start;
-        flex-direction: column;
-    }
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* Verhindert das Scrollen */
+}
 
-    h1 {
-        font-size: 64px;
-        margin-bottom: 1rem;
-        color: #333;
-    }
+.container {
+    background-color: #f8f8f8;
+    padding: 3rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    margin-top: -112px;
+    height: 100%; /* Stellt sicher, dass der Container die volle Höhe einnimmt */
+    box-sizing: border-box; /* Bezieht Padding in die Höhe ein */
+}
 
-    .form-section {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        position: relative;
-    }
+h1 {
+    font-size: 61px;
+    margin-bottom: 1rem;
+    color: #333;
+    font-weight: 700;
+}
 
-    .left,
-    .right {
-        width: 48%;
-    }
+.form-section {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: relative;
+    margin-top: 27px;
+    gap: 120px;
+}
 
-    .divider {
-        width: 1px;
-        background-color: #ccc;
-        height: 100%;
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        margin: 0 60px;
-    }
+.left,
+.right {
+    width: 48%;
+}
 
-    label {
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: bold;
-        color: #555;
-        text-align: left;
-        font-size: 24px;
-    }
+.divider {
+    width: 1px;
+    background-color: #ccc;
+    height: 95%;
+    position: absolute;
+    left: 50%;
+    margin-top: 5px;
+}
 
-    input[type="text"],
-    input[type="date"],
-    select,
-    textarea {
-        width: 440px;
-        padding: 0.5rem;
-        margin-bottom: 1rem;
-        border: 1px solid #ccc;
-        border-radius: 10px;
-        font-size: 20px;
-        background-color: #fff;
-        box-sizing: border-box;
-    }
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+    color: #555;
+    text-align: left;
+    font-size: 20px;
+}
 
-    textarea {
-        height: 120px;
-    }
+input[type="text"],
+input[type="date"],
+select,
+textarea {
+    width: 440px;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 400;
+    background-color: #fff;
+    box-sizing: border-box;
+}
 
-    .priority {
-        display: flex;
-        gap: 8px;
-        width: 440px;
-        margin-bottom: 1rem;
-    }
+textarea {
+    height: 120px;
+}
 
-    .priority button {
-        width: 136px;
-        height: 56px;
-        padding: 0.5rem;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        font-size: 20px;
-    }
+.priority {
+    display: flex;
+    gap: 8px;
+    width: 440px;
+    margin-bottom: 1rem;
+}
 
-    .urgent {
-        background-color: #ff4d4d;
-        color: white;
-    }
+.priority button {
+    width: 136px;
+    height: 56px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
 
-    .medium {
-        background-color: #ffcc00;
-        color: white;
-    }
+.urgent {
+    background-color: #ff4d4d;
+    color: white;
+}
 
-    .low {
-        background-color: #66cc66;
-        color: white;
-    }
+.medium {
+    background-color: #ffcc00;
+    color: white;
+}
 
-    .note {
-        margin-top: 1rem;
-        color: red;
-        font-size: 0.9rem;
-        text-align: left;
-    }
+.low {
+    background-color: #66cc66;
+    color: white;
+}
 
-    .buttons {
-        display: flex;
-        justify-content: flex-end;
-        width: 309px;
-        margin-left: auto;
-        margin-top: -1rem;
-    }
+.note {
+    margin-top: 1rem;
+    color: red;
+    font-size: 0.9rem;
+    text-align: left;
+}
 
-    .clear,
-    .create {
-        padding: 0.5rem 1rem;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        font-size: 20px;
-    }
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    width: 309px;
+    margin-left: auto;
+    margin-top: -1rem;
+    gap: 12px;
+}
 
-    .clear {
-        background-color: #ccc;
-        width: 110px;
-        height: 56px;
-    }
+.clear,
+.create {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
 
-    .create {
-        background-color: #333;
-        color: white;
-        width: 183px;
-        height: 56px;
-    }
+.clear {
+    background-color: #ccc;
+    width: 110px;
+    height: 56px;
+}
+
+.create {
+    background-color: #333;
+    color: white;
+    width: 183px;
+    height: 56px;
+}
