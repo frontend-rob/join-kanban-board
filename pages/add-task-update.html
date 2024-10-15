@@ -4,36 +4,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Join - Contacts</title>
-
     <link rel="shortcut icon" href="../assets/img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="../styles/base.css">
     <link rel="stylesheet" href="../styles/assets.css">
     <link rel="stylesheet" href="../styles/landscape.css">
     <link rel="stylesheet" href="../styles/header.css">
     <link rel="stylesheet" href="../styles/sidebar.css">
+    <link rel="stylesheet" href="../styles/addTask.css">
     <link rel="stylesheet" href="../style.css">
 </head>
 
 <body onload="init()">
-
     <div class="page-wrapper">
         <aside include-html="../templates/sidebar.html"></aside>
         <main>
             <header include-html="../templates/header.html"></header>
-            <section class="main-content">
-                <!--Seiteninhalt einfügen-->
+            <section class="container">
+                <h1>Add Task</h1>
+                <form>
+                    <div class="form-section">
+                        <div class="left">
+                            <label for="title">Title*</label>
+                            <input type="text" id="title" placeholder="Enter a title" required>
+
+                            <label for="description">Description</label>
+                            <textarea id="description" placeholder="Enter a description"></textarea>
+
+                            <label for="assigned">Assigned to</label>
+                            <select id="assigned">
+                                <option>Select contacts to assign</option>
+                            </select>
+                        </div>
+                        <div class="divider"></div>
+                        <div class="right">
+                            <label for="due-date">Due date*</label>
+                            <input type="date" id="due-date" required>
+
+                            <label for="priority">Prio</label>
+                            <div class="priority">
+                                <button class="urgent">Urgent <span>↑</span></button>
+                                <button class="medium">Medium <span>=</span></button>
+                                <button class="low">Low <span>↓</span></button>
+                            </div>
+
+                            <label for="category">Category*</label>
+                            <select id="category">
+                                <option>Select task category</option>
+                            </select>
+
+                            <label for="subtasks">Subtasks</label>
+                            <input type="text" id="subtasks" placeholder="Add new subtask">
+                        </div>
+                    </div>
+                    <div class="note">
+                        <span>* This field is required</span>
+                    </div>
+                    <div class="buttons">
+                        <button type="reset" class="clear">Clear <span>✖</span></button>
+                        <button type="submit" class="create">Create Task <span>✔</span></button>
+                    </div>
+                </form>
             </section>
         </main>
     </div>
 
-    
     <div include-html="../templates/landscape-modal.html"></div>
 
-    <script src="../script.js"></script>
+    <script src="../js/addTask.js"></script>
     <script src="../js/landscape.js"></script>
 </body>
-
 
 </html>
