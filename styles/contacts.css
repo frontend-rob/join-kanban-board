@@ -45,6 +45,7 @@
     border-radius: 16px;
     margin-top: 8px;
     margin-bottom: 8px;
+    align-items:center ;
 }
 
 .contact-active {
@@ -63,10 +64,110 @@
 .contact-name-and-email{
     display: flex;
     flex-direction: column;
-    padding: 1rem;
+    padding: 2rem;
     gap: 4px;
 }
 
 .email {
     color: #007CEE;
+}
+
+.contact-details {
+    display: flex;
+    gap: 2rem;
+    position: fixed;
+    height: 100%;
+    width: calc(100% - 232px - 20%);
+    top: 96px;
+    right: 0;
+    margin-top: 2rem;
+}
+
+.headline-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.main-headline {
+    font-size: 4rem;
+    font-weight: 600;
+    color: var(--black-content);
+}
+
+.headline-wrapper span {
+    font-size: 1.75rem;
+    font-weight: 400;
+    color: var(--base-content);
+}
+
+.contact-details {
+    padding: 2rem 4rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.action-contact {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-start;
+}
+
+.action-type {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.divider-action {
+    height: auto;
+}
+
+.name-detail {
+    font-size: 48px;
+    font-weight: 500;
+}
+
+.img-contact-detail {
+    height: 140px;
+}
+
+.contact-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 1rem;
+}
+
+.contact-info-text {
+    font-size: 20px;
+    margin-bottom: 2rem;
+}
+
+.icon-name-and-action {
+    display: flex;
+
+}
+
+.email-card {
+    font-weight: bold;
+}
+
+.info-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.phone-card {
+    font-weight: bold;
 }
