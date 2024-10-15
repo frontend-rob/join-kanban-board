@@ -9,6 +9,7 @@ header {
   align-items: center;
   justify-content: space-between;
   padding: 0 4rem;
+  z-index: 1;
 }
 
 .logo-header {
