@@ -2,3 +2,8 @@
     font-family: 'Inter';
     src: url('../assets/fonts/inter-variable-font.ttf');
 }
+
+
+a {
+    text-decoration: none;
+}

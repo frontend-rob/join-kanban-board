@@ -110,6 +110,7 @@
 .summary-card-number {
     font-size: 4rem;
     font-weight: 700;
+    color: var(--black-content);
 }
 
 .summary-card-label {
@@ -211,4 +212,28 @@
     font-size: 3rem;
     font-weight: 700;
     color: var(--bg-accent);
+}
+
+@media screen and (max-width: 65rem) {
+    .summary-greeting-container {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 62rem) {
+    .headline-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .headline-wrapper span {
+        font-size: 1.25rem;
+    }
+
+    .divider-vertical {
+        width: 6rem;
+        height: 3px;
+    }
+
 }
