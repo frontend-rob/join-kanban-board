@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="../styles/sidebar.css">
     <link rel="stylesheet" href="../styles/contacts.css">
     <link rel="stylesheet" href="../styles/board.css">
+    <link rel="stylesheet" href="../styles/add-contact-overlay.css">
     <link rel="stylesheet" href="../style.css">
 </head>
 
@@ -133,7 +134,6 @@
                                         <img src="../assets/icons/edit.svg" alt="Edit Icon">
                                         <span>Edit</span>
                                     </div>
-                                    <div class="divider-vertical divider-action"></div>
                                     <div class="action-type">
                                         <img src="../assets/icons/delete.svg" alt="Delete Icon">
                                         <span>Delete</span>
@@ -158,12 +158,89 @@
         </main>
     </div>
 
+    <!-- Overlay -->
+    <div id="overlay" class="add-contact">
+        <div class="overlay-content-add-contact">
+            <span class="close-add-contact-overlay" onclick="closeTaskOverlay()"><img src="../assets/icons/Close.svg"
+                    alt="Close Icon"></span>
+
+            <div class="overlay-left">
+                <div class="contact-header">
+                    <img src="../assets/img/join-logo.svg" alt="Join Logo">
+                    <h2>Edit contact</h2>
+                    <div class="divider-horizontal divider-add-contact-overlay"></div>
+                </div>
+            </div>
+
+            <div class="overlay-right">
+                <div class="input-card">
+                    <img class="profile-icon-add-contact" src="../assets/icons/Profile icon.svg" alt="Profile Icon">
+                    <div class="input-container">
+                        <div class="signup-inputs">
+                            <div class="input-field">
+                                <input type="text" id="signup-name" placeholder="Name" required>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"
+                                    viewBox="0 0 256 256">
+                                    <path
+                                        d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z">
+                                    </path>
+                                </svg>
+                                <p id="error-signup-name" class="error-message">
+                                    *Please enter first- and surname.
+                                </p>
+                            </div>
+                            <div class="input-field">
+                                <input type="email" id="signup-email" placeholder="Email">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"
+                                    viewBox="0 0 256 256">
+                                    <path
+                                        d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM203.43,64,128,133.15,52.57,64ZM216,192H40V74.19l82.59,75.71a8,8,0,0,0,10.82,0L216,74.19V192Z">
+                                    </path>
+                                </svg>
+                                <p id="error-signup-email" class="error-message">
+                                    *Please enter a valid email address.
+                                </p>
+                            </div>
+                            <div class="input-field">
+                                <input type="phone" id="contact-phone" placeholder="Phone number" required>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff"
+                                    viewBox="0 0 256 256">
+                                    <path
+                                        d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z">
+                                    </path>
+                                </svg>
+                                <div id="signup-password-icon" class="password-icon"></div>
+                                <p id="error-signup-password" class="error-message">
+                                    *Please enter a valid phone number.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="add-contact-buttons">
+                            <button class="btn btn-contact  btn-outline" onclick="closeTaskOverlay()">Delete</button>
+                            <button class="btn btn-contact " onclick="updateContact()">Save <svg
+                                    xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff"
+                                    viewBox="0 0 256 256" data-darkreader-inline-fill=""
+                                    style="--darkreader-inline-fill: #181a1b;">
+                                    <path
+                                        d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 
 
     <div include-html="../templates/landscape-modal.html"></div>
 
     <script src="../script.js"></script>
     <script src="../js/landscape.js"></script>
+    <script src="../js/openAddContactOverlay.js"></script>
 </body>
 
 
