@@ -24,7 +24,7 @@
 
 .summary-wrapper {
     display: flex;
-    gap: 3rem;
+    gap: 4rem;
 }
 
 .summary-stats-container {
@@ -51,11 +51,13 @@
     height: 10.5rem;
     box-shadow: var(--shadow-td);
     gap: 1.25rem;
+    padding: 2.25rem 1.25rem;
 }
 
 .summary-card:hover {
     cursor: pointer;
     background-color: var(--bg-primary);
+    transform: scale(1.05);
 
     .summary-icon {
         background-color: var(--bg-base-100);
@@ -113,7 +115,7 @@
 .summary-card-label {
     font-size: 1.25rem;
     color: var(--base-content);
-    font-weight: 400;
+    font-weight: 300;
 }
 
 .second-stats-section {
@@ -124,21 +126,22 @@
     background-color: var(--bg-base-100);
     border-radius: 1.875rem;
     box-shadow: var(--shadow-td);
-    padding: 0 4rem;
+    padding: 1.75rem 3rem;
+    max-height: 10.5rem;
+    height: 100%;
 }
 
 .second-stats-section:hover {
     background-color: var(--bg-primary);
     cursor: pointer;
+    transform: scale(1.05);
 
     .task-count,
     .due-date {
-            span {
-                color: var(--bg-base-100);
-            }
+        span {
+            color: var(--bg-base-100);
         }
-
-
+    }
 }
 
 .summary-card-urgent {
@@ -147,11 +150,10 @@
     align-items: center;
     height: 10.5rem;
     gap: 1.5rem;
-    
 }
 
 .divider-vertical-summary {
-    border:  1.5px solid var(--bg-neutral);
+    border: 1.5px solid var(--bg-neutral);
     width: 0;
     height: 100%;
     border-radius: 1.5px;
@@ -168,17 +170,35 @@
     justify-content: space-between;
 }
 
+.summary-card-tertiary {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-base-100);
+    border-radius: 1.875rem;
+    width: 10.5rem;
+    height: 10.5rem;
+    box-shadow: var(--shadow-td);
+    gap: 1.25rem;
+    padding: 2.25rem 1.25rem;
+}
 
+.summary-card-tertiary:hover {
+    cursor: pointer;
+    background-color: var(--bg-primary);
+    transform: scale(1.05);
 
+    .task-count {
+        span {
+            color: var(--bg-base-100);
+        }
+    }
+}
 
-
-/*  */
-/*  */
-/*  */
-/*  */
 .summary-greeting-container {
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }
 
 #greeting-time {
