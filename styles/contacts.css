@@ -7,7 +7,7 @@
     padding: 1em;
     background-color: var(--bg-base-100);
     box-shadow: var(--shadow-md);
-    z-index: 101;
+    z-index: 1;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     scrollbar-width: thin;
     scrollbar-color: var(--bg-neutral-accent) transparent;
@@ -38,6 +38,7 @@
 
 .btn-contact {
     width: 90%;
+    font-weight: 600;
 }
 .contact {
     display: flex;
@@ -111,7 +112,7 @@
 
 .action-contact {
     display: flex;
-    gap: 8px;
+    gap: 16px;
     justify-content: flex-start;
 }
 
@@ -122,7 +123,7 @@
     cursor: pointer;
 }
 
-.divider-action {
+.divider-action-contact {
     height: auto;
 }
 
@@ -173,4 +174,11 @@
 
 .phone-card {
     font-weight: bold;
+}
+
+.divider-add-contact-overlay {
+    position: absolute;
+    width: 80px;
+    height: 3px;
+    background-color: var(--bg-accent);
 }

@@ -1,0 +1,103 @@
+
+.add-contact {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(0.25rem);
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.overlay-content-add-contact {
+    display: flex;
+    background-color: white;
+    border-radius: 30px;
+    width: 60%;
+    height: 500px;
+    position: relative;
+    overflow: hidden;
+}
+
+.close-add-contact-overlay {
+    cursor: pointer;
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
+}
+
+.overlay-left {
+    width: 40%;
+    background-color: var(--bg-primary);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 2rem;
+}
+
+.overlay-left h2 {
+    margin-bottom: 1rem;
+    font-size: 56px;
+    font-weight: 700;
+
+}
+
+.overlay-left img {
+    height: 60px;
+    position: absolute;
+    top: 120px;
+}
+
+.overlay-right {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem 2rem 2rem 4rem;
+    color: white;
+}
+
+.input-card {
+    width: 100%;
+    display: flex;
+    gap: 4rem;
+    align-items: center;
+}
+
+.input-card input {
+}
+
+.profile-icon-add-contact {
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+}
+
+.input-card button {
+    margin-right: 1rem;
+    width: 100px;
+}
+
+.add-contact-buttons {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    gap: rem;
+    width: 100%;
+}
+
+.input-field svg {
+    right: 2rem;
+}
