@@ -49,6 +49,7 @@ h2 {
 
 .main-content {
   display: flex;
+  flex-direction: column;
   padding: 2rem 4rem;
   width: 100%;
   flex: 1;

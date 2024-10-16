@@ -1,0 +1,33 @@
+.article {
+    max-width: 60rem;
+    line-height: 1.5;
+}
+
+.section-headline {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.main-headline {
+    font-size: 4rem;
+}
+
+.accentuated {
+    color: var(--bg-accent);
+}
+
+.article h2 {
+    margin-top: 24px;
+    margin-bottom: 1rem;
+    font-size: 1.75rem;
+    font-weight: 700;
+}
+
+
+.article p {
+    margin-bottom: 1rem;
+}
