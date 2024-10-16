@@ -10,7 +10,7 @@
     z-index: 101;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
     scrollbar-width: thin;
-    scrollbar-color: gray transparent;
+    scrollbar-color: var(--bg-neutral-accent) transparent;
 }
 
 .letter-group h2 {
@@ -32,7 +32,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 16px
+    margin-bottom: 16px;
+    
 }
 
 .btn-contact {
@@ -40,12 +41,12 @@
 }
 .contact {
     display: flex;
-    padding-left: 2.5em;
     cursor: pointer;
     border-radius: 16px;
-    margin-top: 8px;
-    margin-bottom: 8px;
     align-items:center ;
+    width: 90%;
+    margin: 8px auto;
+    padding-left: 1rem;
 }
 
 .contact-active {
@@ -64,12 +65,13 @@
 .contact-name-and-email{
     display: flex;
     flex-direction: column;
-    padding: 2rem;
+    padding: 1rem;
     gap: 4px;
 }
 
 .email {
     color: #007CEE;
+    cursor: pointer;
 }
 
 .contact-details {
@@ -145,7 +147,7 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    padding: 1rem;
+    padding: 2rem 1rem;
 }
 
 .contact-info-text {
@@ -155,6 +157,7 @@
 
 .icon-name-and-action {
     display: flex;
+    gap: 1rem;
 
 }
 
