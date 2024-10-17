@@ -58,7 +58,7 @@ header {
   }
 }
 
-@media (max-width: 425px) {
+@media (max-width: 60rem) {
   header {
     width: 100%;
     display: flex

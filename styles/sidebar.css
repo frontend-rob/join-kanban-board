@@ -7,50 +7,42 @@ aside {
 nav {
   display: flex;
   align-items: center;
-  width: 232px;
+  width: 14.5rem;
   height: 100vh;
-  padding-top: 32px;
-  padding-bottom: 32px;
-  background-color: #2a3647;
+  padding: 4rem 0;
+  background-color: var(--bg-primary);
   flex-direction: column;
 }
 
 .logo {
-  width: 100px;
-  height: 122px;
+  width: 6.25rem;
+  height: 7.625rem;
 }
 
 .menu {
   display: flex;
   flex-direction: column;
-  margin-top: 64px;
-  padding-left: 0;
-  list-style: none;
   width: 100%;
-}
-
-.menu li {
-  margin: 8px 0;
+  margin-top: 4rem;
+  list-style: none;
+  gap: 1rem;
 }
 
 .menu a {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   text-decoration: none;
   color: #cdcdcd;
-  height: 46px;
+  height: 2.875rem;
   width: 100%;
-  padding: 0 16px;
-  transition: background-color 0.2s;
+  padding: 0 2rem;
 }
 
 .menu-item {
   display: flex;
   align-items: center;
-  padding-left: 40px;
   justify-content: space-between;
-  gap: 16px;
+  gap: 1rem;
 }
 
 .menu-item svg {
@@ -64,10 +56,6 @@ nav {
   .menu-item {
     filter: brightness(1.5);
   }
-}
-
-.nav-icon {
-  padding-right: 8px;
 }
 
 .nav-active {
@@ -101,7 +89,7 @@ nav {
   color: #29a6dc;
 }
 
-@media (max-width: 425px) {
+@media (max-width: 60rem) {
   nav {
     display: flex;
     align-items: center;
