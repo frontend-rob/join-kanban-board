@@ -18,9 +18,10 @@ main {
 
 .main-logo {
     position: absolute;
-    top: 5rem;
+    top: 4rem;
     left: 4.5rem;
     width: 6.25rem;
+    height: 7.625rem;
     height: auto;
 }
 
