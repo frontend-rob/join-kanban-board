@@ -278,9 +278,9 @@ async function findUserInDatabase(email, password) {
  * @param {HTMLInputElement} passwordInput - The password input field.
  */
 function handleSuccessfulLogin(user, emailInput, passwordInput) {
-    alert(`Welcome back, ${user.name}!`);
     clearLoginInputs(emailInput, passwordInput);
     redirectToDashboard();
+    updateUserData(user);
 }
 
 
@@ -310,6 +310,30 @@ function redirectToDashboard() {
  */
 function handleFailedLogin(emailInput, passwordInput) {
     alert("Login failed. Please check your email or password.");
+}
+
+
+/**
+ * logs in the user as a guest.
+ */
+function guestLogin() {
+    const guestUser = {
+        name: "Guest",
+        email: "guestuser@example.com",
+        password: "join123"
+    };
+
+    handleGuestLogin(guestUser);
+}
+
+
+/**
+ * handles the successful guest login.
+ * @param {Object} user - the guest user object.
+ */
+function handleGuestLogin(user) {
+    redirectToDashboard();
+    updateUserData(user);
 }
 
 
@@ -373,36 +397,45 @@ function showFailedLoginModal(emailInput, passwordInput) {
 
 
 /**
- * Logs in the user as a guest.
+ * Generates initials from the full name.
+ * @param {string} fullName - The full name of the user.
+ * @returns {string} - The initials of the user.
  */
-function guestLogin() {
-    const guestUser = {
-        name: "Guest User",
-        email: "guestuser@example.com",
-        password: "join123"
-    };
+function getUserInitials(fullName) {
+    const names = fullName.trim().split(" ");
+    let initials = "";
 
-    // Simulate the login process for the guest user
-    console.log('Logging in as guest:', guestUser);
+    if (names.length > 0) {
+        initials += names[0].charAt(0).toUpperCase(); // First letter of the first name
+    }
+    if (names.length > 1) {
+        initials += names[names.length - 1].charAt(0).toUpperCase(); // First letter of the last name
+    }
 
-    // Call the function to handle the successful guest login
-    handleGuestLogin(guestUser);
+    return initials;
 }
 
 
 /**
- * Handles the successful guest login.
- * @param {Object} user - The guest user object.
+ * updates user data in localStorage, including a greeting message based on the current time,
+ * the user's name, and their initials.
+ * 
+ * @param {Object} user - the user object containing user details.
+ * @param {string} user.name - the name of the user.
  */
-function handleGuestLogin(user) {
-    // Here you can implement what happens after a successful guest login
-    // For example, you could redirect the user or update the UI
-    console.log('Guest user logged in:', user);
+function updateUserData(user) {
+    const currentHour = new Date().getHours();
+    let greetingMessage;
 
-    // Update the UI or application state for the guest user
-    // For example:
-    // currentUser = user;
+    if (currentHour < 12) {
+        greetingMessage = "Good morning,";
+    } else if (currentHour < 18) {
+        greetingMessage = "Good afternoon,";
+    } else {
+        greetingMessage = "Good evening,";
+    }
 
-    // Redirect to the main page or dashboard
-    window.location.href = './pages/summary.html'; // Redirect to the summary page or another page
+    localStorage.setItem('greetingTime', greetingMessage);
+    localStorage.setItem('userName', user.name);
+    localStorage.setItem('userInitials', getUserInitials(user.name));
 }

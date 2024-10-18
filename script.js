@@ -23,4 +23,40 @@ async function includeHTML() {
     });
 
     await Promise.all(promises);
+    await setUserDataFromLocalStorage();
+}
+
+
+/**
+ * asynchronously retrieves user data from localStorage and updates the corresponding html elements.
+ * 
+ * @async
+ * @function
+ * @returns {Promise<void>} - a promise that resolves when the user data has been set.
+ */
+async function setUserDataFromLocalStorage() {
+    const userInitialsElement = document.getElementById('current-user-initials');
+    const greetingTimeElement = document.getElementById('greeting-time');
+    const greetingUserNameElement = document.getElementById('greeting-user-name');
+
+    const greetingTime = localStorage.getItem('greetingTime') || "Eelcome,";
+    const userName = localStorage.getItem('userName') || "Guest";
+    const userInitials = localStorage.getItem('userInitials') || "G";
+
+    // set the greeting and username if the elements exist
+    setTextContent(greetingTimeElement, greetingTime);
+    setTextContent(greetingUserNameElement, userName);
+    setTextContent(userInitialsElement, userInitials);
+}
+
+
+/**
+ * Setzt den Textinhalt eines Elements, wenn das Element existiert.
+ * @param {HTMLElement} element - Das Ziel-Element.
+ * @param {string} text - Der Text, der gesetzt werden soll.
+ */
+function setTextContent(element, text) {
+    if (element) {
+        element.textContent = text;
+    }
 }
