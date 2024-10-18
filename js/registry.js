@@ -1,37 +1,56 @@
-// ! signup logic
-// ! the array below should be the section in firebase!!!
-// ! fetch and push from data base needed
-
-let users = [
-    {
-        'user': 'test user',
-        'email': 'user@test.de',
-        'password': 'test123'
-    }
-];
-
-
 /**
- * adds a new user if the form validation passes.
- * @param {Event} event - the event object from the form submission.
+ * Adds a new user if the form validation passes and the user doesn't already exist in Firebase.
+ * @param {Event} event - The event object from the form submission.
  */
 async function addUser(event) {
     event.preventDefault();
     const inputs = getFormInputs();
     const validations = validateInputs(inputs);
 
-    // if all validations pass, add the user and show success modal
+    // If all validations pass, check if the user already exists
     if (areAllValid(validations)) {
-        addUserToList(inputs);
-        await showSuccessModal(); // wait for the modal to hide
-        clearForm(inputs);
+        const userExists = await checkIfUserExists(inputs.email.value);
+
+        if (userExists) {
+            alert('This email is already registered. Please use a different email.');
+        } else {
+            await addUserToFirebase(inputs);
+            await showSuccessModal(); // Wait for the modal to hide
+            clearForm(inputs);
+        }
     }
 }
 
 
 /**
- * retrieves form input elements.
- * @returns {Object} an object containing the input elements.
+ * Checks if a user with the given email already exists in Firebase.
+ * @param {string} email - The email to check.
+ * @returns {Promise<boolean>} - Returns true if the user exists, false otherwise.
+ */
+async function checkIfUserExists(email) {
+    try {
+        const response = await fetch(`${DB_URL}/users.json`);
+        const users = await response.json();
+
+        if (users) {
+            // Iterate over users to see if any match the provided email
+            for (const key in users) {
+                if (users[key].email === email) {
+                    return true; // User already exists
+                }
+            }
+        }
+        return false; // No user with this email found
+    } catch (error) {
+        console.error('Error checking user in Firebase:', error);
+        return false; // In case of error, assume the user doesn't exist
+    }
+}
+
+
+/**
+ * Retrieves form input elements.
+ * @returns {Object} An object containing the input elements.
  */
 function getFormInputs() {
     return {
@@ -45,9 +64,9 @@ function getFormInputs() {
 
 
 /**
- * validates all input fields.
- * @param {Object} inputs - the form input elements.
- * @returns {Object} an object containing validation results.
+ * Validates all input fields.
+ * @param {Object} inputs - The form input elements.
+ * @returns {Object} An object containing validation results.
  */
 function validateInputs(inputs) {
     return {
@@ -61,8 +80,8 @@ function validateInputs(inputs) {
 
 
 /**
- * checks if all validations are true.
- * @param {Object} validations - the validation results.
+ * Checks if all validations are true.
+ * @param {Object} validations - The validation results.
  * @returns {boolean} true if all validations are valid, false otherwise.
  */
 function areAllValid(validations) {
@@ -71,21 +90,41 @@ function areAllValid(validations) {
 
 
 /**
- * adds the user to the users list.
- * @param {Object} inputs - the form input elements.
+ * Adds the user to Firebase Realtime Database.
+ * @param {Object} inputs - The form input elements.
+ * @returns {Promise<void>} - Returns a promise once the user is added.
  */
-function addUserToList(inputs) {
-    users.push({
-        user: inputs.name.value,
+async function addUserToFirebase(inputs) {
+    const newUser = {
+        name: inputs.name.value,
         email: inputs.email.value,
         password: inputs.password.value
-    });
+    };
+
+    try {
+        // Send a POST request to add the user to Firebase
+        const response = await fetch(`${DB_URL}/users.json`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(newUser)
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to add user to Firebase.');
+        }
+
+        console.log('User added to Firebase successfully!');
+    } catch (error) {
+        console.error('Error adding user to Firebase:', error);
+    }
 }
 
 
 /**
- * clears the form inputs.
- * @param {Object} inputs - the form input elements.
+ * Clears the form inputs.
+ * @param {Object} inputs - The form input elements.
  */
 function clearForm(inputs) {
     inputs.name.value = '';
@@ -97,25 +136,68 @@ function clearForm(inputs) {
 
 
 /**
- * validates the user's name input.
- * checks if the name contains both first and last names.
- * @param {HTMLInputElement} nameInput - the name input element.
+ * Validates the user's name input.
+ * Checks if the name contains both first and last names.
+ * @param {HTMLInputElement} nameInput - The name input element.
  * @returns {boolean} true if the name is valid, false otherwise.
  */
 function validateName(nameInput) {
     const errorName = document.getElementById('error-signup-name');
     const fullName = nameInput.value.trim();
 
-    // check if full name contains at least two words
+    // Check if full name contains at least two words
     if (fullName.split(' ').length < 2) {
         nameInput.classList.add('input-error');
         errorName.classList.add('show');
-        return false; // invalid name
+        return false; // Invalid name
     } else {
         nameInput.classList.remove('input-error');
         errorName.classList.remove('show');
-        return true; // valid name
+        return true; // Valid name
     }
+}
+
+
+/**
+ * Validates the signup email.
+ * @param {HTMLInputElement} emailInput - The email input element.
+ * @returns {boolean} true if email is valid, false otherwise.
+ */
+function validateSignupEmail(emailInput) {
+    // Add your email validation logic here
+    return emailInput.value.includes('@');
+}
+
+
+/**
+ * Validates the signup password.
+ * @param {HTMLInputElement} passwordInput - The password input element.
+ * @returns {boolean} true if password is valid, false otherwise.
+ */
+function validateSignupPassword(passwordInput) {
+    // Add your password validation logic here (e.g., length, special chars)
+    return passwordInput.value.length >= 6;
+}
+
+
+/**
+ * Validates the confirm password field.
+ * @param {HTMLInputElement} passwordInput - The password input element.
+ * @param {HTMLInputElement} confirmPasswordInput - The confirm password input element.
+ * @returns {boolean} true if passwords match, false otherwise.
+ */
+function validateConfirmPassword(passwordInput, confirmPasswordInput) {
+    return passwordInput.value === confirmPasswordInput.value;
+}
+
+
+/**
+ * Validates the checkbox input.
+ * @param {HTMLInputElement} checkbox - The checkbox input element.
+ * @returns {boolean} true if checkbox is checked, false otherwise.
+ */
+function validateCheckbox(checkbox) {
+    return checkbox.checked;
 }
 
 

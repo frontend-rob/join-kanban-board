@@ -206,19 +206,19 @@ function toggleVisibility(element, shouldShow) {
 
 
 /**
- * processes the login of a user.
- * @param {Event} event - the event triggered when the form is submitted.
+ * Processes the login of a user.
+ * @param {Event} event - The event triggered when the form is submitted.
  */
-function login(event) {
+async function login(event) {
     event.preventDefault();
 
     const emailInput = document.getElementById('login-email');
     const passwordInput = document.getElementById('login-password');
 
-    // perform validation
+    // Perform validation
     if (validateLoginInputs(emailInput, passwordInput)) {
-        // attempt to find the user
-        const user = findUser(emailInput.value, passwordInput.value);
+        // Attempt to find the user in Firebase
+        const user = await findUserInDatabase(emailInput.value, passwordInput.value);
 
         if (user) {
             handleSuccessfulLogin(user, emailInput, passwordInput);
@@ -230,10 +230,10 @@ function login(event) {
 
 
 /**
- * validates email and password inputs.
- * @param {HTMLInputElement} emailInput - the email input field.
- * @param {HTMLInputElement} passwordInput - the password input field.
- * @returns {boolean} - returns true if both inputs are valid, false otherwise.
+ * Validates email and password inputs.
+ * @param {HTMLInputElement} emailInput - The email input field.
+ * @param {HTMLInputElement} passwordInput - The password input field.
+ * @returns {boolean} - Returns true if both inputs are valid, false otherwise.
  */
 function validateLoginInputs(emailInput, passwordInput) {
     const isEmailValid = validateLoginEmail(emailInput);
@@ -243,33 +243,51 @@ function validateLoginInputs(emailInput, passwordInput) {
 
 
 /**
- * ! finds a user by email and password in the users array.
- * @param {string} email - the user's email.
- * @param {string} password - the user's password.
- * @returns {Object|null} - returns the user object if found, otherwise null.
+ * Finds a user by email and password in the Firebase Realtime Database using a REST API call.
+ * @param {string} email - The user's email.
+ * @param {string} password - The user's password.
+ * @returns {Object|null} - Returns the user object if found, otherwise null.
  */
-function findUser(email, password) {
-    return users.find(user => user.email === email && user.password === password) || null;
+async function findUserInDatabase(email, password) {
+    try {
+        // Fetch data from the Firebase Realtime Database
+        const response = await fetch(`${DB_URL}/users.json`);
+        const users = await response.json();  // Converts response to JSON
+
+        if (users) {
+            // Iterate over the users and find the matching email and password
+            for (const key in users) {
+                const user = users[key];
+                if (user.email === email && user.password === password) {
+                    return user;  // Return the matched user
+                }
+            }
+        }
+        return null;  // Return null if no user matches
+    } catch (error) {
+        console.error("Error fetching data from Firebase:", error);
+        return null;  // Return null in case of an error
+    }
 }
 
 
 /**
- * handles actions when login is successful.
- * @param {Object} user - the logged-in user object.
- * @param {HTMLInputElement} emailInput - the email input field.
- * @param {HTMLInputElement} passwordInput - the password input field.
+ * Handles actions when login is successful.
+ * @param {Object} user - The logged-in user object.
+ * @param {HTMLInputElement} emailInput - The email input field.
+ * @param {HTMLInputElement} passwordInput - The password input field.
  */
 function handleSuccessfulLogin(user, emailInput, passwordInput) {
-    alert(`Welcome back, ${user.user}!`);
+    alert(`Welcome back, ${user.name}!`);
     clearLoginInputs(emailInput, passwordInput);
     redirectToDashboard();
 }
 
 
 /**
- * clears the email and password input fields.
- * @param {HTMLInputElement} emailInput - the email input field.
- * @param {HTMLInputElement} passwordInput - the password input field.
+ * Clears the email and password input fields.
+ * @param {HTMLInputElement} emailInput - The email input field.
+ * @param {HTMLInputElement} passwordInput - The password input field.
  */
 function clearLoginInputs(emailInput, passwordInput) {
     emailInput.value = '';
@@ -278,7 +296,7 @@ function clearLoginInputs(emailInput, passwordInput) {
 
 
 /**
- * redirects the user to the dashboard or another page after login.
+ * Redirects the user to the dashboard or another page after login.
  */
 function redirectToDashboard() {
     window.location.href = './pages/summary.html';
@@ -286,12 +304,12 @@ function redirectToDashboard() {
 
 
 /**
- * handles actions when login fails.
- * @param {HTMLInputElement} emailInput - the input field for the email.
- * @param {HTMLInputElement} passwordInput - the input field for the password.
+ * Handles actions when login fails.
+ * @param {HTMLInputElement} emailInput - The input field for the email.
+ * @param {HTMLInputElement} passwordInput - The input field for the password.
  */
 function handleFailedLogin(emailInput, passwordInput) {
-    showFailedLoginModal(emailInput, passwordInput);
+    alert("Login failed. Please check your email or password.");
 }
 
 
@@ -351,4 +369,40 @@ function showFailedLoginModal(emailInput, passwordInput) {
         modal.classList.remove('show');
         clearLoginInputs(emailInput, passwordInput);
     }, 2000);
+}
+
+
+/**
+ * Logs in the user as a guest.
+ */
+function guestLogin() {
+    const guestUser = {
+        name: "Guest User",
+        email: "guestuser@example.com",
+        password: "join123"
+    };
+
+    // Simulate the login process for the guest user
+    console.log('Logging in as guest:', guestUser);
+
+    // Call the function to handle the successful guest login
+    handleGuestLogin(guestUser);
+}
+
+
+/**
+ * Handles the successful guest login.
+ * @param {Object} user - The guest user object.
+ */
+function handleGuestLogin(user) {
+    // Here you can implement what happens after a successful guest login
+    // For example, you could redirect the user or update the UI
+    console.log('Guest user logged in:', user);
+
+    // Update the UI or application state for the guest user
+    // For example:
+    // currentUser = user;
+
+    // Redirect to the main page or dashboard
+    window.location.href = './pages/summary.html'; // Redirect to the summary page or another page
 }
