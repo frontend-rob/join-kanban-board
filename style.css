@@ -27,16 +27,15 @@
   --shadow-sm: 0 4px 4px 0 rgba(0, 0, 0, 0.10);
   --shadow-md: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   --shadow-lg: 0px 0px 14px 3px rgba(0, 0, 0, 0.04);
-
   --task-color-blue: #0038FF;
 }
 
 main {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
   width: 100%;
   background-color: var(--bg-base-200);
-  gap: 2rem;
 }
 
 h2 {
@@ -50,8 +49,14 @@ h2 {
 .main-content {
   display: flex;
   flex-direction: column;
-  padding: 2rem 4rem;
   width: 100%;
-  flex: 1;
+  padding: 6rem 4rem;
+  gap: 3rem;
+  flex-grow: 1;
 }
 
+@media screen and (max-width: 48rem) {
+  .main-content {
+    padding: 6rem 1rem;
+  }
+}

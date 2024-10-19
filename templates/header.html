@@ -1,10 +1,20 @@
-<img class="logo-header" src="../assets/img/logo-dark.png" alt="Join Logo" />
+<a href="../pages/summary.html" class="logo-container">
+    <img class="logo-header" src="../assets/img/logo-dark.png" alt="Join Logo" />
+</a>
 <span class="project-name">Kanban Project Managment Tool</span>
-<div class="help-profile">
+<div class="header-menu">
     <a class="help-icon" href="../pages/help.html">
         <img src="../assets/icons/help.svg" alt="help" />
     </a>
-    <button class="profile-button">
+    <button id="menu-toggle-button" class="profile-button" onclick="toggleMobileMenu()">
         <span id="current-user-initials" class="profile-initials">SM</span>
     </button>
+    
+    <div id="mobile-menu" class="mobile-menu hidden">
+        <a href="../pages/help.html" class="mobile-nav-help">Help</a>
+        <a href="../pages/legal-notice.html">Legal Notice</a>
+        <a href="../pages/privacy-policy.html">Privacy Policy</a>
+        <a href="#" onclick="logOut()">Log out</a>
+    </div>
+
 </div>

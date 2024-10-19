@@ -1,9 +1,3 @@
-.main-content {
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-}
-
 .headline-wrapper {
     display: flex;
     align-items: center;

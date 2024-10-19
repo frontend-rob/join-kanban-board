@@ -60,3 +60,47 @@ function setTextContent(element, text) {
         element.textContent = text;
     }
 }
+
+
+/**
+ * toggles the visibility of the mobile menu by adding or removing the 'hidden' and 'show' classes.
+ * if clicked outside of the mobile menu, it ensures that 'hidden' is added and 'show' is removed.
+ * 
+ * @function
+ * @returns {void}
+ */
+function toggleMobileMenu() {
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenu.classList.toggle('hidden');
+    mobileMenu.classList.toggle('show');
+
+    // Add event listener to close the menu when clicking outside of it
+    document.addEventListener('click', handleClickOutsideMobileMenu);
+}
+
+
+/**
+ * handles clicks outside the mobile menu to close it by ensuring the 'hidden' class is added and the 'show' class is removed.
+ * 
+ * @function
+ * @param {Event} event - the click event.
+ * @returns {void}
+ */
+function handleClickOutsideMobileMenu(event) {
+    const mobileMenu = document.getElementById('mobile-menu');
+    const profileButton = document.querySelector('.profile-button');
+
+    // Check if the click is outside the mobile menu and not on the profile button
+    if (!mobileMenu.contains(event.target) && !profileButton.contains(event.target)) {
+        // Ensure hidden is added and show is removed
+        mobileMenu.classList.add('hidden');
+        mobileMenu.classList.remove('show');
+
+        // Remove the event listener after the job is done
+        document.removeEventListener('click', handleOutsideClick);
+    }
+}
+
+
+
+
