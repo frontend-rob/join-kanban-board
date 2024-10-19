@@ -74,7 +74,6 @@ function toggleMobileMenu() {
     mobileMenu.classList.toggle('hidden');
     mobileMenu.classList.toggle('show');
 
-    // Add event listener to close the menu when clicking outside of it
     document.addEventListener('click', handleClickOutsideMobileMenu);
 }
 
@@ -90,14 +89,11 @@ function handleClickOutsideMobileMenu(event) {
     const mobileMenu = document.getElementById('mobile-menu');
     const profileButton = document.querySelector('.profile-button');
 
-    // Check if the click is outside the mobile menu and not on the profile button
     if (!mobileMenu.contains(event.target) && !profileButton.contains(event.target)) {
-        // Ensure hidden is added and show is removed
         mobileMenu.classList.add('hidden');
         mobileMenu.classList.remove('show');
 
-        // Remove the event listener after the job is done
-        document.removeEventListener('click', handleOutsideClick);
+        document.removeEventListener('click', handleClickOutsideMobileMenu);
     }
 }
 
