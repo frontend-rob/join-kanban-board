@@ -5,13 +5,13 @@
 }
 
 .main-headline {
-    font-size: 4rem;
+    font-size: 3.5rem;
     font-weight: 600;
     color: var(--black-content);
 }
 
 .headline-wrapper span {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     font-weight: 400;
     color: var(--base-content);
 }
@@ -26,13 +26,14 @@
     flex-direction: column;
     max-width: 560px;
     width: 100%;
-    gap: 2rem;
+    gap: 1.5rem;
 }
 
 .first-stats-section {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1.5rem;
 }
 
 .summary-card {
@@ -45,7 +46,7 @@
     height: 10.5rem;
     box-shadow: var(--shadow-td);
     gap: 1.25rem;
-    padding: 2.25rem 1.25rem;
+    padding: 1.25rem;
 }
 
 .summary-card:hover {
@@ -143,8 +144,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 10.5rem;
-    gap: 1.5rem;
+    gap: 1.25rem;
 }
 
 .divider-vertical-summary {
@@ -163,6 +163,7 @@
 .third-stats-section {
     display: flex;
     justify-content: space-between;
+    gap: 1.5rem;
 }
 
 .summary-card-tertiary {
@@ -229,5 +230,70 @@
         width: 6rem;
         height: 3px;
     }
+}
 
+@media screen and (max-width: 48rem) {
+    .summary-wrapper {
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 35rem) {
+    .headline-wrapper {
+        gap: 0.5rem;
+    }
+
+    .main-headline {
+        font-size: 2.5rem;
+    }
+
+    .summary-stats-container,
+    .first-stats-section,
+    .third-stats-section {
+        gap: 1rem;
+    }
+
+    .summary-card,
+    .summary-card-tertiary {
+        height: 6.875rem;
+        padding: 0.75rem;
+        gap: 1rem;
+        border-radius: 1.25rem;
+    }
+
+    .second-stats-section {
+        justify-content: space-around;
+        height: 6.875rem;
+        padding: 0.75rem;
+        gap: 1rem;
+        border-radius: 1.25rem;
+    }
+
+    .summary-card-urgent {
+        gap: 1rem;
+    }
+
+    .summary-icon,
+    .summary-icon-urgent {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+
+    .summary-icon svg,
+    .summary-icon-urgent svg {
+        height: 1.5rem;
+        width: 1.5rem;
+    }
+
+    .summary-card-number {
+        font-size: 2.5rem;
+    }
+
+    .summary-card-label {
+        font-size: 0.875rem;
+    }
+
+    .summary-card-date {
+        font-size: 1.25rem;
+    }
 }
