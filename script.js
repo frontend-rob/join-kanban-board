@@ -106,3 +106,15 @@ async function logOut() {
     localStorage.clear();
     window.location.replace('../index.html');
 }
+
+
+/**
+ * Navigates the user back to the previous page in the browser history.
+ */
+function goToPreviousPage() {
+    if (document.referrer) {
+        window.history.back();
+    } else {
+        window.location.replace('../index.html');
+    }
+}
