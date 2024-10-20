@@ -24,14 +24,17 @@ function handleAnimationEnd() {
     const overlay = document.querySelector('.overlay');
     const logo = document.querySelector('.main-logo');
 
-    overlay.classList.add('hidden');
+    setTimeout(() => {
+        overlay.classList.add('hidden');
+    }, 1500);
 
     setTimeout(() => {
         overlay.classList.add('hidden-complete');
         overlay.classList.remove('dark');
         logo.src = '../assets/img/join-logo-dark.svg';
-    }, 1000);
+    }, 2500);
 }
+
 
 /**
  * main function that initializes the logo and overlay update behavior.
