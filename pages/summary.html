@@ -16,6 +16,9 @@
     <link rel="stylesheet" href="../styles/sidebar.css">
     <link rel="stylesheet" href="../styles/summary.css">
     <link rel="stylesheet" href="../style.css">
+
+    <script src="../js/authGuard.js"></script>
+
 </head>
 
 <body onload="init()">
@@ -24,20 +27,13 @@
         <aside include-html="../templates/sidebar.html"></aside>
         <main>
             <header include-html="../templates/header.html"></header>
-
             <section class="main-content">
-
-
-
                 <div class="headline-wrapper">
                     <h1 class="main-headline">Join 379</h1>
                     <div class="divider-vertical divider-accent"></div>
                     <span>Key Metrics at a Glance</span>
                 </div>
-
-
                 <div class="summary-wrapper">
-
                     <section class="summary-stats-container">
                         <div class="first-stats-section">
                             <a href="../pages/board.html" id="summary-todo" class="summary-card">
@@ -114,13 +110,12 @@
                     </section>
                 </div>
             </section>
-
         </main>
     </div>
 
-
     <div include-html="../templates/landscape-modal.html"></div>
 
+    
     <script src="../script.js"></script>
     <script src="../js/landscape.js"></script>
 </body>

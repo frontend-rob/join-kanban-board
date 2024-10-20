@@ -51,15 +51,16 @@ async function setUserDataFromLocalStorage() {
 
 
 /**
- * Setzt den Textinhalt eines Elements, wenn das Element existiert.
- * @param {HTMLElement} element - Das Ziel-Element.
- * @param {string} text - Der Text, der gesetzt werden soll.
+ * sets the text content of an element if the element exists.
+ * @param {HTMLElement} element - the target element.
+ * @param {string} text - the text to be set.
  */
 function setTextContent(element, text) {
     if (element) {
         element.textContent = text;
     }
 }
+
 
 
 /**
@@ -98,5 +99,10 @@ function handleClickOutsideMobileMenu(event) {
 }
 
 
-
-
+/**
+ * logs the user out by clearing localStorage and redirecting to the log in site.
+ */
+async function logOut() {
+    localStorage.clear();
+    window.location.replace('../index.html');
+}
