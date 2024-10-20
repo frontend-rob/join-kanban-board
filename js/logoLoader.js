@@ -1,12 +1,13 @@
 /**
  * updates the logo and overlay based on the screen size.
- * adds the 'dark' class to the overlay and changes the logo source for small screens.
+ * adds the 'dark' class to the overlay and changes the logo source for small screens only during the animation.
  */
 function switchLogoAndOverlay() {
     const overlay = document.querySelector('.overlay');
     const logo = document.querySelector('.main-logo');
 
     if (window.matchMedia('(max-width: 35rem)').matches) {
+        // Zeige dunkles Logo und Overlay nur während der Animation
         overlay.classList.add('dark');
         logo.src = '../assets/img/join-logo.svg';
     } else {
@@ -23,13 +24,13 @@ function handleAnimationEnd() {
     const overlay = document.querySelector('.overlay');
     const logo = document.querySelector('.main-logo');
 
-    overlay.classList.add('hidden'); // Start opacity transition to 0
+    overlay.classList.add('hidden');
 
     setTimeout(() => {
-        overlay.classList.add('hidden-complete'); // After opacity transition, hide the overlay completely
-        overlay.classList.remove('dark'); // Reset dark mode for the overlay
-        logo.src = '../assets/img/join-logo-dark.svg'; // Reset logo source after animation
-    }, 1000); // Timeout matches the CSS transition duration
+        overlay.classList.add('hidden-complete');
+        overlay.classList.remove('dark');
+        logo.src = '../assets/img/join-logo-dark.svg';
+    }, 1000);
 }
 
 /**
@@ -38,9 +39,12 @@ function handleAnimationEnd() {
  */
 function updateLogoAndOverlay() {
     switchLogoAndOverlay();
-
     const logo = document.querySelector('.main-logo');
     logo.addEventListener('animationend', handleAnimationEnd);
 
-    window.addEventListener('resize', switchLogoAndOverlay);
+    window.addEventListener('resize', () => {
+        if (!overlay.classList.contains('hidden')) {
+            switchLogoAndOverlay();
+        }
+    });
 }
