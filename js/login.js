@@ -206,8 +206,8 @@ function toggleVisibility(element, shouldShow) {
 
 
 /**
- * Processes the login of a user.
- * @param {Event} event - The event triggered when the form is submitted.
+ * processes the login of a user.
+ * @param {Event} event - the event triggered when the form is submitted.
  */
 async function login(event) {
     event.preventDefault();
@@ -215,25 +215,25 @@ async function login(event) {
     const emailInput = document.getElementById('login-email');
     const passwordInput = document.getElementById('login-password');
 
-    // Perform validation
+    // perform validation
     if (validateLoginInputs(emailInput, passwordInput)) {
-        // Attempt to find the user in Firebase
+        // attempt to find the user in Firebase
         const user = await findUserInDatabase(emailInput.value, passwordInput.value);
 
         if (user) {
             handleSuccessfulLogin(user, emailInput, passwordInput);
         } else {
-            handleFailedLogin(emailInput, passwordInput);
+            await handleFailedLogin(emailInput, passwordInput);
         }
     }
 }
 
 
 /**
- * Validates email and password inputs.
- * @param {HTMLInputElement} emailInput - The email input field.
- * @param {HTMLInputElement} passwordInput - The password input field.
- * @returns {boolean} - Returns true if both inputs are valid, false otherwise.
+ * validates email and password inputs.
+ * @param {HTMLInputElement} emailInput - the email input field.
+ * @param {HTMLInputElement} passwordInput - the password input field.
+ * @returns {boolean} - returns true if both inputs are valid, false otherwise.
  */
 function validateLoginInputs(emailInput, passwordInput) {
     const isEmailValid = validateLoginEmail(emailInput);
@@ -243,39 +243,39 @@ function validateLoginInputs(emailInput, passwordInput) {
 
 
 /**
- * Finds a user by email and password in the Firebase Realtime Database using a REST API call.
- * @param {string} email - The user's email.
- * @param {string} password - The user's password.
- * @returns {Object|null} - Returns the user object if found, otherwise null.
+ * finds a user by email and password in the Firebase Realtime Database using a REST API call.
+ * @param {string} email - the user's email.
+ * @param {string} password - the user's password.
+ * @returns {Object|null} - returns the user object if found, otherwise null.
  */
 async function findUserInDatabase(email, password) {
     try {
-        // Fetch data from the Firebase Realtime Database
+        // fetch data from the Firebase Realtime Database
         const response = await fetch(`${DB_URL}/users.json`);
         const users = await response.json();  // Converts response to JSON
 
         if (users) {
-            // Iterate over the users and find the matching email and password
+            // iterate over the users and find the matching email and password
             for (const key in users) {
                 const user = users[key];
                 if (user.email === email && user.password === password) {
-                    return user;  // Return the matched user
+                    return user;  // return the matched user
                 }
             }
         }
-        return null;  // Return null if no user matches
+        return null;  // return null if no user matches
     } catch (error) {
         console.error("Error fetching data from Firebase:", error);
-        return null;  // Return null in case of an error
+        return null;  // return null in case of an error
     }
 }
 
 
 /**
- * Handles actions when login is successful.
- * @param {Object} user - The logged-in user object.
- * @param {HTMLInputElement} emailInput - The email input field.
- * @param {HTMLInputElement} passwordInput - The password input field.
+ * handles actions when login is successful.
+ * @param {Object} user - the logged-in user object.
+ * @param {HTMLInputElement} emailInput - the email input field.
+ * @param {HTMLInputElement} passwordInput - the password input field.
  */
 function handleSuccessfulLogin(user, emailInput, passwordInput) {
     clearLoginInputs(emailInput, passwordInput);
@@ -285,9 +285,9 @@ function handleSuccessfulLogin(user, emailInput, passwordInput) {
 
 
 /**
- * Clears the email and password input fields.
- * @param {HTMLInputElement} emailInput - The email input field.
- * @param {HTMLInputElement} passwordInput - The password input field.
+ * clears the email and password input fields.
+ * @param {HTMLInputElement} emailInput - the email input field.
+ * @param {HTMLInputElement} passwordInput - the password input field.
  */
 function clearLoginInputs(emailInput, passwordInput) {
     emailInput.value = '';
@@ -296,7 +296,7 @@ function clearLoginInputs(emailInput, passwordInput) {
 
 
 /**
- * Redirects the user to the dashboard or another page after login.
+ * redirects the user to the dashboard or another page after login.
  */
 function redirectToDashboard() {
     window.location.href = './pages/summary.html';
@@ -304,12 +304,14 @@ function redirectToDashboard() {
 
 
 /**
- * Handles actions when login fails.
- * @param {HTMLInputElement} emailInput - The input field for the email.
- * @param {HTMLInputElement} passwordInput - The input field for the password.
+ * handles actions when login fails by showing a modal instead of an alert.
+ * @param {HTMLInputElement} emailInput - the input field for the email.
+ * @param {HTMLInputElement} passwordInput - the input field for the password.
+ * @returns {Promise<void>} a promise that resolves after the modal is hidden and inputs are cleared.
  */
-function handleFailedLogin(emailInput, passwordInput) {
-    alert("Login failed. Please check your email or password.");
+async function handleFailedLogin(emailInput, passwordInput) {
+    await showFailedLoginModal(emailInput, passwordInput);
+    clearLoginInputs(emailInput, passwordInput);
 }
 
 
@@ -338,7 +340,7 @@ function handleGuestLogin(user) {
 
 
 /**
- * Validates email input in the login form.
+ * validates email input in the login form.
  * @param {HTMLInputElement} emailInput - the email input element.
  * @returns {boolean} true if email is valid, false otherwise.
  */
@@ -359,7 +361,7 @@ function validateLoginEmail(emailInput) {
 
 
 /**
- * Validates the password input in the login form.
+ * validates the password input in the login form.
  * @param {HTMLInputElement} passwordInput - the password input element.
  * @returns {boolean} true if password is valid, false otherwise.
  */
@@ -384,32 +386,34 @@ function validateLoginPassword(passwordInput) {
  * @param {HTMLInputElement} passwordInput - the input field for the password.
  */
 function showFailedLoginModal(emailInput, passwordInput) {
-    const modal = document.getElementById('failed-login-modal');
-    modal.classList.remove('hidden');
-    modal.classList.add('show');
+    return new Promise((resolve) => {
+        const modal = document.getElementById('failed-login-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('show');
 
-    setTimeout(() => {
-        modal.classList.add('hidden');
-        modal.classList.remove('show');
-        clearLoginInputs(emailInput, passwordInput);
-    }, 2000);
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            modal.classList.remove('show');
+            resolve();
+        }, 2000);
+    });
 }
 
 
 /**
- * Generates initials from the full name.
- * @param {string} fullName - The full name of the user.
- * @returns {string} - The initials of the user.
+ * generates initials from the full name.
+ * @param {string} fullName - the full name of the user.
+ * @returns {string} - the initials of the user.
  */
 function getUserInitials(fullName) {
     const names = fullName.trim().split(" ");
     let initials = "";
 
     if (names.length > 0) {
-        initials += names[0].charAt(0).toUpperCase(); // First letter of the first name
+        initials += names[0].charAt(0).toUpperCase(); // first letter of the first name
     }
     if (names.length > 1) {
-        initials += names[names.length - 1].charAt(0).toUpperCase(); // First letter of the last name
+        initials += names[names.length - 1].charAt(0).toUpperCase(); // first letter of the last name
     }
 
     return initials;

@@ -39,7 +39,7 @@ async function setUserDataFromLocalStorage() {
     const greetingTimeElement = document.getElementById('greeting-time');
     const greetingUserNameElement = document.getElementById('greeting-user-name');
 
-    const greetingTime = localStorage.getItem('greetingTime') || "Eelcome,";
+    const greetingTime = localStorage.getItem('greetingTime') || "Welcome,";
     const userName = localStorage.getItem('userName') || "Guest";
     const userInitials = localStorage.getItem('userInitials') || "G";
 

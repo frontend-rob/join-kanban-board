@@ -55,9 +55,13 @@
                     </div>
                 </div>
                 <div class="login-checkbox">
-                    <input type="checkbox" name="login-checkbox" id="login-checkbox" class="custom-checkbox">
-                    <label for="login-checkbox">Remember me</label>
+                    <input type="checkbox" id="login-checkbox" class="custom-checkbox" name="login-checkbox">
+                    <label for="login-checkbox" class="checkbox-label">
+                        <img src="../assets/icons/unchecked.svg" alt="Unchecked" class="checkbox-icon">
+                        Remember me
+                    </label>
                 </div>
+
                 <div class="login-options">
                     <button type="submit" class="btn btn-lg" aria-label="login">Log in</button>
                     <button class="btn btn-lg btn-outline" aria-label="guest-login" onclick="guestLogin()">
@@ -118,18 +122,24 @@
                     </div>
                 </div>
                 <div class="signup-checkbox">
-                    <input type="checkbox" name="signup-checkbox" id="signup-checkbox" class="custom-checkbox" required>
-                    <label for="signup-checkbox">I accept the <a href="./pages/privacy-policy.html">Privacy policy</a></label>
+                    <input type="checkbox" id="signup-checkbox" class="custom-checkbox" name="signup-checkbox" required>
+                    <label for="signup-checkbox" class="checkbox-label">
+                        <img src="../assets/icons/unchecked.svg" alt="Unchecked" class="checkbox-icon">
+                        <p>
+                            I accept the <a href="./pages/privacy-policy.html">Privacy policy</a>
+                        </p>
+                    </label>
                 </div>
+
                 <div class="signup-options">
                     <button type="submit" class="btn btn-lg" aria-label="signup">Sign up</button>
                 </div>
             </form>
         </section>
-        
+
     </main>
 
-    
+
 
     <footer class="login-footer">
         <a href="./pages/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
@@ -138,20 +148,26 @@
 
     <div include-html="./templates/landscape-modal.html"></div>
 
-    <!-- Modal Structure -->
-    <div id="success-modal" class="confirmation-modal hidden">
-        <div class="confirmation-modal-content">
+    <!-- modal structure for signup -->
+    <div id="successful-signup-modal" class="feedback-modal hidden">
+        <div class="feedback-modal-content">
             <p>You signed up successfully</p>
         </div>
     </div>
 
-    <!-- Modal Structure for Failed Login -->
-    <div id="failed-login-modal" class="confirmation-modal hidden">
-        <div class="confirmation-modal-content">
-            <p>Invalid email or password.</p>
+    <!-- modal structure for signup login -->
+    <div id="failed-signup-modal" class="feedback-modal hidden">
+        <div class="feedback-modal-content">
+            <p>This email is already registered</p>
         </div>
     </div>
 
+    <!-- modal structure for failed login -->
+    <div id="failed-login-modal" class="feedback-modal hidden">
+        <div class="feedback-modal-content">
+            <p>Invalid email or password</p>
+        </div>
+    </div>
 
 
 
