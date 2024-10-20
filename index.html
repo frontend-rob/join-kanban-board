@@ -17,9 +17,10 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 
-<body onload="init()">
+<body onload="init(), updateLogoAndOverlay()">
 
-    <img class="main-logo" src="./assets/img/logo-dark.png" alt="Join Logo">
+    <div class="overlay show"></div>
+    <img class="main-logo" src="./assets/img/join-logo-dark.svg" alt="Join Logo">
 
     <div id="call-to-signup" class="call-to-signup show">
         <p>Not a Join user?</p>
@@ -165,9 +166,9 @@
             <p>Invalid email or password</p>
         </div>
     </div>
-    
 
     <script src="./script.js"></script>
+    <script src="./js/logoLoader.js"></script>
     <script src="./js/landscape.js"></script>
     <script src="./js/registry.js"></script>
     <script src="./js/login.js"></script>
