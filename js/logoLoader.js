@@ -25,13 +25,13 @@ function handleAnimationEnd() {
 
     setTimeout(() => {
         overlay.classList.add('hidden');
-    }, 1500);
+    }, 1000);
 
     setTimeout(() => {
         overlay.classList.add('hidden-complete');
         overlay.classList.remove('dark');
         logo.src = '../assets/img/join-logo-dark.svg';
-    }, 2500);
+    }, 2000);
 }
 
 
