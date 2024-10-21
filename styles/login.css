@@ -27,7 +27,7 @@ main {
     align-items: center;
     z-index: 100;
     opacity: 1;
-    transition: opacity 1500ms ease;
+    transition: opacity 1000ms ease;
 }
 
 .overlay.dark {
@@ -49,7 +49,7 @@ main {
     width: 16rem;
     height: auto;
     transform: translate(-50%, -50%);
-    animation: fadeIn 1000ms ease forwards, slideToPosition 1500ms forwards;
+    animation: fadeIn 1000ms ease forwards, slideToPosition ease 1000ms forwards;
     animation-delay: 0ms, 1500ms;
     z-index: 200;
 }

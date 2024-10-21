@@ -65,9 +65,10 @@
 .priority{
     display: flex;
     gap: 48px;
+    align-items: center;
 }
 
-.assignet-to {
+.assigned-to {
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -125,4 +126,16 @@
     height: auto;
     background-color: var(--input-border-col);
     width: 1px;
+}
+
+.priority-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.persons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
