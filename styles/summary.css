@@ -209,7 +209,7 @@
     color: var(--bg-accent);
 }
 
-@media screen and (max-width: 65rem) {
+@media screen and (max-width: 78rem) {
     .summary-greeting-container {
         display: none;
     }
@@ -230,9 +230,7 @@
         width: 6rem;
         height: 3px;
     }
-}
 
-@media screen and (max-width: 48rem) {
     .summary-wrapper {
         justify-content: center;
     }
