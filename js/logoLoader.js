@@ -7,7 +7,6 @@ function switchLogoAndOverlay() {
     const logo = document.querySelector('.main-logo');
 
     if (window.matchMedia('(max-width: 35rem)').matches) {
-        // Zeige dunkles Logo und Overlay nur während der Animation
         overlay.classList.add('dark');
         logo.src = '../assets/img/join-logo.svg';
     } else {
@@ -41,8 +40,10 @@ function handleAnimationEnd() {
  * updates the logo and overlay based on screen size and adds necessary event listeners.
  */
 function updateLogoAndOverlay() {
+    const overlay = document.querySelector('.overlay');
     switchLogoAndOverlay();
     const logo = document.querySelector('.main-logo');
+
     logo.addEventListener('animationend', handleAnimationEnd);
 
     window.addEventListener('resize', () => {
