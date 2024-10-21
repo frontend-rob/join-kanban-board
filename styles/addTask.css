@@ -32,13 +32,15 @@
 }
 
 h1 {
-    font-size: 32px;
+    font-size: 64px;
     font-weight: 700;
+    margin-top: 16px;
 }
 
 .form-content {
     display: flex;
     gap: 96px;
+    margin-top: 48px;
 }
 
 .right-column {
@@ -54,7 +56,6 @@ h1 {
 }
 
 .input-group {
-    margin-bottom: 24px;
     position: relative;
 }
 
@@ -102,7 +103,7 @@ textarea {
 }
 
 .required-note {
-    font-size: 16px;
+    font-size: 12px;
     font-weight: 400;
     color: var(--bg-error);
     display: none;
@@ -259,13 +260,8 @@ textarea {
     outline: none;
 }
 
-.error-message {
-    color: var(--bg-error);
-    font-size: 8px;
-    margin-top: 5px;
-    height: 1em;
-    position: absolute;
-    top: 50px;
-    left: 0;
-    display: none;
+
+
+label[for="assigned"] {
+    margin-top: 24px;
 }
