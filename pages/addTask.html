@@ -35,8 +35,7 @@
                                 <div class="error-message">
                                     This field is required
                                 </div>
-                                <h4 class="required-note" style="display: none; color: #ff001f;">* This field is
-                                    required</h4>
+                                <h4 class="required-note">* This field is required</h4>
                             </div>
                         </div>
 
@@ -46,18 +45,15 @@
                                 <textarea id="description" placeholder="Enter a Description"></textarea>
                             </div>
                         </div>
+
                         <div class="input-group">
                             <label for="assigned">Assigned to<span class="required">*</span></label>
                             <div class="input-wrapper">
-                                <input type="text" id="assigned" placeholder="Select a user">
-                                <span class="icon select-icon">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#000000"
-                                        viewBox="0 0 256 256">
-                                        <path
-                                            d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z">
-                                        </path>
-                                    </svg>
+                                <input type="text" id="assigned" placeholder="Select contacts to assign">
+                                <span class="icon caret-down" id="select-contact-icon">
+                                    <img src="../assets/icons/caret-down.svg" alt="Caret Down" width="16" height="16">
                                 </span>
+                                <div id="contact-list" class="contact-list"></div>
                             </div>
                             <h3 class="required-note">* This field is required</h3>
                         </div>
@@ -108,6 +104,7 @@
                                 </button>
                             </div>
                         </div>
+
                         <div class="input-group subtask-container">
                             <label for="subtask">Subtasks</label>
                             <div class="input-wrapper">
@@ -123,6 +120,7 @@
                             </div>
                             <ul id="subtask-list" class="subtask-list"></ul>
                         </div>
+
                         <div class="input-group category-container">
                             <label for="category">Category<span class="required">*</span></label>
                             <div class="input-wrapper">
@@ -137,6 +135,7 @@
                                 </span>
                             </div>
                         </div>
+
                         <div class="button-row">
                             <div class="buttons">
                                 <button class="clear-button">Clear</button>
@@ -145,17 +144,19 @@
                         </div>
                     </div>
                 </div>
-
-                <div include-html="../templates/landscape-modal.html">Landscape Modal loading...</div>
             </div>
-        </main>
+
+            <div include-html="../templates/landscape-modal.html">Landscape Modal loading...</div>
+    </div>
+    </main>
     </div>
 
-    <script src="../script.js"></script>
-    <script src="../js/landscape.js"></script>
-    <script src="../js/openTaskOverlay.js"></script>
-    <script src="../js/dragAndDrop.js"></script>
+    <script src="../script.js" defer></script>
+    <script src="../js/landscape.js" defer></script>
+    <script src="../js/openTaskOverlay.js" defer></script>
+    <script src="../js/dragAndDrop.js" defer></script>
     <script src="../js/addTask.js" defer></script>
+    <script src="../js/openAddContactOverlay.js" defer></script>
 
 
 </body>

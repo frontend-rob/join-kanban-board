@@ -260,8 +260,47 @@ textarea {
     outline: none;
 }
 
-
-
 label[for="assigned"] {
-    margin-top: 24px;
+    margin-top: 32px;
+}
+
+.contact-list {
+    display: none; /* Standardmäßig ausgeblendet */
+    position: absolute;
+    top: 100%; /* Direkt unter dem Input-Feld */
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    border-radius: 4px; /* Optional: Runde Ecken für den Dropdown-Container */
+    overflow: hidden;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.contact-item:hover {
+    background-color: #f0f0f0; 
+}
+
+.contact-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.contact-name {
+    flex-grow: 1;
 }

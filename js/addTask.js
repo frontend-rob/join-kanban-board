@@ -1,46 +1,43 @@
 document.addEventListener('DOMContentLoaded', function () {
     const requiredInput = document.getElementById('title');
-    if (requiredInput) {
-        const errorMessage = requiredInput.parentElement.querySelector('.error-message');
-        const requiredNote = requiredInput.parentElement.querySelector('.required-note');
+    const errorMessage = document.querySelector('.error-message');
+    const requiredNote = document.querySelector('.required-note');
+    const dueDateInput = document.getElementById('due-date');
+    const buttons = document.querySelectorAll('.prio-button');
+    const submitButton = document.querySelector('.create-button');
+    const selectContactIcon = document.getElementById('select-contact-icon');
+    const contactList = document.getElementById('contact-list');
 
-        if (errorMessage && requiredNote) {
-            requiredInput.addEventListener('focus', function () {
+    if (requiredInput) {
+        requiredInput.addEventListener('focus', function () {
+            errorMessage.style.display = 'none';
+            requiredNote.style.display = 'none';
+            requiredInput.classList.remove('error');
+        });
+
+        requiredInput.addEventListener('blur', function () {
+            if (requiredInput.value.trim() === '') {
+                errorMessage.style.display = 'block';
+                requiredNote.style.display = 'block';
+                requiredInput.classList.add('error');
+            } else {
                 errorMessage.style.display = 'none';
                 requiredNote.style.display = 'none';
                 requiredInput.classList.remove('error');
-            });
-
-            requiredInput.addEventListener('blur', function () {
-                if (requiredInput.value.trim() === '') {
-                    errorMessage.style.display = 'block';
-                    requiredNote.style.display = 'block';
-                    requiredInput.classList.add('error');
-                } else {
-                    errorMessage.style.display = 'none';
-                    requiredNote.style.display = 'none';
-                    requiredInput.classList.remove('error');
-                }
-            });
-        }
+            }
+        });
     }
 
-    function initializeAddTaskPage() {
-        const dueDateInput = document.getElementById('due-date');
-        if (dueDateInput) {
-            dueDateInput.addEventListener('click', setTodayDate);
-        }
-
-        function setTodayDate() {
-            const today = new Date();
-            const formattedDate = `${String(today.getMonth() + 1).padStart(2, '0')}/${String(today.getDate()).padStart(2, '0')}/${today.getFullYear()}`;
-            dueDateInput.value = formattedDate;
-        }
+    if (dueDateInput) {
+        dueDateInput.addEventListener('click', setTodayDate);
     }
 
-    initializeAddTaskPage();
+    function setTodayDate() {
+        const today = new Date();
+        const formattedDate = `${String(today.getMonth() + 1).padStart(2, '0')}/${String(today.getDate()).padStart(2, '0')}/${today.getFullYear()}`;
+        dueDateInput.value = formattedDate;
+    }
 
-    const buttons = document.querySelectorAll('.prio-button');
     buttons.forEach(button => {
         button.addEventListener('click', function () {
             buttons.forEach(btn => {
@@ -71,7 +68,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    const submitButton = document.querySelector('.create-button');
     if (submitButton) {
         submitButton.addEventListener('click', function (event) {
             const requiredInputs = document.querySelectorAll('.required-input');
@@ -94,4 +90,36 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
+    if (selectContactIcon && contactList) {
+        selectContactIcon.addEventListener('click', function () {
+            if (contactList.style.display === 'none' || contactList.style.display === '') {
+                generateContactList();
+                contactList.style.display = 'block';
+            } else {
+                contactList.style.display = 'none';
+            }
+        });
+    }
+
+    function generateContactList() {
+        const letterGroups = document.querySelectorAll('.letter-group');
+        contactList.innerHTML = ''; // Alte Kontakte löschen
+
+        letterGroups.forEach(group => {
+            const groupId = group.getAttribute('id');
+            const contacts = group.querySelectorAll('.contact');
+            contacts.forEach(contact => {
+                const contactItem = contact.cloneNode(true);
+                contactList.appendChild(contactItem);
+            });
+        });
+    }
+
+    document.addEventListener('click', function (event) {
+        const inputWrapper = document.querySelector('.input-wrapper');
+        if (contactList && inputWrapper && !inputWrapper.contains(event.target) && !contactList.contains(event.target)) {
+            contactList.style.display = 'none';
+        }
+    });
 });
