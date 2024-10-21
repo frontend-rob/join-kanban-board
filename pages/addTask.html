@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join - Contacts</title>
+    <link rel="shortcut icon" href="../assets/img/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="../styles/fonts.css">
+    <link rel="stylesheet" href="../styles/base.css">
+    <link rel="stylesheet" href="../styles/assets.css">
+    <link rel="stylesheet" href="../styles/landscape.css">
+    <link rel="stylesheet" href="../styles/header.css">
+    <link rel="stylesheet" href="../styles/sidebar.css">
+    <link rel="stylesheet" href="../styles/addTask.css">
+    <link rel="stylesheet" href="../style.css">
+
+</head>
+
+<body onload="init()">
+    <div class="page-wrapper">
+        <aside include-html="../templates/sidebar.html">Sidebar loading...</aside>
+
+        <main>
+            <header include-html="../templates/header.html">Header loading...</header>
+
+            <div class="form-container">
+                <h1>Add Task</h1>
+                <div class="form-content">
+                    <div class="left-column">
+                        <div class="input-group">
+                            <label for="title">Title<span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <input type="text" id="title" class="required-input" placeholder="Enter a title">
+                                <div class="error-message">
+                                    This field is required
+                                </div>
+                                <h4 class="required-note" style="display: none; color: #ff001f;">* This field is
+                                    required</h4>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="description">Description</label>
+                            <div class="input-wrapper">
+                                <textarea id="description" placeholder="Enter a Description"></textarea>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="assigned">Assigned to<span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <input type="text" id="assigned" placeholder="Select a user">
+                                <span class="icon select-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#000000"
+                                        viewBox="0 0 256 256">
+                                        <path
+                                            d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z">
+                                        </path>
+                                    </svg>
+                                </span>
+                            </div>
+                            <h3 class="required-note">* This field is required</h3>
+                        </div>
+                    </div>
+
+                    <div class="vertical-line"></div>
+
+                    <div class="right-column">
+                        <div class="input-group date-input">
+                            <label for="due-date">Due date<span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <input type="text" id="due-date" placeholder="mm/dd/yyyy" readonly>
+                                <span class="icon calendar-icon" onclick="setTodayDate()">
+                                    <img src="../assets/icons/calendar.svg" alt="Calendar Icon" width="24" height="24">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="prio-group">
+                            <label>Prio</label>
+                            <div class="prio-buttons">
+                                <button class="prio-button urgent">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#ff3d00"
+                                        stroke="#ff3d00" stroke-width="16" viewBox="0 0 256 256">
+                                        <path
+                                            d="M210.83,197.17a4,4,0,0,1-5.66,5.66L128,125.66,50.83,202.83a4,4,0,0,1-5.66-5.66l80-80a4,4,0,0,1,5.66,0Zm-160-74.34L128,45.66l77.17,77.17a4,4,0,1,0,5.66-5.66l-80-80a4,4,0,0,0-5.66,0l-80,80a4,4,0,0,0,5.66,5.66Z">
+                                        </path>
+                                    </svg>
+                                    Urgent
+                                </button>
+                                <button class="prio-button medium">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fea800"
+                                        stroke="#fea800" stroke-width="16" viewBox="0 0 256 256">
+                                        <path
+                                            d="M220,160a4,4,0,0,1-4,4H40a4,4,0,0,1,0-8H216A4,4,0,0,1,220,160ZM40,100H216a4,4,0,0,0,0-8H40a4,4,0,0,0,0,8Z">
+                                        </path>
+                                    </svg>
+                                    Medium
+                                </button>
+                                <button class="prio-button low">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#7be129"
+                                        stroke="#7be129" stroke-width="16" viewBox="0 0 256 256">
+                                        <path
+                                            d="M210.83,133.17a4,4,0,0,1,0,5.66l-80,80a4,4,0,0,1-5.66,0l-80-80a4,4,0,0,1,5.66-5.66L128,210.34l77.17-77.17A4,4,0,0,1,210.83,133.17Zm-85.66,5.66a4,4,0,0,0,5.66,0l80-80a4,4,0,1,0-5.66-5.66L128,130.34,50.83,53.17a4,4,0,0,0-5.66,5.66Z">
+                                        </path>
+                                    </svg>
+                                    Low
+                                </button>
+                            </div>
+                        </div>
+                        <div class="input-group subtask-container">
+                            <label for="subtask">Subtasks</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="subtask" placeholder="Add new subtask">
+                                <span class="icon plus-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#000000"
+                                        viewBox="0 0 256 256">
+                                        <path
+                                            d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z">
+                                        </path>
+                                    </svg>
+                                </span>
+                            </div>
+                            <ul id="subtask-list" class="subtask-list"></ul>
+                        </div>
+                        <div class="input-group category-container">
+                            <label for="category">Category<span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <input type="text" id="category" placeholder="Select a category">
+                                <span class="icon select-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#000000"
+                                        viewBox="0 0 256 256">
+                                        <path
+                                            d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z">
+                                        </path>
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="button-row">
+                            <div class="buttons">
+                                <button class="clear-button">Clear</button>
+                                <button class="create-button">Create Task</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div include-html="../templates/landscape-modal.html">Landscape Modal loading...</div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../script.js"></script>
+    <script src="../js/landscape.js"></script>
+    <script src="../js/openTaskOverlay.js"></script>
+    <script src="../js/dragAndDrop.js"></script>
+    <script src="../js/addTask.js" defer></script>
+
+
+</body>
+
+</html>
