@@ -25,7 +25,7 @@ async function addUser(event) {
 
 
 /**
- * Ccecks if a user with the given email already exists in Firebase.
+ * checks if a user with the given email already exists in Firebase.
  * @param {string} email - the email to check.
  * @returns {Promise<boolean>} - returns true if the user exists, false otherwise.
  */

@@ -252,7 +252,7 @@ async function findUserInDatabase(email, password) {
     try {
         // fetch data from the Firebase Realtime Database
         const response = await fetch(`${DB_URL}/users.json`);
-        const users = await response.json();  // Converts response to JSON
+        const users = await response.json();  // converts response to JSON
 
         if (users) {
             // iterate over the users and find the matching email and password
