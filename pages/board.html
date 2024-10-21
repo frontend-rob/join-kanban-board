@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="../style.css">
 </head>
 
-<body onload="init(), initializeDropZones()">
+<body onload="init(), initializeDropZones(), getTaskTemplate()">
 
     <div class="page-wrapper">
         <aside include-html="../templates/sidebar.html"></aside>
@@ -63,26 +63,6 @@
                                 <img class="plus-button" src="../assets/icons/plus button.svg" alt="Plus Button">
                             </div>
                             <div class="drop-zone" id="in-progress" ondrop="drop(event)" ondragover="allowDrop(event)">
-                                <div class="task" draggable="true" ondragstart="drag(event)" id="task1"
-                                    onclick="openTaskOverlay()">
-                                    <div class="task-type">User Story</div>
-                                    <span class="task-title">Kochwelt Page & Recipe Recommender</span>
-                                    <p class="task-description">Build start page with recipe recommendation...</p>
-                                    <div class="subtask">
-                                        <div class="progress-container">
-                                            <div class="progress-bar"></div>
-                                        </div>
-                                        <div class="subtask-text">1/2 Subtasks</div>
-                                    </div>
-                                    <div class="profile-icon-and-level">
-                                        <div class="profile-icon">
-                                            <img src="../assets/icons/Profile icon.svg" alt="">
-                                            <img src="../assets/icons/Profile icon.svg" alt="">
-                                            <img src="../assets/icons/Profile icon.svg" alt="">
-                                        </div>
-                                        <img class="level" src="../assets/icons/priority-medium.svg" alt="">
-                                    </div>
-                                </div>
                             </div>
                         </div>
 
@@ -132,8 +112,6 @@
                     <span class="level">Medium</span>
                     <img src="../assets/icons/priority-medium.svg" alt="">
                 </div>
-
-
             </div>
             <div class="assignet-to">
                 <span class="assigned-to-text">Assigned To:</span>
@@ -183,6 +161,7 @@
     <script src="../js/landscape.js"></script>
     <script src="../js/openTaskOverlay.js"></script>
     <script src="../js/dragAndDrop.js"></script>
+    <script src="../js/getTaskTemplate.js"></script>
 </body>
 
 

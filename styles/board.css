@@ -172,6 +172,20 @@
     margin-right: 16px;
 }
 
-.profile-icon img {
-    margin-right: -16px;
+.profile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    position: relative;
+    margin-left: -10px;
+    left: 0.5rem;
+}
+
+.icons {
+    display: flex;
 }

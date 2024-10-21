@@ -48,4 +48,7 @@ async function init() {
     await includeHTML();
     checkOrientation();
     setupEventListeners();
+
+    const tasks = await loadTasks();
+    getTaskTemplate(tasks);
 }
