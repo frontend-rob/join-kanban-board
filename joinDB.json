@@ -40,7 +40,7 @@
             "status": "inprogress",
             "subtasks": [
                 {
-                    "status": "unchecked",
+                    "status": "checked",
                     "text": "Identify root cause"
                 },
                 {

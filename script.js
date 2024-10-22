@@ -1,6 +1,5 @@
 const DB_URL = "https://join-379-kanban-board-default-rtdb.europe-west1.firebasedatabase.app";
 
-
 /**
  * loads html content into elements with the 'include-html' attribute.
  * replaces the element's inner html with the fetched file content, or shows 'page not found' if the fetch fails.
