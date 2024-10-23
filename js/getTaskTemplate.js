@@ -9,7 +9,7 @@ async function loadTasks() {
     try {
         const response = await fetch(`${DB_URL}/tasks.json`);
         const data = await response.json();
-        allTasks = data || {}; // Setze allTasks auf ein leeres Objekt, wenn data null ist
+        allTasks = data || {};
         return allTasks;
     } catch (error) {
         console.error('Fehler beim Laden der Daten:', error);
@@ -63,11 +63,46 @@ function getTaskTemplate(tasks) {
         taskContainers[task.status] += taskTemplate;
     }
 
+    // Check if there are no tasks in each drop zone and display the "No tasks" message if empty
+    if (!taskContainers.todo) {
+        taskContainers.todo = `
+            <div class="no-tasks-field">
+                <span class="no-tasks-text">No tasks To do</span>
+            </div>
+        `;
+    }
+
+    if (!taskContainers.inprogress) {
+        taskContainers.inprogress = `
+            <div class="no-tasks-field">
+                <span class="no-tasks-text">No tasks In progress</span>
+            </div>
+        `;
+    }
+
+    if (!taskContainers.awaitfeedback) {
+        taskContainers.awaitfeedback = `
+            <div class="no-tasks-field">
+                <span class="no-tasks-text">No tasks Awaiting feedback</span>
+            </div>
+        `;
+    }
+
+    if (!taskContainers.done) {
+        taskContainers.done = `
+            <div class="no-tasks-field">
+                <span class="no-tasks-text">No tasks Done</span>
+            </div>
+        `;
+    }
+
+    // Inject the task templates into the respective drop zones
     document.getElementById('to-do').innerHTML = taskContainers.todo;
     document.getElementById('in-progress').innerHTML = taskContainers.inprogress;
     document.getElementById('await-feedback').innerHTML = taskContainers.awaitfeedback;
     document.getElementById('done').innerHTML = taskContainers.done;
 }
+
 
 /**
  * Opens the task overlay and displays task details.

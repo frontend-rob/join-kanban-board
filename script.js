@@ -1,12 +1,13 @@
 const DB_URL = "https://join-379-kanban-board-default-rtdb.europe-west1.firebasedatabase.app";
 
 /**
- * loads html content into elements with the 'include-html' attribute.
- * replaces the element's inner html with the fetched file content, or shows 'page not found' if the fetch fails.
- * 
+ * Loads HTML content into elements with the 'include-html' attribute.
+ * Replaces the element's inner HTML with the fetched file content,
+ * or shows 'page not found' if the fetch fails.
+ *
  * @async
  * @function
- * @returns {Promise<void>} - returns a promise that resolves when all HTML includes are loaded.
+ * @returns {Promise<void>} - A promise that resolves when all HTML includes are loaded.
  */
 async function includeHTML() {
     let includeElements = document.querySelectorAll('[include-html]');
@@ -16,6 +17,7 @@ async function includeHTML() {
         let resp = await fetch(file);
         if (resp.ok) {
             element.innerHTML = await resp.text();
+            initializeNavigation();
         } else {
             element.innerHTML = 'page not found';
         }
@@ -24,6 +26,11 @@ async function includeHTML() {
     await Promise.all(promises);
     await setUserDataFromLocalStorage();
 }
+
+
+
+
+
 
 
 /**

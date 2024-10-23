@@ -185,7 +185,6 @@ async function editTask(taskId) {
     if (Object.keys(updatedData).length > 0) {
         try {
             await sendToFirebase(`${DB_URL}/tasks/${taskId}.json`, updatedData, 'PATCH');
-            // Optionally, refresh the overlay or UI to reflect changes
             openTaskOverlay(taskId);
         } catch (error) {
             console.error('Fehler beim Aktualisieren der Aufgabe:', error);
@@ -203,21 +202,17 @@ async function toggleSubtask(taskId, subtaskIndex) {
     const task = allTasks[taskId];
 
     if (!task || !task.subtasks[subtaskIndex]) {
-        return; // Sicherstellen, dass die Aufgabe und die Subtask existieren
+        return;
     }
 
-    // Aktualisiere den Status der Subtask
     const subtask = task.subtasks[subtaskIndex];
     subtask.status = subtask.status === "checked" ? "unchecked" : "checked";
 
-    // Aktualisiere den Fortschritt der Aufgabe
     await updateTaskProgress(taskId);
 
-    // Aktualisiere die Subtask in Firebase
     const url = `${DB_URL}/tasks/${taskId}/subtasks/${subtaskIndex}.json`;
     await sendToFirebase(url, { status: subtask.status }, 'PATCH');
 
-    // Aktualisiere die UI der Subtasks
     const subtasksContainer = document.getElementById(`subtasks-${taskId}`);
     subtasksContainer.innerHTML = getSubtasksHTML(task.subtasks, taskId);
 }

@@ -99,6 +99,138 @@
                 }
             ],
             "title": "User Profile Page"
+        },
+        "-O1pM2Uzy1234Eue7HZu7": {
+            "assigned_to": [
+                {
+                    "color": "#f39c12",
+                    "email": "emily.johnson@example.com",
+                    "id": "-O0Nob4Ql0LRcnyVa8oP",
+                    "initials": "EJ",
+                    "name": "Emily Johnson",
+                    "phone": "+49 111 4444444"
+                }
+            ],
+            "category": "Bug Fix",
+            "description": "Fix payment processing issue",
+            "due_date": "2024-08-10",
+            "id": "-O1pM2Uzy1234Eue7HZu7",
+            "priority": "high",
+            "status": "inprogress",
+            "subtasks": [
+                {
+                    "status": "unchecked",
+                    "text": "Review error logs"
+                },
+                {
+                    "status": "unchecked",
+                    "text": "Update payment gateway API"
+                },
+                {
+                    "status": "unchecked",
+                    "text": "Test transactions"
+                }
+            ],
+            "title": "Payment Processing Fix"
+        },
+        "-O1pM3Uzy5678Gue8HZu8": {
+            "assigned_to": [
+                {
+                    "color": "#8e44ad",
+                    "email": "mark.smith@example.com",
+                    "id": "-O0Nob5S9eiRacAj4uEJ",
+                    "initials": "MS",
+                    "name": "Mark Smith",
+                    "phone": "+49 111 5555555"
+                }
+            ],
+            "category": "Feature",
+            "description": "Add dark mode feature",
+            "due_date": "2024-09-15",
+            "id": "-O1pM3Uzy5678Gue8HZu8",
+            "priority": "mid",
+            "status": "todo",
+            "subtasks": [
+                {
+                    "status": "unchecked",
+                    "text": "Design dark mode UI"
+                },
+                {
+                    "status": "unchecked",
+                    "text": "Implement dark mode functionality"
+                },
+                {
+                    "status": "unchecked",
+                    "text": "Conduct user testing"
+                }
+            ],
+            "title": "Dark Mode Feature"
+        },
+        "-O1pM4Uzy6789Gue9HZu9": {
+            "assigned_to": [
+                {
+                    "color": "#c0392b",
+                    "email": "lucas.white@example.com",
+                    "id": "-O0Nob6T3m8--jcmOUbG",
+                    "initials": "LW",
+                    "name": "Lucas White",
+                    "phone": "+49 111 6666666"
+                }
+            ],
+            "category": "Improvement",
+            "description": "Optimize performance for mobile",
+            "due_date": "2024-08-20",
+            "id": "-O1pM4Uzy6789Gue9HZu9",
+            "priority": "high",
+            "status": "inprogress",
+            "subtasks": [
+                {
+                    "status": "unchecked",
+                    "text": "Analyze performance bottlenecks"
+                },
+                {
+                    "status": "unchecked",
+                    "text": "Refactor codebase"
+                },
+                {
+                    "status": "unchecked",
+                    "text": "Test performance improvements"
+                }
+            ],
+            "title": "Mobile Performance Optimization"
+        },
+        "-O1pM5Uzy7890Gue0HZu0": {
+            "assigned_to": [
+                {
+                    "color": "#2ecc71",
+                    "email": "susan.brown@example.com",
+                    "id": "-O0Nob7PoeMn_cpxEmgW",
+                    "initials": "SB",
+                    "name": "Susan Brown",
+                    "phone": "+49 111 7777777"
+                }
+            ],
+            "category": "Documentation",
+            "description": "Update API documentation",
+            "due_date": "2024-08-30",
+            "id": "-O1pM5Uzy7890Gue0HZu0",
+            "priority": "low",
+            "status": "todo",
+            "subtasks": [
+                {
+                    "status": "unchecked",
+                    "text": "Review existing documentation"
+                },
+                {
+                    "status": "unchecked",
+                    "text": "Add new endpoints"
+                },
+                {
+                    "status": "unchecked",
+                    "text": "Verify examples"
+                }
+            ],
+            "title": "API Documentation Update"
         }
     },
     "contacts": {

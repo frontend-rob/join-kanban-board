@@ -67,6 +67,10 @@ nav {
   }
 }
 
+.active:hover {
+  background-color: #091931;
+}
+
 .footer-links {
   display: flex;
   flex-direction: column;
