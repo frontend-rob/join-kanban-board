@@ -1,14 +1,14 @@
 {
     "users": {
         "0": {
-            "name": "Guest User",
+            "name": "Guest",
             "email": "guestuser@example.com",
-            "password": "join123"
+            "password": "join379"
         },
         "-LZq9X3Jc8qj7T3rXOi2": {
             "name": "Jane Doe",
             "email": "jane.doe@example.com",
-            "password": "test123"
+            "password": "join379"
         }
     },
     "tasks": {
@@ -62,7 +62,7 @@
                     "id": "-O0Nob6T3m8--jcmOUbG",
                     "initials": "SJ",
                     "name": "Sarah Johnson",
-                    "phone": "+49 111 2222222"
+                    "phone": "+49 111 4444444"
                 },
                 {
                     "color": "#00bee8",
@@ -70,7 +70,7 @@
                     "id": "-O0Nob9V23TjgsWOlIuH",
                     "initials": "DW",
                     "name": "David Williams",
-                    "phone": "+49 111 3333333",
+                    "phone": "+49 111 7777777",
                     "status": "normal"
                 }
             ],
@@ -103,12 +103,12 @@
         "-O1pM2Uzy1234Eue7HZu7": {
             "assigned_to": [
                 {
-                    "color": "#f39c12",
-                    "email": "emily.johnson@example.com",
+                    "color": "#ffa35e",
+                    "email": "linda.brown@example.com",
                     "id": "-O0Nob4Ql0LRcnyVa8oP",
-                    "initials": "EJ",
-                    "name": "Emily Johnson",
-                    "phone": "+49 111 4444444"
+                    "initials": "LB",
+                    "name": "Linda Brown",
+                    "phone": "+49 111 2222222"
                 }
             ],
             "category": "Bug Fix",
@@ -136,12 +136,12 @@
         "-O1pM3Uzy5678Gue8HZu8": {
             "assigned_to": [
                 {
-                    "color": "#8e44ad",
-                    "email": "mark.smith@example.com",
+                    "color": "#1fd7c1",
+                    "email": "michael.jones@example.com",
                     "id": "-O0Nob5S9eiRacAj4uEJ",
-                    "initials": "MS",
-                    "name": "Mark Smith",
-                    "phone": "+49 111 5555555"
+                    "initials": "MJ",
+                    "name": "Michael Jones",
+                    "phone": "+49 111 3333333"
                 }
             ],
             "category": "Feature",
@@ -169,12 +169,12 @@
         "-O1pM4Uzy6789Gue9HZu9": {
             "assigned_to": [
                 {
-                    "color": "#c0392b",
-                    "email": "lucas.white@example.com",
+                    "color": "#ff5eb3",
+                    "email": "sarah.johnson@example.com",
                     "id": "-O0Nob6T3m8--jcmOUbG",
-                    "initials": "LW",
-                    "name": "Lucas White",
-                    "phone": "+49 111 6666666"
+                    "initials": "SJ",
+                    "name": "Sarah Johnson",
+                    "phone": "+49 111 4444444"
                 }
             ],
             "category": "Improvement",
@@ -202,12 +202,12 @@
         "-O1pM5Uzy7890Gue0HZu0": {
             "assigned_to": [
                 {
-                    "color": "#2ecc71",
-                    "email": "susan.brown@example.com",
-                    "id": "-O0Nob7PoeMn_cpxEmgW",
-                    "initials": "SB",
-                    "name": "Susan Brown",
-                    "phone": "+49 111 7777777"
+                    "color": "#0038ff",
+                    "email": "emma.davis@example.com",
+                    "id": "-O0Nob8RbM6T6eUt6yn1",
+                    "initials": "ED",
+                    "name": "Emma Davis",
+                    "phone": "+49 111 6666666"
                 }
             ],
             "category": "Documentation",
