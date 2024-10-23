@@ -59,7 +59,7 @@ function getSummaryContent() {
                 <a href="../pages/board.html" id="summary-progress" class="summary-card-tertiary">
                     <div class="task-count">
                         <span id="amount-urgent" class="summary-card-number">2</span>
-                        <span class="summary-card-label">Tasks in <br>Procsses</span>
+                        <span class="summary-card-label">Tasks in <br>Processes</span>
                     </div>
                 </a>
                 <a href="../pages/board.html" id="summary-feedback" class="summary-card-tertiary">

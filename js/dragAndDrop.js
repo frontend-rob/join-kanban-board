@@ -17,61 +17,57 @@ function drag(event) {
 }
 
 /**
- * Behandelt die Drop-Aktion, indem das gezogene Task-Element zur neuen Drop-Zone hinzugefügt wird
- * und der Status der Aufgabe aktualisiert wird.
+ * Handles the drop action by adding the dragged task element to the new drop zone
+ * and updating the task's status.
  * 
- * @param {Event} event - Das Drop-Event, das ausgelöst wird, wenn eine Aufgabe in eine Drop-Zone gezogen wird.
+ * @param {Event} event - The drop event that occurs when a task is dragged into a drop zone.
  */
 function drop(event) {
     event.preventDefault();
-    var data = event.dataTransfer.getData("text"); // ID der gezogenen Aufgabe abrufen
-    var draggedElement = document.getElementById(data); // Das gezogene Task-Element abrufen
+    var data = event.dataTransfer.getData("text");
+    var draggedElement = document.getElementById(data);
 
+    // Überprüfen, ob das Ziel ein Drop-Zone-Element ist
     if (event.target.classList.contains('drop-zone')) {
-        event.target.appendChild(draggedElement); // Das Task-Element zur neuen Drop-Zone hinzufügen
+        event.target.appendChild(draggedElement); // Das Element in die Drop-Zone verschieben
 
-        var newStatus = event.target.id; // Den neuen Status aus der ID der Drop-Zone abrufen (z. B. "to-do", "in-progress")
-        updateTaskStatus(data, newStatus); // Den Status der Aufgabe in Firebase aktualisieren
+        var newStatus = event.target.id; // Die neue Status-ID (z.B. "to-do", "in-progress")
+        updateTaskStatus(data, newStatus); // Den Status im Backend aktualisieren
     }
     
-    // Entfernt den Hervorhebungseffekt nach dem Ablegen
+    // Das Highlight entfernen
     event.target.classList.remove('highlight');
 }
 
+
 /**
- * Aktualisiert den Status der Aufgabe in Firebase und rendert das Board neu.
+ * Updates the status of the task in Firebase and re-renders the board.
  * 
- * @param {string} taskId - Die ID der zu aktualisierenden Aufgabe.
- * @param {string} newStatus - Der neue Status der Aufgabe (z. B. "to-do", "in-progress").
+ * @param {string} taskId - The ID of the task to update.
+ * @param {string} newStatus - The new status of the task (e.g., "to-do", "in-progress").
  */
 async function updateTaskStatus(taskId, newStatus) {
-    // Den Status der Aufgabe lokal aktualisieren
     allTasks[taskId].status = newStatus;
 
     try {
-        // Den Status der Aufgabe in Firebase aktualisieren
         const response = await fetch(`${DB_URL}/tasks/${taskId}.json`, {
-            method: 'PATCH', // 'PATCH' wird verwendet, um nur den Status zu aktualisieren
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ status: newStatus }), // Neuen Status an Firebase senden
+            body: JSON.stringify({ status: newStatus }),
         });
 
         if (!response.ok) {
-            throw new Error('Fehler beim Aktualisieren des Aufgabenstatus');
+            throw new Error('Error updating task status');
         }
 
-        console.log(`Aufgabe ${taskId} wurde auf ${newStatus} aktualisiert`);
-
-        // Aufgaben neu rendern, damit sie in der richtigen Spalte erscheinen
+        console.log(`Task ${taskId} has been updated to ${newStatus}`);
         getTaskTemplate(allTasks);
     } catch (error) {
-        console.error('Fehler beim Aktualisieren des Aufgabenstatus in Firebase:', error);
+        console.error('Error updating task status in Firebase:', error);
     }
 }
-
-
 
 /**
  * Adds the "highlight" effect when a draggable element is dragged over a drop zone.

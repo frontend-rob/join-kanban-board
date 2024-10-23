@@ -25,7 +25,7 @@
 }
 
 .letter-group ul li {
-    padding: 0.5em 3em;
+    padding: 0.5em 1.5em;
 }
 
 .btn-contact-container{
@@ -84,6 +84,17 @@
     top: 96px;
     right: 0;
     margin-top: 2rem;
+    padding: 2rem 4rem;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.2s ease-in-out;
+    opacity: 0;
+}
+
+.contact-details.show {
+    transform: translateX(0);
+    opacity: 1;
 }
 
 .headline-wrapper {
@@ -181,4 +192,27 @@
     width: 80px;
     height: 3px;
     background-color: var(--bg-accent);
+}
+
+.profile-icon-contact {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    position: relative;
+    margin-left: -10px;
+    left: 0.5rem;
+    font-size: 40px;
+}
+
+.user-contact {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-left: 16px;
 }

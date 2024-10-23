@@ -97,11 +97,12 @@ function getTaskTemplate(tasks) {
     }
 
     // Inject the task templates into the respective drop zones
-    document.getElementById('to-do').innerHTML = taskContainers.todo;
-    document.getElementById('in-progress').innerHTML = taskContainers.inprogress;
-    document.getElementById('await-feedback').innerHTML = taskContainers.awaitfeedback;
+    document.getElementById('todo').innerHTML = taskContainers.todo;
+    document.getElementById('inprogress').innerHTML = taskContainers.inprogress;
+    document.getElementById('awaitfeedback').innerHTML = taskContainers.awaitfeedback;
     document.getElementById('done').innerHTML = taskContainers.done;
 }
+
 
 
 /**

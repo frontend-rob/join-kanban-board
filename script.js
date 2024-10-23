@@ -17,21 +17,15 @@ async function includeHTML() {
         let resp = await fetch(file);
         if (resp.ok) {
             element.innerHTML = await resp.text();
-            initializeNavigation();
+            initializeNavigation(); // Stelle sicher, dass diese Funktion definiert ist
         } else {
             element.innerHTML = 'page not found';
         }
     });
 
     await Promise.all(promises);
-    await setUserDataFromLocalStorage();
+    await setUserDataFromLocalStorage(); // Benutzerdaten aus localStorage setzen
 }
-
-
-
-
-
-
 
 /**
  * asynchronously retrieves user data from localStorage and updates the corresponding html elements.
@@ -49,12 +43,11 @@ async function setUserDataFromLocalStorage() {
     const userName = localStorage.getItem('userName') || "Guest";
     const userInitials = localStorage.getItem('userInitials') || "G";
 
-    // set the greeting and username if the elements exist
+    // Setze die Begrüßung und den Benutzernamen, wenn die Elemente existieren
     setTextContent(greetingTimeElement, greetingTime);
     setTextContent(greetingUserNameElement, userName);
     setTextContent(userInitialsElement, userInitials);
 }
-
 
 /**
  * sets the text content of an element if the element exists.
@@ -66,8 +59,6 @@ function setTextContent(element, text) {
         element.textContent = text;
     }
 }
-
-
 
 /**
  * toggles the visibility of the mobile menu by adding or removing the 'hidden' and 'show' classes.
@@ -83,7 +74,6 @@ function toggleMobileMenu() {
 
     document.addEventListener('click', handleClickOutsideMobileMenu);
 }
-
 
 /**
  * handles clicks outside the mobile menu to close it by ensuring the 'hidden' class is added and the 'show' class is removed.
@@ -104,7 +94,6 @@ function handleClickOutsideMobileMenu(event) {
     }
 }
 
-
 /**
  * logs the user out by clearing localStorage and redirecting to the log in site.
  */
@@ -112,7 +101,6 @@ async function logOut() {
     localStorage.clear();
     window.location.replace('../index.html');
 }
-
 
 /**
  * Navigates the user back to the previous page in the browser history.
@@ -124,3 +112,4 @@ function goToPreviousPage() {
         window.location.replace('../index.html');
     }
 }
+

@@ -1,52 +1,38 @@
-/**
- * Event listener that waits for the DOM content to be fully loaded before executing.
- */
 document.addEventListener("DOMContentLoaded", function() {
-    /**
-     * Selects the button for adding a new contact.
-     * @type {HTMLElement}
-     */
     const addContactButton = document.querySelector('.btn-contact');
-    
-    /**
-     * Selects the overlay element to display when adding a contact.
-     * @type {HTMLElement}
-     */
     const overlay = document.getElementById('overlay');
+    const overlayContent = document.querySelector('.overlay-content-add-contact');
 
-    /**
-     * Adds a click event listener to the "Add new contact" button.
-     * When clicked, it displays the overlay by changing its CSS display property to 'flex'.
-     */
     addContactButton.addEventListener('click', function() {
-        overlay.style.display = 'flex';
+        overlay.style.display = 'flex'; 
+        setTimeout(() => {
+            overlayContent.classList.add('show'); 
+        }, 10); 
     });
 
     /**
-     * Function to hide the overlay by setting its display style to 'none'.
+     * Closes the overlay by removing the show class and setting the overlay display to none after a delay.
      */
     function closeTaskOverlay() {
-        overlay.style.display = 'none';
+        overlayContent.classList.remove('show'); 
+        setTimeout(() => {
+            overlay.style.display = 'none'; 
+        }, 300); 
     }
 
-    /**
-     * Selects the close button within the overlay.
-     * @type {HTMLElement}
-     */
     const closeButton = document.querySelector('.close-add-contact-overlay');
-
+    
     /**
-     * Adds a click event listener to the close button.
-     * When clicked, it triggers the closeTaskOverlay function to hide the overlay.
+     * Adds an event listener to the close button to trigger the closeTaskOverlay function.
      */
     closeButton.addEventListener('click', closeTaskOverlay);
 
     /**
-     * Adds a click event listener to the overlay background.
-     * If the user clicks outside the overlay content, the overlay is closed.
+     * Closes the overlay if the user clicks on the overlay background.
+     * 
+     * @param {MouseEvent} event - The event object containing information about the click event.
      */
     overlay.addEventListener('click', function(event) {
-        // Check if the click is outside the overlay content
         if (event.target === overlay) {
             closeTaskOverlay();
         }

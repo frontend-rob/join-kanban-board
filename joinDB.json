@@ -306,6 +306,48 @@
             "initials": "CM",
             "name": "Charles Miller",
             "phone": "+49 111 9999999"
+        },
+        "-O0NobC2DY4kT8dJQwGf": {
+            "color": "#f39c12",
+            "email": "maria.garcia@example.com",
+            "initials": "MG",
+            "name": "Maria Garcia",
+            "phone": "+49 111 1010101"
+        },
+        "-O0NobD2DY5kT8dJQwGf": {
+            "color": "#8e44ad",
+            "email": "george.brown@example.com",
+            "initials": "GB",
+            "name": "George Brown",
+            "phone": "+49 111 2020202"
+        },
+        "-O0NobE2DY6kT8dJQwGf": {
+            "color": "#c0392b",
+            "email": "lisa.white@example.com",
+            "initials": "LW",
+            "name": "Lisa White",
+            "phone": "+49 111 3030303"
+        },
+        "-O0NobF2DY7kT8dJQwGf": {
+            "color": "#2ecc71",
+            "email": "peter.jones@example.com",
+            "initials": "PJ",
+            "name": "Peter Jones",
+            "phone": "+49 111 4040404"
+        },
+        "-O0NobG2DY8kT8dJQwGf": {
+            "color": "#1fd7c1",
+            "email": "laura.green@example.com",
+            "initials": "LG",
+            "name": "Laura Green",
+            "phone": "+49 111 5050505"
+        },
+        "-O0NobH2DY9kT8dJQwGf": {
+            "color": "#ffa35e",
+            "email": "nathan.kim@example.com",
+            "initials": "NK",
+            "name": "Nathan Kim",
+            "phone": "+49 111 6060606"
         }
     }
 }
