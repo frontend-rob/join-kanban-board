@@ -11,7 +11,7 @@ function getSummaryContent() {
                         </svg>
                     </div>
                     <div class="task-count">
-                        <span id="amount-todo" class="summary-card-number">1</span>
+                        <span id="amount-todo" class="summary-card-number"></span>
                         <span class="summary-card-label">To-Do</span>
                     </div>
                 </a>
@@ -22,7 +22,7 @@ function getSummaryContent() {
                         </svg>
                     </div>
                     <div class="task-count">
-                        <span id="amount-done" class="summary-card-number">1</span>
+                        <span id="amount-done" class="summary-card-number"></span>
                         <span class="summary-card-label">Done</span>
                     </div>
                 </a>
@@ -38,33 +38,33 @@ function getSummaryContent() {
                             </svg>
                         </div>
                         <div class="task-count">
-                            <span id="amount-urgent" class="summary-card-number">1</span>
+                            <span id="amount-urgent" class="summary-card-number"></span>
                             <span class="summary-card-label">Urgent</span>
                         </div>
                     </div>
                 </div>
                 <div class="divider-vertical-summary"></div>
                 <div class="due-date">
-                    <span id="due-date" class="summary-card-date">04/05/2025</span>
-                    <span class="summary-card-label">Upcoming Deadline</span>
+                    <span id="due-date" class="summary-card-date"></span>
+                    <span id="due-date-label" class="summary-card-label"></span>
                 </div>
             </a>
             <div class="third-stats-section">
                 <a href="../pages/board.html" id="summary-total" class="summary-card-tertiary">
                     <div class="task-count">
-                        <span id="amount-urgent" class="summary-card-number">5</span>
+                        <span id="amount-total" class="summary-card-number"></span>
                         <span class="summary-card-label">Tasks in <br>Board</span>
                     </div>
                 </a>
                 <a href="../pages/board.html" id="summary-progress" class="summary-card-tertiary">
                     <div class="task-count">
-                        <span id="amount-urgent" class="summary-card-number">2</span>
+                        <span id="amount-inprogress" class="summary-card-number"></span>
                         <span class="summary-card-label">Tasks in <br>Processes</span>
                     </div>
                 </a>
                 <a href="../pages/board.html" id="summary-feedback" class="summary-card-tertiary">
                     <div class="task-count">
-                        <span id="amount-urgent" class="summary-card-number">1</span>
+                        <span id="amount-feedback" class="summary-card-number"></span>
                         <span class="summary-card-label">Awaiting <br>Feedback</span>
                     </div>
                 </a>
