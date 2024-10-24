@@ -1,66 +1,101 @@
-/**
- * Opens the edit overlay and fills in the existing contact details.
- * @param {Object} contact - The contact object containing the details to edit.
- * @param {string} contactId - The ID of the contact to edit.
- */
-function openEditOverlay(contact, contactId) {
-    const editOverlay = document.getElementById('edit-overlay');
-    editOverlay.style.display = 'block';
+async function editContact(contactId) {
+    const overlay = document.getElementById('edit-contact-overlay');
+    const overlayContent = document.getElementById('overlay-content-edit-contact');
 
-    // Setze die Kontaktinformationen in die Eingabefelder
-    document.getElementById('edit-contact-name').value = contact.name;
-    document.getElementById('edit-contact-email').value = contact.email;
-    document.getElementById('edit-contact-phone').value = contact.phone;
+    overlay.style.display = 'flex'; 
+    overlayContent.style.right = '-60%'; 
 
-    // Setze die Kontakt-ID im Overlay
-    editOverlay.setAttribute('data-contact-id', contactId);
+    setTimeout(() => {
+        overlayContent.classList.add('show-edit-contact'); 
+        overlayContent.style.right = '20%'; 
+    }, 0); 
+
+    overlay.addEventListener('click', (event) => {
+        if (event.target === overlay) {
+            closeEditOverlay(); 
+        }
+    });
+
+    try {
+        const response = await fetch(`${DB_URL}/contacts/${contactId}.json`);
+        const contact = await response.json();
+
+        if (!contact) {
+            console.error('Kontakt nicht gefunden.');
+            return;
+        }
+
+        document.getElementById('edit-contact-name').value = contact.name || '';
+        document.getElementById('edit-contact-email').value = contact.email || '';
+        document.getElementById('edit-contact-phone').value = contact.phone || '';
+
+        const userContactHTML = `
+            <div class="user-contact">
+                <div class="profile-icon-contact" style="background-color: ${contact.color};">
+                    <span style="color: white;">${contact.initials}</span>
+                </div>
+            </div>
+        `;
+
+        document.getElementById('edit-profile-icon').innerHTML = userContactHTML;
+        overlay.setAttribute('data-contact-id', contactId);
+
+    } catch (error) {
+        console.error('Fehler beim Laden der Kontaktinformationen:', error);
+    }
 }
 
-/**
- * Closes the edit overlay.
- */
 function closeEditOverlay() {
-    const editOverlay = document.getElementById('edit-overlay');
-    editOverlay.style.display = 'none';
+    const overlay = document.getElementById('edit-contact-overlay');
+    const overlayContent = document.getElementById('overlay-content-edit-contact');
+
+    overlayContent.style.right = '-60%'; 
+
+    setTimeout(() => {
+        overlayContent.classList.remove('show-edit-contact');
+    }, 200); 
+
+    overlayContent.addEventListener('transitionend', function handler() {
+        overlay.style.display = 'none'; 
+        overlayContent.removeEventListener('transitionend', handler); 
+    });
 }
 
-/**
- * Saves the updated contact information.
- */
 async function saveContact() {
-    const editOverlay = document.getElementById('edit-overlay');
-    const contactId = editOverlay.getAttribute('data-contact-id');
+    const overlay = document.getElementById('edit-contact-overlay');
+    const contactId = overlay.getAttribute('data-contact-id');
 
-    const name = document.getElementById('edit-contact-name').value;
-    const email = document.getElementById('edit-contact-email').value;
-    const phone = document.getElementById('edit-contact-phone').value;
+    const updatedContact = {
+        name: document.getElementById('edit-contact-name').value,
+        email: document.getElementById('edit-contact-email').value,
+        phone: document.getElementById('edit-contact-phone').value,
+        color: document.getElementById('edit-profile-icon').querySelector('.profile-icon-contact').style.backgroundColor,
+        initials: document.getElementById('edit-profile-icon').querySelector('.profile-icon-contact span').textContent
+    };
 
-    if (!name || !email || !phone) {
-        alert("Please fill in all fields.");
+    if (!updatedContact.name || !updatedContact.email || !updatedContact.phone) {
+        alert('Bitte alle Felder ausfüllen.');
         return;
     }
 
     try {
         const response = await fetch(`${DB_URL}/contacts/${contactId}.json`, {
             method: 'PATCH',
-            body: JSON.stringify({
-                name: name,
-                email: email,
-                phone: phone,
-            }),
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json'
             },
+            body: JSON.stringify(updatedContact)
         });
 
         if (!response.ok) {
-            throw new Error('Error updating contact');
+            throw new Error('Fehler beim Aktualisieren des Kontakts.');
         }
 
-        console.log(`Contact with ID ${contactId} successfully updated.`);
+        console.log('Kontakt erfolgreich aktualisiert.');
         closeEditOverlay();
-        loadContacts(); // Reload the contacts list
+        showContactDetails(updatedContact, contactId); 
+
     } catch (error) {
-        console.error('Error updating contact:', error);
+        console.error('Fehler beim Speichern der Kontaktinformationen:', error);
     }
 }

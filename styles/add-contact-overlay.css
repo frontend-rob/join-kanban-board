@@ -30,6 +30,27 @@
     transform: translateY(-50%);
 }
 
+.overlay-content-edit-contact {
+    display: flex;
+    background-color: white;
+    border-radius: 30px;
+    width: 60%;
+    height: 500px;
+    position: fixed;
+    top: 50%;
+    right: -60%;
+    transform: translateY(-50%);
+    transition: right 0.2s ease-in-out;
+    opacity: 0;
+}
+
+.show-edit-contact {
+    right: 20%;
+    opacity: 1;
+}
+
+
+
 .close-add-contact-overlay {
     cursor: pointer;
     position: absolute;

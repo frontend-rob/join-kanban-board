@@ -21,7 +21,7 @@
 }
 
 .board-text {
-    font-size: 61px;
+    font-size: 4rem;
     font-weight: bold;
 }
 
@@ -87,7 +87,7 @@
 .drop-zone.highlight {
     background-color: #EDF2FA;
     border-radius: 24px;
-    border: 1px dashed var(--input-border-col);
+    /* border: 1px dashed var(--input-border-col); */
     transition: none;
 }
 

@@ -1,6 +1,3 @@
-/**
- * Dynamically creates letter groups for contacts in the contact list.
- */
 function createLetterGroups() {
     const letterGroupsContainer = document.querySelector('.letter-groups');
     const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -22,9 +19,6 @@ function createLetterGroups() {
 
 createLetterGroups();
 
-/**
- * Loads contacts from the Realtime Database and organizes them into letter groups.
- */
 function loadContacts() {
     const contactList = document.querySelector('.contact-list');
     const letterGroupsContainer = document.querySelector('.letter-groups');
@@ -50,8 +44,8 @@ function loadContacts() {
 
                 const contactElement = document.createElement('li');
                 contactElement.classList.add('contact');
-                contactElement.onclick = () => showContactDetails(contact, key); // Übergib den Schlüssel hier
-                
+                contactElement.onclick = () => showContactDetails(contact, key);
+
                 contactElement.innerHTML = `
                     <div class="user">
                         <div class="profile-icon" style="background-color: ${contact.color};">
@@ -92,29 +86,13 @@ function loadContacts() {
         });
 }
 
-
-
-/**
- * Initializes the application by creating letter groups and loading contacts when the window loads.
- */
-
-/**
- * Updates the contact details section with the selected contact's information.
- * @param {Object} contact - The contact object containing the details.
-*/
-/**
- * Updates the contact details section with the selected contact's information.
- * @param {Object} contact - The contact object containing the details.
-*/
 function showContactDetails(contact, contactId) {
     const overlay = document.getElementById('overlay');
 
-    // Setze die Kontakt-ID im Overlay
-    overlay.setAttribute('data-contact-id', contactId); // Kontakt-Schlüssel übergeben
+    overlay.setAttribute('data-contact-id', contactId);
 
     const contactDetailsContainer = document.querySelector('.contact-details');
-    
-    // Aktualisiere die Kontaktinformationen
+
     contactDetailsContainer.innerHTML = `
         <div class="headline-wrapper">
             <h1 class="main-headline">Contacts</h1>
@@ -130,13 +108,21 @@ function showContactDetails(contact, contactId) {
                 </div>
                 <div class="contact-name-and-email">
                     <span class="name-detail">${contact.name}</span>
-                    <div class="action-contact">
-                        <div class="action-type">
-                            <img src="../assets/icons/edit.svg" alt="Edit Icon">
+                    <div class="action-contact" >
+                        <div id="edit" class="action-type" onclick="editContact('${contactId}')" >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
+                                <path
+                                    d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z">
+                                </path>
+                            </svg>
                             <span>Edit</span>
                         </div>
                         <div class="action-type" onclick="deleteContact()">
-                            <img src="../assets/icons/delete.svg" alt="Delete Icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
+                                <path
+                                    d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z">
+                                </path>
+                            </svg>     
                             <span>Delete</span>
                         </div>
                     </div>
@@ -146,7 +132,7 @@ function showContactDetails(contact, contactId) {
                 <span class="contact-info-text">Contact Information</span>
                 <div class="info-section">
                     <span class="email-card">Email</span>
-                    <span class="email">${contact.email}</span>
+                    <a href="mailto:${contact.email}" class="email">${contact.email}</a>
                     <span class="phone-card">Phone</span>
                     <span class="phone">${contact.phone}</span>
                 </div>
@@ -157,19 +143,12 @@ function showContactDetails(contact, contactId) {
     contactDetailsContainer.classList.add('show');
 }
 
-
-
-
-
 window.onload = function() {
     createLetterGroups();
     loadContacts();
 };
 
-/**
- * Die Funktion wird beim Laden der Seite aufgerufen.
- */
 window.onload = async function() {
-    await includeHTML(); // Lade Header und Sidebar
-    await loadContacts(); // Lade die Kontakte
+    await includeHTML();
+    await loadContacts();
 };

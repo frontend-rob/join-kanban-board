@@ -74,6 +74,10 @@ function resetInputFields() {
     document.getElementById('contact-name').value = '';
     document.getElementById('contact-email').value = '';
     document.getElementById('contact-phone').value = '';
+
+    document.getElementById('edit-contact-name').value = '';
+    document.getElementById('edit-contact-email').value = '';
+    document.getElementById('edit-contact-phone').value = '';
 }
 
 /**

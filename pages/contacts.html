@@ -99,20 +99,22 @@
         </div>
     </div>
 
-    <div id="edit-overlay" class="add-contact" style="display: none;">
-        <div class="overlay-content-add-contact">
-            <span class="close-add-contact-overlay" onclick="closeEditOverlay()"><img src="../assets/icons/Close.svg"
-                    alt="Close Icon"></span>
+    <!-- Edit Contact Overlay -->
+    <div id="edit-contact-overlay" class="add-contact">
+        <div class="overlay-content-edit-contact" id="overlay-content-edit-contact">
+            <span class="close-add-contact-overlay" onclick="closeEditOverlay()">
+                <img src="../assets/icons/Close.svg" alt="Close Icon">
+            </span>
             <div class="overlay-left">
                 <div class="contact-header">
                     <img src="../assets/img/join-logo.svg" alt="Join Logo">
-                    <h2>Edit contact</h2>
+                    <h2>Edit Contact</h2>
                     <div class="divider-horizontal divider-add-contact-overlay"></div>
                 </div>
             </div>
             <div class="overlay-right">
                 <div class="input-card">
-                    <img class="profile-icon-add-contact" src="../assets/icons/no-profile.svg" alt="Profile Icon">
+                    <div id="edit-profile-icon"></div>
                     <div class="input-container">
                         <div class="signup-inputs">
                             <div class="input-field">
@@ -136,8 +138,8 @@
                         </div>
                         <div class="add-contact-buttons">
                             <button class="btn btn-contact btn-outline" onclick="deleteContactInfo()">Delete</button>
-                            <button class="btn btn-contact" onclick="saveContact()">Save <svg
-                                    xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff"
+                            <button class="btn btn-contact " onclick="saveContact()">Save
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff"
                                     viewBox="0 0 256 256">
                                     <path
                                         d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z">

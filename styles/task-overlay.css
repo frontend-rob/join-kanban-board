@@ -12,6 +12,7 @@
     z-index: 2;
 }
 
+
 .overlay-content {
     display: flex;
     flex-direction: column;
@@ -120,6 +121,19 @@
     align-items: center;
     gap: 8px;
     cursor: pointer;
+    transition: all 75ms ease;
+}
+
+.action-type svg {
+    transition: all 75ms ease;
+}
+
+.action-type:hover {
+    color: var(--bg-accent);
+}
+
+.action-type:hover svg {
+    fill: var(--bg-accent);
 }
 
 .divider-action {

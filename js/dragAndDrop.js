@@ -29,10 +29,10 @@ function drop(event) {
 
     // Überprüfen, ob das Ziel ein Drop-Zone-Element ist
     if (event.target.classList.contains('drop-zone')) {
-        event.target.appendChild(draggedElement); // Das Element in die Drop-Zone verschieben
+        event.target.appendChild(draggedElement);
 
-        var newStatus = event.target.id; // Die neue Status-ID (z.B. "to-do", "in-progress")
-        updateTaskStatus(data, newStatus); // Den Status im Backend aktualisieren
+        var newStatus = event.target.id;
+        updateTaskStatus(data, newStatus);
     }
     
     // Das Highlight entfernen
