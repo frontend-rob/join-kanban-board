@@ -1,3 +1,5 @@
+let enterCounter = 0; // Zähler für die Anzahl der Drag-Eintritte in die Drop-Zone
+
 /**
  * Allows the drop action by preventing the default behavior.
  * 
@@ -22,23 +24,23 @@ function drag(event) {
  * 
  * @param {Event} event - The drop event that occurs when a task is dragged into a drop zone.
  */
-function drop(event) {
+async function drop(event) {
     event.preventDefault();
-    var data = event.dataTransfer.getData("text");
-    var draggedElement = document.getElementById(data);
+    const data = event.dataTransfer.getData("text");
+    const draggedElement = document.getElementById(data);
 
-    // Überprüfen, ob das Ziel ein Drop-Zone-Element ist
-    if (event.target.classList.contains('drop-zone')) {
-        event.target.appendChild(draggedElement);
+    const dropZone = event.target.closest('.drop-zone');
+    if (dropZone) {
+        dropZone.appendChild(draggedElement);
+        draggedElement.style.pointerEvents = "none"; // Disable dragging again
 
-        var newStatus = event.target.id;
-        updateTaskStatus(data, newStatus);
+        // Update task status in Firebase
+        await updateTaskStatus(data, dropZone.id);
+        
+        // Reset highlights after drop
+        resetHighlights();
     }
-    
-    // Das Highlight entfernen
-    event.target.classList.remove('highlight');
 }
-
 
 /**
  * Updates the status of the task in Firebase and re-renders the board.
@@ -62,7 +64,9 @@ async function updateTaskStatus(taskId, newStatus) {
             throw new Error('Error updating task status');
         }
 
-        getTaskTemplate(allTasks);
+        // Reload tasks and update UI
+        const updatedTasks = await loadTasks();
+        getTaskTemplate(updatedTasks); // Update the board with new tasks
     } catch (error) {
         console.error('Error updating task status in Firebase:', error);
     }
@@ -75,32 +79,62 @@ async function updateTaskStatus(taskId, newStatus) {
  */
 function handleDragOver(event) {
     event.preventDefault();
-    if (event.target.classList.contains('drop-zone')) {
-        event.target.classList.add('highlight');
+}
+
+/**
+ * Handles drag enter events to manage the enter counter and highlight the drop zone.
+ * 
+ * @param {DragEvent} event - The drag event.
+ */
+function handleDragEnter(event) {
+    const dropZone = event.target.closest('.drop-zone');
+    if (dropZone) {
+        enterCounter++;
+        resetHighlights(); // Remove highlights from all drop zones
+        dropZone.classList.add('highlight'); // Highlight the current drop zone
     }
 }
 
 /**
- * Removes the "highlight" effect when the draggable element leaves the drop zone.
+ * Handles drag leave events to manage the enter counter.
  * 
  * @param {DragEvent} event - The drag event.
  */
 function handleDragLeave(event) {
-    if (event.target.classList.contains('drop-zone')) {
-        event.target.classList.remove('highlight');
+    const dropZone = event.target.closest('.drop-zone');
+    if (dropZone) {
+        enterCounter--;
+        if (enterCounter === 0) {
+            dropZone.classList.remove('highlight');
+        }
     }
 }
 
 /**
- * Initializes all drop zones on the page and adds the necessary event listeners
- * for drag-and-drop functionality.
+ * Resets the highlight effect for all drop zones.
+ */
+function resetHighlights() {
+    const dropZones = document.querySelectorAll('.drop-zone');
+    dropZones.forEach(zone => zone.classList.remove('highlight'));
+}
+
+/**
+ * Initializes all drop zones and adds the necessary event listeners
+ * for the drag-and-drop functionality.
  */
 function initializeDropZones() {
     const dropZones = document.querySelectorAll('.drop-zone');
 
     dropZones.forEach((dropZone) => {
-        dropZone.addEventListener('dragover', handleDragOver);
+        dropZone.addEventListener('dragover', allowDrop);
+        dropZone.addEventListener('dragenter', handleDragEnter);
         dropZone.addEventListener('dragleave', handleDragLeave);
         dropZone.addEventListener('drop', drop);
     });
 }
+
+// Event listeners für das Laden der Seite
+document.addEventListener('DOMContentLoaded', () => {
+    initializeDropZones();
+    loadTasks().then(getTaskTemplate); // Load tasks and render board
+});
