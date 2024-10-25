@@ -15,23 +15,53 @@ function switchLogoAndOverlay() {
     }
 }
 
+
 /**
  * handles the animation end event for the logo.
  * fades out the overlay and resets the logo once the animation is complete.
  */
-function handleAnimationEnd() {
+async function loaderAnimation() {
     const overlay = document.querySelector('.overlay');
     const logo = document.querySelector('.main-logo');
 
-    setTimeout(() => {
-        overlay.classList.add('hidden');
-    }, 1000);
+    const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-    setTimeout(() => {
-        overlay.classList.add('hidden-complete');
-        overlay.classList.remove('dark');
-        logo.src = '../assets/img/join-logo-dark.svg';
-    }, 2000);
+    // sequence of animation steps
+    await startOverlayAnimation(overlay, delay);
+    await completeOverlayAnimation(overlay, logo, delay);
+
+    resetOverlayClasses(overlay);
+}
+
+
+/**
+ * adds the 'start' class after a delay to initiate the overlay animation.
+ */
+async function startOverlayAnimation(overlay, delay) {
+    await delay(1000);
+    overlay.classList.add('start');
+}
+
+
+/**
+ * completes the overlay animation, updates the logo, and removes 'dark' class after a delay.
+ */
+async function completeOverlayAnimation(overlay, logo, delay) {
+    await delay(1000);
+    overlay.classList.add('complete');
+    overlay.classList.remove('dark');
+    logo.src = '../assets/img/join-logo-dark.svg';
+
+    await delay(1000);
+}
+
+
+/**
+ * resets overlay classes to ensure only 'hidden' class remains at the end.
+ */
+function resetOverlayClasses(overlay) {
+    overlay.classList.remove('show', 'start', 'complete');
+    overlay.classList.add('hidden');
 }
 
 
@@ -44,7 +74,7 @@ function updateLogoAndOverlay() {
     switchLogoAndOverlay();
     const logo = document.querySelector('.main-logo');
 
-    logo.addEventListener('animationend', handleAnimationEnd);
+    logo.addEventListener('animationend', loaderAnimation);
 
     window.addEventListener('resize', () => {
         if (!overlay.classList.contains('hidden')) {

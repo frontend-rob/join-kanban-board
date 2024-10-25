@@ -34,11 +34,11 @@ main {
     background-color: var(--bg-primary);
 }
 
-.overlay.hidden {
+.overlay.start {
     opacity: 0;
 }
 
-.overlay.hidden-complete {
+.overlay.complete {
     display: none;
 }
 
@@ -50,7 +50,7 @@ main {
     height: auto;
     transform: translate(-50%, -50%);
     animation: fadeIn 1000ms ease forwards, slideToPosition ease 1000ms forwards;
-    animation-delay: 0ms, 1500ms;
+    animation-delay: 0ms, 1000ms;
     z-index: 200;
 }
 
