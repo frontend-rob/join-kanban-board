@@ -117,7 +117,6 @@ async function addUserToFirebase(inputs) {
             throw new Error('Failed to add user to Firebase.');
         }
 
-        console.log('User added to Firebase successfully!');
     } catch (error) {
         console.error('Error adding user to Firebase:', error);
     }

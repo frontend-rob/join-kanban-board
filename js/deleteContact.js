@@ -18,7 +18,6 @@ async function deleteContact() {
             throw new Error('Error deleting contact');
         }
 
-        console.log(`Contact with ID ${contactId} successfully deleted.`);
 
         loadContacts();
 

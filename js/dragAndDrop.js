@@ -62,7 +62,6 @@ async function updateTaskStatus(taskId, newStatus) {
             throw new Error('Error updating task status');
         }
 
-        console.log(`Task ${taskId} has been updated to ${newStatus}`);
         getTaskTemplate(allTasks);
     } catch (error) {
         console.error('Error updating task status in Firebase:', error);

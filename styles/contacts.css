@@ -9,8 +9,35 @@
     box-shadow: var(--shadow-md);
     z-index: 1;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
-    scrollbar-width: thin;
-    scrollbar-color: var(--bg-neutral-accent) transparent;
+}
+
+.contact-list::-webkit-scrollbar {
+    width: 12px;
+}
+
+.contact-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.contact-list::-webkit-scrollbar-thumb {
+    background-color: var(--bg-neutral-accent);
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.contact-list::-webkit-scrollbar-button:vertical:increment {
+    border-bottom: 6px solid transparent;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid var(--bg-neutral-accent);
+}
+
+.contact-list::-webkit-scrollbar-button:vertical:decrement {
+    border-top: 6px solid transparent;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid var(--bg-neutral-accent);
 }
 
 .letter-group h2 {
@@ -48,6 +75,7 @@
     width: 90%;
     margin: 8px auto;
     padding-left: 1rem;
+    gap: 1.5rem;
 }
 
 .contact-active {
@@ -68,6 +96,12 @@
     flex-direction: column;
     padding: 1rem;
     gap: 4px;
+}
+
+.email-list {
+    color: #007CEE;
+    cursor: pointer;
+    font-size: 14px;
 }
 
 .email {
@@ -228,4 +262,15 @@
     justify-content: center;
     gap: 16px;
     margin-left: 16px;
+
+}
+
+.user-active {
+    background-color: var(--bg-primary);
+    color: var(--bg-base-100);
+
+}
+
+.user-active:hover {
+    background-color: var(--bg-primary) !important;
 }

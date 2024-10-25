@@ -91,7 +91,7 @@ async function saveContact() {
             throw new Error('Fehler beim Aktualisieren des Kontakts.');
         }
 
-        console.log('Kontakt erfolgreich aktualisiert.');
+        loadContacts();
         closeEditOverlay();
         showContactDetails(updatedContact, contactId); 
 
