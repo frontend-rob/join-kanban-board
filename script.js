@@ -27,9 +27,9 @@ async function includeHTML() {
     await setUserDataFromLocalStorage(); // Benutzerdaten aus localStorage setzen
 }
 
+
 /**
  * asynchronously retrieves user data from localStorage and updates the corresponding html elements.
- * 
  * @async
  * @function
  * @returns {Promise<void>} - a promise that resolves when the user data has been set.
@@ -39,14 +39,15 @@ async function setUserDataFromLocalStorage() {
     const greetingTimeElement = document.getElementById('greeting-time');
     const greetingUserNameElement = document.getElementById('greeting-user-name');
 
-    const greetingTime = localStorage.getItem('greetingTime') || "Welcome,";
-    const userName = localStorage.getItem('userName') || "Guest";
-    const userInitials = localStorage.getItem('userInitials') || "G";
+    const greetingTime = localStorage.getItem('greetingTime');
+    const userName = localStorage.getItem('userName');
+    const userInitials = localStorage.getItem('userInitials');
 
-    // Setze die Begrüßung und den Benutzernamen, wenn die Elemente existieren
     setTextContent(greetingTimeElement, greetingTime);
     setTextContent(greetingUserNameElement, userName);
     setTextContent(userInitialsElement, userInitials);
+
+    setMenuVisibility(!!userName);
 }
 
 /**
@@ -59,6 +60,40 @@ function setTextContent(element, text) {
         element.textContent = text;
     }
 }
+
+
+/**
+ * sets visibility of menu elements based on user login status.
+ * @param {boolean} isLoggedIn - true if the user is logged in, false otherwise.
+ */
+function setMenuVisibility(isLoggedIn) {
+    const mainMenuElement = document.getElementById('main-menu');
+    const headerMenuElement = document.getElementById('header-menu');
+
+    toggleClass(mainMenuElement, 'show', 'hidden', isLoggedIn);
+    toggleClass(headerMenuElement, 'show', 'hidden', isLoggedIn);
+}
+
+
+/**
+ * toggles classes on an element based on a condition.
+ * @param {HTMLElement} element - the target element.
+ * @param {string} addClass - the class to add if the condition is true.
+ * @param {string} removeClass - the class to remove if the condition is true.
+ * @param {boolean} condition - if true, adds `addClass` and removes `removeClass`; otherwise, does the opposite.
+ */
+function toggleClass(element, addClass, removeClass, condition) {
+    if (element) {
+        if (condition) {
+            element.classList.add(addClass);
+            element.classList.remove(removeClass);
+        } else {
+            element.classList.add(removeClass);
+            element.classList.remove(addClass);
+        }
+    }
+}
+
 
 /**
  * toggles the visibility of the mobile menu by adding or removing the 'hidden' and 'show' classes.
@@ -74,6 +109,7 @@ function toggleMobileMenu() {
 
     document.addEventListener('click', handleClickOutsideMobileMenu);
 }
+
 
 /**
  * handles clicks outside the mobile menu to close it by ensuring the 'hidden' class is added and the 'show' class is removed.
@@ -94,6 +130,7 @@ function handleClickOutsideMobileMenu(event) {
     }
 }
 
+
 /**
  * logs the user out by clearing localStorage and redirecting to the log in site.
  */
@@ -101,6 +138,7 @@ async function logOut() {
     localStorage.clear();
     window.location.replace('../index.html');
 }
+
 
 /**
  * Navigates the user back to the previous page in the browser history.
@@ -112,4 +150,3 @@ function goToPreviousPage() {
         window.location.replace('../index.html');
     }
 }
-

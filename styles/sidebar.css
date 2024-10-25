@@ -22,7 +22,6 @@ nav {
 }
 
 .menu {
-  display: flex;
   flex-direction: column;
   width: 100%;
   margin-top: 7rem;
@@ -81,17 +80,17 @@ nav {
   gap: 0.5rem;
 }
 
-.footer-links a {
+.footer-link {
   display: flex;
   align-items: center;
-  height: 1.5rem;
+  height: 2.5rem;
   width: 100%;
   color: #a8a8a8;
   text-decoration: none;
-  padding: 1rem 3rem;
+  padding: 0.5rem 3rem;
 }
 
-.footer-links a:hover {
+.footer-link:hover {
   text-decoration: none;
   color: #29a6dc;
 }

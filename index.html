@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="A visual project management tool for tracking and managing tasks and work items within a workflow.">
+    <meta name="description" content="A visual project management tool for tracking and managing tasks and work items within a workflow.">
 
     <title>Join - Kanban Board</title>
 
@@ -22,14 +21,11 @@
 
     <div class="overlay show"></div>
     <img class="main-logo" src="./assets/img/join-logo-dark.svg" alt="Join Logo">
-
     <div id="call-to-signup" class="call-to-signup show">
         <p>Not a Join user?</p>
         <button class="btn" aria-label="signup" onclick="toggleAuth(true)">Sign up</button>
     </div>
-
     <main>
-
         <section id="login-wrapper" class="login-wrapper show">
             <form class="login-form" onsubmit="login(event); return false;" novalidate>
                 <div class="login-header">
@@ -39,8 +35,7 @@
                 <div class="login-inputs">
                     <div class="input-field">
                         <input type="email" id="login-email" placeholder="Email" required>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"
-                            viewBox="0 0 256 256">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                             <path
                                 d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM203.43,64,128,133.15,52.57,64ZM216,192H40V74.19l82.59,75.71a8,8,0,0,0,10.82,0L216,74.19V192Z">
                             </path>
@@ -72,12 +67,10 @@
                 </div>
             </form>
         </section>
-
         <section id="signup-wrapper" class="signup-wrapper hidden">
             <button id="back-to-login" class="btn btn-ghost btn-circle btn-accent" onclick="toggleAuth(false)">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
-                    <path
-                        d="M228,128a12,12,0,0,1-12,12H69l51.52,51.51a12,12,0,0,1-17,17l-72-72a12,12,0,0,1,0-17l72-72a12,12,0,0,1,17,17L69,116H216A12,12,0,0,1,228,128Z">
+                    <path d="M228,128a12,12,0,0,1-12,12H69l51.52,51.51a12,12,0,0,1-17,17l-72-72a12,12,0,0,1,0-17l72-72a12,12,0,0,1,17,17L69,116H216A12,12,0,0,1,228,128Z">
                     </path>
                 </svg>
             </button>
@@ -89,8 +82,7 @@
                 <div class="signup-inputs">
                     <div class="input-field">
                         <input type="text" id="signup-name" placeholder="Name" required>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"
-                            viewBox="0 0 256 256">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                             <path
                                 d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z">
                             </path>
@@ -101,8 +93,7 @@
                     </div>
                     <div class="input-field">
                         <input type="email" id="signup-email" placeholder="Email">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"
-                            viewBox="0 0 256 256">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                             <path
                                 d="M224,48H32a8,8,0,0,0-8,8V192a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A8,8,0,0,0,224,48ZM203.43,64,128,133.15,52.57,64ZM216,192H40V74.19l82.59,75.71a8,8,0,0,0,10.82,0L216,74.19V192Z">
                             </path>
@@ -135,13 +126,11 @@
                         </p>
                     </label>
                 </div>
-
                 <div class="signup-options">
                     <button type="submit" class="btn btn-lg" aria-label="signup">Sign up</button>
                 </div>
             </form>
         </section>
-
     </main>
 
     <footer class="login-footer">
