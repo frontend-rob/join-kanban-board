@@ -157,6 +157,55 @@ async function fetchAndDisplayNextUrgentDueDate(tasks) {
 
 
 /**
+ * shows the mobile greeting and hides the stats section.
+ * 
+ * @param {HTMLElement} greetingElement - the mobile greeting element.
+ * @param {HTMLElement} statsElement - the stats element.
+ */
+function showMobileGreeting(greetingElement, statsElement) {
+    greetingElement.classList.remove('hidden');
+    greetingElement.classList.add('show');
+    statsElement.classList.remove('show');
+    statsElement.classList.add('hidden');
+}
+
+/**
+ * hides the mobile greeting and shows the stats section.
+ * 
+ * @param {HTMLElement} greetingElement - the mobile greeting element.
+ * @param {HTMLElement} statsElement - the stats element.
+ */
+function showStatsAndHideGreeting(greetingElement, statsElement) {
+    greetingElement.classList.remove('show');
+    greetingElement.classList.add('hidden');
+    statsElement.classList.remove('hidden');
+    statsElement.classList.add('show');
+}
+
+/**
+ * toggles the mobile greeting visibility on small screens.
+ * shows the mobile greeting temporarily, then switches back to the stats view.
+ * 
+ * @async
+ * @function
+ * @returns {Promise<void>} - a promise that resolves after the greeting display.
+ */
+async function toggleMobileGreeting() {
+    const statsWrapper = document.getElementById('summary-stats-wrapper');
+    const mobileGreeting = document.getElementById('mobile-greeting');
+    const isSmallScreen = window.innerWidth <= 768;
+
+    if (isSmallScreen) {
+        showMobileGreeting(mobileGreeting, statsWrapper);
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        showStatsAndHideGreeting(mobileGreeting, statsWrapper);
+    } else {
+        showStatsAndHideGreeting(mobileGreeting, statsWrapper);
+    }
+}
+
+
+/**
  * renders the content for the summary site.
  * this function fetches tasks from firebase and handles the display of statistics based on the fetched tasks.
  * it loads summary templates and updates the display accordingly.
@@ -166,6 +215,7 @@ async function fetchAndDisplayNextUrgentDueDate(tasks) {
 async function renderSummaryContent() {
     const summaryComponents = getSummaryComponents();
     loadSummaryTemplates(summaryComponents.dashboard);
+    toggleMobileGreeting();
 
     const tasks = await fetchTasksFromFirebase();
 

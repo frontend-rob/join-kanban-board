@@ -4,6 +4,7 @@ aside {
   left: 0;
   width: 14.5rem;
   height: 100vh;
+  z-index: 100;
 }
 
 nav {

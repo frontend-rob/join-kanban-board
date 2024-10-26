@@ -1,13 +1,13 @@
 const DB_URL = "https://join-379-kanban-board-default-rtdb.europe-west1.firebasedatabase.app";
 
 /**
- * Loads HTML content into elements with the 'include-html' attribute.
- * Replaces the element's inner HTML with the fetched file content,
+ * loads HTML content into elements with the 'include-html' attribute.
+ * replaces the element's inner HTML with the fetched file content,
  * or shows 'page not found' if the fetch fails.
  *
  * @async
  * @function
- * @returns {Promise<void>} - A promise that resolves when all HTML includes are loaded.
+ * @returns {Promise<void>} - a promise that resolves when all HTML includes are loaded.
  */
 async function includeHTML() {
     let includeElements = document.querySelectorAll('[include-html]');
@@ -17,37 +17,70 @@ async function includeHTML() {
         let resp = await fetch(file);
         if (resp.ok) {
             element.innerHTML = await resp.text();
-            initializeNavigation(); // Stelle sicher, dass diese Funktion definiert ist
+            initializeNavigation();
         } else {
             element.innerHTML = 'page not found';
         }
     });
 
     await Promise.all(promises);
-    await setUserDataFromLocalStorage(); // Benutzerdaten aus localStorage setzen
+    await setUserDataFromLocalStorage();
 }
 
 
 /**
  * asynchronously retrieves user data from localStorage and updates the corresponding html elements.
+ * this function updates both desktop and mobile greeting elements based on user data.
+ * 
  * @async
  * @function
  * @returns {Promise<void>} - a promise that resolves when the user data has been set.
  */
 async function setUserDataFromLocalStorage() {
-    const userInitialsElement = document.getElementById('current-user-initials');
+    const userData = getUserDataFromLocalStorage();
+
+    // update desktop and mobile elements
+    updateGreetingElements(userData);
+
+    // set visibility of menu based on user login status
+    setMenuVisibility(!!userData.userName);
+}
+
+
+/**
+ * retrieves user data from localStorage.
+ * 
+ * @returns {Object} - an object containing userName, greetingTime, and userInitials.
+ */
+function getUserDataFromLocalStorage() {
+    return {
+        userName: localStorage.getItem('userName'),
+        greetingTime: localStorage.getItem('greetingTime'),
+        userInitials: localStorage.getItem('userInitials')
+    };
+}
+
+
+/**
+ * updates the greeting elements for both desktop and mobile.
+ * 
+ * @param {Object} userData - an object containing userName, greetingTime, and userInitials.
+ */
+function updateGreetingElements(userData) {
     const greetingTimeElement = document.getElementById('greeting-time');
-    const greetingUserNameElement = document.getElementById('greeting-user-name');
+    const greetingUserNameElement = document.getElementById('greeting-username');
+    const userInitialsElement = document.getElementById('current-user-initials');
+    const greetingTimeMobileElement = document.getElementById('greeting-time-mobile');
+    const greetingUserNameMobileElement = document.getElementById('greeting-username-mobile');
 
-    const greetingTime = localStorage.getItem('greetingTime');
-    const userName = localStorage.getItem('userName');
-    const userInitials = localStorage.getItem('userInitials');
+    // set content for desktop elements
+    setTextContent(greetingTimeElement, userData.greetingTime);
+    setTextContent(greetingUserNameElement, userData.userName);
+    setTextContent(userInitialsElement, userData.userInitials);
 
-    setTextContent(greetingTimeElement, greetingTime);
-    setTextContent(greetingUserNameElement, userName);
-    setTextContent(userInitialsElement, userInitials);
-
-    setMenuVisibility(!!userName);
+    // set content for mobile elements
+    setTextContent(greetingTimeMobileElement, userData.greetingTime);
+    setTextContent(greetingUserNameMobileElement, userData.userName);
 }
 
 
@@ -170,7 +203,7 @@ async function logOut() {
 
 
 /**
- * Navigates the user back to the previous page in the browser history.
+ * navigates the user back to the previous page in the browser history.
  */
 function goToPreviousPage() {
     if (document.referrer) {

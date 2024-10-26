@@ -27,7 +27,7 @@
         <aside include-html="../templates/sidebar.html"></aside>
         <main>
             <header include-html="../templates/header.html"></header>
-            <section class="main-content">
+            <section id="summary-stats-wrapper" class="summary-content show">
                 <div class="headline-wrapper">
                     <h1 class="main-headline">Join 379</h1>
                     <div class="divider-vertical divider-accent"></div>
@@ -35,6 +35,10 @@
                 </div>
                 <div id="summary-content" class="summary-wrapper"></div>
             </section>
+            <div id="mobile-greeting" class="mobile-greeting hidden">
+                <span id="greeting-time-mobile">Good afternoon,</span>
+                <span id="greeting-username-mobile">Guest</span>
+            </div>
         </main>
     </div>
 

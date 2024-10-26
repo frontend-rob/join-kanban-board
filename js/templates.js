@@ -72,7 +72,7 @@ function getSummaryContent() {
         </section>
         <section class="summary-greeting-container">
             <span id="greeting-time">Good afternoon,</span>
-            <span id="greeting-user-name">Guest</span>
+            <span id="greeting-username">Guest</span>
         </section>
     `;
 }
