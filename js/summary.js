@@ -214,7 +214,7 @@ async function toggleMobileGreeting() {
  */
 async function renderSummaryContent() {
     const summaryComponents = getSummaryComponents();
-    loadSummaryTemplates(summaryComponents.dashboard);
+    loadSummaryTemplates(summaryComponents);
     toggleMobileGreeting();
 
     const tasks = await fetchTasksFromFirebase();
@@ -270,7 +270,9 @@ function handleNoTasks() {
  */
 function getSummaryComponents() {
     return {
-        dashboard: document.getElementById('summary-content')
+        header: document.getElementById('header-content'),
+        dashboard: document.getElementById('summary-content'),
+        landscapeModal: document.getElementById('landscape-wrapper')
     };
 }
 
@@ -280,6 +282,7 @@ function getSummaryComponents() {
  * 
  * @param {htmlelement} dashboard - the element for injecting summary content.
  */
-function loadSummaryTemplates(dashboard) {
+function loadSummaryTemplates({ header, dashboard, landscapeModal }) {
     dashboard.innerHTML = getSummaryContent();
+    landscapeModal.innerHTML = getLandscapeModalConent();
 }

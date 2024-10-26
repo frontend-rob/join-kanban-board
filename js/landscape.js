@@ -38,6 +38,7 @@ function setupEventListeners() {
 }
 
 
+// !!!! section below must be cleaned since this should only include the landscape logic
 /**
  * main function that initializes everything.
  * 
