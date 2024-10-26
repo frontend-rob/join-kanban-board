@@ -50,6 +50,7 @@ async function setUserDataFromLocalStorage() {
     setMenuVisibility(!!userName);
 }
 
+
 /**
  * sets the text content of an element if the element exists.
  * @param {HTMLElement} element - the target element.
@@ -58,6 +59,23 @@ async function setUserDataFromLocalStorage() {
 function setTextContent(element, text) {
     if (element) {
         element.textContent = text;
+    }
+}
+
+
+/**
+ * adjusts the visibility of the aside element based on screen size and login status.
+ * @param {boolean} isLoggedIn - true if the user is logged in, false otherwise.
+ */
+function adjustMobileMenuVisibility(isLoggedIn) {
+    const asideElement = document.querySelector('aside');
+    const isSmallScreen = window.innerWidth < 960;
+
+    // only hide aside if the user is not logged in and the screen is small
+    if (!isLoggedIn && isSmallScreen) {
+        asideElement.classList.add('hidden');
+    } else {
+        asideElement.classList.remove('hidden');
     }
 }
 
@@ -72,6 +90,7 @@ function setMenuVisibility(isLoggedIn) {
 
     toggleClass(mainMenuElement, 'show', 'hidden', isLoggedIn);
     toggleClass(headerMenuElement, 'show', 'hidden', isLoggedIn);
+    adjustMobileMenuVisibility(isLoggedIn);
 }
 
 
@@ -93,6 +112,16 @@ function toggleClass(element, addClass, removeClass, condition) {
         }
     }
 }
+
+
+/**
+ * event listener that adjusts the visibility of the aside element
+ * based on the user login status when the window is resized.
+ */
+window.addEventListener('resize', () => {
+    const isLoggedIn = !!localStorage.getItem('userName');
+    adjustMobileMenuVisibility(isLoggedIn);
+});
 
 
 /**
