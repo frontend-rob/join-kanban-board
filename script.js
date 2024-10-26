@@ -104,7 +104,7 @@ function adjustMobileMenuVisibility(isLoggedIn) {
     const asideElement = document.querySelector('aside');
     const isSmallScreen = window.innerWidth < 960;
 
-    // only hide aside if the user is not logged in and the screen is small
+    // only hide menu if the user is not logged in and the screen is small
     if (!isLoggedIn && isSmallScreen) {
         asideElement.classList.add('hidden');
     } else {

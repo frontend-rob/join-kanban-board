@@ -7,9 +7,9 @@
 }
 
 .summary-content.show {
-    animation: fadeIn 1000ms forwards;
     opacity: 1;
     pointer-events: none;
+    animation: fadeIn 1000ms forwards;
 }
 
 .stats-wrapper {
@@ -43,8 +43,8 @@
 .summary-stats-container {
     display: flex;
     flex-direction: column;
-    max-width: 560px;
     width: 100%;
+    max-width: 560px;
     gap: 1.5rem;
 }
 
@@ -137,7 +137,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    align-items: center;
     background-color: var(--bg-base-100);
     border-radius: 1.875rem;
     box-shadow: var(--shadow-td);

@@ -1,9 +1,9 @@
 body {
-    background-color: var(--bg-base-200);
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
     margin: 0;
+    background-color: var(--bg-base-200);
 }
 
 main {
@@ -20,12 +20,12 @@ main {
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
     width: 100%;
     height: 100%;
     background-color: rgba(246, 247, 248, 1);
-    justify-content: center;
-    align-items: center;
-    z-index: 100;
     opacity: 1;
     transition: opacity 1000ms ease;
 }
@@ -46,36 +46,12 @@ main {
     position: absolute;
     top: 50%;
     left: 50%;
+    z-index: 200;
     width: 16rem;
     height: auto;
     transform: translate(-50%, -50%);
     animation: fadeIn 1000ms ease forwards, slideToPosition ease 1000ms forwards;
     animation-delay: 0ms, 1000ms;
-    z-index: 200;
-}
-
-@keyframes slideToPosition {
-    0% {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-    }
-
-    100% {
-        top: calc(4rem - (16rem - 6.25rem) / 2);
-        left: calc(4.5rem - (16rem - 6.25rem) / 2);
-        transform: translate(0, 0) scale(0.39);
-    }
-}
-
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
-    }
 }
 
 .call-to-signup {
@@ -92,8 +68,8 @@ main {
     position: relative;
     flex-direction: column;
     align-items: center;
-    max-width: 40rem;
     width: 100%;
+    max-width: 40rem;
     padding: 3rem 1rem;
     border-radius: 1.875rem;
     background-color: var(--bg-base-100);
@@ -134,8 +110,8 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 25rem;
     width: 100%;
+    max-width: 25rem;
     gap: 2rem;
 }
 
@@ -144,8 +120,8 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 25rem;
     width: 100%;
+    max-width: 25rem;
     gap: 1rem;
 }
 
@@ -168,6 +144,7 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
     gap: 1.25rem;
     color: var(--base-content);
     cursor: pointer;
@@ -219,8 +196,9 @@ label {
     bottom: 0;
     display: flex;
     justify-content: center;
-    padding: 1.5rem;
+    align-items: center;
     width: 100%;
+    height: 3rem;
     gap: 2.5rem;
 }
 
@@ -231,6 +209,59 @@ label {
 
 .login-footer a:hover {
     color: var(--bg-accent);
+}
+
+.blink {
+    animation: blink 1s linear both;
+}
+
+.feedback-modal {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(246, 247, 248, 0.2);
+    backdrop-filter: blur(0.5rem);
+}
+
+.feedback-modal-content {
+    background-color: var(--bg-primary);
+    padding: 1.5rem;
+    border-radius: 1.25rem;
+    text-align: center;
+    font-size: 20px;
+    color: var(--white-content);
+    box-shadow: var(--shadow-sm);
+    opacity: 0;
+    animation: slide-in-bottom 250ms forwards;
+}
+
+@keyframes slideToPosition {
+    0% {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    100% {
+        top: calc(4rem - (16rem - 6.25rem) / 2);
+        left: calc(4.5rem - (16rem - 6.25rem) / 2);
+        transform: translate(0, 0) scale(0.39);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 
 @keyframes blink {
@@ -247,35 +278,6 @@ label {
     }
 }
 
-.blink {
-    animation: blink 1s linear both;
-}
-
-.feedback-modal {
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(246, 247, 248, 0.2);
-    backdrop-filter: blur(0.5rem);
-    justify-content: center;
-    align-items: center;
-}
-
-.feedback-modal-content {
-    background-color: var(--bg-primary);
-    padding: 1.5rem;
-    border-radius: 1.25rem;
-    text-align: center;
-    font-size: 20px;
-    color: var(--white-content);
-    box-shadow: var(--shadow-sm);
-    animation: slide-in-bottom 250ms forwards;
-    opacity: 0;
-}
-
 @keyframes slide-in-bottom {
     0% {
         -webkit-transform: translateY(1000px);
@@ -290,9 +292,6 @@ label {
     }
 }
 
-/*  */
-/* Media Queries */
-/*  */
 @media screen and (max-width: 48rem) {
     .main-logo {
         width: 8rem;
@@ -301,7 +300,7 @@ label {
     .call-to-signup {
         top: unset;
         right: unset;
-        bottom: 10%;
+        bottom: 12%;
         justify-content: center;
         width: 100%;
     }
@@ -332,13 +331,27 @@ label {
 }
 
 @media screen and (max-width: 35rem) {
+    main {
+        justify-content: unset;
+    }
+
     .main-logo {
         width: 6.25rem;
+    }
+
+    .login-wrapper,
+    .signup-wrapper {
+        margin-top: 6rem;
     }
 
     .login-header h1,
     .signup-header h1 {
         font-size: 2rem;
+    }
+
+    .login-inputs,
+    .signup-inputs {
+        gap: 0.5rem;
     }
 
     .login-options,
@@ -375,16 +388,11 @@ label {
 
     .login-form,
     .signup-form {
-        gap: 1.5rem;
+        gap: 1rem;
     }
 
     .login-header,
     .signup-header {
-        gap: 1rem;
-    }
-
-    .login-inputs,
-    .signup-inputs {
         gap: 1rem;
     }
 
