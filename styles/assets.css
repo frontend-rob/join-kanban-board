@@ -143,7 +143,6 @@ textarea::placeholder {
     font-size: .75rem;
     padding: 0.25rem;
     opacity: 0;
-    transition: visibility 0ms, opacity 125ms ease-out;
 }
 
 .error-message.show {
