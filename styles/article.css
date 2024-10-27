@@ -43,7 +43,7 @@
 .step-by-step-guide {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.5rem;
 }
 
 .step-details {
@@ -54,10 +54,10 @@
 .step-number {
     display: flex;
     align-items: flex-start;
-    max-width: 3rem;
+    max-width: 2rem;
     width: 100%;
-    font-size: 1.75rem;
-    font-weight: 600;
+    font-size: 1.25rem;
+    font-weight: 700;
 }
 
 ul {
