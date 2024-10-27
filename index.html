@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 
-<body onload="init(), updateLogoAndOverlay()">
+<body onload="initAuthPage()">
 
     <div class="overlay show"></div>
     <img class="main-logo" src="./assets/img/join-logo-dark.svg" alt="Join Logo">
@@ -138,7 +138,7 @@
         <a href="./pages/legal-notice.html" target="_blank" rel="noopener noreferrer">Legal Notice</a>
     </footer>
 
-    <div include-html="./templates/landscape-modal.html"></div>
+    <div id="landscape-wrapper"></div>
 
     <!-- modal structure for signup -->
     <div id="successful-signup-modal" class="feedback-modal hidden">
@@ -147,7 +147,7 @@
         </div>
     </div>
 
-    <!-- modal structure for signup login -->
+    <!-- modal structure for failed signup -->
     <div id="failed-signup-modal" class="feedback-modal hidden">
         <div class="feedback-modal-content">
             <p>This email is already registered</p>
@@ -161,8 +161,8 @@
         </div>
     </div>
 
-    <script src="./script.js"></script>
-    <script src="./js/logoLoader.js"></script>
+    <script src="./js/templates.js"></script>
+    <script src="./js/authPage.js"></script>
     <script src="./js/landscape.js"></script>
     <script src="./js/registry.js"></script>
     <script src="./js/login.js"></script>

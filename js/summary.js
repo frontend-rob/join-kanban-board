@@ -270,7 +270,6 @@ function handleNoTasks() {
  */
 function getSummaryComponents() {
     return {
-        header: document.getElementById('header-content'),
         dashboard: document.getElementById('summary-content'),
         landscapeModal: document.getElementById('landscape-wrapper')
     };
@@ -282,7 +281,7 @@ function getSummaryComponents() {
  * 
  * @param {htmlelement} dashboard - the element for injecting summary content.
  */
-function loadSummaryTemplates({ header, dashboard, landscapeModal }) {
+function loadSummaryTemplates({ dashboard, landscapeModal }) {
     dashboard.innerHTML = getSummaryContent();
     landscapeModal.innerHTML = getLandscapeModalConent();
 }

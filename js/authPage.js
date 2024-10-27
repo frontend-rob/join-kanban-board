@@ -1,4 +1,55 @@
 /**
+ * initializes the start content by rendering the main content
+ * and preventing landscape orientation on mobile devices.
+ * 
+ * @async
+ * @function
+ * @returns {Promise<void>} - a promise that resolves when the start content is initialized.
+ */
+async function initAuthPage() {
+    await renderAuthPageContent();
+    preventLandscapeOnMobileDevices();
+    updateLogoAndOverlay();
+}
+
+/**
+ * renders the main content for the start page by loading templates
+ * into specified components.
+ * 
+ * @async
+ * @function
+ * @returns {Promise<void>} - a promise that resolves when the start content is rendered.
+ */
+async function renderAuthPageContent() {
+    const authPageComponents = getAuthPageComponents();
+    loadAuthPageTemplates(authPageComponents);
+}
+
+/**
+ * retrieves the components for the start page by accessing elements in the DOM.
+ * 
+ * @function
+ * @returns {Object} - an object containing references to start page components.
+ */
+function getAuthPageComponents() {
+    return {
+        landscapeModal: document.getElementById('landscape-wrapper')
+    };
+}
+
+/**
+ * loads the templates into the specified start page components.
+ * 
+ * @function
+ * @param {Object} components - an object containing the elements to inject content into.
+ * @param {HTMLElement} components.landscapeModal - the modal element for landscape content.
+ */
+function loadAuthPageTemplates({ landscapeModal }) {
+    landscapeModal.innerHTML = getLandscapeModalConent();
+}
+
+
+/**
  * updates the logo and overlay based on the screen size.
  * adds the 'dark' class to the overlay and changes the logo source for small screens only during the animation.
  */

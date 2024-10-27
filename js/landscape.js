@@ -30,7 +30,7 @@ function checkOrientation() {
  * @function
  * @returns {void}
  */
-function setupEventListeners() {
+function setupOrientationEventListeners() {
     window.addEventListener('resize', checkOrientation);
     if (window.screen.orientation) {
         screen.orientation.addEventListener('change', checkOrientation);
@@ -38,7 +38,20 @@ function setupEventListeners() {
 }
 
 
-// !!!! section below must be cleaned since this should only include the landscape logic
+/**
+ * prevents landscape orientation on mobile devices by checking 
+ * the current orientation and setting up event listeners.
+ * 
+ * @function
+ */
+function preventLandscapeOnMobileDevices() {
+    checkOrientation();
+    setupOrientationEventListeners();
+}
+
+
+
+// !!!! section below must be included site specifically - otherwise we got errors
 /**
  * main function that initializes everything.
  * 
@@ -47,8 +60,7 @@ function setupEventListeners() {
  */
 async function init() {
     await includeHTML();
-    checkOrientation();
-    setupEventListeners();
+    preventLandscapeOnMobileDevices();
 
     const tasks = await loadTasks();
     getTaskTemplate(tasks);
