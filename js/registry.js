@@ -23,7 +23,6 @@ async function addUser(event) {
 }
 
 
-
 /**
  * checks if a user with the given email already exists in Firebase.
  * @param {string} email - the email to check.
@@ -176,7 +175,7 @@ function validateSignupEmail(emailInput) {
  * @returns {boolean} true if password is valid, false otherwise.
  */
 function validateSignupPassword(passwordInput) {
-    // add your password validation logic here (e.g., length, special chars)
+    // add password validation logic here (e.g., length, special chars)
     return passwordInput.value.length >= 6;
 }
 

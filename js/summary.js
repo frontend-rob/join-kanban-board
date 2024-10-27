@@ -204,6 +204,20 @@ async function toggleMobileGreeting() {
     }
 }
 
+/**
+ * initializes the summary page content by rendering the main content
+ * and preventing landscape orientation on mobile devices.
+ * 
+ * @async
+ * @function
+ * @returns {Promise<void>} - a promise that resolves when the start content is initialized.
+ */
+async function initSummaryPage() {
+    await renderSummaryContent();
+    initializeNavigation();
+    preventLandscapeOnMobileDevices();
+}
+
 
 /**
  * renders the content for the summary site.
@@ -216,6 +230,7 @@ async function renderSummaryContent() {
     const summaryComponents = getSummaryComponents();
     loadSummaryTemplates(summaryComponents);
     toggleMobileGreeting();
+    await setUserDataFromLocalStorage();
 
     const tasks = await fetchTasksFromFirebase();
 
@@ -270,6 +285,8 @@ function handleNoTasks() {
  */
 function getSummaryComponents() {
     return {
+        header: document.getElementById('header-content'),
+        navigation: document.getElementById('navigation-content'),
         dashboard: document.getElementById('summary-content'),
         landscapeModal: document.getElementById('landscape-wrapper')
     };
@@ -281,7 +298,9 @@ function getSummaryComponents() {
  * 
  * @param {htmlelement} dashboard - the element for injecting summary content.
  */
-function loadSummaryTemplates({ dashboard, landscapeModal }) {
+function loadSummaryTemplates({ header, navigation, dashboard, landscapeModal }) {
+    header.innerHTML = getHeaderContent();
+    navigation.innerHTML = getNavigationContent();
     dashboard.innerHTML = getSummaryContent();
     landscapeModal.innerHTML = getLandscapeModalConent();
 }

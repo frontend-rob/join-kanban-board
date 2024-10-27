@@ -21,12 +21,12 @@
 
 </head>
 
-<body onload="init(), renderSummaryContent()">
+<body onload="initSummaryPage()">
 
     <div class="page-wrapper">
-        <aside include-html="../templates/sidebar.html"></aside>
+        <aside id="navigation-content"></aside>
         <main>
-            <header include-html="../templates/header.html"></header>
+            <header id="header-content"></header>
             <section id="summary-stats-wrapper" class="summary-content show">
                 <div class="headline-wrapper">
                     <h1 class="main-headline">Join 379</h1>

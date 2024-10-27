@@ -12,6 +12,7 @@ async function initAuthPage() {
     updateLogoAndOverlay();
 }
 
+
 /**
  * renders the main content for the start page by loading templates
  * into specified components.
@@ -25,6 +26,7 @@ async function renderAuthPageContent() {
     loadAuthPageTemplates(authPageComponents);
 }
 
+
 /**
  * retrieves the components for the start page by accessing elements in the DOM.
  * 
@@ -36,6 +38,7 @@ function getAuthPageComponents() {
         landscapeModal: document.getElementById('landscape-wrapper')
     };
 }
+
 
 /**
  * loads the templates into the specified start page components.

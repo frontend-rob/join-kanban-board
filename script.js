@@ -102,6 +102,7 @@ function setTextContent(element, text) {
  */
 function adjustMobileMenuVisibility(isLoggedIn) {
     const asideElement = document.querySelector('aside');
+    if (!asideElement) return;
     const isSmallScreen = window.innerWidth < 960;
 
     // only hide menu if the user is not logged in and the screen is small
