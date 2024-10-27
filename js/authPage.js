@@ -48,7 +48,7 @@ function getAuthPageComponents() {
  * @param {HTMLElement} components.landscapeModal - the modal element for landscape content.
  */
 function loadAuthPageTemplates({ landscapeModal }) {
-    landscapeModal.innerHTML = getLandscapeModalConent();
+    landscapeModal.innerHTML = getLandscapeModalContent();
 }
 
 

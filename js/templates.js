@@ -140,7 +140,7 @@ function getSummaryContent() {
     `;
 }
 
-function getLandscapeModalConent() {
+function getLandscapeModalContent() {
     return `
         <div id="landscape-modal" class="landscape-modal hidden">
             <div class="landscape-modal-content">

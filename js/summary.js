@@ -305,5 +305,5 @@ function loadSummaryTemplates({ header, navigation, dashboard, landscapeModal })
     header.innerHTML = getHeaderContent();
     navigation.innerHTML = getNavigationContent();
     dashboard.innerHTML = getSummaryContent();
-    landscapeModal.innerHTML = getLandscapeModalConent();
+    landscapeModal.innerHTML = getLandscapeModalContent();
 }
