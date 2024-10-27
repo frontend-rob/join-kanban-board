@@ -155,3 +155,30 @@ textarea::placeholder {
         font-size: 1rem;
     }
 }
+
+@media screen and (max-width: 35rem) {
+    .btn-lg {
+        font-size: unset;
+    }
+
+    input,
+    textarea {
+        font-size: 1rem;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 24rem) {
+    .input-field svg {
+        height: 1.25rem;
+        width: 1.25rem;
+    }
+
+    input {
+        height: 2.75rem;
+    }
+}

@@ -142,12 +142,13 @@ main {
 .login-checkbox,
 .signup-checkbox {
     display: flex;
-    justify-content: center;
     align-items: center;
     width: 100%;
     gap: 1.25rem;
     color: var(--base-content);
     cursor: pointer;
+    margin-bottom: 0.75rem;
+    margin-left: 2rem;
 }
 
 .signup-checkbox a {
@@ -300,7 +301,7 @@ label {
     .call-to-signup {
         top: unset;
         right: unset;
-        bottom: 12%;
+        bottom: 10%;
         justify-content: center;
         width: 100%;
     }
@@ -344,9 +345,14 @@ label {
         margin-top: 6rem;
     }
 
+    .login-header,
+    .signup-header {
+        gap: 0.5rem;
+    }
+
     .login-header h1,
     .signup-header h1 {
-        font-size: 2rem;
+        font-size: 1.75rem;
     }
 
     .login-inputs,
@@ -357,10 +363,11 @@ label {
     .login-options,
     .signup-options {
         flex-direction: column;
+        width: 67%;
     }
 
     #back-to-login {
-        top: 1.5rem;
+        top: 1rem;
         left: 1rem;
     }
 
@@ -383,7 +390,7 @@ label {
 
     .login-wrapper,
     .signup-wrapper {
-        padding: 1rem;
+        padding: 1.5rem 1rem;
     }
 
     .login-form,
@@ -391,9 +398,10 @@ label {
         gap: 1rem;
     }
 
-    .login-header,
-    .signup-header {
-        gap: 1rem;
+    .login-inputs,
+    .signup-inputs {
+        gap: 0.25rem;
+        margin-top: 1rem;
     }
 
     .login-options {
