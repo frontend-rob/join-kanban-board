@@ -185,6 +185,7 @@ function showStatsAndHideGreeting(greetingElement, statsElement) {
 /**
  * toggles the mobile greeting visibility on small screens.
  * shows the mobile greeting temporarily, then switches back to the stats view.
+ * This only runs once per login session.
  * 
  * @async
  * @function
@@ -194,11 +195,13 @@ async function toggleMobileGreeting() {
     const statsWrapper = document.getElementById('summary-stats-wrapper');
     const mobileGreeting = document.getElementById('mobile-greeting');
     const isSmallScreen = window.innerWidth <= 768;
+    const hasShownGreeting = localStorage.getItem('hasShownMobileGreeting');
 
-    if (isSmallScreen) {
+    if (isSmallScreen && !hasShownGreeting) {
         showMobileGreeting(mobileGreeting, statsWrapper);
         await new Promise(resolve => setTimeout(resolve, 2000));
         showStatsAndHideGreeting(mobileGreeting, statsWrapper);
+        localStorage.setItem('hasShownMobileGreeting', 'true');
     } else {
         showStatsAndHideGreeting(mobileGreeting, statsWrapper);
     }

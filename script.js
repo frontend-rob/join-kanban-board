@@ -198,7 +198,10 @@ function handleClickOutsideMobileMenu(event) {
  * logs the user out by clearing localStorage and redirecting to the log in site.
  */
 async function logOut() {
-    localStorage.clear();
+    localStorage.removeItem('userName');
+    localStorage.removeItem('userInitials');
+    localStorage.removeItem('greetingTime');
+    localStorage.removeItem('hasShownMobileGreeting');
     window.location.replace('../index.html');
 }
 
