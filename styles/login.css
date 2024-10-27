@@ -112,7 +112,7 @@ main {
     align-items: center;
     width: 100%;
     max-width: 25rem;
-    gap: 2rem;
+    gap: 1rem;
 }
 
 .login-inputs,
@@ -123,6 +123,7 @@ main {
     width: 100%;
     max-width: 25rem;
     gap: 1rem;
+    margin-top: 1rem;
 }
 
 .input-field {
@@ -401,7 +402,6 @@ label {
     .login-inputs,
     .signup-inputs {
         gap: 0.25rem;
-        margin-top: 1rem;
     }
 
     .login-options {
