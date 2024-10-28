@@ -22,6 +22,12 @@
     --task-color-blue: #0038FF;
 }
 
+.input-field {
+    position: relative;
+    width: 100%;
+    cursor: pointer;
+}
+
 .form-container {
     display: flex;
     flex-direction: column;
@@ -40,7 +46,6 @@ h1 {
 .form-content {
     display: flex;
     gap: 96px;
-    margin-top: 48px;
 }
 
 .right-column {
@@ -55,41 +60,22 @@ h1 {
     background-color: #d1d1d1;
 }
 
-input-group {
-    position: relative;
-}
-
 label {
     display: block;
-    font-size: 18px;
+    font-size: 24px;
     margin-bottom: 0.25rem;
     position: relative;
 }
 
-input-wrapper {
+.input-wrapper {
     display: flex;
     flex-direction: column;
     position: relative;
     min-height: 80px;
 }
-//input::placeholder {
-    font-size: 16px;
-}//
-
-//input-wrapper input {
-    width: 100%;
-    height: 40px;
-    padding-right: 2.5rem;
-    border-radius: 10px;
-    border: 1px solid #d1d1d1;
-    box-sizing: border-box;
-    cursor: pointer;
-    font-size: 16px;
-}
-
 
 textarea::placeholder {
-    font-size: 16px !important;
+    font-size: 1.25remx !important;
 }
 
 textarea {
@@ -120,20 +106,20 @@ textarea {
 }
 
 .prio-button {
-    flex: 1;
-    height: 42px;
-    font-size: 16px;
+    font-size: 1.25rem;
     font-weight: 600;
     border: none;
     border-radius: 10px;
     color: var(--black-content);
-    display: flex;
     align-items: center;
-    justify-content: center;
     cursor: pointer;
-    width: 136px;
     flex-direction: row-reverse;
     gap: 8px;
+    display: flex;
+    gap: 8px;
+    width: 480px;
+    justify-content: center;
+    height: 3rem;
 }
 
 .prio-button svg {
@@ -266,16 +252,16 @@ label[for="assigned"] {
 }
 
 .contact-list {
-    display: none; /* Standardmäßig ausgeblendet */
+    display: none;
     position: absolute;
-    top: 100%; /* Direkt unter dem Input-Feld */
+    top: 100%;
     left: 0;
     width: 100%;
     background-color: white;
     border: 1px solid #ccc;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 10;
-    border-radius: 4px; /* Optional: Runde Ecken für den Dropdown-Container */
+    border-radius: 4px;
     overflow: hidden;
 }
 
@@ -287,7 +273,7 @@ label[for="assigned"] {
 }
 
 .contact-item:hover {
-    background-color: #f0f0f0; 
+    background-color: #f0f0f0;
 }
 
 .contact-avatar {
@@ -304,4 +290,14 @@ label[for="assigned"] {
 
 .contact-name {
     flex-grow: 1;
+}
+
+.btn btn-outline{
+    fill: var(--base-content);
+    color: var(--white-content);
+}
+
+.btn btn-lg{
+    fill: var(--base-content);
+
 }
