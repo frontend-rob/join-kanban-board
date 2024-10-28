@@ -24,27 +24,84 @@ async function addUser(event) {
 
 
 /**
- * checks if a user with the given email already exists in Firebase.
+ * checks if a user with the given email already exists in firebase.
  * @param {string} email - the email to check.
  * @returns {Promise<boolean>} - returns true if the user exists, false otherwise.
  */
 async function checkIfUserExists(email) {
     try {
-        const response = await fetch(`${DB_URL}/users.json`);
-        const users = await response.json();
-
-        if (users) {
-            // iterate over users to see if any match the provided email
-            for (const key in users) {
-                if (users[key].email === email) {
-                    return true; // user already exists
-                }
-            }
-        }
-        return false; // no user with this email found
+        const users = await fetchUsersFromFirebase();
+        return userExists(users, email);
     } catch (error) {
-        console.error('Error checking user in Firebase:', error);
-        return false; // in case of error, assume the user doesn't exist
+        console.error('Error checking user in firebase:', error);
+        return false;
+    }
+}
+
+
+/**
+ * fetches users from firebase.
+ * @returns {Promise<Object>} - returns the users object from firebase.
+ */
+async function fetchUsersFromFirebase() {
+    const response = await fetch(`${DB_URL}/users.json`);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    return await response.json();
+}
+
+
+/**
+ * checks if a user with the specified email exists in the users object.
+ * @param {Object} users - the users object fetched from firebase.
+ * @param {string} email - the email to check.
+ * @returns {boolean} - returns true if the user exists, false otherwise.
+ */
+function userExists(users, email) {
+    for (const key in users) {
+        if (users[key].email === email) {
+            return true; // user already exists
+        }
+    }
+    return false; // no user with this email found
+}
+
+
+/**
+ * adds the user to Firebase Realtime Database.
+ * @param {Object} inputs - the form input elements.
+ * @returns {Promise<void>} - returns a promise once the user is added.
+ */
+async function addUserToFirebase(inputs) {
+    const newUser = {
+        name: inputs.name.value,
+        email: inputs.email.value,
+        password: inputs.password.value
+    };
+
+    try {
+        await registerUserInFirebase(newUser);
+    } catch (error) {
+        console.error('Error adding user to Firebase:', error);
+    }
+}
+
+
+/**
+ * registers a user in Firebase Realtime Database.
+ * @param {Object} user - the user object to register.
+ * @returns {Promise<void>} - returns a promise once the user is registered.
+ */
+async function registerUserInFirebase(user) {
+    const response = await fetch(`${DB_URL}/users.json`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+    });
+
+    if (!response.ok) {
+        throw new Error('Failed to register user in Firebase.');
     }
 }
 
@@ -87,38 +144,6 @@ function validateInputs(inputs) {
  */
 function areAllValid(validations) {
     return Object.values(validations).every(valid => valid);
-}
-
-
-/**
- * adds the user to Firebase Realtime Database.
- * @param {Object} inputs - the form input elements.
- * @returns {Promise<void>} - returns a promise once the user is added.
- */
-async function addUserToFirebase(inputs) {
-    const newUser = {
-        name: inputs.name.value,
-        email: inputs.email.value,
-        password: inputs.password.value
-    };
-
-    try {
-        // send a POST request to add the user to Firebase
-        const response = await fetch(`${DB_URL}/users.json`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(newUser)
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to add user to Firebase.');
-        }
-
-    } catch (error) {
-        console.error('Error adding user to Firebase:', error);
-    }
 }
 
 
@@ -279,7 +304,6 @@ function validateCheckbox(checkboxInput) {
         checkboxInput.classList.add('input-error');
         checkboxContainer.classList.add('blink');
 
-        // remove the blink class after the animation ends
         checkboxContainer.addEventListener('animationend', () => {
             checkboxContainer.classList.remove('blink');
         }, { once: true });
@@ -329,3 +353,64 @@ function showFailedSignupModal() {
         }, 2000);
     });
 }
+
+
+/**
+ * checks if any signup input field is empty.
+ * @param {HTMLElement[]} signupInputs - an array of signup input elements.
+ * @returns {boolean} - returns true if any input field is empty, false otherwise.
+ */
+function areSignupFieldsEmpty(signupInputs) {
+    for (let i = 0; i < signupInputs.length; i++) {
+        const input = signupInputs[i];
+
+        if (!input.value.trim()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+
+/**
+ * updates the state of the signup button based on input fields.
+ * @param {HTMLElement} signupButton - the signup button element.
+ * @param {HTMLElement[]} signupInputs - an array of signup input elements.
+ */
+function updateSignupBtnState(signupButton, signupInputs) {
+    const isAnyFieldEmpty = areSignupFieldsEmpty(signupInputs);
+    signupButton.disabled = isAnyFieldEmpty;
+    signupButton.classList.toggle('disabled', isAnyFieldEmpty);
+}
+
+/**
+ * retrieves signup input elements from the DOM based on provided IDs.
+ * @param {string[]} inputIds - an array of input element IDs.
+ * @returns {HTMLElement[]} - an array of corresponding input elements.
+ */
+function getSignupInputs(inputIds) {
+    const inputs = [];
+    inputIds.forEach(id => {
+        const inputElement = document.getElementById(id);
+        if (inputElement) {
+            inputs.push(inputElement);
+        }
+    });
+    return inputs;
+}
+
+
+// event listener for DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+    const signupButton = document.getElementById('signup-btn');
+    const signupInputIds = ['signup-name', 'signup-email', 'signup-password', 'signup-confirm-password'];
+    const signupInputs = getSignupInputs(signupInputIds);
+
+    signupInputs.forEach(input => {
+        input.addEventListener('input', () => {
+            updateSignupBtnState(signupButton, signupInputs);
+        });
+    });
+
+    updateSignupBtnState(signupButton, signupInputs);
+});

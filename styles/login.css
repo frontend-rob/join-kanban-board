@@ -217,6 +217,11 @@ label {
     animation: blink 1s linear both;
 }
 
+#signup-btn.disabled:hover {
+    cursor: not-allowed;
+    background-color: var(--bg-neutral);
+}
+
 .feedback-modal {
     position: fixed;
     z-index: 1000;
