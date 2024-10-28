@@ -284,9 +284,10 @@
         font-size: 1.25rem;
     }
 
-    .divider-vertical {
+    .divider-vertical.divider-accent {
         width: 6rem;
         height: 3px;
+        order: 1;
     }
 
     .summary-wrapper {
