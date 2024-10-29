@@ -251,47 +251,6 @@ label[for="assigned"] {
     margin-top: 32px;
 }
 
-.contact-list {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background-color: white;
-    border: 1px solid #ccc;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 10;
-    border-radius: 4px;
-    overflow: hidden;
-}
-
-.contact-item {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    cursor: pointer;
-}
-
-.contact-item:hover {
-    background-color: #f0f0f0;
-}
-
-.contact-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    margin-right: 10px;
-}
-
-.contact-name {
-    flex-grow: 1;
-}
-
 .btn btn-outline{
     fill: var(--base-content);
     color: var(--white-content);
@@ -300,4 +259,115 @@ label[for="assigned"] {
 .btn btn-lg{
     fill: var(--base-content);
 
+}
+
+/* Style for the dropdown container */
+/* Dropdown Container */
+#contact-dropdown {
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none; /* Initially hidden */
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Each option in the dropdown */
+.dropdown-option {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    border-radius: 4px;
+}
+
+.dropdown-option:hover {
+    background-color: #f0f0f0;
+}
+
+/* Initials circle in dropdown and selected contacts */
+.initials-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    margin-right: 10px;
+    border: 4px solid #ffffff;
+    border-radius: 50%;
+}
+
+/* Contact name in dropdown */
+.contact-name {
+    flex-grow: 1;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Checkbox style */
+.contact-checkbox {
+    width: 16px;
+    height: 16px;
+    accent-color: #1a73e8; /* Style for checked color */
+    cursor: pointer;
+}
+
+/* Assigned input style */
+#assigned {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: #333;
+}
+
+#assigned::placeholder {
+    color: #888;
+}
+
+#assigned:focus {
+    outline: none;
+    border-color: #1a73e8;
+    box-shadow: 0 0 4px rgba(26, 115, 232, 0.4);
+}
+
+/* Selected contacts container styling */
+#selected-contacts {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+/* Styling for selected contact's initials only */
+.selected-contact {
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    background-color: var(--contact-color); /* Platzhalter für die Kontaktfarbe */
+    margin-right: 6px; /* Geringer Abstand zwischen den Kreisen */
+}
+
+/* Feste Größe für den Flatpickr-Kalender */
+.flatpickr-calendar {
+    width: 300px !important; /* Feste Breite */
+    height: auto !important; /* Automatische Höhe für Inhalte */
+    max-width: 300px !important; /* Maximale Breite festsetzen */
+    max-height: 300px !important; /* Feste maximale Höhe */
+    overflow: hidden; /* Überschüssige Inhalte werden abgeschnitten */
+}
+
+/* Verhindert das Hinzufügen eines Kalender-Icons im Eingabefeld */
+.flatpickr-input {
+    background-image: none !important; /* Entfernt das Kalender-Icon */
+    padding-right: 0 !important; /* Setzt das Padding rechts zurück */
 }

@@ -18,12 +18,12 @@
     <link rel="stylesheet" href="../style.css">
 </head>
 
-<body onload="init()">
+<body onload="initInfoPages()">
 
     <div class="page-wrapper">
-        <aside include-html="../templates/sidebar.html"></aside>
+        <aside id="navigation-content"></aside>
         <main>
-            <header include-html="../templates/header.html"></header>
+            <header id="header-content"></header>
             <section class="main-content">
                 <div class="article">
                     <div class="section-headline">
@@ -252,9 +252,10 @@
         </main>
     </div>
 
+    <div id="landscape-wrapper"></div>
 
-    <div include-html="../templates/landscape-modal.html"></div>
-
+    <script src="../js/templates.js"></script>
+    <script src="../js/infoPage.js"></script>
     <script src="../script.js"></script>
     <script src="../js/landscape.js"></script>
     <script src="../js/menuToggle.js"></script>
