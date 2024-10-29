@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="../styles/contacts.css">
     <link rel="stylesheet" href="../styles/board.css">
     <link rel="stylesheet" href="../styles/add-contact-overlay.css">
+    <link rel="stylesheet" href="../styles/base.css">
     <link rel="stylesheet" href="../style.css">
 </head>
 
@@ -29,17 +30,17 @@
                         Add new contact <img src="../assets/icons/person_add.svg" alt="">
                     </button>
                 </div>
-                <div class="letter-groups"></div> <!-- Hier werden die Buchstabengruppen dynamisch eingefügt -->
+                <div class="letter-groups"></div>
             </div>
 
-            <section class="main-content-content">
+            <section class="main-content">
                 <div class="contact-details">
                     <div class="headline-wrapper">
                         <h1 class="main-headline">Contacts</h1>
                         <div class="divider-vertical divider-accent"></div>
                         <span>Better with a team</span>
                     </div>
-                    <!-- Die Kontaktkarte wird hier dynamisch aktualisiert -->
+                    <!-- The contact card will be dynamically updated here -->
                     <div class="contact-card"></div>
                 </div>
             </section>
@@ -83,7 +84,7 @@
                             </div>
                         </div>
                         <div class="add-contact-buttons">
-                            <button class="btn btn-contact btn-outline" onclick="deleteContactInfo()">Delete</button>
+                            <button class="btn btn-contact btn-outline" onclick="deleteContactInfo() ">Delete</button>
                             <button class="btn btn-contact " onclick="addContact()">Save <svg
                                     xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff"
                                     viewBox="0 0 256 256">
@@ -116,43 +117,52 @@
                 <div class="input-card">
                     <div id="edit-profile-icon"></div>
                     <div class="input-container">
-                        <div class="signup-inputs">
-                            <div class="input-field">
-                                <input type="text" id="edit-contact-name" placeholder="Name" required>
-                                <p id="error-edit-contact-name" class="error-message">
-                                    *Please enter first- and surname.
-                                </p>
+                        <form class="login-form" onsubmit="saveContact(event); return false;" novalidate>
+                            <div class="signup-inputs">
+                                <div class="input-field">
+                                    <input type="text" id="edit-contact-name" placeholder="Name" required>
+                                    <p id="error-edit-contact-name" class="error-message">
+                                        *Please enter first- and surname.
+                                    </p>
+                                </div>
+                                <div class="input-field">
+                                    <input type="email" id="edit-contact-email" placeholder="Email">
+                                    <p id="error-edit-contact-email" class="error-message">
+                                        *Please enter a valid email address.
+                                    </p>
+                                </div>
+                                <div class="input-field">
+                                    <input type="phone" id="edit-contact-phone" placeholder="Phone number" required>
+                                    <p id="error-edit-contact-phone" class="error-message">
+                                        *Please enter a valid phone number.
+                                    </p>
+                                </div>
                             </div>
-                            <div class="input-field">
-                                <input type="email" id="edit-contact-email" placeholder="Email">
-                                <p id="error-edit-contact-email" class="error-message">
-                                    *Please enter a valid email address.
-                                </p>
+                            <div class="add-contact-buttons">
+                                <button class="btn btn-contact btn-outline"
+                                    onclick="deleteContactInfo()">Delete</button>
+                                <button type="submit" class="btn btn-contact">Save
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff"
+                                        viewBox="0 0 256 256">
+                                        <path
+                                            d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z">
+                                        </path>
+                                    </svg>
+                                </button>
                             </div>
-                            <div class="input-field">
-                                <input type="phone" id="edit-contact-phone" placeholder="Phone number" required>
-                                <p id="error-edit-contact-phone" class="error-message">
-                                    *Please enter a valid phone number.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="add-contact-buttons">
-                            <button class="btn btn-contact btn-outline" onclick="deleteContactInfo()">Delete</button>
-                            <button class="btn btn-contact " onclick="saveContact()">Save
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff"
-                                    viewBox="0 0 256 256">
-                                    <path
-                                        d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z">
-                                    </path>
-                                </svg>
-                            </button>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Notification modal for successful contact addition -->
+    <div id="successful-contact-add-modal" class="feedback-modal hidden">
+        <div class="feedback-modal-content">
+            <p>Contact added successfully!</p>
+        </div>
+    </div>
 
     <div include-html="../templates/landscape-modal.html"></div>
     <script src="../js/loadContacts.js"></script>

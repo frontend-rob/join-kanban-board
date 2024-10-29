@@ -15,9 +15,9 @@
 .overlay-content-add-contact {
     display: flex;
     background-color: white;
-    border-radius: 30px;
+    border-radius: 1.875rem;
     width: 60%;
-    height: 500px;
+    height: 31.25rem;
     position: fixed;
     top: 50%;
     right: -100%;
@@ -33,9 +33,9 @@
 .overlay-content-edit-contact {
     display: flex;
     background-color: white;
-    border-radius: 30px;
+    border-radius: 1.875rem;
     width: 60%;
-    height: 500px;
+    height: 31.25rem;
     position: fixed;
     top: 50%;
     right: -60%;
@@ -48,8 +48,6 @@
     right: 20%;
     opacity: 1;
 }
-
-
 
 .close-add-contact-overlay {
     cursor: pointer;
@@ -67,21 +65,20 @@
     align-items: center;
     color: white;
     padding: 2rem;
-    border-bottom-left-radius: 30px;
-    border-top-left-radius: 30px;
+    border-bottom-left-radius: 1.875rem;
+    border-top-left-radius: 1.875rem;
 }
 
 .overlay-left h2 {
-    margin-bottom: 1rem;
-    font-size: 56px;
+    margin-bottom: 0.625rem;
+    font-size: 3.5rem;
     font-weight: 700;
-
 }
 
 .overlay-left img {
-    height: 60px;
+    height: 3.75rem;
     position: absolute;
-    top: 120px;
+    top: 7.5rem;
 }
 
 .overlay-right {
@@ -97,22 +94,19 @@
 .input-card {
     width: 100%;
     display: flex;
-    gap: 4rem;
+    gap: 2rem;
     align-items: center;
 }
 
-.input-card input {
-}
-
 .profile-icon-add-contact {
-    height: 120px;
-    width: 120px;
+    height: 7.5rem;
+    width: 7.5rem;
     border-radius: 50%;
 }
 
 .input-card button {
     margin-right: 1rem;
-    width: 100px;
+    width: 6.25rem;
 }
 
 .add-contact-buttons {
@@ -124,10 +118,10 @@
 .input-container {
     display: flex;
     flex-direction: column;
-    gap: rem;
+    gap: 1rem;
     width: 100%;
 }
 
 .input-field svg {
-    right: 2rem;
+    right: 0.5rem;
 }

@@ -8,48 +8,90 @@ async function addContact() {
     const email = document.getElementById('contact-email').value;
     const phone = document.getElementById('contact-phone').value;
 
-    if (!name || !email || !phone) {
-        alert("Please fill in all fields.");
+    if (!areFieldsValid(name, email, phone)) {
         return;
     }
 
     const contacts = await fetchContactsFromFirebase();
-
-    // Check if the email already exists in the database
     if (isEmailAlreadyUsed(contacts, email)) {
         alert("This email is already used by another contact.");
         return;
     }
 
-    const initials = getInitials(name);
-    const color = getColorForContact(contacts, email);
+    await storeContact(name, email, phone, contacts);
+    showNotification();
+}
 
+/**
+ * Validates the input fields for the contact.
+ * @param {string} name - The name of the contact.
+ * @param {string} email - The email of the contact.
+ * @param {string} phone - The phone number of the contact.
+ * @returns {boolean} True if all fields are valid, false otherwise.
+ */
+function areFieldsValid(name, email, phone) {
+    if (!name || !email || !phone) {
+        alert("Please fill in all fields.");
+        return false;
+    }
+    return true;
+}
+
+/**
+ * Stores the contact to the database.
+ * @param {string} name - The name of the contact.
+ * @param {string} email - The email of the contact.
+ * @param {string} phone - The phone number of the contact.
+ * @param {Object} contacts - The existing contacts from the database.
+ * @returns {Promise<void>}
+ */
+async function storeContact(name, email, phone, contacts) {
+    const { initials, color } = getContactDetails(name, email, contacts);
+    await addContactToDatabase({ name, email, phone, initials, color });
+    await finalizeContactAddition();
+}
+
+/**
+ * Gets the initials and color for the contact.
+ * @param {string} name - The name of the contact.
+ * @param {string} email - The email of the contact.
+ * @param {Object} contacts - The existing contacts from the database.
+ * @returns {Object} - An object containing initials and color.
+ */
+function getContactDetails(name, email, contacts) {
+    return {
+        initials: getInitials(name),
+        color: getColorForContact(contacts, email)
+    };
+}
+
+/**
+ * Adds the contact to the database.
+ * @param {Object} contact - The contact data to be stored.
+ * @returns {Promise<void>}
+ */
+async function addContactToDatabase(contact) {
     try {
         const response = await fetch(`${DB_URL}/contacts.json`, {
             method: 'POST',
-            body: JSON.stringify({
-                name: name,
-                email: email,
-                phone: phone,
-                initials: initials,
-                color: color,
-            }),
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            body: JSON.stringify(contact),
+            headers: { 'Content-Type': 'application/json' }
         });
-
-        if (!response.ok) {
-            throw new Error('Error adding contact');
-        }
-
-        loadContacts();
-        closeTaskOverlay();
-        resetInputFields(); // Reset input fields after saving
+        if (!response.ok) throw new Error('Error adding contact');
     } catch (error) {
         console.error("Error adding contact:", error);
     }
 }
+
+/**
+ * Finalizes the contact addition process.
+ * @returns {Promise<void>}
+ */
+async function finalizeContactAddition() {
+    await Promise.all([loadContacts(), closeTaskOverlay(), resetInputFields()]);
+}
+
+
 
 /**
  * Checks if an email is already used in the contacts database.
@@ -85,7 +127,7 @@ function resetInputFields() {
  * @returns {void}
  */
 function deleteContactInfo() {
-    resetInputFields(); // Reset input fields after deletion
+    resetInputFields();
 }
 
 /**
@@ -114,16 +156,23 @@ function getColorForContact(contacts, email) {
 }
 
 /**
- * Generates a random color in hexadecimal format.
- * @returns {string} A random color in hexadecimal format.
+ * Generates a random color from a predefined list of colors.
+ * @returns {string} A color in hexadecimal format from the predefined list.
  */
 function getRandomColor() {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
+    const colors = [
+        '#00bee8',
+        '#ff7a00',
+        '#ff4646',
+        '#462f8a',
+        '#1fd7c1',
+        '#ffbb2b',
+        '#fc71ff',
+        '#6e52ff',
+        '#9327ff'
+    ];
+    const randomIndex = Math.floor(Math.random() * colors.length);
+    return colors[randomIndex];
 }
 
 /**
@@ -144,4 +193,22 @@ async function fetchContactsFromFirebase() {
 function closeTaskOverlay() {
     const overlay = document.getElementById('overlay');
     overlay.style.display = 'none';
+}
+
+/**
+ * Shows a notification after adding a contact.
+ * @returns {Promise<void>}
+ */
+function showNotification() {
+    return new Promise((resolve) => {
+        const modal = document.getElementById('successful-contact-add-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('show');
+
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            modal.classList.remove('show');
+            resolve();
+        }, 1000);
+    });
 }

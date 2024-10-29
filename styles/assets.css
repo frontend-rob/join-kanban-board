@@ -150,7 +150,7 @@ textarea::placeholder {
     opacity: 1;
 }
 
-@media screen and (max-wdith: 48rem) {
+@media screen and (max-width: 48rem) {
     input {
         font-size: 1rem;
     }

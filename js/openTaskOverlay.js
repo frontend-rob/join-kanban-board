@@ -67,6 +67,19 @@ function createOverlayContent(task, taskId) {
         </div>
         <h2 class="overlay-task-title">${task.title}</h2>
         <p class="overlay-task-description">${task.description}</p>
+        ${createTaskDetails(task, taskId)}
+    `;
+}
+
+/**
+ * Creates task details HTML including date, priority, assigned persons, and subtasks.
+ * 
+ * @param {Object} task - The task data.
+ * @param {string} taskId - The ID of the task.
+ * @returns {string} The HTML string for task details.
+ */
+function createTaskDetails(task, taskId) {
+    return `
         <div class="task-date">
             <span class="date-text">Due date:</span>
             <span class="date">${task.due_date}</span>
@@ -90,6 +103,18 @@ function createOverlayContent(task, taskId) {
                 ${task.subtasks.map((subtask, index) => getSubtaskTemplate(subtask, taskId, index)).join('')}
             </div>
         </div>
+        ${createTaskActions(taskId)}
+    `;
+}
+
+/**
+ * Creates the action buttons for the task overlay.
+ * 
+ * @param {string} taskId - The ID of the task.
+ * @returns {string} The HTML string for action buttons.
+ */
+function createTaskActions(taskId) {
+    return `
         <div class="action">
             <div class="action-type" onclick="deleteTask('${taskId}')">
                 <img src="../assets/icons/delete.svg" alt="Delete Icon">
@@ -209,12 +234,21 @@ async function toggleSubtask(taskId, subtaskIndex) {
     subtask.status = subtask.status === "checked" ? "unchecked" : "checked";
 
     await updateTaskProgress(taskId);
-
-    const url = `${DB_URL}/tasks/${taskId}/subtasks/${subtaskIndex}.json`;
-    await sendToFirebase(url, { status: subtask.status }, 'PATCH');
-
+    await updateSubtaskStatus(taskId, subtaskIndex, subtask);
     const subtasksContainer = document.getElementById(`subtasks-${taskId}`);
     subtasksContainer.innerHTML = getSubtasksHTML(task.subtasks, taskId);
+}
+
+/**
+ * Updates the status of a subtask in Firebase.
+ * 
+ * @param {string} taskId - The ID of the task.
+ * @param {number} subtaskIndex - The index of the subtask.
+ * @param {Object} subtask - The updated subtask data.
+ */
+async function updateSubtaskStatus(taskId, subtaskIndex, subtask) {
+    const url = `${DB_URL}/tasks/${taskId}/subtasks/${subtaskIndex}.json`;
+    await sendToFirebase(url, { status: subtask.status }, 'PATCH');
 }
 
 /**

@@ -20,9 +20,10 @@ async function loadTasks() {
 /**
  * Generates and displays the task templates.
  * 
- * @param {Object} tasks - The tasks to display.
+ * @param {Object} tasks - The tasks to display. If empty, display all tasks.
+ * @param {boolean} isSearchActive - Indicates if a search is currently active.
  */
-function getTaskTemplate(tasks) {
+function getTaskTemplate(tasks = allTasks, isSearchActive = false) {
     const taskContainers = {
         todo: '',
         inprogress: '',
@@ -30,8 +31,10 @@ function getTaskTemplate(tasks) {
         done: ''
     };
 
-    for (const taskId in tasks) {
-        const task = tasks[taskId];
+    const tasksToDisplay = Object.keys(tasks).length ? tasks : allTasks;
+
+    for (const taskId in tasksToDisplay) {
+        const task = tasksToDisplay[taskId];
         const subtasksCompleted = task.subtasks.filter(subtask => subtask.status === "checked").length;
         const totalSubtasks = task.subtasks.length;
         const progressPercentage = totalSubtasks > 0 ? (subtasksCompleted / totalSubtasks) * 100 : 0;
@@ -63,47 +66,51 @@ function getTaskTemplate(tasks) {
         taskContainers[task.status] += taskTemplate;
     }
 
-    // Check if there are no tasks in each drop zone and display the "No tasks" message if empty
-    if (!taskContainers.todo) {
-        taskContainers.todo = `
+    if (isSearchActive && Object.keys(tasks).length === 0) {
+        taskContainers.todo = taskContainers.inprogress = taskContainers.awaitfeedback = taskContainers.done = `
             <div class="no-tasks-field">
-                <span class="no-tasks-text">No tasks To do</span>
+                <span class="no-tasks-text">No tasks found</span>
             </div>
         `;
+    } else {
+        if (!taskContainers.todo) {
+            taskContainers.todo = `
+                <div class="no-tasks-field">
+                    <span class="no-tasks-text">No tasks to do</span>
+                </div>
+            `;
+        }
+
+        if (!taskContainers.inprogress) {
+            taskContainers.inprogress = `
+                <div class="no-tasks-field">
+                    <span class="no-tasks-text">No tasks in progress</span>
+                </div>
+            `;
+        }
+
+        if (!taskContainers.awaitfeedback) {
+            taskContainers.awaitfeedback = `
+                <div class="no-tasks-field">
+                    <span class="no-tasks-text">No tasks awaiting feedback</span>
+                </div>
+            `;
+        }
+
+        if (!taskContainers.done) {
+            taskContainers.done = `
+                <div class="no-tasks-field">
+                    <span class="no-tasks-text">No tasks done</span>
+                </div>
+            `;
+        }
     }
 
-    if (!taskContainers.inprogress) {
-        taskContainers.inprogress = `
-            <div class="no-tasks-field">
-                <span class="no-tasks-text">No tasks In progress</span>
-            </div>
-        `;
-    }
-
-    if (!taskContainers.awaitfeedback) {
-        taskContainers.awaitfeedback = `
-            <div class="no-tasks-field">
-                <span class="no-tasks-text">No tasks Awaiting feedback</span>
-            </div>
-        `;
-    }
-
-    if (!taskContainers.done) {
-        taskContainers.done = `
-            <div class="no-tasks-field">
-                <span class="no-tasks-text">No tasks Done</span>
-            </div>
-        `;
-    }
-
-    // Inject the task templates into the respective drop zones
     document.getElementById('todo').innerHTML = taskContainers.todo;
     document.getElementById('inprogress').innerHTML = taskContainers.inprogress;
     document.getElementById('awaitfeedback').innerHTML = taskContainers.awaitfeedback;
     document.getElementById('done').innerHTML = taskContainers.done;
 }
-
-
 
 /**
  * Opens the task overlay and displays task details.
@@ -151,8 +158,8 @@ function openTaskOverlay(taskId) {
                             d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z">
                         </path>
                     </svg>                    
-                <span>Delete</span>
-            </div>
+                    <span>Delete</span>
+                </div>
                 <div class="divider-vertical divider-action"></div>
                 <div class="action-type" onclick="editTask()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
@@ -252,4 +259,31 @@ window.onclick = function(event) {
  */
 document.addEventListener('DOMContentLoaded', () => {
     loadTasks().then(getTaskTemplate);
+});
+
+/**
+ * Filters tasks based on search input and updates the display.
+ * 
+ * @param {string} query - The search query entered by the user.
+ */
+function searchTasks(query) {
+    const filteredTasks = {};
+    const isSearchActive = query.length > 0;
+
+    for (const taskId in allTasks) {
+        const task = allTasks[taskId];
+        if (
+            task.title.toLowerCase().includes(query.toLowerCase()) ||
+            task.description.toLowerCase().includes(query.toLowerCase())
+        ) {
+            filteredTasks[taskId] = task;
+        }
+    }
+
+    getTaskTemplate(filteredTasks, isSearchActive);
+}
+
+document.getElementById('search-bar').querySelector('input').addEventListener('input', (event) => {
+    const query = event.target.value;
+    searchTasks(query);
 });

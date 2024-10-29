@@ -19,12 +19,12 @@
     <link rel="stylesheet" href="../style.css">
 </head>
 
-<body onload="init(), initializeDropZones(), getTaskTemplate()">
+<body onload="initBoardPage(), initializeDropZones(), getTaskTemplate()">
 
     <div class="page-wrapper">
-        <aside include-html="../templates/sidebar.html"></aside>
+        <aside id="navigation-content"></aside>
         <main>
-            <header include-html="../templates/header.html"></header>
+            <header id="header-content"></header>
             <section class="main-content">
                 <div class="board">
                     <div class="board-header">
@@ -45,21 +45,18 @@
                     <div class="workflow">
                         <!-- Drop-Zone: To Do -->
                         <div class="status">
-                            <div class="status-text-and-plus">
-                                <span class="status-text">To do</span>
+                            <div class="status-header">
+                                <span class="status-name">To do</span>
                                 <img class="plus-button" src="../assets/icons/plus button.svg" alt="Plus Button">
                             </div>
                             <div class="drop-zone" id="todo" ondrop="drop(event)" ondragover="allowDrop(event)">
-                                <div class="no-tasks-field">
-                                    <span class="no-tasks-text">No tasks To do</span>
-                                </div>
                             </div>
                         </div>
 
                         <!-- Drop-Zone: In Progress -->
                         <div class="status">
-                            <div class="status-text-and-plus">
-                                <span class="status-text">In progress</span>
+                            <div class="status-header">
+                                <span class="status-name">In progress</span>
                                 <img class="plus-button" src="../assets/icons/plus button.svg" alt="Plus Button">
                             </div>
                             <div class="drop-zone" id="inprogress" ondrop="drop(event)" ondragover="allowDrop(event)">
@@ -68,8 +65,8 @@
 
                         <!-- Drop-Zone: Await Feedback -->
                         <div class="status">
-                            <div class="status-text-and-plus">
-                                <span class="status-text">Await feedback</span>
+                            <div class="status-header">
+                                <span class="status-name">Await feedback</span>
                                 <img class="plus-button" src="../assets/icons/plus button.svg" alt="Plus Button">
                             </div>
                             <div class="drop-zone" id="awaitfeedback" ondrop="drop(event)"
@@ -79,8 +76,8 @@
 
                         <!-- Drop-Zone: Done -->
                         <div class="status">
-                            <div class="status-text-and-plus">
-                                <span class="status-text">Done</span>
+                            <div class="status-header">
+                                <span class="status-name">Done</span>
                             </div>
                             <div class="drop-zone" id="done" ondrop="drop(event)" ondragover="allowDrop(event)">
                             </div>
@@ -113,30 +110,30 @@
                     <img src="../assets/icons/priority-mid.svg" alt="">
                 </div>
             </div>
-            <div class="assignet-to">
+            <div class="assigned-to">
                 <span class="assigned-to-text">Assigned To:</span>
                 <div>
                     <div class="user">
                         <img src="../assets/icons/Profile icon.svg" alt="Profile icon">
-                        <span class="profie-name">Emmanuel Mauer</span>
+                        <span class="profile-name">Emmanuel Mauer</span>
                     </div>
                     <div class="user">
                         <img src="../assets/icons/Profile icon.svg" alt="Profile icon">
-                        <span class="profie-name">Emmanuel Mauer</span>
+                        <span class="profile-name">Emmanuel Mauer</span>
                     </div>
                     <div class="user">
                         <img src="../assets/icons/Profile icon.svg" alt="Profile icon">
-                        <span class="profie-name">Emmanuel Mauer</span>
+                        <span class="profile-name">Emmanuel Mauer</span>
                     </div>
                 </div>
             </div>
             <div class="subtask-overlay">
                 <span class="subtask-header">Subtasks</span>
                 <div class="all-subtasks">
-                    <div class="single-subtask">
+                    <div class="subtask ">
                         <img src="../assets/icons/checked.svg" alt="checked"> <span>Establish CSS Methodology</span>
                     </div>
-                    <div class="single-subtask">
+                    <div class="subtask ">
                         <img src="../assets/icons/checked.svg" alt="checked"> <span>Setup Base Styles</span>
                     </div>
 
@@ -163,7 +160,7 @@
             </div>
         </div>
     </div>
-    <div include-html="../templates/landscape-modal.html"></div>
+    <div id="landscape-wrapper"></div>
 
     <script src="../script.js"></script>
     <script src="../js/landscape.js"></script>
@@ -172,6 +169,8 @@
     <script src="../js/getTaskTemplate.js"></script>
     <script src="../js/deleteTask.js"></script>
     <script src="../js/dragAndDrop.js"></script>
+    <script src="../js/board.js"></script>
+    <script src="../js/templates.js"></script>
 </body>
 
 
