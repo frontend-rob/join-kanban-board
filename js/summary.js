@@ -281,10 +281,13 @@ function handleNoTasks() {
 
 
 /**
- * retrieves the dashboard component for the summary.
+ * retrieves key components for the summary section.
  * 
- * @returns {object} an object containing the dashboard element.
- * @returns {htmlelement} dashboard - the dashboard element for summary content.
+ * @returns {Object} an object containing references to summary-related elements.
+ * @property {HTMLElement} header - the element for injecting header content.
+ * @property {HTMLElement} navigation - the element for injecting navigation content.
+ * @property {HTMLElement} dashboard - the dashboard element for injecting summary content.
+ * @property {HTMLElement} landscapeModal - the element for injecting landscape modal content.
  */
 function getSummaryComponents() {
     return {
@@ -297,9 +300,13 @@ function getSummaryComponents() {
 
 
 /**
- * loads summary templates into the dashboard element.
+ * loads summary content templates into specified elements.
  * 
- * @param {htmlelement} dashboard - the element for injecting summary content.
+ * @param {Object} components - an object containing references to elements where content will be injected.
+ * @param {HTMLElement} components.header - the element for injecting header content.
+ * @param {HTMLElement} components.navigation - the element for injecting navigation content.
+ * @param {HTMLElement} components.dashboard - the element for injecting summary content.
+ * @param {HTMLElement} components.landscapeModal - the element for injecting landscape modal content.
  */
 function loadSummaryTemplates({ header, navigation, dashboard, landscapeModal }) {
     header.innerHTML = getHeaderContent();

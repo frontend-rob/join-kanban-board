@@ -1,10 +1,9 @@
 /**
- * initializes the start content by rendering the main content
- * and preventing landscape orientation on mobile devices.
+ * initializes the authentication page by rendering the main content,
+ * preventing landscape orientation on mobile devices, and updating the logo and overlay elements.
  * 
  * @async
- * @function
- * @returns {Promise<void>} - a promise that resolves when the start content is initialized.
+ * @returns {Promise<void>} a promise that resolves when the authentication page is fully initialized.
  */
 async function initAuthPage() {
     await renderAuthPageContent();
@@ -14,12 +13,11 @@ async function initAuthPage() {
 
 
 /**
- * renders the main content for the start page by loading templates
- * into specified components.
+ * renders the main content for the authentication page by loading templates
+ * into the specified components.
  * 
  * @async
- * @function
- * @returns {Promise<void>} - a promise that resolves when the start content is rendered.
+ * @returns {Promise<void>} a promise that resolves when the content is fully rendered.
  */
 async function renderAuthPageContent() {
     const authPageComponents = getAuthPageComponents();
@@ -28,10 +26,9 @@ async function renderAuthPageContent() {
 
 
 /**
- * retrieves the components for the start page by accessing elements in the DOM.
+ * retrieves references to the main components for the authentication page from the DOM.
  * 
- * @function
- * @returns {Object} - an object containing references to start page components.
+ * @returns {Object} an object containing references to elements on the authentication page.
  */
 function getAuthPageComponents() {
     return {
@@ -41,15 +38,15 @@ function getAuthPageComponents() {
 
 
 /**
- * loads the templates into the specified start page components.
+ * loads content templates into specified elements on the authentication page.
  * 
- * @function
- * @param {Object} components - an object containing the elements to inject content into.
- * @param {HTMLElement} components.landscapeModal - the modal element for landscape content.
+ * @param {Object} components an object containing elements to inject content into.
+ * @param {HTMLElement} components.landscapeModal the modal element for landscape orientation content.
  */
 function loadAuthPageTemplates({ landscapeModal }) {
     landscapeModal.innerHTML = getLandscapeModalContent();
 }
+
 
 
 /**
