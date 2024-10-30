@@ -7,7 +7,6 @@
     <title>Join - Contacts</title>
     <link rel="shortcut icon" href="../assets/img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="../styles/fonts.css">
-    <link rel="stylesheet" href="../styles/base.css">
     <link rel="stylesheet" href="../styles/assets.css">
     <link rel="stylesheet" href="../styles/landscape.css">
     <link rel="stylesheet" href="../styles/header.css">
@@ -19,11 +18,11 @@
     <link rel="stylesheet" href="../style.css">
 </head>
 
-<body onload="init()">
+<body>
     <div class="page-wrapper">
-        <aside include-html="../templates/sidebar.html"></aside>
+        <aside id="navigation-content"></aside>
         <main>
-            <header include-html="../templates/header.html"></header>
+            <header id="header-content"></header>
             <div class="contact-list">
                 <div class="btn-contact-container">
                     <button class="btn btn-lg btn-contact">
@@ -63,37 +62,41 @@
                 <div class="input-card">
                     <img class="profile-icon-add-contact" src="../assets/icons/no-profile.svg" alt="Profile Icon">
                     <div class="input-container">
-                        <div class="signup-inputs">
-                            <div class="input-field">
-                                <input type="text" id="contact-name" placeholder="Name" required>
-                                <p id="error-contact-name" class="error-message">
-                                    *Please enter first- and surname.
-                                </p>
+                        <form class="login-form"
+                            onsubmit="if (validateContactForm()) { addContact(event); } return false;" novalidate>
+                            <div class="signup-inputs">
+                                <div class="input-field">
+                                    <input type="text" id="contact-name" placeholder="Name" required>
+                                    <p id="error-contact-name" class="error-message">
+                                        *Please enter first- and surname.
+                                    </p>
+                                </div>
+                                <div class="input-field">
+                                    <input type="email" id="contact-email" placeholder="Email">
+                                    <p id="error-contact-email" class="error-message">
+                                        *Please enter a valid email address.
+                                    </p>
+                                </div>
+                                <div class="input-field">
+                                    <input type="tel" id="contact-phone" placeholder="Phone number" required>
+                                    <p id="error-contact-phone" class="error-message">
+                                        *Please enter a valid phone number.
+                                    </p>
+                                </div>
                             </div>
-                            <div class="input-field">
-                                <input type="email" id="contact-email" placeholder="Email">
-                                <p id="error-contact-email" class="error-message">
-                                    *Please enter a valid email address.
-                                </p>
+                            <div class="add-contact-buttons">
+                                <button class="btn btn-contact btn-outline"
+                                    onclick="deleteContactInfo() ">Delete</button>
+                                <button type="submit" class="btn btn-contact">Save <svg
+                                        xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff"
+                                        viewBox="0 0 256 256">
+                                        <path
+                                            d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z">
+                                        </path>
+                                    </svg>
+                                </button>
                             </div>
-                            <div class="input-field">
-                                <input type="phone" id="contact-phone" placeholder="Phone number" required>
-                                <p id="error-contact-phone" class="error-message">
-                                    *Please enter a valid phone number.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="add-contact-buttons">
-                            <button class="btn btn-contact btn-outline" onclick="deleteContactInfo() ">Delete</button>
-                            <button class="btn btn-contact " onclick="addContact()">Save <svg
-                                    xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff"
-                                    viewBox="0 0 256 256">
-                                    <path
-                                        d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z">
-                                    </path>
-                                </svg>
-                            </button>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -117,7 +120,8 @@
                 <div class="input-card">
                     <div id="edit-profile-icon"></div>
                     <div class="input-container">
-                        <form class="login-form" onsubmit="saveContact(event); return false;" novalidate>
+                        <form class="login-form"
+                            onsubmit="if (validateContactForm(true)) { saveContact(event); } return false;" novalidate>
                             <div class="signup-inputs">
                                 <div class="input-field">
                                     <input type="text" id="edit-contact-name" placeholder="Name" required>
@@ -164,15 +168,25 @@
         </div>
     </div>
 
-    <div include-html="../templates/landscape-modal.html"></div>
-    <script src="../js/loadContacts.js"></script>
+    <!-- Notification modal for successful contact addition -->
+    <div id="email-used-error-modal" class="feedback-modal hidden">
+        <div class="feedback-modal-content">
+            <p>Email already exists!</p>
+        </div>
+    </div>
+
+    <div id="landscape-wrapper"></div>
     <script src="../script.js"></script>
-    <script src="../js/landscape.js"></script>
-    <script src="../js/openAddContactOverlay.js"></script>
-    <script src="../js/menuToggle.js"></script>
-    <script src="../js/deleteContact.js"></script>
+    <script src="../js/loadContacts.js"></script>
+    <script src="../js/contact.js"></script>
     <script src="../js/addContact.js"></script>
     <script src="../js/editContact.js"></script>
+    <script src="../js/deleteContact.js"></script>
+    <script src="../js/openAddContactOverlay.js"></script>
+    <script src="../js/setActiveNavLink.js"></script>
+    <script src="../js/templates.js"></script>
+    <script src="../js/landscape.js"></script>
+
 </body>
 
 </html>

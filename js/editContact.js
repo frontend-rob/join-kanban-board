@@ -46,6 +46,7 @@ function addOverlayClickListener(overlay) {
     overlay.addEventListener('click', (event) => {
         if (event.target === overlay) {
             closeEditOverlay(); 
+            resetFormNotifications()
         }
     });
 }
@@ -116,6 +117,7 @@ function closeEditOverlay() {
         overlay.style.display = 'none';
         overlayContent.removeEventListener('transitionend', handler); 
     });
+    resetFormNotifications();
 }
 
 /**

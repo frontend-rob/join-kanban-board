@@ -12,11 +12,14 @@ function allowDrop(event) {
 /**
  * Stores the ID of the dragged element when dragging starts.
  * 
- * @param {Event} event - The dragstart event that occurs when a task starts being dragged.
+ * @param {Event} event - The dragstart event that occurs when a task is dragged.
  */
 function drag(event) {
-    event.dataTransfer.setData("text", event.target.id);
+    const target = event.target;
+    event.dataTransfer.setData("text", target.id);
+    target.classList.add('dragging');
 }
+
 
 /**
  * Handles the drop action by adding the dragged task to the drop zone.
@@ -28,6 +31,8 @@ async function drop(event) {
     const data = event.dataTransfer.getData("text");
     const draggedElement = document.getElementById(data);
     const dropZone = event.target.closest('.drop-zone');
+
+    draggedElement.classList.remove('dragging');
 
     if (dropZone) {
         dropZone.appendChild(draggedElement);
@@ -122,6 +127,7 @@ function initializeDropZones() {
         dropZone.addEventListener('dragleave', handleDragLeave);
         dropZone.addEventListener('drop', drop);
     });
+
 }
 
 // Event listeners for page loading

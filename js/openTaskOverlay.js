@@ -1,6 +1,63 @@
 const overlayElement = document.getElementById('overlay');
 
 /**
+ * Opens the task overlay and displays task details.
+ * 
+ * @param {string} taskId - The ID of the task to be displayed.
+ */
+function getTaskOverlay(taskId) {
+    const task = allTasks[taskId];
+
+    if (task) {
+        const overlayContent = getTaskOverlayContent(task);
+        const overlayElement = document.getElementById('overlay');
+        overlayElement.querySelector('.overlay-content').innerHTML = overlayContent;
+        overlayElement.setAttribute('data-task-id', taskId);
+        overlayElement.style.display = 'flex';
+    }
+}
+
+/**
+ * Closes the task overlay.
+ */
+function closeTaskOverlay() {
+    document.getElementById('overlay').style.display = 'none';
+}
+
+/**
+ * Generates HTML for assigned persons.
+ * 
+ * @param {Array} assignedTo - The list of assigned persons.
+ * @returns {string} The generated HTML.
+ */
+function getAssignedToHTML(assignedTo) {
+    return assignedTo.map(person => `
+        <div class="user">
+            <div class="profile-icon" style="background-color: ${person.color};">
+                <span style="color: white;">${person.initials}</span>
+            </div>
+            <span class="profile-name">${person.name}</span>
+        </div>
+    `).join('');
+}
+
+/**
+ * Generates HTML for subtasks.
+ * 
+ * @param {Array} subtasks - The list of subtasks.
+ * @param {string} taskId - The ID of the parent task.
+ * @returns {string} The generated HTML.
+ */
+function getSubtasksHTML(subtasks, taskId) {
+    return subtasks.map((subtask, index) => `
+        <div class="single-subtask" onclick="toggleSubtask('${taskId}', ${index})">
+            <img src="../assets/icons/${subtask.status === 'checked' ? 'checked' : 'unchecked'}.svg" alt="${subtask.status}"> 
+            <span>${subtask.text}</span>
+        </div>
+    `).join('');
+}
+
+/**
  * Fetches data from Firebase.
  * 
  * @param {string} url - The Firebase URL to fetch data from.
@@ -31,163 +88,6 @@ async function sendToFirebase(url, data, method) {
     });
     if (!response.ok) {
         throw new Error(`Fehler beim Senden an ${url}: ${response.statusText}`);
-    }
-}
-
-/**
- * Opens the task overlay by fetching task data from Firebase and populating it in the overlay.
- * 
- * @param {string} taskId - The ID of the task to be displayed in the overlay.
- */
-async function openTaskOverlay(taskId) {
-    try {
-        const task = await fetchFromFirebase(`${DB_URL}/tasks/${taskId}.json`);
-        const overlayContent = createOverlayContent(task, taskId);
-        overlayElement.querySelector('.overlay-content').innerHTML = overlayContent;
-        overlayElement.style.display = 'flex';
-    } catch (error) {
-        console.error('Fehler beim Abrufen der Aufgabe:', error);
-    }
-}
-
-/**
- * Creates the HTML content for the task overlay.
- * 
- * @param {Object} task - The task data fetched from Firebase.
- * @param {string} taskId - The ID of the task.
- * @returns {string} The HTML string for the overlay content.
- */
-function createOverlayContent(task, taskId) {
-    return `
-        <div class="task-type-and-close-container">
-            <p class="overlay-task-type">${task.category}</p>
-            <span class="close" onclick="closeTaskOverlay()">
-                <img src="../assets/icons/Close.svg" alt="Close Icon">
-            </span>
-        </div>
-        <h2 class="overlay-task-title">${task.title}</h2>
-        <p class="overlay-task-description">${task.description}</p>
-        ${createTaskDetails(task, taskId)}
-    `;
-}
-
-/**
- * Creates task details HTML including date, priority, assigned persons, and subtasks.
- * 
- * @param {Object} task - The task data.
- * @param {string} taskId - The ID of the task.
- * @returns {string} The HTML string for task details.
- */
-function createTaskDetails(task, taskId) {
-    return `
-        <div class="task-date">
-            <span class="date-text">Due date:</span>
-            <span class="date">${task.due_date}</span>
-        </div>
-        <div class="priority">
-            <span class="priority-text">Priority:</span>
-            <div class="priority-container">
-                <span class="level">${capitalizeFirstLetter(task.priority)}</span>
-                <img src="../assets/icons/priority-${task.priority}.svg" alt="">
-            </div>
-        </div>
-        <div class="assigned-to">
-            <span class="assigned-to-text">Assigned To:</span>
-            <div class="persons">
-                ${task.assigned_to.map(person => createPersonHTML(person)).join('')}
-            </div>
-        </div>
-        <div class="subtask-overlay">
-            <span class="subtask-header">Subtasks</span>
-            <div class="all-subtasks" id="subtasks-${taskId}">
-                ${task.subtasks.map((subtask, index) => getSubtaskTemplate(subtask, taskId, index)).join('')}
-            </div>
-        </div>
-        ${createTaskActions(taskId)}
-    `;
-}
-
-/**
- * Creates the action buttons for the task overlay.
- * 
- * @param {string} taskId - The ID of the task.
- * @returns {string} The HTML string for action buttons.
- */
-function createTaskActions(taskId) {
-    return `
-        <div class="action">
-            <div class="action-type" onclick="deleteTask('${taskId}')">
-                <img src="../assets/icons/delete.svg" alt="Delete Icon">
-                <span>Delete</span>
-            </div>
-            <div class="divider-vertical divider-action"></div>
-            <div class="action-type" onclick="editTask('${taskId}')">
-                <img src="../assets/icons/edit.svg" alt="Edit Icon">
-                <span>Edit</span>
-            </div>
-        </div>
-    `;
-}
-
-/**
- * Creates the HTML for a person assigned to a task.
- * 
- * @param {Object} person - The person data containing name, initials, and color.
- * @returns {string} The HTML string for the person.
- */
-function createPersonHTML(person) {
-    return `
-        <div class="user">
-            <div class="profile-icon" style="background-color: ${person.color};">
-                <span style="color: white;">${person.initials}</span>
-            </div>
-            <span class="profile-name">${person.name}</span>
-        </div>
-    `;
-}
-
-/**
- * Creates the HTML for a subtask.
- * 
- * @param {Object} subtask - The subtask data containing text and status.
- * @param {string} taskId - The ID of the parent task.
- * @param {number} index - The index of the subtask.
- * @returns {string} The HTML string for the subtask.
- */
-function getSubtaskTemplate(subtask, taskId, index) {
-    return `
-        <div class="single-subtask" onclick="toggleSubtask('${taskId}', ${index})">
-            <img src="../assets/icons/${subtask.status}.svg" alt="${subtask.status}"> 
-            <span>${subtask.text}</span>
-        </div>
-    `;
-}
-
-/**
- * Capitalizes the first letter of a string.
- * 
- * @param {string} string - The string to capitalize.
- * @returns {string} The string with the first letter capitalized.
- */
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-/**
- * Closes the task overlay by setting the overlay's display property to "none".
- */
-function closeTaskOverlay() {
-    overlayElement.style.display = 'none';
-}
-
-/**
- * Checks if the user clicks outside the overlay and closes the overlay if so.
- * 
- * @param {Event} event - The click event.
- */
-window.onclick = function(event) {
-    if (event.target === overlayElement) {
-        closeTaskOverlay();
     }
 }
 
@@ -251,15 +151,7 @@ async function updateSubtaskStatus(taskId, subtaskIndex, subtask) {
     await sendToFirebase(url, { status: subtask.status }, 'PATCH');
 }
 
-/**
- * Updates the entire subtasks array in Firebase.
- * 
- * @param {string} taskId - The ID of the task.
- * @param {Array} subtasks - The updated subtasks array.
- */
-async function updateSubtasks(taskId, subtasks) {
-    await sendToFirebase(`${DB_URL}/tasks/${taskId}/subtasks.json`, subtasks, 'PUT');
-}
+
 
 /**
  * Updates the progress of the task based on its subtasks.

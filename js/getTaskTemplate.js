@@ -35,37 +35,54 @@ function getTaskTemplate(tasks = allTasks, isSearchActive = false) {
 
     for (const taskId in tasksToDisplay) {
         const task = tasksToDisplay[taskId];
-        const subtasksCompleted = task.subtasks.filter(subtask => subtask.status === "checked").length;
-        const totalSubtasks = task.subtasks.length;
-        const progressPercentage = totalSubtasks > 0 ? (subtasksCompleted / totalSubtasks) * 100 : 0;
+        const progressPercentage = calculateProgress(task);
 
-        const assignedToHTML = task.assigned_to.map(person => `
-            <div class="profile-icon" style="background-color: ${person.color};">
-                ${person.initials}
-            </div>
-        `).join('');
-
-        const taskTemplate = `
-            <div class="task" draggable="true" ondragstart="drag(event)" id="${taskId}" onclick="openTaskOverlay('${taskId}')">
-                <div class="task-type">${task.category}</div>
-                <span class="task-title">${task.title}</span>
-                <p class="task-description">${task.description}</p>
-                <div class="subtask">
-                    <div class="progress-container">
-                        <div class="progress-bar" style="width: ${progressPercentage}%"></div>
-                    </div>
-                    <div class="subtask-text">${subtasksCompleted}/${totalSubtasks} Subtasks</div>
-                </div>
-                <div class="profile-icon-and-level">
-                    <div class="icons">${assignedToHTML}</div>
-                    <img class="level" src="../assets/icons/priority-${task.priority}.svg" alt="Priority Level">
-                </div>
-            </div>
-        `;
-
+        const taskTemplate = createTaskTemplate(taskId, task, progressPercentage);
         taskContainers[task.status] += taskTemplate;
     }
 
+    handleEmptyStates(taskContainers, tasks, isSearchActive);
+
+    document.getElementById('todo').innerHTML = taskContainers.todo;
+    document.getElementById('inprogress').innerHTML = taskContainers.inprogress;
+    document.getElementById('awaitfeedback').innerHTML = taskContainers.awaitfeedback;
+    document.getElementById('done').innerHTML = taskContainers.done;
+}
+
+/**
+ * Calculate the progress percentage of the task's subtasks.
+ * 
+ * @param {Object} task - The task object containing subtasks.
+ * @returns {number} - The progress percentage.
+ */
+function calculateProgress(task) {
+    const subtasksCompleted = task.subtasks.filter(subtask => subtask.status === "checked").length;
+    const totalSubtasks = task.subtasks.length;
+    return totalSubtasks > 0 ? (subtasksCompleted / totalSubtasks) * 100 : 0;
+}
+
+/**
+ * Creates the HTML template for a task.
+ * 
+ * @param {string} taskId - The ID of the task.
+ * @param {Object} task - The task object.
+ * @param {number} progressPercentage - The progress percentage of the task.
+ * @returns {string} - The HTML template for the task.
+ */
+function createTaskTemplate(taskId, task, progressPercentage) {
+    const taskContent = getTaskContent(taskId, task, progressPercentage);
+    return taskContent;
+}
+
+/**
+ * Handles the empty states for each task category.
+ * 
+ * @param {Object} taskContainers - The container for tasks in each status.
+ * @param {Object} tasks - The tasks to display.
+ * @param {boolean} isSearchActive - Indicates if a search is currently active.
+ */
+
+function handleEmptyStates(taskContainers, tasks, isSearchActive) {
     if (isSearchActive && Object.keys(tasks).length === 0) {
         taskContainers.todo = taskContainers.inprogress = taskContainers.awaitfeedback = taskContainers.done = `
             <div class="no-tasks-field">
@@ -105,119 +122,8 @@ function getTaskTemplate(tasks = allTasks, isSearchActive = false) {
             `;
         }
     }
-
-    document.getElementById('todo').innerHTML = taskContainers.todo;
-    document.getElementById('inprogress').innerHTML = taskContainers.inprogress;
-    document.getElementById('awaitfeedback').innerHTML = taskContainers.awaitfeedback;
-    document.getElementById('done').innerHTML = taskContainers.done;
 }
 
-/**
- * Opens the task overlay and displays task details.
- * 
- * @param {string} taskId - The ID of the task to be displayed.
- */
-function openTaskOverlay(taskId) {
-    const task = allTasks[taskId];
-
-    if (task) {
-        const overlayContent = `
-            <div class="task-type-and-close-container">
-                <p class="overlay-task-type">${task.category}</p>
-                <span class="close" onclick="closeTaskOverlay()">
-                    <img src="../assets/icons/Close.svg" alt="Close Icon">
-                </span>
-            </div>
-            <h2 class="overlay-task-title">${task.title}</h2>
-            <p class="overlay-task-description">${task.description}</p>
-            <div class="task-date">
-                <span class="date-text">Due date:</span>
-                <span class="date">${task.due_date}</span>
-            </div>
-            <div class="priority">
-                <span class="priority-text">Priority:</span>
-                <div class="priority-container">
-                    <span class="level">${task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}</span>
-                    <img src="../assets/icons/priority-${task.priority}.svg" alt="">
-                </div>
-            </div>
-            <div class="assigned-to">
-                <span class="assigned-to-text">Assigned To:</span>
-                <div class="persons">${getAssignedToHTML(task.assigned_to)}</div>
-            </div>
-            <div class="subtask-overlay">
-                <span class="subtask-header">Subtasks</span>
-                <div class="all-subtasks" id="subtasks-${taskId}">
-                    ${getSubtasksHTML(task.subtasks, taskId)}
-                </div>
-            </div>
-            <div class="action">
-                <div class="action-type" onclick="deleteTask()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
-                        <path
-                            d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z">
-                        </path>
-                    </svg>                    
-                    <span>Delete</span>
-                </div>
-                <div class="divider-vertical divider-action"></div>
-                <div class="action-type" onclick="editTask()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
-                        <path
-                            d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z">
-                        </path>
-                    </svg>
-                    <span>Edit</span>
-                </div>
-            </div>
-        `;
-
-        const overlayElement = document.getElementById('overlay');
-        overlayElement.querySelector('.overlay-content').innerHTML = overlayContent;
-        overlayElement.setAttribute('data-task-id', taskId);
-        overlayElement.style.display = 'flex';
-    }
-}
-
-/**
- * Closes the task overlay.
- */
-function closeTaskOverlay() {
-    document.getElementById('overlay').style.display = 'none';
-}
-
-/**
- * Generates HTML for assigned persons.
- * 
- * @param {Array} assignedTo - The list of assigned persons.
- * @returns {string} The generated HTML.
- */
-function getAssignedToHTML(assignedTo) {
-    return assignedTo.map(person => `
-        <div class="user">
-            <div class="profile-icon" style="background-color: ${person.color};">
-                <span style="color: white;">${person.initials}</span>
-            </div>
-            <span class="profile-name">${person.name}</span>
-        </div>
-    `).join('');
-}
-
-/**
- * Generates HTML for subtasks.
- * 
- * @param {Array} subtasks - The list of subtasks.
- * @param {string} taskId - The ID of the parent task.
- * @returns {string} The generated HTML.
- */
-function getSubtasksHTML(subtasks, taskId) {
-    return subtasks.map((subtask, index) => `
-        <div class="single-subtask" onclick="toggleSubtask('${taskId}', ${index})">
-            <img src="../assets/icons/${subtask.status === 'checked' ? 'checked' : 'unchecked'}.svg" alt="${subtask.status}"> 
-            <span>${subtask.text}</span>
-        </div>
-    `).join('');
-}
 
 /**
  * Updates the progress of the task in the UI.

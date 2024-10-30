@@ -188,3 +188,8 @@
 .icons {
     display: flex;
 }
+
+.dragging {
+    transform: rotate(5deg);
+    transition: transform 0.2s ease;
+}

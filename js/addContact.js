@@ -14,7 +14,7 @@ async function addContact() {
 
     const contacts = await fetchContactsFromFirebase();
     if (isEmailAlreadyUsed(contacts, email)) {
-        alert("This email is already used by another contact.");
+        showEmailUsedNotification();
         return;
     }
 
@@ -193,6 +193,8 @@ async function fetchContactsFromFirebase() {
 function closeTaskOverlay() {
     const overlay = document.getElementById('overlay');
     overlay.style.display = 'none';
+    resetFormNotifications();
+    
 }
 
 /**
@@ -202,6 +204,25 @@ function closeTaskOverlay() {
 function showNotification() {
     return new Promise((resolve) => {
         const modal = document.getElementById('successful-contact-add-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('show');
+
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            modal.classList.remove('show');
+            resolve();
+        }, 1000);
+    });
+}
+
+
+/**
+ * Shows a notification if email is already in the contact list
+ * @returns {Promise<void>}
+ */
+function showEmailUsedNotification() {
+    return new Promise((resolve) => {
+        const modal = document.getElementById('email-used-error-modal');
         modal.classList.remove('hidden');
         modal.classList.add('show');
 
