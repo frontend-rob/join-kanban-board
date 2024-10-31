@@ -9,7 +9,7 @@
     backdrop-filter: blur(0.25rem);
     justify-content: center;
     align-items: center;
-    z-index: 2;
+    z-index: 1000;
 }
 
 .overlay-content {
@@ -22,6 +22,7 @@
     position: relative;
     min-height: 31.25rem;
     gap: 1.5rem;
+
 }
 
 .close {
@@ -150,4 +151,28 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .overlay-content {
+        gap: 1rem;
+        width: 24rem;
+    }
+    ;
+}
+
+@media (max-width: 375px) {
+    .overlay-content {
+        width: 350px;
+        padding: 2rem;
+    }
+    .overlay-task-title {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .overlay-content {
+        width: 300px;
+    }
 }

@@ -9,11 +9,11 @@
     <link rel="stylesheet" href="../styles/fonts.css">
     <link rel="stylesheet" href="../styles/base.css">
     <link rel="stylesheet" href="../styles/assets.css">
-    <link rel="stylesheet" href="../styles/landscape.css">
     <link rel="stylesheet" href="../styles/header.css">
     <link rel="stylesheet" href="../styles/sidebar.css">
     <link rel="stylesheet" href="../styles/board.css">
     <link rel="stylesheet" href="../styles/task-overlay.css">
+    <link rel="stylesheet" href="../styles/landscape.css">
     <link rel="stylesheet" href="../style.css">
 </head>
 
@@ -35,9 +35,11 @@
                                 <div class="divider-vertical" id="divider-search"></div>
                                 <img src="../assets/icons/search.svg" alt="Search Icon" id="search-icon">
                             </div>
-                            <button class="btn" id="add-task-btn">Add task <img src="../assets/icons/add.svg"
-                                    alt="Add Icon"></button>
+                            <button class="btn" id="add-task-btn"><span id="add-task-text">Add task</span> <img
+                                    src="../assets/icons/add.svg" alt="Add Icon"></button>
                         </div>
+                    </div>
+                    <div id="responsive-search-bar">
                     </div>
 
                     <div class="workflow">
@@ -161,14 +163,15 @@
     <div id="landscape-wrapper"></div>
 
     <script src="../script.js"></script>
+    <script src="../js/board.js"></script>
     <script src="../js/landscape.js"></script>
     <script src="../js/setActiveNavLink.js"></script>
     <script src="../js/openTaskOverlay.js"></script>
-    <script src="../js/getTaskTemplate.js"></script>
     <script src="../js/deleteTask.js"></script>
     <script src="../js/dragAndDrop.js"></script>
-    <script src="../js/board.js"></script>
     <script src="../js/templates.js"></script>
+    <script src="../js/landscape.js"></script>
+    <script src="../js/getTaskTemplate.js"></script>
 </body>
 
 

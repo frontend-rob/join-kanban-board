@@ -49,3 +49,30 @@ function loadBoardTemplates({ header, navigation, landscapeModal }) {
     navigation.innerHTML = getNavigationContent();
     landscapeModal.innerHTML = getLandscapeModalContent();
 }
+
+
+
+function updateResponsiveLayout() {
+    const searchBarContainer = document.getElementById("responsive-search-bar");
+
+    if (window.innerWidth < 425) {
+        if (!searchBarContainer.querySelector("#search-bar")) {
+            searchBarContainer.innerHTML = `
+                <div class="input-field-2" id="search-bar">
+                    <input type="text" placeholder="Find Task">
+                    <div class="divider-vertical" id="divider-search"></div>
+                    <img src="../assets/icons/search.svg" alt="Search Icon" id="search-icon">
+                </div>
+            `;
+        }
+    } else {
+        searchBarContainer.innerHTML = "";
+    }
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    updateResponsiveLayout();
+});
+
+window.addEventListener("resize", updateResponsiveLayout);

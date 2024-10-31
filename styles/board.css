@@ -16,6 +16,7 @@
 
 .toolbar {
     display: flex;
+    align-items: center;
 }
 
 .board-text {
@@ -35,7 +36,6 @@
 .workflow {
     display: flex;
     flex-grow: 1;
-    gap: 1rem;
 }
 
 .status {
@@ -100,6 +100,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
 }
 
 .no-tasks-text {
@@ -156,6 +157,8 @@
 .subtask-text {
     color: black;
     margin-right: 1rem;
+    white-space: nowrap;
+
 }
 
 .plus-button:hover {
@@ -192,4 +195,53 @@
 .dragging {
     transform: rotate(5deg);
     transition: transform 0.2s ease;
+}
+
+@media (max-width: 1024px) {
+    .workflow {
+        flex-direction: column;
+    }
+    .drop-zone {
+        padding: 0;
+    }
+    .board-header {
+        padding-left: 0.5rem;
+    }
+    .status-header {
+        padding: 0 0.5rem;
+      }
+    .drop-zone {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+    .task {
+        width: 240px;
+    }
+    #add-task-btn {
+        width: 40px;
+        height: 40px;
+    }
+    #add-task-btn img {
+        height: 24px;
+    }
+    #add-task-btn #add-task-text {
+        display: none;
+    }
+}
+
+@media (max-width: 425px) {
+    .input-field {
+        display: none !important;
+    }
+    .board-header {
+        padding-left: 0;
+    }
+    .subtask-text {
+        font-size: 12px;
+        margin-right: 0;
+        padding-left: 12px;
+    }
 }
