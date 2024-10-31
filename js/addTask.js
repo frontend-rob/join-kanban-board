@@ -13,8 +13,7 @@ function includeHTML(callback) {
                     el.innerHTML = text;
                     el.removeAttribute("include-html");
                     loadedElements++;
-                    
-                    // Wenn alle Elemente geladen sind, rufe die Callback-Funktion auf
+
                     if (loadedElements === elements.length) {
                         callback();
                     }
@@ -23,8 +22,7 @@ function includeHTML(callback) {
                 console.error(`Error fetching ${file}: `, err);
                 el.innerHTML = "Content not found.";
                 loadedElements++;
-                
-                // Wenn alle Elemente geladen sind, rufe die Callback-Funktion auf
+
                 if (loadedElements === elements.length) {
                     callback();
                 }
@@ -33,72 +31,140 @@ function includeHTML(callback) {
     });
 }
 
+// Funktion zum Anzeigen/Verstecken von Dropdowns
+function toggleDropdown(dropdownId) {
+    const dropdown = document.getElementById(dropdownId);
+    if (dropdown) {
+        dropdown.classList.toggle("hidden");
+    }
+}
+
+// Funktion zur Kategorieauswahl und Dropdown schließen
+function selectCategory(category) {
+    document.getElementById("category").value = category;
+    toggleDropdown("category-dropdown");
+}
+
+
+// Funktion zum Umschalten der Anzeige des Subtask-Dropdowns
+function toggleSubtaskDropdown() {
+    const optionsDiv = document.getElementById("subtask-options");
+    optionsDiv.style.display = optionsDiv.style.display === "block" ? "none" : "block";
+}
+
+// Funktion zur Auswahl eines Subtasks und zum Hinzufügen zur Liste
+function selectSubtask(subtaskName) {
+    document.getElementById("subtask").value = subtaskName;  // Gewählten Subtask im Eingabefeld anzeigen
+    toggleSubtaskDropdown();  // Dropdown ausblenden
+    addSubtask(subtaskName);  // Zur Subtask-Liste hinzufügen
+}
+
+// Funktion zum Hinzufügen eines neuen Subtask-Elements zur Liste
+function addSubtask(subtaskName) {
+    const subtaskList = document.getElementById("subtask-list");
+
+    const subtaskItem = document.createElement("li");
+    subtaskItem.classList.add("subtask-item");
+    subtaskItem.innerHTML = `
+          <span class="bullet">•</span> <span>${subtaskName}</span>
+          <div class="subtask-actions">
+            <svg onclick="editSubtask(this)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#000000" viewBox="0 0 256 256">
+              <path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM51.31,160,136,75.31,152.69,92,68,176.68ZM48,179.31,76.69,208H48Zm48,25.38L79.31,188,164,103.31,180.69,120Zm96-96L147.31,64l24-24L216,84.68Z"></path>
+            </svg>
+            <svg onclick="removeSubtask(this)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#000000" viewBox="0 0 256 256">
+              <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
+            </svg>
+          </div>
+        `;
+    subtaskList.appendChild(subtaskItem);
+}
+
+// Funktion zum Entfernen eines Subtask-Elements
+function removeSubtask(element) {
+    element.closest(".subtask-item").remove();
+}
+
+// Funktion zum Bearbeiten eines Subtask-Elements
+function editSubtask(element) {
+    const subtaskText = element.closest(".subtask-item").querySelector("span:nth-child(2)");
+    const newSubtaskName = prompt("Edit Subtask:", subtaskText.textContent);
+    if (newSubtaskName) {
+        subtaskText.textContent = newSubtaskName;
+    }
+}
+
+// Dropdown schließen, wenn außerhalb geklickt wird
+document.addEventListener("click", function (event) {
+    const optionsDiv = document.getElementById("subtask-options");
+    const icon = document.querySelector(".input-field svg");
+    if (!optionsDiv.contains(event.target) && event.target !== icon) {
+        optionsDiv.style.display = "none";
+    }
+});
+
+// Eventlistener für das Icon hinzufügen, um Dropdown bei Klick anzuzeigen
+document.querySelector(".input-field svg").addEventListener("click", toggleSubtaskDropdown);
+
+
 // Initialisierungsfunktion
 function init() {
     includeHTML(() => {
-        // Rufe die Initialisierungsfunktionen erst auf, nachdem includeHTML fertig ist
         initializeFlatpickr();
         initializePrioButtons();
         initializeContactsDropdown();
         initializeAddContactButton();
     });
+
+    // Eventlistener für die Kontakt-Dropdown-Funktion
+    document.getElementById("assigned").addEventListener("click", () => toggleDropdown("contact-dropdown"));
+
+    // Eventlistener für die Kategorie-Dropdown-Funktion auf Eingabefeld und SVG-Icon
+    const categoryInput = document.getElementById("category");
+    const categoryIcon = document.querySelector(".input-group.category-container svg");
+
+    categoryInput.addEventListener("click", () => toggleDropdown("category-dropdown"));
+    categoryIcon.addEventListener("click", () => toggleDropdown("category-dropdown"));
+
+    // Eventlistener für das Subtask-Eingabefeld und das SVG-Icon
+    const subtaskInput = document.getElementById("subtask");
+    const subtaskIcon = document.querySelector("#subtask + svg");
+
+    subtaskInput.addEventListener("click", addSubtask);
+    subtaskIcon.addEventListener("click", addSubtask);
 }
 
-// Flatpickr-Initialisierung
+// Flatpickr-Initialisierung mit Deaktivierung des Mobilansicht-Inputs
 function initializeFlatpickr() {
     const dueDateInput = document.getElementById('due-date');
     const logo = document.querySelector('#logo-svg');
+    const logoPathData = "M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-68-76a12,12,0,1,1-12-12A12,12,0,0,1,140,132Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,132ZM96,172a12,12,0,1,1-12-12A12,12,0,0,1,96,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,140,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,172Z";
 
     if (!dueDateInput) {
-        console.error('Due date input not found. Check if the element exists and the ID is correct.');
+        console.error('Due date input not found.');
         return;
     }
 
-    // Prüfen, ob Flatpickr bereits initialisiert wurde
-    if (dueDateInput._flatpickr) {
-        console.warn('Flatpickr ist bereits initialisiert.');
-        return;
-    }
+    if (dueDateInput._flatpickr) return;
 
-    // Flatpickr initialisieren
-    const calendar = flatpickr(dueDateInput, {
+    flatpickr(dueDateInput, {
         minDate: "today",
-        dateFormat: "m/d/Y",
+        dateFormat: "d/m/Y",
         locale: { firstDayOfWeek: 1 },
         animate: true,
-        onReady: function(selectedDates, dateStr, instance) {
-            if (instance && instance.calendarContainer) {
-                instance.calendarContainer.classList.add('initialized');
-            }
-        }
+        disableMobile: true  // Deaktiviert die mobile Datumsanzeige
     });
 
-    // Event-Listener für das Datumseingabefeld hinzufügen, um den Kalender zu öffnen
-    dueDateInput.addEventListener('focus', () => {
-        if (calendar && typeof calendar.open === 'function') {
-            calendar.open();
-        }
-    });
-
-    // Event-Listener für das SVG-Icon hinzufügen
     if (logo) {
+        logo.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="${logoPathData}"/></svg>`;
         logo.addEventListener('click', () => {
-            if (calendar && typeof calendar.open === 'function') {
-                calendar.open();
+            if (dueDateInput._flatpickr) {
+                dueDateInput._flatpickr.open();
             }
         });
     } else {
-        console.warn('Element mit ID #logo-svg konnte nicht gefunden werden.');
+        console.warn('Element mit ID #logo-svg nicht gefunden.');
     }
-
-    // Verhindern, dass der Benutzer direkt in das Eingabefeld schreibt
-    dueDateInput.addEventListener('keydown', (e) => {
-        e.preventDefault();
-    });
 }
-
-// Funktion aufrufen, wenn das DOM geladen ist
-document.addEventListener('DOMContentLoaded', initializeFlatpickr);
 
 // Prio-Buttons Initialisierung
 function initializePrioButtons() {
@@ -130,7 +196,7 @@ function initializePrioButtons() {
                 button.style.backgroundColor = backgroundColor;
                 button.style.color = '#ffffff';
                 button.style.transform = 'scale(1.05)';
-                button.style.boxShadow = `0 0 15px ${backgroundColor}`;
+                button.style.boxShadow = `0 0 2px ${backgroundColor}`;
                 button.style.transition = 'all 0.3s ease';
 
                 const svgElement = button.querySelector('svg');
@@ -163,7 +229,7 @@ function initializePrioButtons() {
         `;
         document.head.appendChild(style);
     } else {
-        console.error('Keine Elemente mit der Klasse .prio-button gefunden.');
+        console.error('Keine .prio-button Elemente gefunden.');
     }
 }
 
@@ -173,7 +239,7 @@ function initializeContactsDropdown() {
     const assignedInput = document.getElementById('assigned');
 
     if (!dropdownContainer || !assignedInput) {
-        console.error('Contact dropdown container or assigned input not found. Check if the elements exist and the IDs are correct.');
+        console.error('Contact dropdown container or assigned input not found.');
         return;
     }
 
@@ -194,30 +260,30 @@ function initializeContactsDropdown() {
     function createLetterGroups(contacts) {
         const container = document.getElementById('contact-dropdown');
         if (!container) {
-            console.error('Element mit ID "contact-dropdown" wurde nicht gefunden. Sicherstellen, dass dieses HTML-Element existiert.');
-            return;  // Abbruch, falls das Element fehlt
+            console.error('Element mit ID "contact-dropdown" nicht gefunden.');
+            return;
         }
-    
+
         const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-    
+
         alphabet.forEach(letter => {
             const letterContacts = contacts.filter(contact => contact.name.toUpperCase().startsWith(letter));
-    
+
             if (letterContacts.length > 0) {
                 const letterGroup = document.createElement('div');
                 letterGroup.classList.add('letter-group');
-    
+
                 const letterHeader = document.createElement('h2');
                 letterHeader.textContent = letter;
                 letterGroup.appendChild(letterHeader);
-    
+
                 letterContacts.forEach(contact => {
                     const contactElement = document.createElement('div');
                     contactElement.classList.add('contact');
                     contactElement.textContent = contact.name;
                     letterGroup.appendChild(contactElement);
                 });
-    
+
                 container.appendChild(letterGroup);
             }
         });
@@ -232,7 +298,7 @@ function initializeAddContactButton() {
     if (addContactButton) {
         addContactButton.addEventListener('click', openAddContactOverlay);
     } else {
-        console.error('Add contact button not found. Check if the element with id "add-contact-button" exists in your HTML.');
+        console.error('Add contact button not found.');
     }
 }
 

@@ -63,7 +63,7 @@ h1 {
 label {
     display: block;
     font-size: 24px;
-    margin-bottom: 0.25rem;
+    margin: 40px 0 0.25rem;
     position: relative;
 }
 
@@ -72,10 +72,11 @@ label {
     flex-direction: column;
     position: relative;
     min-height: 80px;
+    cursor: pointer;
 }
 
 textarea::placeholder {
-    font-size: 1.25remx !important;
+    font-size: 1.25rem !important;
 }
 
 textarea {
@@ -85,7 +86,7 @@ textarea {
     border-radius: 10px;
     box-sizing: border-box;
     font-size: 16px;
-    border: 1px solid #d1d1d1;
+    border: 1px solid var(--input-border-col);
     resize: vertical;
 }
 
@@ -111,29 +112,21 @@ textarea {
     border: none;
     border-radius: 10px;
     color: var(--black-content);
-    align-items: center;
-    cursor: pointer;
-    flex-direction: row-reverse;
-    gap: 8px;
     display: flex;
-    gap: 8px;
-    width: 480px;
+    align-items: center;
     justify-content: center;
+    width: 480px;
     height: 3rem;
+    cursor: pointer;
+    gap: 8px;
 }
 
 .prio-button svg {
     flex-shrink: 0;
 }
 
-.prio-button.urgent {
-    background-color: var(--white-content);
-}
-
-.prio-button.medium {
-    background-color: var(--white-content);
-}
-
+.prio-button.urgent,
+.prio-button.medium,
 .prio-button.low {
     background-color: var(--white-content);
 }
@@ -148,8 +141,8 @@ textarea {
     height: 3.5rem;
     font-size: 1.25rem;
     font-weight: bold;
-    color: white;
-    background-color: #2a3647;
+    color: var(--white-content);
+    background-color: var(--bg-primary);
     border: none;
     border-radius: 10px;
     cursor: pointer;
@@ -183,17 +176,9 @@ textarea {
     justify-content: flex-end;
 }
 
-.clear-button,
-.create-button {
-    height: 42px;
-    font-size: 16px;
-    font-weight: 400;
-    color: white;
-    background-color: #2a3647;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.clear-button:hover,
+.create-button:hover {
+    background-color: #3e4e6a;
 }
 
 .clear-button {
@@ -202,19 +187,6 @@ textarea {
 
 .create-button {
     max-width: 11rem;
-}
-
-.clear-button:hover,
-.create-button:hover {
-    background-color: #3e4e6a;
-}
-
-.clear-button {
-    width: 7rem;
-}
-
-.create-button {
-    width: 11rem;
 }
 
 .icon {
@@ -232,7 +204,7 @@ textarea {
     display: inline-block;
     padding: 10px;
     border-radius: 8px;
-    background-color: white;
+    background-color: var(--white-content);
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s, box-shadow 0.2s;
 }
@@ -251,123 +223,80 @@ label[for="assigned"] {
     margin-top: 32px;
 }
 
-.btn btn-outline{
-    fill: var(--base-content);
-    color: var(--white-content);
+/* Dropdown styles */
+.dropdown {
+    border: 1px solid #ccc;
+    background-color: var(--white-content);
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    border-radius: 10px;
 }
 
-.btn btn-lg{
-    fill: var(--base-content);
-
-}
-
-/* Style for the dropdown container */
-/* Dropdown Container */
-#contact-dropdown {
-    border: 1px solid #e0e0e0;
-    border-radius: 6px;
-    padding: 10px;
-    max-height: 200px;
-    overflow-y: auto;
-    display: none; /* Initially hidden */
-    background-color: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* Each option in the dropdown */
-.dropdown-option {
-    display: flex;
-    align-items: center;
-    padding: 8px 12px;
+.dropdown-item {
+    padding: 8px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
-    border-radius: 4px;
 }
 
-.dropdown-option:hover {
+.dropdown-item:hover {
     background-color: #f0f0f0;
 }
 
-/* Initials circle in dropdown and selected contacts */
-.initials-circle {
-    width: 48px;
-    height: 48px;
+.input-field svg {
+    transition: transform 0.3s ease;
+    border: none;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    margin-right: 10px;
-    border: 4px solid #ffffff;
-    border-radius: 50%;
-}
-
-/* Contact name in dropdown */
-.contact-name {
-    flex-grow: 1;
-    font-size: 14px;
-    color: #333;
-}
-
-/* Checkbox style */
-.contact-checkbox {
-    width: 16px;
-    height: 16px;
-    accent-color: #1a73e8; /* Style for checked color */
+    padding: 2px;
     cursor: pointer;
 }
 
-/* Assigned input style */
-#assigned {
-    width: 100%;
-    padding: 8px 10px;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-sizing: border-box;
-    font-size: 14px;
-    color: #333;
+.input-field svg.open {
+    transform: rotate(180deg);
+    border: 1px solid lightgray;
 }
 
-#assigned::placeholder {
-    color: #888;
+.edit-icon,
+.delete-icon {
+    cursor: pointer;
+    margin-left: 8px;
 }
 
-#assigned:focus {
-    outline: none;
-    border-color: #1a73e8;
-    box-shadow: 0 0 4px rgba(26, 115, 232, 0.4);
+.subtask-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 10px;
 }
 
-/* Selected contacts container styling */
-#selected-contacts {
-    display: flex;
-    gap: 8px;
-    margin-top: 8px;
-}
-
-/* Styling for selected contact's initials only */
-.selected-contact {
-    border-radius: 50%;
+.subtask-item {
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 14px;
-    background-color: var(--contact-color); /* Platzhalter für die Kontaktfarbe */
-    margin-right: 6px; /* Geringer Abstand zwischen den Kreisen */
+    justify-content: space-between;
+    padding: 10px;
+    margin-top: 5px;
 }
 
-/* Feste Größe für den Flatpickr-Kalender */
-.flatpickr-calendar {
-    width: 300px !important; /* Feste Breite */
-    height: auto !important; /* Automatische Höhe für Inhalte */
-    max-width: 300px !important; /* Maximale Breite festsetzen */
-    max-height: 300px !important; /* Feste maximale Höhe */
-    overflow: hidden; /* Überschüssige Inhalte werden abgeschnitten */
+.bullet {
+    margin-right: auto;
 }
 
-/* Verhindert das Hinzufügen eines Kalender-Icons im Eingabefeld */
-.flatpickr-input {
-    background-image: none !important; /* Entfernt das Kalender-Icon */
-    padding-right: 0 !important; /* Setzt das Padding rechts zurück */
+.subtask-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.subtask-actions svg {
+    cursor: pointer;
+}
+
+.subtask-options {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    border: 1px solid #ccc;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
 }
