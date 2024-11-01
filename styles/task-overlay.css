@@ -9,20 +9,20 @@
     backdrop-filter: blur(0.25rem);
     justify-content: center;
     align-items: center;
-    z-index: 2;
+    z-index: 1000;
 }
-
 
 .overlay-content {
     display: flex;
     flex-direction: column;
     background-color: white;
-    padding: 48px 40px;
-    border-radius: 30px;
-    width: 525px;
+    padding: 3rem 2.5rem;
+    border-radius: 1.875rem;
+    width: 32rem;
     position: relative;
-    min-height: 500px;
-    gap: 24px;
+    min-height: 31.25rem;
+    gap: 1.5rem;
+
 }
 
 .close {
@@ -37,22 +37,21 @@
 
 .overlay-task-type {
     background-color: var(--task-color-blue);
-    border-radius: 8px;
+    border-radius: 0.5rem;
     color: white;
-    padding: 4px 20px 4px 20px;
+    padding: 0.25rem 1.25rem;
     width: fit-content;
-    font-size: 20px;
-
+    font-size: 1.25rem;
 }
 
 .overlay-task-title {
     font-weight: 700;
-    font-size: 48px
+    font-size: 3rem;
 }
 
 .task-date {
     display: flex;
-    gap: 32px;
+    gap: 2rem;
 }
 
 .date-text {
@@ -63,16 +62,16 @@
     color: var(--secondary-content);
 }
 
-.priority{
+.priority {
     display: flex;
-    gap: 48px;
+    gap: 3rem;
     align-items: center;
 }
 
 .assigned-to {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 0.5rem;
 }
 
 .assigned-to-text {
@@ -82,14 +81,14 @@
 .user {
     display: flex;
     align-items: center;
-    gap: 16px;
-    margin-left: 16px;
+    gap: 1rem;
+    margin-left: 1rem;
 }
 
 .subtask-overlay {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 0.5rem;
 }
 
 .subtask-header {
@@ -99,27 +98,27 @@
 .all-subtasks {
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin-left: 8px;
+    gap: 0.5rem;
+    margin-left: 0.5rem;
 }
 
 .single-subtask {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 1rem;
     cursor: pointer;
 }
 
 .action {
     display: flex;
-    gap: 8px;
+    gap: 0.5rem;
     justify-content: flex-end;
 }
 
 .action-type {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.5rem;
     cursor: pointer;
     transition: all 75ms ease;
 }
@@ -139,7 +138,7 @@
 .divider-action {
     height: auto;
     background-color: var(--input-border-col);
-    width: 1px;
+    width: 0.0625rem;
 }
 
 .priority-container {
@@ -151,5 +150,29 @@
 .persons {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+    .overlay-content {
+        gap: 1rem;
+        width: 24rem;
+    }
+    ;
+}
+
+@media (max-width: 375px) {
+    .overlay-content {
+        width: 350px;
+        padding: 2rem;
+    }
+    .overlay-task-title {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .overlay-content {
+        width: 300px;
+    }
 }

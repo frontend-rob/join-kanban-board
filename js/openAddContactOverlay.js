@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", function() {
     overlay.addEventListener('click', function(event) {
         if (event.target === overlay) {
             closeTaskOverlay();
+            resetFormNotifications()
         }
     });
 });

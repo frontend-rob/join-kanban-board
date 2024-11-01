@@ -12,21 +12,36 @@ async function deleteContact() {
         return;
     }
 
+    await deleteContactFromDatabase(contactId);
+    handleContactDeletion();
+}
+
+/**
+ * Deletes the contact from the database.
+ * @param {string} contactId - The ID of the contact to be deleted.
+ * @returns {Promise<void>}
+ */
+async function deleteContactFromDatabase(contactId) {
     try {
         const response = await fetch(`${DB_URL}/contacts/${contactId}.json`, { method: 'DELETE' });
         if (!response.ok) {
             throw new Error('Error deleting contact');
         }
-
-
-        loadContacts();
-
-        closeTaskOverlay();
-        clearContactDetails();
     } catch (error) {
         console.error('Error deleting contact:', error);
     }
 }
+
+/**
+ * Loads the updated contacts, closes the overlay, and clears contact details.
+ * @returns {void}
+ */
+function handleContactDeletion() {
+    loadContacts();
+    closeTaskOverlay();
+    clearContactDetails();
+}
+
 
 /**
  * Clears the contact details section after deleting a contact.
