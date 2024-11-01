@@ -31,7 +31,6 @@ function includeHTML(callback) {
     });
 }
 
-// Funktion zum Anzeigen/Verstecken des Dropdowns beim Klicken auf das Icon
 
 // Funktion zum Anzeigen/Verstecken des Dropdowns und Drehen des Icons beim Klick
 document.addEventListener('DOMContentLoaded', function() {
