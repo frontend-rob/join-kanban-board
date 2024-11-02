@@ -180,9 +180,9 @@
 }
 
 .input-field {
-    cursor: pointer;
-    position: relative;
+    position: relative; /* Stellt sicher, dass das Dropdown relativ zum Eingabefeld angezeigt wird */
     width: 100%;
+    cursor: pointer;
 }
 
 .input-field svg {
@@ -320,15 +320,9 @@ label[for="assigned"] {
 }
 
 .subtask-container {
-    margin-top: 54px;
     position: relative;
 }
 
-.subtask-item {
-    align-items: center;
-    display: flex;
-    padding: 5px 0;
-}
 
 .subtask-item .bullet {
     color: #000;
@@ -338,6 +332,7 @@ label[for="assigned"] {
 .subtask-list {
     list-style-type: none;
     padding: 0;
+    margin-top: 8px;
 }
 
 .subtask-options {
@@ -382,5 +377,85 @@ textarea::placeholder {
     transform: rotate(180deg);
 }
 
+/* Dropdown für Kontakte absolut positionieren */
+#contact-dropdown {
+    position: absolute;
+    left: 0;
+    z-index: 1000;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
 
+/* Fixiert die linke Spalte, damit das Layout unverändert bleibt */
+.left-column {
+    position: relative; /* Bezugsrahmen für absolut positionierte Elemente */
+}
 
+.subtask-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    display: none; /* Standardmäßig ausgeblendet */
+}
+
+#cancel-icon {
+    right: 40px;
+}
+
+#confirm-icon {
+    right: 10px;
+}
+
+.subtask-icon.visible {
+    display: block; /* Sichtbar, wenn die Klasse "visible" hinzugefügt wird */
+}
+
+.input-field:focus-within {
+    border-color: #00bee8; /* Rahmenfarbe bei Fokus */
+}
+
+.subtask-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-radius: 12px;
+    background-color: #f9f9f9;
+    margin-bottom: 5px;
+    position: relative;
+    transition: border-width 0.3s, background-color 0.3s;
+}
+
+.subtask-item:hover {
+    background-color: #e0e0e0; /* Hintergrundfarbe bei Hover */
+    border-width: 2px; /* Border-Stärke bei Hover erhöhen */
+    border-color: #888;
+}
+
+.subtask-item:hover .subtask-actions {
+    display: flex; /* Icons bei Hover anzeigen */
+}
+
+.subtask-item .subtask-actions {
+    display: none; /* Standardmäßig ausgeblendet */
+    position: absolute;
+    right: 10px; /* Abstand von rechts für die Icons */
+    top: 50%;
+    transform: translateY(-50%);
+    gap: 10px;
+}
+
+.subtask-item .subtask-actions svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.2s; /* Übergang für Icon-Größe */
+}
+
+.subtask-item:hover .subtask-actions svg {
+    transform: scale(1.2); /* Icons bei Hover vergrößern */
+}
