@@ -32,7 +32,7 @@ function includeHTML(callback) {
 }
 
 // Funktion zum Anzeigen/Verstecken des Dropdowns und Drehen des Icons beim Klick
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Elemente für den Category-Dropdown
     const categoryInput = document.getElementById('category');
     const categoryDropdownIcon = document.getElementById('dropdown-icon');
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const assignedInput = document.getElementById('assigned');
     const contactDropdownIcon = document.getElementById('contact-dropdown-icon');
     const contactDropdown = document.getElementById('contact-dropdown');
-    
+
     // Status, um zu prüfen, ob die Kontakte bereits geladen wurden
     let contactsLoaded = false;
 
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
             await initializeContactsDropdown();
             contactsLoaded = true;
         }
-        
+
         // Dropdown-Anzeige umschalten
         contactDropdown.classList.toggle('hidden');
         contactDropdownIcon.style.transform = contactDropdown.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (categoryDropdownIcon) categoryDropdownIcon.addEventListener('click', toggleCategoryDropdown);
 
     categoryDropdownItems.forEach(item => {
-        item.addEventListener('click', function() {
+        item.addEventListener('click', function () {
             categoryInput.value = this.getAttribute('data-category');
             toggleCategoryDropdown();
         });
@@ -114,9 +114,9 @@ function initializeContactsDropdown() {
                 <span>${contact.name}</span>
                 <input type="checkbox" onclick="toggleContactSelection(event, '${contact.id}', '${contact.name}', '${avatarColor}')">
             `;
-            
+
             // Klick auf den gesamten Bereich der `contact-option`
-            contactDiv.addEventListener('click', function(event) {
+            contactDiv.addEventListener('click', function (event) {
                 const checkbox = contactDiv.querySelector('input[type="checkbox"]');
                 checkbox.checked = !checkbox.checked;
                 toggleContactSelection(event, contact.id, contact.name, avatarColor);
@@ -165,7 +165,7 @@ function getRandomColor() {
 function selectContact(id, name) {
     const selectedContactsDiv = document.getElementById('selected-contacts');
     const existingContact = Array.from(selectedContactsDiv.children).find(child => child.getAttribute('data-id') === id);
-    
+
     if (existingContact) {
         console.warn(`Contact with id ${id} is already selected.`);
         return;
@@ -185,7 +185,7 @@ function init() {
         initializeFlatpickr();
         initializePrioButtons();
         initializeContactsDropdown();
-        
+
         const addContactButton = document.getElementById('add-contact-button');
         if (addContactButton) {
             addContactButton.addEventListener('click', openAddContactOverlay);
@@ -267,33 +267,101 @@ function openAddContactOverlay() {
     console.log('Opening add contact overlay');
 }
 
-// Funktion zum Hinzufügen eines Subtasks zur Liste
+// Dieser Event-Listener wird ausgelöst, sobald das Dokument geladen ist
+document.addEventListener('DOMContentLoaded', () => {
+    const subtaskInput = document.getElementById('subtask');
+
+    // Event zum Hinzufügen eines Subtasks bei Enter-Taste
+    subtaskInput.addEventListener('keypress', function (event) {
+        if (event.key === 'Enter') {
+            addSubtask();
+            event.preventDefault(); // Verhindert doppeltes Hinzufügen
+        }
+    });
+});
+
+// Funktion zum Hinzufügen eines neuen Subtasks
 function addSubtask() {
     const subtaskInput = document.getElementById('subtask');
     const subtaskList = document.getElementById('subtask-list');
-    
-    if (!subtaskInput.value.trim()) {
-        console.warn('Subtask input is empty.');
+
+    // Überprüfung, ob das Eingabefeld leer ist
+    const subtaskText = subtaskInput.value.trim();
+    if (!subtaskText) {
+        subtaskInput.focus();
         return;
     }
 
-    // Neues Listenelement für den Subtask erstellen
+    // Neues Listen-Element für den Subtask erstellen
     const subtaskItem = document.createElement('li');
     subtaskItem.className = 'subtask-item';
     subtaskItem.innerHTML = `
-        <span class="bullet">•</span> ${subtaskInput.value.trim()}
+        <span class="bullet">•</span> <span class="subtask-text">${subtaskText}</span>
         <div class="subtask-actions">
-            <svg onclick="editSubtask(this)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#000000" viewBox="0 0 256 256">
+            <svg onclick="editSubtask(this)" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256" class="edit-icon">
                 <path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM51.31,160,136,75.31,152.69,92,68,176.68ZM48,179.31,76.69,208H48Zm48,25.38L79.31,188,164,103.31,180.69,120Zm96-96L147.31,64l24-24L216,84.68Z"></path>
             </svg>
-            <svg onclick="deleteSubtask(this)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#000000" viewBox="0 0 256 256">
+            <svg onclick="deleteSubtask(this)" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256" class="delete-icon">
                 <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
             </svg>
         </div>
     `;
     subtaskList.appendChild(subtaskItem);
 
-    // Eingabefeld leeren und Icons ausblenden
+    // Eingabefeld zurücksetzen
     subtaskInput.value = '';
-    toggleIcons(false);
+}
+
+// Funktion zum Bearbeiten eines Subtasks
+function editSubtask(element) {
+    const subtaskItem = element.closest('.subtask-item');
+    if (!subtaskItem) return;
+
+    const currentTextSpan = subtaskItem.querySelector('.subtask-text');
+    if (!currentTextSpan) return;
+
+    const currentText = currentTextSpan.textContent;
+
+    // Eingabefeld für die Bearbeitung erstellen
+    const editInput = document.createElement('input');
+    editInput.type = 'text';
+    editInput.value = currentText;
+    editInput.classList.add('subtask-edit-input');
+
+    // Event hinzufügen, um Bearbeitung zu bestätigen
+    editInput.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            confirmEdit(editInput);
+        }
+    });
+
+    // Ersetzt den Subtask-Text durch das Eingabefeld
+    currentTextSpan.replaceWith(editInput);
+    subtaskItem.classList.add('editing');
+    editInput.focus();
+}
+
+// Funktion zum Bestätigen der Bearbeitung
+function confirmEdit(inputElement) {
+    const subtaskItem = inputElement.closest('.subtask-item');
+    if (!subtaskItem) return;
+
+    const newText = inputElement.value.trim();
+
+    if (newText) {
+        const textSpan = document.createElement('span');
+        textSpan.className = 'subtask-text';
+        textSpan.textContent = newText;
+
+        inputElement.replaceWith(textSpan);
+        subtaskItem.classList.remove('editing');
+    } else {
+        alert('Der Subtask darf nicht leer sein.');
+    }
+}
+
+// Funktion zum Löschen eines Subtasks
+function deleteSubtask(deleteIcon) {
+    const subtaskItem = deleteIcon.closest('.subtask-item');
+    if (subtaskItem) subtaskItem.remove();
 }

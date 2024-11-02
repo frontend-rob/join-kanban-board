@@ -62,6 +62,7 @@
 
 .contact-avatar {
     align-items: center;
+    border: 4px solid #ffffff;
     border-radius: 50%;
     color: #fff;
     display: flex;
@@ -69,36 +70,19 @@
     height: 32px;
     justify-content: center;
     margin-right: 10px;
-    width: 32px;
-    border: 4px solid #ffffff;
+    width: 48px;
+    height: 48px;
 }
 
 .contact-option {
-    display: flex;
     align-items: center;
-    padding: 10px;
     cursor: pointer;
+    display: flex;
+    padding: 10px;
 }
 
 .contact-option:hover {
     background-color: #f0f0f0;
-}
-
-.contact-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
-    margin-right: 10px;
-}
-
-.contact-option span {
-    flex-grow: 1;
-    font-size: 16px;
 }
 
 .contact-option input[type="checkbox"] {
@@ -106,19 +90,23 @@
     width: 16px;
 }
 
+.contact-option span {
+    flex-grow: 1;
+    font-size: 16px;
+}
+
 .create-button {
     max-width: 11rem;
 }
 
 .dropdown {
+    background-color: white;
     border: 1px solid #ccc;
-    border-top: none;
     border-radius: 10px;
+    border-top: none;
     max-height: 200px;
     overflow-y: auto;
-    background-color: white;
 }
-
 
 .dropdown-item {
     cursor: pointer;
@@ -130,12 +118,20 @@
 }
 
 .dropdown-options {
+    background-color: white;
     border: 1px solid #ccc;
-    border-top: none;
     border-radius: 10px;
+    border-top: none;
     max-height: 200px;
     overflow-y: auto;
-    background-color: white;
+}
+
+.dropdown-icon {
+    transition: transform 0.3s ease;
+}
+
+.dropdown-icon.rotated {
+    transform: rotate(180deg);
 }
 
 .edit-icon,
@@ -180,19 +176,23 @@
 }
 
 .input-field {
-    position: relative; /* Stellt sicher, dass das Dropdown relativ zum Eingabefeld angezeigt wird */
-    width: 100%;
     cursor: pointer;
+    position: relative;
+    width: 100%;
 }
 
 .input-field svg {
-    transition: transform 0.3s ease;
     cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
 .input-field svg.open {
     border: 1px solid lightgray;
     transform: rotate(180deg);
+}
+
+.input-field:focus-within {
+    border-color: #00bee8;
 }
 
 .input-wrapper {
@@ -216,6 +216,7 @@ label[for="assigned"] {
 
 .prio-button {
     align-items: center;
+    background-color: var(--white-content);
     border: none;
     border-radius: 10px;
     color: var(--black-content);
@@ -232,12 +233,6 @@ label[for="assigned"] {
 .prio-button:hover {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.4);
     transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-
-.prio-button.low,
-.prio-button.medium,
-.prio-button.urgent {
-    background-color: var(--white-content);
 }
 
 .prio-button svg {
@@ -280,21 +275,20 @@ label[for="assigned"] {
 }
 
 .selected-contact {
-    display: flex;
     align-items: center;
     background-color: #f0f0f0;
     border-radius: 16px;
-    padding: 5px 10px;
+    display: flex;
     font-size: 12px;
+    padding: 5px 10px;
 }
 
 .selected-contact .contact-avatar {
-    width: 20px;
-    height: 20px;
     font-size: 10px;
+    height: 20px;
     margin-right: 5px;
+    width: 20px;
 }
-
 
 .styled-button {
     background-color: var(--white-content);
@@ -310,49 +304,70 @@ label[for="assigned"] {
     transform: translateY(-2px);
 }
 
+/* Subtask Styles */
 .subtask-actions {
     display: flex;
-    gap: 5px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .subtask-actions svg {
     cursor: pointer;
+    width: 24px;
+    height: 24px;
+    fill: var(--base-content);
+    transition: transform 0.2s;
 }
 
 .subtask-container {
     position: relative;
 }
 
+.subtask-item {
+    align-items: center;
+    border-radius: 10px;
+    display: flex;
+    margin-bottom: 5px;
+    position: relative;
+    transition: border-width 0.3s, background-color 0.3s;
+}
+
+.subtask-edit-input {
+    border: none;
+    outline: none;
+    border-radius: 0px;
+    height: 8px;
+    font-size: 16px;
+}
 
 .subtask-item .bullet {
     color: #000;
     margin-right: 8px;
 }
 
-.subtask-list {
-    list-style-type: none;
-    padding: 0;
-    margin-top: 8px;
+.subtask-item:hover {
+    height: 32px;
+    background-color: var(--input-border-col);
+    border-radius: 0px;
 }
 
-.subtask-options {
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    display: none;
-    left: 0;
-    position: absolute;
-    top: 100%;
-    width: 100%;
-    z-index: 1000;
+.subtask-item.editing .bullet {
+    display: none; /* Punkt ausblenden während der Bearbeitung */
+}
+
+.subtask-list {
+    list-style-type: none;
+    margin-top: 8px;
+    padding: 0;
 }
 
 textarea {
     border: 1px solid var(--input-border-col);
     border-radius: 10px;
     box-sizing: border-box;
-    font-size: 16px;
+    font-size: 1.25rem;
     height: 120px;
     padding: 1rem;
     resize: vertical;
@@ -368,40 +383,23 @@ textarea::placeholder {
     width: 1px;
 }
 
-
-.dropdown-icon {
-    transition: transform 0.3s ease;
-}
-
-.dropdown-icon.rotated {
-    transform: rotate(180deg);
-}
-
 /* Dropdown für Kontakte absolut positionieren */
 #contact-dropdown {
-    position: absolute;
-    left: 0;
-    z-index: 1000;
-    width: 100%;
-    max-height: 200px;
-    overflow-y: auto;
     background-color: white;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border: 1px solid #ccc;
     border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    left: 0;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    width: 100%;
+    z-index: 1000;
 }
 
 /* Fixiert die linke Spalte, damit das Layout unverändert bleibt */
 .left-column {
-    position: relative; /* Bezugsrahmen für absolut positionierte Elemente */
-}
-
-.subtask-icon {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    display: none; /* Standardmäßig ausgeblendet */
+    position: relative;
 }
 
 #cancel-icon {
@@ -412,50 +410,9 @@ textarea::placeholder {
     right: 10px;
 }
 
-.subtask-icon.visible {
-    display: block; /* Sichtbar, wenn die Klasse "visible" hinzugefügt wird */
-}
-
-.input-field:focus-within {
-    border-color: #00bee8; /* Rahmenfarbe bei Fokus */
-}
-
-.subtask-item {
-    display: flex;
-    align-items: center;
-    padding: 8px;
-    border-radius: 12px;
-    background-color: #f9f9f9;
-    margin-bottom: 5px;
-    position: relative;
-    transition: border-width 0.3s, background-color 0.3s;
-}
-
-.subtask-item:hover {
-    background-color: #e0e0e0; /* Hintergrundfarbe bei Hover */
-    border-width: 2px; /* Border-Stärke bei Hover erhöhen */
-    border-color: #888;
-}
-
-.subtask-item:hover .subtask-actions {
-    display: flex; /* Icons bei Hover anzeigen */
-}
-
-.subtask-item .subtask-actions {
-    display: none; /* Standardmäßig ausgeblendet */
-    position: absolute;
-    right: 10px; /* Abstand von rechts für die Icons */
-    top: 50%;
-    transform: translateY(-50%);
-    gap: 10px;
-}
-
-.subtask-item .subtask-actions svg {
-    width: 20px;
-    height: 20px;
-    transition: transform 0.2s; /* Übergang für Icon-Größe */
-}
-
-.subtask-item:hover .subtask-actions svg {
-    transform: scale(1.2); /* Icons bei Hover vergrößern */
+.subtask-container .input-field input#subtask {
+    /* Alle Stile, die `asstest.css` überschreiben soll */
+    color: #000; /* Beispiel */
+    font-size: 1.25rem;
+    /* Füge hier die gewünschten Styles ein */
 }
