@@ -9,12 +9,12 @@ aside {
 
 nav {
   display: flex;
+  flex-direction: column;
   align-items: center;
   width: 14.5rem;
   height: 100vh;
   padding: 4rem 0;
   background-color: var(--bg-primary);
-  flex-direction: column;
 }
 
 .nav-logo {
@@ -23,6 +23,7 @@ nav {
 }
 
 .menu {
+  display: flex;
   flex-direction: column;
   width: 100%;
   margin-top: 7rem;
@@ -33,8 +34,8 @@ nav {
 .nav-link {
   display: flex;
   align-items: center;
-  height: 2.875rem;
   width: 100%;
+  height: 2.875rem;
   padding: 0 2.5rem;
   gap: 1rem;
   color: #cdcdcd;
@@ -44,10 +45,10 @@ nav {
 .nav-link:hover {
   background-color: #2a3d59;
   color: var(--bg-base-100);
+}
 
-  svg {
-    fill: var(--bg-base-100);
-  }
+.nav-link:hover svg {
+  fill: var(--bg-base-100);
 }
 
 .menu-item {
@@ -65,10 +66,10 @@ nav {
 .active {
   background-color: #091931;
   color: var(--bg-base-100);
+}
 
-  svg {
-    fill: var(--bg-base-100);
-  }
+.active svg {
+  fill: var(--bg-base-100);
 }
 
 .active:hover {
@@ -79,28 +80,28 @@ nav {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-top: auto;
   width: 100%;
+  margin-top: auto;
   gap: 0.5rem;
 }
 
 .footer-link {
   display: flex;
   align-items: center;
-  height: 2.5rem;
   width: 100%;
+  height: 2.5rem;
+  padding: 0.5rem 3rem;
   color: #a8a8a8;
   text-decoration: none;
-  padding: 0.5rem 3rem;
 }
 
 .footer-link:hover {
-  text-decoration: none;
   color: #29a6dc;
+  text-decoration: none;
 }
 
 .footer-link.active:hover {
-  color: #a8a8a8 !important;
+  color: #a8a8a8;
 }
 
 @media screen and (max-width: 60rem) {
@@ -108,16 +109,16 @@ nav {
   aside,
   nav {
     display: flex;
-    align-items: center;
-    width: 100%;
-    height: 5rem;
     flex-direction: row;
+    align-items: center;
     position: fixed;
-    top: unset;
     bottom: 0;
     left: 0;
+    width: 100%;
+    height: 5rem;
     padding-top: 0;
     padding-bottom: 0;
+    top: unset;
   }
 
   .nav-logo {
@@ -125,28 +126,30 @@ nav {
   }
 
   .menu {
+    display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
     width: 100%;
     height: 5rem;
+    padding: 0.25rem;
     margin-top: unset;
     flex-grow: 1;
-    padding: 0.25rem;
   }
 
   .nav-link {
     display: flex;
     align-items: center;
-    height: 100%;
     width: 5rem;
-    border-radius: 1rem;
+    height: 100%;
     padding: 0.5rem;
+    border-radius: 1rem;
   }
 
   .menu-item {
+    display: flex;
     flex-direction: column;
-    gap: .5rem;
+    gap: 0.5rem;
     font-size: 0.875rem;
   }
 

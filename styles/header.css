@@ -1,31 +1,32 @@
 header {
   position: sticky;
   top: 0;
-  background-color: var(--bg-base-100);
+  z-index: 1;
   width: 100%;
   height: 6rem;
-  box-shadow: var(--shadow-sm);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 4rem;
-  z-index: 1;
+  background-color: var(--bg-base-100);
+  box-shadow: var(--shadow-sm); 
 }
 
 .header-menu {
   position: relative;
+  display: flex;
   align-items: center;
   gap: 1.5rem;
 }
 
 .help-icon svg {
-  height: 2rem;
   width: 2rem;
+  height: 2rem;
   fill: var(--bg-neutral-accent);
 }
 
 .help-icon:hover {
-  scale: 1.1;
+  transform: scale(1.1);
 }
 
 .logo-container {
@@ -48,10 +49,10 @@ header {
 .mobile-menu a {
   display: flex;
   align-items: center;
+  width: 100%;
+  padding: 0.5rem 1rem;
   color: #cdcdcd;
   text-decoration: none;
-  padding: 0.5rem 1rem;
-  width: 100%;
   border-radius: 0.625rem;
   border-top-right-radius: 0;
 }
@@ -66,14 +67,14 @@ header {
 }
 
 .profile-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 3.5rem;
   height: 3.5rem;
   background-color: var(--bg-base-100);
   border: 2px solid var(--bg-primary);
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
 }
 
@@ -82,9 +83,9 @@ header {
 }
 
 .profile-initials {
-  color: var(--bg-accent);
-  font-weight: bold;
   font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--bg-accent);
 }
 
 .project-name {
@@ -110,13 +111,13 @@ header {
 
 @media screen and (max-width: 48rem) {
   header {
-    padding: 1rem;
     height: 4rem;
+    padding: 1rem;
   }
 
   .help-icon svg {
-    height: 1.75rem;
     width: 1.75rem;
+    height: 1.75rem;
   }
 
   .profile-button {
