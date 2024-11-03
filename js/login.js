@@ -155,6 +155,24 @@ function handleGuestLogin(user) {
 
 
 /**
+ * updates the error state of an input field and its corresponding error message.
+ * 
+ * @param {HTMLInputElement} input - the input element to update.
+ * @param {HTMLElement} errorElement - the corresponding error message element.
+ * @param {boolean} isValid - whether the input is valid or not.
+ */
+function setLoginInputErrorState(input, errorElement, isValid) {
+    if (isValid) {
+        input.classList.remove('input-error');
+        errorElement.classList.remove('show');
+    } else {
+        input.classList.add('input-error');
+        errorElement.classList.add('show');
+    }
+}
+
+
+/**
  * validates email input in the login form.
  * 
  * @function
@@ -164,16 +182,10 @@ function handleGuestLogin(user) {
 function validateLoginEmail(emailInput) {
     const errorEmail = document.getElementById('error-login-email');
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValid = emailPattern.test(emailInput.value.trim());
 
-    if (!emailPattern.test(emailInput.value.trim())) {
-        emailInput.classList.add('input-error');
-        errorEmail.classList.add('show');
-        return false;
-    } else {
-        emailInput.classList.remove('input-error');
-        errorEmail.classList.remove('show');
-        return true;
-    }
+    setLoginInputErrorState(emailInput, errorEmail, isValid);
+    return isValid;
 }
 
 
@@ -186,16 +198,10 @@ function validateLoginEmail(emailInput) {
  */
 function validateLoginPassword(passwordInput) {
     const errorPassword = document.getElementById('error-login-password');
+    const isValid = passwordInput.value.length >= 6;
 
-    if (passwordInput.value.length < 6) {
-        passwordInput.classList.add('input-error');
-        errorPassword.classList.add('show');
-        return false;
-    } else {
-        passwordInput.classList.remove('input-error');
-        errorPassword.classList.remove('show');
-        return true;
-    }
+    setLoginInputErrorState(passwordInput, errorPassword, isValid);
+    return isValid;
 }
 
 
