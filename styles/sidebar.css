@@ -45,8 +45,8 @@ nav {
   background-color: #2a3d59;
   color: var(--bg-base-100);
 
-  .nav-icon {
-    filter: brightness(1.5);
+  svg {
+    fill: var(--bg-base-100);
   }
 }
 
@@ -58,19 +58,22 @@ nav {
   font-size: 1rem;
 }
 
+.menu-item svg {
+  fill: #cdcdcd;
+}
+
 .active {
   background-color: #091931;
   color: var(--bg-base-100);
 
-  .nav-icon {
-    filter: brightness(1.5);
+  svg {
+    fill: var(--bg-base-100);
   }
 }
 
 .active:hover {
   background-color: #091931;
 }
-
 
 .footer-links {
   display: flex;
@@ -153,7 +156,6 @@ nav {
 }
 
 @media screen and (max-width: 28rem) {
-
   .nav-link {
     padding: 0.25rem;
   }
@@ -162,7 +164,7 @@ nav {
     font-size: 0.75rem;
   }
 
-  .nav-icon {
+  .svg {
     height: 1.5rem;
     width: 1.5rem;
   }

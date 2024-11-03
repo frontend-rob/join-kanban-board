@@ -18,6 +18,12 @@ header {
   gap: 1.5rem;
 }
 
+.help-icon svg {
+  height: 2rem;
+  width: 2rem;
+  fill: var(--bg-neutral-accent);
+}
+
 .help-icon:hover {
   scale: 1.1;
 }
@@ -87,48 +93,53 @@ header {
 
 @media screen and (max-width: 60rem) {
   header {
-      width: 100%;
-      display: flex;
+    width: 100%;
+    display: flex;
   }
 
   .logo-container {
-      display: flex;
-      width: 2rem;
-      height: 2.5rem;
+    display: flex;
+    width: 2rem;
+    height: 2.5rem;
   }
 
   .project-name {
-      display: none;
+    display: none;
   }
 }
 
 @media screen and (max-width: 48rem) {
   header {
-      padding: 1rem;
-      height: 4rem;
+    padding: 1rem;
+    height: 4rem;
+  }
+
+  .help-icon svg {
+    height: 1.75rem;
+    width: 1.75rem;
   }
 
   .profile-button {
-      width: 2.5rem;
-      height: 2.5rem;
-      border: 2px solid var(--bg-primary);
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 2px solid var(--bg-primary);
   }
 
   .profile-initials {
-      font-size: 1rem;
+    font-size: 1rem;
   }
 
   .mobile-menu {
-      top: 4rem;
+    top: 4rem;
   }
 }
 
 @media screen and (max-width: 28rem) {
   .help-icon {
-      display: none;
+    display: none;
   }
 
   .mobile-menu a.mobile-nav-help {
-      display: block;
+    display: block;
   }
 }
