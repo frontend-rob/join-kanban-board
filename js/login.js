@@ -1,16 +1,17 @@
 /**
  * processes the login of a user.
+ * 
+ * @async
+ * @function
  * @param {Event} event - the event triggered when the form is submitted.
+ * @returns {Promise<void>} a promise that resolves when the login process is complete.
  */
 async function login(event) {
     event.preventDefault();
-
     const emailInput = document.getElementById('login-email');
     const passwordInput = document.getElementById('login-password');
 
-    // perform validation
     if (validateLoginInputs(emailInput, passwordInput)) {
-        // attempt to find the user in Firebase
         const user = await findUserInDatabase(emailInput.value, passwordInput.value);
 
         if (user) {
@@ -24,9 +25,11 @@ async function login(event) {
 
 /**
  * validates email and password inputs.
+ * 
+ * @function
  * @param {HTMLInputElement} emailInput - the email input field.
  * @param {HTMLInputElement} passwordInput - the password input field.
- * @returns {boolean} - returns true if both inputs are valid, false otherwise.
+ * @returns {boolean} returns true if both inputs are valid, false otherwise.
  */
 function validateLoginInputs(emailInput, passwordInput) {
     const isEmailValid = validateLoginEmail(emailInput);
@@ -36,39 +39,43 @@ function validateLoginInputs(emailInput, passwordInput) {
 
 
 /**
- * finds a user by email and password in the Firebase Realtime Database using a REST API call.
+ * finds a user by email and password in the firebase realtime database using a rest api call.
+ * 
+ * @async
+ * @function
  * @param {string} email - the user's email.
  * @param {string} password - the user's password.
- * @returns {Object|null} - returns the user object if found, otherwise null.
+ * @returns {Promise<Object|null>} - returns the user object if found, otherwise null.
  */
 async function findUserInDatabase(email, password) {
     try {
-        // fetch data from the Firebase Realtime Database
         const response = await fetch(`${DB_URL}/users.json`);
-        const users = await response.json();  // converts response to JSON
+        const users = await response.json();
 
         if (users) {
-            // iterate over the users and find the matching email and password
             for (const key in users) {
                 const user = users[key];
                 if (user.email === email && user.password === password) {
-                    return user;  // return the matched user
+                    return user;
                 }
             }
         }
-        return null;  // return null if no user matches
+        return null;
     } catch (error) {
-        console.error("Error fetching data from Firebase:", error);
-        return null;  // return null in case of an error
+        console.error("error fetching data from firebase:", error);
+        return null;
     }
 }
 
 
 /**
  * handles actions when login is successful.
+ * 
+ * @function
  * @param {Object} user - the logged-in user object.
  * @param {HTMLInputElement} emailInput - the email input field.
  * @param {HTMLInputElement} passwordInput - the password input field.
+ * @returns {void}
  */
 function handleSuccessfulLogin(user, emailInput, passwordInput) {
     clearLoginInputs(emailInput, passwordInput);
@@ -79,8 +86,11 @@ function handleSuccessfulLogin(user, emailInput, passwordInput) {
 
 /**
  * clears the email and password input fields.
+ * 
+ * @function
  * @param {HTMLInputElement} emailInput - the email input field.
  * @param {HTMLInputElement} passwordInput - the password input field.
+ * @returns {void}
  */
 function clearLoginInputs(emailInput, passwordInput) {
     emailInput.value = '';
@@ -90,6 +100,9 @@ function clearLoginInputs(emailInput, passwordInput) {
 
 /**
  * redirects the user to the dashboard or another page after login.
+ * 
+ * @function
+ * @returns {void}
  */
 function redirectToDashboard() {
     window.location.href = './pages/summary.html';
@@ -98,6 +111,9 @@ function redirectToDashboard() {
 
 /**
  * handles actions when login fails by showing a modal instead of an alert.
+ * 
+ * @async
+ * @function
  * @param {HTMLInputElement} emailInput - the input field for the email.
  * @param {HTMLInputElement} passwordInput - the input field for the password.
  * @returns {Promise<void>} a promise that resolves after the modal is hidden and inputs are cleared.
@@ -110,6 +126,9 @@ async function handleFailedLogin(emailInput, passwordInput) {
 
 /**
  * logs in the user as a guest.
+ * 
+ * @function
+ * @returns {void}
  */
 function guestLogin() {
     const guestUser = {
@@ -124,7 +143,10 @@ function guestLogin() {
 
 /**
  * handles the successful guest login.
+ * 
+ * @function
  * @param {Object} user - the guest user object.
+ * @returns {void}
  */
 function handleGuestLogin(user) {
     redirectToDashboard();
@@ -134,6 +156,8 @@ function handleGuestLogin(user) {
 
 /**
  * validates email input in the login form.
+ * 
+ * @function
  * @param {HTMLInputElement} emailInput - the email input element.
  * @returns {boolean} true if email is valid, false otherwise.
  */
@@ -144,17 +168,19 @@ function validateLoginEmail(emailInput) {
     if (!emailPattern.test(emailInput.value.trim())) {
         emailInput.classList.add('input-error');
         errorEmail.classList.add('show');
-        return false; // invalid email
+        return false;
     } else {
         emailInput.classList.remove('input-error');
         errorEmail.classList.remove('show');
-        return true; // valid email
+        return true;
     }
 }
 
 
 /**
  * validates the password input in the login form.
+ * 
+ * @function
  * @param {HTMLInputElement} passwordInput - the password input element.
  * @returns {boolean} true if password is valid, false otherwise.
  */
@@ -164,19 +190,22 @@ function validateLoginPassword(passwordInput) {
     if (passwordInput.value.length < 6) {
         passwordInput.classList.add('input-error');
         errorPassword.classList.add('show');
-        return false; // invalid password
+        return false;
     } else {
         passwordInput.classList.remove('input-error');
         errorPassword.classList.remove('show');
-        return true; // valid password
+        return true;
     }
 }
 
 
 /**
  * displays the modal for failed login attempts and hides it after 2 seconds.
+ * 
+ * @function
  * @param {HTMLInputElement} emailInput - the input field for the email.
  * @param {HTMLInputElement} passwordInput - the input field for the password.
+ * @returns {Promise<void>} a promise that resolves after the modal is hidden.
  */
 function showFailedLoginModal(emailInput, passwordInput) {
     return new Promise((resolve) => {
@@ -195,6 +224,8 @@ function showFailedLoginModal(emailInput, passwordInput) {
 
 /**
  * generates initials from the full name.
+ * 
+ * @function
  * @param {string} fullName - the full name of the user.
  * @returns {string} - the initials of the user.
  */
@@ -203,10 +234,10 @@ function getUserInitials(fullName) {
     let initials = "";
 
     if (names.length > 0) {
-        initials += names[0].charAt(0).toUpperCase(); // first letter of the first name
+        initials += names[0].charAt(0).toUpperCase();
     }
     if (names.length > 1) {
-        initials += names[names.length - 1].charAt(0).toUpperCase(); // first letter of the last name
+        initials += names[names.length - 1].charAt(0).toUpperCase();
     }
 
     return initials;
@@ -217,8 +248,10 @@ function getUserInitials(fullName) {
  * updates user data in localStorage, including a greeting message based on the current time,
  * the user's name, and their initials.
  * 
+ * @function
  * @param {Object} user - the user object containing user details.
  * @param {string} user.name - the name of the user.
+ * @returns {void}
  */
 function updateUserData(user) {
     const currentHour = new Date().getHours();
