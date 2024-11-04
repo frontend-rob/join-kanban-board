@@ -152,16 +152,17 @@
 .form-content {
     display: flex;
     gap: 96px;
+    margin-top: -32px;
 }
 
 .hidden {
     display: none !important;
 }
 
-.h1 {
+h1 {
     font-size: 64px;
     font-weight: 700;
-    margin-top: 16px;
+    margin-top: -24px;
 }
 
 .icon {
@@ -304,63 +305,124 @@ label[for="assigned"] {
     transform: translateY(-2px);
 }
 
-/* Subtask Styles */
-.subtask-actions {
+.addSubtask-container {
+    position: relative;
+}
+
+.addSubtask-input-field {
+    position: relative;
     display: flex;
+    align-items: center;
+}
+
+#addSubtask-input {
+    width: 100%;
+    height: 3rem;
+    padding: 12px 21px;
+    border-radius: .625rem;
+    border: 1px solid var(--input-border-col);
+    background-color: var(--bg-base-100);
+    color: var(--base-content);
+    font-size: 1.25rem;
+    caret-color: var(--base-content);
+}
+
+.addSubtask-icons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     position: absolute;
-    right: 10px;
+    right: 0.5rem;
     top: 50%;
     transform: translateY(-50%);
 }
 
-.subtask-actions svg {
+.addSubtask-icons svg {
     cursor: pointer;
+    fill: var(--bg-neutral-accent);
     width: 24px;
     height: 24px;
-    fill: var(--base-content);
-    transition: transform 0.2s;
 }
 
-.subtask-container {
-    position: relative;
-}
-
-.subtask-item {
-    align-items: center;
-    border-radius: 10px;
-    display: flex;
-    margin-bottom: 5px;
-    position: relative;
-    transition: border-width 0.3s, background-color 0.3s;
-}
-
-.subtask-edit-input {
-    border: none;
-    outline: none;
-    border-radius: 0px;
-    height: 8px;
-    font-size: 16px;
-}
-
-.subtask-item .bullet {
-    color: #000;
-    margin-right: 8px;
-}
-
-.subtask-item:hover {
-    height: 32px;
+.vertical-divider {
+    width: 1px;
+    height: 24px;
     background-color: var(--input-border-col);
-    border-radius: 0px;
 }
 
-.subtask-item.editing .bullet {
-    display: none; /* Punkt ausblenden während der Bearbeitung */
-}
-
-.subtask-list {
+.addSubtask-list {
     list-style-type: none;
     margin-top: 8px;
     padding: 0;
+}
+
+.addSubtask-item {
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+    margin-bottom: 5px;
+    position: relative;
+    padding: 4px;
+    border-radius: 10px;
+}
+
+.addSubtask-item:hover {
+    background-color: var(--input-border-col);
+}
+
+.addSubtask-item .addSubtask-actions {
+    display: none;
+    position: absolute;
+    right: 16px;
+    gap: 8px;
+}
+
+.addSubtask-item:hover .addSubtask-actions {
+    display: flex;
+}
+
+.addSubtask-actions svg {
+    cursor: pointer;
+    fill: var(--base-content);
+    width: 20px;
+    height: 20px;
+
+}
+
+.addSubtask-divider {
+    width: 1px;
+    height: 24px;
+    background-color: var(--input-border-col);
+}
+
+#addSubtask-input:focus {
+    border-color: #00bee8;
+    outline: none;
+}
+
+.subtask-edit-input {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    border-bottom: 2px solid var(--bg-accent);
+    background-color: var(--bg-base-100);
+    color: var(--base-content);
+}
+
+.subtask-edit-input:focus {
+    outline: none;
+    border-color: var(--bg-accent);
+}
+
+.subtask-edit-input:focus-visible{
+    border: none;
+    border-radius: 0px;
+    height: 32px;
+    border-bottom: 1px solid var(--bg-accent)
+
 }
 
 textarea {
@@ -378,12 +440,6 @@ textarea::placeholder {
     font-size: 1.25rem !important;
 }
 
-.vertical-line {
-    background-color: #d1d1d1;
-    width: 1px;
-}
-
-/* Dropdown für Kontakte absolut positionieren */
 #contact-dropdown {
     background-color: white;
     border: 1px solid #ccc;
@@ -392,27 +448,11 @@ textarea::placeholder {
     left: 0;
     max-height: 200px;
     overflow-y: auto;
-    position: absolute;
-    width: 100%;
     z-index: 1000;
 }
 
-/* Fixiert die linke Spalte, damit das Layout unverändert bleibt */
-.left-column {
-    position: relative;
-}
-
-#cancel-icon {
-    right: 40px;
-}
-
-#confirm-icon {
-    right: 10px;
-}
-
-.subtask-container .input-field input#subtask {
-    /* Alle Stile, die `asstest.css` überschreiben soll */
-    color: #000; /* Beispiel */
-    font-size: 1.25rem;
-    /* Füge hier die gewünschten Styles ein */
+.icon-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
