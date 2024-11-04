@@ -153,9 +153,3 @@ function showContactDetails(contact, contactId) {
 
     contactDetailsContainer.classList.add('show');
 }
-
-window.onload = function() {
-    includeHTML();
-    createLetterGroups();
-    loadContacts();
-};

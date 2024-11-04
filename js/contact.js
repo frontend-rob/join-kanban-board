@@ -9,6 +9,9 @@
 async function initContactPage() {
     console.log('initContactPage called');
     await renderContactContent();
+    createLetterGroups();
+    loadContacts();
+    addPreventEnterKeyListener();
     initializeNavigation();
     preventLandscapeOnMobileDevices();
 }
@@ -123,9 +126,3 @@ function addPreventEnterKeyListener() {
         });
     });
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    initContactPage();
-    addPreventEnterKeyListener();
-});
-
