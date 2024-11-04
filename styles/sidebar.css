@@ -28,6 +28,7 @@ nav {
   margin-top: 7rem;
   list-style: none;
   gap: 1rem;
+  z-index: 1000;
 }
 
 .nav-link {
