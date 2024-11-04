@@ -10,6 +10,7 @@ header {
   padding: 0 4rem;
   background-color: var(--bg-base-100);
   box-shadow: var(--shadow-sm); 
+  z-index: 1000;
 }
 
 .header-menu {

@@ -103,20 +103,20 @@ h2 {
 
 @media screen and (max-width: 60rem) {
   .main-content {
-    padding-bottom: 6rem;
+    /* padding-bottom: 6rem; */
   }
 }
 
 @media screen and (max-width: 48rem) {
   .main-content {
-    padding: 3rem 1rem;
-    padding-bottom: 6rem;
+    padding: 2rem 1rem;
+    /* padding-bottom: 6rem; */
   }
 }
 
 @media (max-width: 425px) {
   .main-content {
     padding: 2rem 1rem;
-    padding-bottom: 6rem;
+    /* padding-bottom: 6rem; */
   }
 }

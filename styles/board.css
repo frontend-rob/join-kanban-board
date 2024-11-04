@@ -36,6 +36,7 @@
 .workflow {
     display: flex;
     flex-grow: 1;
+
 }
 
 .status {
@@ -80,6 +81,9 @@
 }
 
 .drop-zone {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
     flex-grow: 1;
     padding: 1rem;
 }
@@ -117,7 +121,6 @@
     gap: 1rem;
     display: flex;
     flex-direction: column;
-    margin-bottom: 1rem;
 }
 
 .task-type {
@@ -197,10 +200,18 @@
     transition: transform 0.2s ease;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1440px) {
     .workflow {
+        gap: 2rem;
         flex-direction: column;
+
     }
+    .drop-zone {
+        flex-direction: row;
+    }
+}
+
+@media (max-width: 1024px) {
     .drop-zone {
         padding: 0;
     }
@@ -212,7 +223,6 @@
       }
     .drop-zone {
         display: flex;
-        flex-direction: row;
         gap: 1rem;
         overflow-x: auto;
         scrollbar-width: none;
@@ -234,7 +244,7 @@
 
 @media (max-width: 425px) {
     .input-field {
-        display: none !important;
+        /* display: none !important; */
     }
     .board-header {
         padding-left: 0;

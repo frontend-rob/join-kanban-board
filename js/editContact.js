@@ -33,9 +33,14 @@ function showOverlay(overlay, overlayContent) {
 
     setTimeout(() => {
         overlayContent.classList.add('show-edit-contact');
-        overlayContent.style.right = '20%';
+        if (window.innerWidth > 1024) {
+            overlayContent.style.right = '20%';
+        } else {
+            overlayContent.style.right = '';
+        }
     }, 0);
 }
+
 
 /**
  * Adds a click event listener to the overlay for closing it.

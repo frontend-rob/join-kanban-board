@@ -111,8 +111,11 @@ function showContactDetails(contact, contactId) {
     contactDetailsContainer.innerHTML = `
         <div class="headline-wrapper">
             <h1 class="main-headline">Contacts</h1>
-            <div class="divider-vertical divider-accent"></div>
-            <span>Better with a team</span>
+            <div class="responsive-container">
+                <div class="divider-vertical divider-accent"></div>
+                <span>Better with a team</span>
+            </div>
+            <img onclick="hideContactDetails()" class="back-btn" src="../assets/icons/back-arrow.svg" alt="">
         </div>
         <div class="contact-card">
             <div class="icon-name-and-action">
@@ -142,10 +145,11 @@ function showContactDetails(contact, contactId) {
             <div class="contact-info">
                 <span class="contact-info-text">Contact Information</span>
                 <div class="info-section">
-                    <span class="email-card">Email</span>
-                    <a href="mailto:${contact.email}" class="email">${contact.email}</a>
-                    <span class="phone-card">Phone</span>
-                    <span class="phone">${contact.phone}</span>
+                <span class="email-card">Email</span>
+                <a href="mailto:${contact.email}" class="email">${contact.email}</a>
+                <span class="phone-card">Phone</span>
+                <span class="phone">${contact.phone}</span>
+                <img onclick="editContact('${contactId}')" class="edit-contact-btn-mobile" src="../assets/icons/edit-contact-btn-mobile.svg" alt="">
                 </div>
             </div>
         </div>
@@ -154,8 +158,17 @@ function showContactDetails(contact, contactId) {
     contactDetailsContainer.classList.add('show');
 }
 
-window.onload = function() {
-    includeHTML();
-    createLetterGroups();
-    loadContacts();
-};
+/**
+ * Hides the contact details overlay.
+ */
+function hideContactDetails() {
+    const contactDetailsContainer = document.querySelector('.contact-details');
+    contactDetailsContainer.classList.add('hide');
+    const activeContact = document.querySelector('.contact.user-active');
+    if (activeContact) {
+        activeContact.classList.remove('user-active');
+    }
+    setTimeout(() => {
+        contactDetailsContainer.classList.remove('show', 'hide');
+    }, 300);
+}

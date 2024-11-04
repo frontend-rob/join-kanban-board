@@ -2,13 +2,17 @@ document.addEventListener("DOMContentLoaded", function() {
     const addContactButton = document.querySelector('.btn-contact');
     const overlay = document.getElementById('overlay');
     const overlayContent = document.querySelector('.overlay-content-add-contact');
+    const imgOpenOverlay = document.querySelector('.add-contact-btn-mobile');
 
-    addContactButton.addEventListener('click', function() {
+    function openOverlay() {
         overlay.style.display = 'flex'; 
         setTimeout(() => {
             overlayContent.classList.add('show'); 
-        }, 10); 
-    });
+        }, 10);
+    }
+
+    addContactButton.addEventListener('click', openOverlay);
+    imgOpenOverlay.addEventListener('click', openOverlay);
 
     /**
      * Closes the overlay by removing the show class and setting the overlay display to none after a delay.
@@ -35,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
     overlay.addEventListener('click', function(event) {
         if (event.target === overlay) {
             closeTaskOverlay();
-            resetFormNotifications()
+            resetFormNotifications();
         }
     });
 });

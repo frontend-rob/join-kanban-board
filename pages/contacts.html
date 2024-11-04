@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="../style.css">
 </head>
 
-<body>
+<body onload="initContactPage()">
     <div class="page-wrapper">
         <aside id="navigation-content"></aside>
         <main>
@@ -30,15 +30,11 @@
                     </button>
                 </div>
                 <div class="letter-groups"></div>
+                <img class="add-contact-btn-mobile" src="../assets/icons/add-contact-btn-mobile.svg" alt="">
             </div>
 
             <section class="main-content">
                 <div class="contact-details">
-                    <div class="headline-wrapper">
-                        <h1 class="main-headline">Contacts</h1>
-                        <div class="divider-vertical divider-accent"></div>
-                        <span>Better with a team</span>
-                    </div>
                     <!-- The contact card will be dynamically updated here -->
                     <div class="contact-card"></div>
                 </div>
