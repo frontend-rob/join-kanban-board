@@ -1,13 +1,15 @@
 /**
- * adds a new user if the form validation passes and the user doesn't already exist in Firebase.
+ * adds a new user if the form validation passes and the user doesn't already exist in firebase.
+ *
+ * @async
  * @param {Event} event - the event object from the form submission.
+ * @returns {Promise<void>} resolves when the user is added or a failure modal is shown.
  */
 async function addUser(event) {
     event.preventDefault();
     const inputs = getFormInputs();
     const validations = validateInputs(inputs);
 
-    // if all validations pass, check if the user already exists
     if (areAllValid(validations)) {
         const userExists = await checkIfUserExists(inputs.email.value);
 
@@ -25,15 +27,17 @@ async function addUser(event) {
 
 /**
  * checks if a user with the given email already exists in firebase.
+ *
+ * @async
  * @param {string} email - the email to check.
- * @returns {Promise<boolean>} - returns true if the user exists, false otherwise.
+ * @returns {Promise<boolean>} resolves to true if the user exists, false otherwise.
  */
 async function checkIfUserExists(email) {
     try {
         const users = await fetchUsersFromFirebase();
         return userExists(users, email);
     } catch (error) {
-        console.error('Error checking user in firebase:', error);
+        console.error('error checking user in firebase:', error);
         return false;
     }
 }
@@ -41,7 +45,10 @@ async function checkIfUserExists(email) {
 
 /**
  * fetches users from firebase.
- * @returns {Promise<Object>} - returns the users object from firebase.
+ *
+ * @async
+ * @returns {Promise<Object>} resolves to the users object retrieved from firebase.
+ * @throws {Error} if the fetch request fails or if the response is not ok.
  */
 async function fetchUsersFromFirebase() {
     const response = await fetch(`${DB_URL}/users.json`);
@@ -52,24 +59,24 @@ async function fetchUsersFromFirebase() {
 
 /**
  * checks if a user with the specified email exists in the users object.
+ *
  * @param {Object} users - the users object fetched from firebase.
  * @param {string} email - the email to check.
- * @returns {boolean} - returns true if the user exists, false otherwise.
+ * @returns {boolean} true if the user exists, false otherwise.
  */
 function userExists(users, email) {
-    for (const key in users) {
-        if (users[key].email === email) {
-            return true; // user already exists
-        }
-    }
-    return false; // no user with this email found
+    return Object.values(users).some(user => user.email === email);
 }
 
 
 /**
- * adds the user to Firebase Realtime Database.
- * @param {Object} inputs - the form input elements.
- * @returns {Promise<void>} - returns a promise once the user is added.
+ * adds a new user to the Firebase Realtime Database.
+ *
+ * @param {Object} inputs - the form input elements containing user information.
+ * @param {HTMLInputElement} inputs.name - the user's name input element.
+ * @param {HTMLInputElement} inputs.email - the user's email input element.
+ * @param {HTMLInputElement} inputs.password - the user's password input element.
+ * @returns {Promise<void>} resolves when the user is successfully added.
  */
 async function addUserToFirebase(inputs) {
     const newUser = {
@@ -87,9 +94,14 @@ async function addUserToFirebase(inputs) {
 
 
 /**
- * registers a user in Firebase Realtime Database.
- * @param {Object} user - the user object to register.
- * @returns {Promise<void>} - returns a promise once the user is registered.
+ * registers a new user in the Firebase Realtime Database.
+ *
+ * @param {Object} user - the user object containing registration details.
+ * @param {string} user.name - the user's name.
+ * @param {string} user.email - the user's email address.
+ * @param {string} user.password - the user's password.
+ * @returns {Promise<void>} resolves when the user is successfully registered.
+ * @throws {Error} if registration fails.
  */
 async function registerUserInFirebase(user) {
     const response = await fetch(`${DB_URL}/users.json`, {
@@ -107,7 +119,8 @@ async function registerUserInFirebase(user) {
 
 
 /**
- * retrieves form input elements.
+ * retrieves the form input elements for the sign-up process.
+ *
  * @returns {Object} an object containing the input elements.
  */
 function getFormInputs() {
@@ -122,7 +135,8 @@ function getFormInputs() {
 
 
 /**
- * validates all input fields.
+ * validates all input fields in the sign-up form.
+ *
  * @param {Object} inputs - the form input elements.
  * @returns {Object} an object containing validation results.
  */
@@ -139,6 +153,7 @@ function validateInputs(inputs) {
 
 /**
  * checks if all validations are true.
+ * 
  * @param {Object} validations - the validation results.
  * @returns {boolean} true if all validations are valid, false otherwise.
  */
@@ -149,6 +164,7 @@ function areAllValid(validations) {
 
 /**
  * clears the form inputs.
+ * 
  * @param {Object} inputs - the form input elements.
  */
 function clearForm(inputs) {
@@ -161,164 +177,118 @@ function clearForm(inputs) {
 
 
 /**
+ * updates the error state of an input field and its corresponding error message.
+ * 
+ * @param {HTMLInputElement} input - the input element to update.
+ * @param {HTMLElement} errorElement - the corresponding error message element.
+ * @param {boolean} isValid - whether the input is valid or not.
+ */
+function setSignupInputErrorState(input, errorElement, isValid) {
+    if (isValid) {
+        input.classList.remove('input-error');
+        errorElement.classList.remove('show');
+    } else {
+        input.classList.add('input-error');
+        errorElement.classList.add('show');
+    }
+}
+
+
+/**
  * validates the user's name input.
  * checks if the name contains both first and last names.
+ * 
  * @param {HTMLInputElement} nameInput - the name input element.
  * @returns {boolean} true if the name is valid, false otherwise.
  */
 function validateName(nameInput) {
     const errorName = document.getElementById('error-signup-name');
     const fullName = nameInput.value.trim();
+    const isValid = fullName.split(' ').length >= 2;
 
-    // check if full name contains at least two words
-    if (fullName.split(' ').length < 2) {
-        nameInput.classList.add('input-error');
-        errorName.classList.add('show');
-        return false; // invalid name
-    } else {
-        nameInput.classList.remove('input-error');
-        errorName.classList.remove('show');
-        return true; // valid name
-    }
+    setSignupInputErrorState(nameInput, errorName, isValid);
+    return isValid;
 }
 
 
 /**
  * validates the signup email.
- * @param {HTMLInputElement} emailInput - the email input element.
- * @returns {boolean} true if email is valid, false otherwise.
+ *
+ * @param {HTMLInputElement} emailInput - the input element for the user's email.
+ * @returns {boolean} true if the email format is valid, false otherwise.
  */
 function validateSignupEmail(emailInput) {
-    // add your email validation logic here
-    return emailInput.value.includes('@');
+    const errorEmail = document.getElementById('error-signup-email');
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValid = emailPattern.test(emailInput.value.trim());
+
+    setSignupInputErrorState(emailInput, errorEmail, isValid);
+    return isValid;
 }
 
 
 /**
  * validates the signup password.
- * @param {HTMLInputElement} passwordInput - the password input element.
- * @returns {boolean} true if password is valid, false otherwise.
- */
-function validateSignupPassword(passwordInput) {
-    // add password validation logic here (e.g., length, special chars)
-    return passwordInput.value.length >= 6;
-}
-
-
-/**
- * validates the confirm password field.
- * @param {HTMLInputElement} passwordInput - the password input element.
- * @param {HTMLInputElement} confirmPasswordInput - the confirm password input element.
- * @returns {boolean} true if passwords match, false otherwise.
- */
-function validateConfirmPassword(passwordInput, confirmPasswordInput) {
-    return passwordInput.value === confirmPasswordInput.value;
-}
-
-
-/**
- * validates the checkbox input.
- * @param {HTMLInputElement} checkbox - the checkbox input element.
- * @returns {boolean} true if checkbox is checked, false otherwise.
- */
-function validateCheckbox(checkbox) {
-    return checkbox.checked;
-}
-
-
-/**
- * validates the user's email input in the signup form.
- * @param {HTMLInputElement} emailInput - the email input element.
- * @returns {boolean} true if the email is valid, false otherwise.
- */
-function validateSignupEmail(emailInput) {
-    const errorEmail = document.getElementById('error-signup-email');
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!emailPattern.test(emailInput.value.trim())) {
-        emailInput.classList.add('input-error');
-        errorEmail.classList.add('show');
-        return false; // invalid email
-    } else {
-        emailInput.classList.remove('input-error');
-        errorEmail.classList.remove('show');
-        return true; // valid email
-    }
-}
-
-
-/**
- * validates the user's password input in the signup form.
- * @param {HTMLInputElement} passwordInput - the password input element.
- * @returns {boolean} true if the password is valid, false otherwise.
+ *
+ * @param {HTMLInputElement} passwordInput - the input element for the user's password.
+ * @returns {boolean} true if the password meets the minimum length requirement, false otherwise.
  */
 function validateSignupPassword(passwordInput) {
     const errorPassword = document.getElementById('error-signup-password');
+    const isValid = passwordInput.value.length >= 6;
 
-    if (passwordInput.value.length < 6) {
-        passwordInput.classList.add('input-error');
-        errorPassword.classList.add('show');
-        return false; // invalid password
-    } else {
-        passwordInput.classList.remove('input-error');
-        errorPassword.classList.remove('show');
-        return true; // valid password
-    }
+    setSignupInputErrorState(passwordInput, errorPassword, isValid);
+    return isValid;
 }
 
 
 /**
  * validates the confirmation password input.
  * checks if the confirmation password matches the original password.
+ * 
  * @param {HTMLInputElement} passwordInput - the original password input element.
  * @param {HTMLInputElement} confirmPasswordInput - the confirmation password input element.
  * @returns {boolean} true if the confirmation password is valid, false otherwise.
  */
 function validateConfirmPassword(passwordInput, confirmPasswordInput) {
     const errorConfirmPassword = document.getElementById('error-signup-confirm-password');
+    const isValid = passwordInput.value === confirmPasswordInput.value;
 
-    // check if confirmation password matches the original password
-    if (confirmPasswordInput.value !== passwordInput.value) {
-        confirmPasswordInput.classList.add('input-error');
-        errorConfirmPassword.classList.add('show');
-        return false; // invalid confirmation password
-    } else {
-        confirmPasswordInput.classList.remove('input-error');
-        errorConfirmPassword.classList.remove('show');
-        return true; // valid confirmation password
-    }
+    setSignupInputErrorState(confirmPasswordInput, errorConfirmPassword, isValid);
+    return isValid;
 }
 
 
 /**
- * validates the user's checkbox input.
- * checks if the checkbox is checked and adds animation if not.
+ * validates the checkbox input.
+ * 
  * @param {HTMLInputElement} checkboxInput - the checkbox input element.
- * @returns {boolean} true if the checkbox is checked, false otherwise.
+ * @returns {boolean} true if checkbox is checked, false otherwise.
  */
 function validateCheckbox(checkboxInput) {
     const checkboxContainer = document.querySelector('.signup-checkbox');
+    const isValid = checkboxInput.checked;
 
-    // check if the checkbox is not checked
-    if (!checkboxInput.checked) {
+    if (!isValid) {
         checkboxInput.classList.add('input-error');
         checkboxContainer.classList.add('blink');
 
         checkboxContainer.addEventListener('animationend', () => {
             checkboxContainer.classList.remove('blink');
         }, { once: true });
-        return false; // invalid checkbox
     } else {
         checkboxInput.classList.remove('input-error');
         checkboxContainer.classList.remove('blink');
-        return true; // valid checkbox
     }
+
+    return isValid;
 }
 
 
 /**
- * shows the success modal for a limited time.
- * @returns {Promise<void>} a promise that resolves when the modal is hidden.
+ * shows the success modal after successful registry and hides it after 2 seconds.
+ * 
+ * @returns {promise<void>} a promise that resolves when the modal is hidden.
  */
 function showSuccessModal() {
     return new Promise((resolve) => {
@@ -337,7 +307,8 @@ function showSuccessModal() {
 
 
 /**
- * displays the modal for failed signup attempts and hides it after 2 seconds.
+ * shows the modal for failed signup attempts and hides it after 2 seconds.
+ * 
  * @returns {Promise<void>} a promise that resolves when the modal is hidden.
  */
 function showFailedSignupModal() {
@@ -357,6 +328,7 @@ function showFailedSignupModal() {
 
 /**
  * checks if any signup input field is empty.
+ * 
  * @param {HTMLElement[]} signupInputs - an array of signup input elements.
  * @returns {boolean} - returns true if any input field is empty, false otherwise.
  */
@@ -374,8 +346,9 @@ function areSignupFieldsEmpty(signupInputs) {
 
 /**
  * updates the state of the signup button based on input fields.
- * @param {HTMLElement} signupButton - the signup button element.
- * @param {HTMLElement[]} signupInputs - an array of signup input elements.
+ * 
+ * @param {htmlElement} signupbutton - the signup button element.
+ * @param {htmlElement[]} signupinputs - an array of signup input elements.
  */
 function updateSignupBtnState(signupButton, signupInputs) {
     const isAnyFieldEmpty = areSignupFieldsEmpty(signupInputs);
@@ -383,10 +356,12 @@ function updateSignupBtnState(signupButton, signupInputs) {
     signupButton.classList.toggle('disabled', isAnyFieldEmpty);
 }
 
+
 /**
- * retrieves signup input elements from the DOM based on provided IDs.
- * @param {string[]} inputIds - an array of input element IDs.
- * @returns {HTMLElement[]} - an array of corresponding input elements.
+ * retrieves signup input elements from the dom based on provided ids.
+ * 
+ * @param {string[]} inputids - an array of input element ids.
+ * @returns {htmlElement[]} - an array of corresponding input elements.
  */
 function getSignupInputs(inputIds) {
     const inputs = [];
@@ -400,7 +375,11 @@ function getSignupInputs(inputIds) {
 }
 
 
-// event listener for DOMContentLoaded
+/**
+ * initializes event listeners and updates the signup button state when the dom is fully loaded.
+ * 
+ * @returns {void}
+ */
 document.addEventListener('DOMContentLoaded', () => {
     const signupButton = document.getElementById('signup-btn');
     const signupInputIds = ['signup-name', 'signup-email', 'signup-password', 'signup-confirm-password'];

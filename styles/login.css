@@ -71,8 +71,8 @@ main {
     width: 100%;
     max-width: 40rem;
     padding: 3rem 1rem;
-    border-radius: 1.875rem;
     background-color: var(--bg-base-100);
+    border-radius: 1.875rem;
     box-shadow: var(--shadow-lg);
 }
 
@@ -131,10 +131,7 @@ main {
     flex-direction: column;
 }
 
-.password-icon svg:hover {
-    cursor: pointer;
-}
-
+.password-icon svg:hover,
 .eye-slash-icon:hover,
 .eye-icon:hover {
     cursor: pointer;
@@ -146,10 +143,10 @@ main {
     align-items: center;
     width: 100%;
     gap: 1.25rem;
+    margin-left: 2rem;
+    margin-bottom: 0.75rem;
     color: var(--base-content);
     cursor: pointer;
-    margin-bottom: 0.75rem;
-    margin-left: 2rem;
 }
 
 .signup-checkbox a {

@@ -58,13 +58,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--bg-base-100);
-    border-radius: 1.875rem;
     width: 16.5rem;
     height: 10.5rem;
-    box-shadow: var(--shadow-td);
-    gap: 1.25rem;
     padding: 1.25rem;
+    gap: 1.25rem;
+    background-color: var(--bg-base-100);
+    border-radius: 1.875rem;
+    box-shadow: var(--shadow-td);
 }
 
 .summary-card:hover {
@@ -136,12 +136,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    max-height: 10.5rem;
+    height: 100%;
+    padding: 1.75rem 3rem;
     background-color: var(--bg-base-100);
     border-radius: 1.875rem;
     box-shadow: var(--shadow-td);
-    padding: 1.75rem 3rem;
-    max-height: 10.5rem;
-    height: 100%;
 }
 
 .second-stats-section:hover {
@@ -187,13 +187,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--bg-base-100);
-    border-radius: 1.875rem;
     width: 10.5rem;
     height: 10.5rem;
-    box-shadow: var(--shadow-td);
-    gap: 1.25rem;
     padding: 2.25rem 1.25rem;
+    gap: 1.25rem;
+    background-color: var(--bg-base-100);
+    border-radius: 1.875rem;
+    box-shadow: var(--shadow-td);
 }
 
 .summary-card-tertiary:hover {
@@ -219,7 +219,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 9rem);
 }
 
 .mobile-greeting.show {

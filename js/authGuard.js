@@ -1,7 +1,9 @@
 /**
- * checks for a user in localStorage. 
- * redirects to the index page if not found,
- * and prevents back navigation to restricted pages.
+ * checks if a user is logged in. 
+ * redirects to the index page if not found and prevents back navigation 
+ * to restricted pages by managing the browser's history.
+ * 
+ * @constant {string|null} user - the username stored in localstorage, or null if not found.
  */
 const user = localStorage.getItem('userName');
 
@@ -11,9 +13,7 @@ if (!user) {
     // prevent back navigation
     history.pushState(null, '', window.location.href);
 
-    /**
-     * event listener for the popstate event to block back navigation.
-     */
+     // block back navigation with a popstate event listener
     window.addEventListener('popstate', () => {
         history.pushState(null, '', window.location.href);
     });

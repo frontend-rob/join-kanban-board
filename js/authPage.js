@@ -1,9 +1,10 @@
 /**
- * initializes the authentication page by rendering the main content,
- * preventing landscape orientation on mobile devices, and updating the logo and overlay elements.
+ * initializes the authentication page by rendering content, 
+ * preventing landscape orientation on mobile devices, 
+ * and updating the logo and overlay elements.
  * 
  * @async
- * @returns {Promise<void>} a promise that resolves when the authentication page is fully initialized.
+ * @returns {Promise<void>} resolves when initialization is complete.
  */
 async function initAuthPage() {
     await renderAuthPageContent();
@@ -13,11 +14,10 @@ async function initAuthPage() {
 
 
 /**
- * renders the main content for the authentication page by loading templates
- * into the specified components.
+ * renders the main content for the authentication page by loading templates.
  * 
  * @async
- * @returns {Promise<void>} a promise that resolves when the content is fully rendered.
+ * @returns {Promise<void>} resolves when content rendering is complete.
  */
 async function renderAuthPageContent() {
     const authPageComponents = getAuthPageComponents();
@@ -26,9 +26,9 @@ async function renderAuthPageContent() {
 
 
 /**
- * retrieves references to the main components for the authentication page from the DOM.
+ * retrieves references to the main components for the authentication page.
  * 
- * @returns {Object} an object containing references to elements on the authentication page.
+ * @returns {Object} references to elements on the authentication page.
  */
 function getAuthPageComponents() {
     return {
@@ -40,13 +40,12 @@ function getAuthPageComponents() {
 /**
  * loads content templates into specified elements on the authentication page.
  * 
- * @param {Object} components an object containing elements to inject content into.
- * @param {HTMLElement} components.landscapeModal the modal element for landscape orientation content.
+ * @param {Object} components - elements to inject content into.
+ * @param {HTMLElement} components.landscapeModal - the modal for landscape content.
  */
 function loadAuthPageTemplates({ landscapeModal }) {
     landscapeModal.innerHTML = getLandscapeModalContent();
 }
-
 
 
 /**
@@ -68,16 +67,17 @@ function switchLogoAndOverlay() {
 
 
 /**
- * handles the animation end event for the logo.
- * fades out the overlay and resets the logo once the animation is complete.
+ * handles the logo animation end event.
+ * fades out the overlay and resets the logo after the animation is complete.
+ * 
+ * @async
+ * @returns {Promise<void>} resolves when the loader animation is finished.
  */
 async function loaderAnimation() {
     const overlay = document.querySelector('.overlay');
     const logo = document.querySelector('.main-logo');
-
     const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
-    // sequence of animation steps
     await startOverlayAnimation(overlay, delay);
     await completeOverlayAnimation(overlay, logo, delay);
 
@@ -86,7 +86,12 @@ async function loaderAnimation() {
 
 
 /**
- * adds the 'start' class after a delay to initiate the overlay animation.
+ * initiates the overlay animation by adding the 'start' class after a delay.
+ * 
+ * @async
+ * @param {HTMLElement} overlay - the overlay element to animate.
+ * @param {Function} delay - a function that returns a promise for a specified delay.
+ * @returns {Promise<void>} resolves after adding the 'start' class.
  */
 async function startOverlayAnimation(overlay, delay) {
     await delay(1000);
@@ -95,7 +100,14 @@ async function startOverlayAnimation(overlay, delay) {
 
 
 /**
- * completes the overlay animation, updates the logo, and removes 'dark' class after a delay.
+ * completes the overlay animation by adding the 'complete' class,
+ * updating the logo, and removing the 'dark' class after a delay.
+ * 
+ * @async
+ * @param {HTMLElement} overlay - the overlay element to update.
+ * @param {HTMLElement} logo - the logo element to change the source.
+ * @param {Function} delay - a function that returns a promise for a specified delay.
+ * @returns {Promise<void>} resolves after completing the animation steps.
  */
 async function completeOverlayAnimation(overlay, logo, delay) {
     await delay(1000);
@@ -108,7 +120,9 @@ async function completeOverlayAnimation(overlay, logo, delay) {
 
 
 /**
- * resets overlay classes to ensure only 'hidden' class remains at the end.
+ * resets overlay classes, ensuring only the 'hidden' class remains.
+ * 
+ * @param {HTMLElement} overlay - the overlay element to reset classes on.
  */
 function resetOverlayClasses(overlay) {
     overlay.classList.remove('show', 'start', 'complete');
@@ -117,8 +131,10 @@ function resetOverlayClasses(overlay) {
 
 
 /**
- * main function that initializes the logo and overlay update behavior.
- * updates the logo and overlay based on screen size and adds necessary event listeners.
+ * initializes logo and overlay behavior by updating them based on screen size.
+ * adds event listeners for logo animation and window resizing.
+ * 
+ * @function
  */
 function updateLogoAndOverlay() {
     const overlay = document.querySelector('.overlay');

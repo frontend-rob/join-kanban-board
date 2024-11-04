@@ -100,11 +100,6 @@ h2 {
   }
 }
 
-@media (max-width: 64rem) {
-   .main-content {
-
-   }
-}
 
 @media screen and (max-width: 60rem) {
   .main-content {

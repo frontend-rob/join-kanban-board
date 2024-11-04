@@ -1,6 +1,8 @@
 /**
  * helper function to fetch tasks from firebase.
- * @returns {Promise<Object|null>} the fetched tasks or null in case of an error.
+ * @async
+ * @function
+ * @returns {promise<object|null>} the fetched tasks or null in case of an error.
  */
 async function fetchTasksFromFirebase() {
     try {
@@ -17,6 +19,7 @@ async function fetchTasksFromFirebase() {
 /**
  * helper function to filter tasks by status or priority.
  * 
+ * @function
  * @param {object} tasks - an object containing all tasks.
  * @param {string} filtertype - the property to filter by (e.g., 'status' or 'priority').
  * @param {string} filtervalue - the value to filter for.
@@ -36,8 +39,10 @@ function filterTasks(tasks, filterType, filterValue) {
 /**
  * function to update an html element's text content.
  * 
+ * @function
  * @param {string} elementid - the id of the html element to update.
  * @param {string} text - the text to set as the element's content.
+ * @returns {void} this function does not return a value.
  */
 function updateElementText(elementId, text) {
     document.getElementById(elementId).textContent = text;
@@ -47,9 +52,12 @@ function updateElementText(elementId, text) {
 /**
  * fetches and displays the number of tasks with a specific status from firebase.
  * 
+ * @async
+ * @function
  * @param {string} status - the status to filter tasks by.
  * @param {string} elementid - the id of the html element to update.
  * @param {array} tasks - the array of tasks to filter.
+ * @returns {void} this function does not return a value.
  */
 async function fetchAndDisplayTasksByStatus(status, elementId, tasks) {
     const filteredTasks = filterTasks(tasks, 'status', status);
@@ -60,7 +68,10 @@ async function fetchAndDisplayTasksByStatus(status, elementId, tasks) {
 /**
  * fetches and displays the number of urgent tasks from firebase.
  * 
+ * @async
+ * @function
  * @param {array} tasks - the array of tasks to filter for urgent tasks.
+ * @returns {void} this function does not return a value.
  */
 async function fetchAndDisplayUrgentTasks(tasks) {
     const urgentTasks = filterTasks(tasks, 'priority', 'high');
@@ -71,7 +82,10 @@ async function fetchAndDisplayUrgentTasks(tasks) {
 /**
  * fetches and displays the total number of tasks from firebase.
  * 
+ * @async
+ * @function
  * @param {object} tasks - the object containing all tasks.
+ * @returns {Promise<void>} a promise that resolves when the total tasks count is displayed.
  */
 async function fetchAndDisplayTotalTasks(tasks) {
     updateElementText('amount-total', Object.keys(tasks).length);
@@ -81,6 +95,7 @@ async function fetchAndDisplayTotalTasks(tasks) {
 /**
  * extracts due dates from urgent tasks.
  * 
+ * @function
  * @param {array} urgenttasks - the array of urgent tasks.
  * @returns {array} array of due dates.
  */
@@ -95,6 +110,8 @@ function getDueDates(urgentTasks) {
 
 /**
  * finds the oldest due date from an array of due dates that are in the past.
+ * 
+ * @function
  * @param {date[]} duedates - the array of due dates.
  * @returns {date} the oldest due date in the past or a placeholder date.
  */
@@ -111,6 +128,8 @@ function findOldestPastDueDate(dueDates) {
 
 /**
  * finds the next due date from an array of due dates.
+ * 
+ * @function
  * @param {date[]} duedates - the array of due dates.
  * @returns {date} the next due date or a placeholder date.
  */
@@ -127,8 +146,11 @@ function findNextDueDate(dueDates) {
 
 /**
  * fetches the due date of the closest urgent task and updates the display.
+ * 
+ * @async
+ * @function
  * @param {object[]} tasks - the array of tasks to filter for urgent ones.
- * @returns {void}
+ * @returns {void} this function does not return a value.
  */
 async function fetchAndDisplayNextUrgentDueDate(tasks) {
     const urgentTasks = filterTasks(tasks, 'priority', 'high');
@@ -159,8 +181,10 @@ async function fetchAndDisplayNextUrgentDueDate(tasks) {
 /**
  * shows the mobile greeting and hides the stats section.
  * 
- * @param {HTMLElement} greetingElement - the mobile greeting element.
- * @param {HTMLElement} statsElement - the stats element.
+ * @function
+ * @param {HTMLElement} greetingelement - the mobile greeting element.
+ * @param {HTMLElement} statselement - the stats element.
+ * @returns {void} this function does not return a value.
  */
 function showMobileGreeting(greetingElement, statsElement) {
     greetingElement.classList.remove('hidden');
@@ -169,11 +193,14 @@ function showMobileGreeting(greetingElement, statsElement) {
     statsElement.classList.add('hidden');
 }
 
+
 /**
  * hides the mobile greeting and shows the stats section.
  * 
- * @param {HTMLElement} greetingElement - the mobile greeting element.
- * @param {HTMLElement} statsElement - the stats element.
+ * @function
+ * @param {HTMLElement} greetingelement - the mobile greeting element.
+ * @param {HTMLElement} statselement - the stats element.
+ * @returns {void} this function does not return a value.
  */
 function showStatsAndHideGreeting(greetingElement, statsElement) {
     greetingElement.classList.remove('show');
@@ -182,10 +209,11 @@ function showStatsAndHideGreeting(greetingElement, statsElement) {
     statsElement.classList.add('show');
 }
 
+
 /**
  * toggles the mobile greeting visibility on small screens.
  * shows the mobile greeting temporarily, then switches back to the stats view.
- * This only runs once per login session.
+ * this only runs once per login session.
  * 
  * @async
  * @function
@@ -207,6 +235,7 @@ async function toggleMobileGreeting() {
     }
 }
 
+
 /**
  * initializes the summary page content by rendering the main content
  * and preventing landscape orientation on mobile devices.
@@ -227,6 +256,8 @@ async function initSummaryPage() {
  * this function fetches tasks from firebase and handles the display of statistics based on the fetched tasks.
  * it loads summary templates and updates the display accordingly.
  * 
+ * @async
+ * @function
  * @returns {Promise<void>} a promise that resolves when the summary content has been rendered.
  */
 async function renderSummaryContent() {
@@ -247,8 +278,11 @@ async function renderSummaryContent() {
 
 /**
  * handles task statistics when tasks are available.
+ * 
+ * @async
+ * @function
  * @param {array} tasks - the array of fetched tasks.
- * @returns {promise} a promise that resolves when all task statistics have been processed.
+ * @returns {Promise<void>} a promise that resolves when all task statistics have been processed.
  */
 async function handleTaskStatistics(tasks) {
     const tasksPromises = [
@@ -268,6 +302,9 @@ async function handleTaskStatistics(tasks) {
 /**
  * handles the case when no tasks are available.
  * this function sets all task-related values to zero or an error status.
+ * 
+ * @function
+ * @returns {void} this function does not return a value.
  */
 function handleNoTasks() {
     updateElementText('amount-todo', '0');
@@ -283,6 +320,7 @@ function handleNoTasks() {
 /**
  * retrieves key components for the summary section.
  * 
+ * @function
  * @returns {Object} an object containing references to summary-related elements.
  * @property {HTMLElement} header - the element for injecting header content.
  * @property {HTMLElement} navigation - the element for injecting navigation content.
@@ -302,11 +340,13 @@ function getSummaryComponents() {
 /**
  * loads summary content templates into specified elements.
  * 
+ * @function
  * @param {Object} components - an object containing references to elements where content will be injected.
  * @param {HTMLElement} components.header - the element for injecting header content.
  * @param {HTMLElement} components.navigation - the element for injecting navigation content.
  * @param {HTMLElement} components.dashboard - the element for injecting summary content.
  * @param {HTMLElement} components.landscapeModal - the element for injecting landscape modal content.
+ * @returns {void} this function does not return a value.
  */
 function loadSummaryTemplates({ header, navigation, dashboard, landscapeModal }) {
     header.innerHTML = getHeaderContent();
