@@ -126,3 +126,10 @@ function addPreventEnterKeyListener() {
         });
     });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const contactList = document.querySelector('.contact-list');
+    const mainContent = document.querySelector('.main-content');
+    contactList.classList.add('visible');
+    mainContent.classList.add('visible');
+});

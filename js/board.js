@@ -55,15 +55,23 @@ function loadBoardTemplates({ header, navigation, landscapeModal }) {
 function updateResponsiveLayout() {
     const searchBarContainer = document.getElementById("responsive-search-bar");
 
-    if (window.innerWidth < 425) {
+    if (window.innerWidth <= 425) {
         if (!searchBarContainer.querySelector("#search-bar")) {
             searchBarContainer.innerHTML = `
-                <div class="input-field-2" id="search-bar">
+                <div class="input-field-2 search" id="search-bar">
                     <input type="text" placeholder="Find Task">
                     <div class="divider-vertical" id="divider-search"></div>
                     <img src="../assets/icons/search.svg" alt="Search Icon" id="search-icon">
                 </div>
             `;
+
+            document.querySelectorAll('.search').forEach(searchBar => {
+                searchBar.querySelector('input').addEventListener('input', (event) => {
+                    const query = event.target.value;
+                    searchTasks(query);
+                });
+            });
+            
         }
     } else {
         searchBarContainer.innerHTML = "";
@@ -74,5 +82,10 @@ function updateResponsiveLayout() {
 document.addEventListener("DOMContentLoaded", () => {
     updateResponsiveLayout();
 });
-
 window.addEventListener("resize", updateResponsiveLayout);
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const mainContent = document.querySelector('.main-content');
+    mainContent.classList.add('visible');
+});

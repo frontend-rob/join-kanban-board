@@ -98,7 +98,7 @@
     border: 1px dashed var(--bg-neutral-accent);
     background-color: #E7E7E7;
     height: 3rem;
-    padding: 0.25rem;
+    /* padding: 0.25rem; */
     border-radius: 0.625rem;
     gap: 0.625rem;
     display: flex;
@@ -200,35 +200,38 @@
     transition: transform 0.2s ease;
 }
 
-@media (max-width: 1440px) {
-    .workflow {
-        gap: 2rem;
-        flex-direction: column;
 
-    }
+@media (max-width: 1440px) {
     .drop-zone {
-        flex-direction: row;
+        padding: 0.5rem;
+        width: 18rem;
+    }
+    .status {
+        width: 18rem;
+    }
+    .task {
+        height: 15rem;
     }
 }
 
 @media (max-width: 1024px) {
+
+    .status {
+        width: 12rem;
+    }
     .drop-zone {
         padding: 0;
+        width: 12rem;
     }
     .board-header {
         padding-left: 0.5rem;
     }
     .status-header {
         padding: 0 0.5rem;
-      }
-    .drop-zone {
-        display: flex;
-        gap: 1rem;
-        overflow-x: auto;
-        scrollbar-width: none;
     }
     .task {
-        width: 240px;
+        width: 180px;
+        height: 17rem;
     }
     #add-task-btn {
         width: 40px;
@@ -240,11 +243,45 @@
     #add-task-btn #add-task-text {
         display: none;
     }
+    .board-responsive {
+        padding-bottom: 6rem !important;
+    }
+    .main-content {
+        padding: 4rem 1rem;
+    }
+    .status-name {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .status {
+        width: 100%;
+    }
+    .task {
+        width: 240px;
+        height: auto
+    }
+    .drop-zone {
+        width: 100%;
+    }
+    .workflow {
+        gap: 2rem;
+        flex-direction: column;
+    }
+    .drop-zone {
+        flex-direction: row;
+        display: flex;
+        gap: 1rem;
+        overflow-x: auto;
+        scrollbar-width: none;
+        width: 100%;
+    }
 }
 
 @media (max-width: 425px) {
-    .input-field {
-        /* display: none !important; */
+    .d_none {
+        display: none !important;
     }
     .board-header {
         padding-left: 0;

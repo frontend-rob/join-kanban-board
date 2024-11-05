@@ -86,7 +86,7 @@ function populateContactForm(contact) {
 
     const userContactHTML = `
         <div class="user-contact">
-            <div class="profile-icon-contact" style="background-color: ${contact.color};">
+            <div class="profile-icon-contact" id="mobile-design" style="background-color: ${contact.color};">
                 <span style="color: white;">${contact.initials}</span>
             </div>
         </div>

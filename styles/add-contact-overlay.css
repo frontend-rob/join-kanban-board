@@ -142,7 +142,7 @@
 @media (max-width : 768px) {
     .overlay-content-edit-contact {
         flex-direction: column;
-        height: 80%;
+        height: 90%;
     }
     .overlay-content-add-contact {
         flex-direction: column;
@@ -199,6 +199,9 @@
     input, textarea{
         height: auto;
         padding: 8px 12px;
+    }
+    #edit-contact-responsive {
+        width: 3rem;
     }
 }
 

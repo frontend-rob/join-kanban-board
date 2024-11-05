@@ -156,7 +156,7 @@ textarea::placeholder {
     }
     .divider-vertical {
         height: 2px;
-        width: 80px;
+        /* width: 80px; */
     }
 }
 

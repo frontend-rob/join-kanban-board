@@ -112,7 +112,7 @@ function showContactDetails(contact, contactId) {
         <div class="headline-wrapper">
             <h1 class="main-headline">Contacts</h1>
             <div class="responsive-container">
-                <div class="divider-vertical divider-accent"></div>
+                <div id="edit-contact-responsive" class="divider-vertical divider-accent"></div>
                 <span>Better with a team</span>
             </div>
             <img onclick="hideContactDetails()" class="back-btn" src="../assets/icons/back-arrow.svg" alt="">

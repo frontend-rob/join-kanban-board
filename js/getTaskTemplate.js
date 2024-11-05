@@ -189,7 +189,9 @@ function searchTasks(query) {
     getTaskTemplate(filteredTasks, isSearchActive);
 }
 
-document.getElementById('search-bar').querySelector('input').addEventListener('input', (event) => {
-    const query = event.target.value;
-    searchTasks(query);
+document.querySelectorAll('.search').forEach(searchBar => {
+    searchBar.querySelector('input').addEventListener('input', (event) => {
+        const query = event.target.value;
+        searchTasks(query);
+    });
 });

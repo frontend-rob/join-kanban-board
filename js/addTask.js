@@ -396,3 +396,8 @@ function deleteSubtask(deleteIcon) {
     const subtaskItem = deleteIcon.closest('.addSubtask-item');
     if (subtaskItem) subtaskItem.remove();
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const mainContent = document.querySelector('.main-content');
+    mainContent.classList.add('visible');
+});
