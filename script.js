@@ -216,3 +216,8 @@ function goToPreviousPage() {
         window.location.replace('../index.html');
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const mainContent = document.querySelector('.main-content');
+    mainContent.classList.add('visible');
+});
