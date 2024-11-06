@@ -106,6 +106,7 @@
     border-top: none;
     max-height: 200px;
     overflow-y: auto;
+    font-size: 1.25rem;
 }
 
 .dropdown-item {
@@ -177,10 +178,11 @@ h1 {
 }
 
 .input-field {
-    cursor: pointer;
     position: relative;
-    width: 100%;
+    width: 480px;
+    /* Stellt sicher, dass sich das Dropdown daran anpasst */
 }
+
 
 .input-field svg {
     cursor: pointer;
@@ -417,12 +419,11 @@ label[for="assigned"] {
     border-color: var(--bg-accent);
 }
 
-.subtask-edit-input:focus-visible{
+.subtask-edit-input:focus-visible {
     border: none;
     border-radius: 0px;
     height: 32px;
     border-bottom: 1px solid var(--bg-accent)
-
 }
 
 textarea {
@@ -441,18 +442,21 @@ textarea::placeholder {
 }
 
 #contact-dropdown {
+    position: absolute;
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    left: 0;
     max-height: 200px;
     overflow-y: auto;
     z-index: 1000;
+    width: 480px !important;
+    /* Setzt die Breite sicher auf 430px */
 }
 
-.icon-wrapper {
+#selected-contacts {
     display: flex;
-    align-items: center;
-    gap: 8px;
+    flex-wrap: wrap;
+    position: static;
+    width: 100%;
 }
