@@ -83,9 +83,3 @@ document.addEventListener("DOMContentLoaded", () => {
     updateResponsiveLayout();
 });
 window.addEventListener("resize", updateResponsiveLayout);
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    const mainContent = document.querySelector('.main-content');
-    mainContent.classList.add('visible');
-});

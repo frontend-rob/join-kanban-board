@@ -139,63 +139,73 @@
                         <div class="addSubtask-container">
                             <label for="addSubtask-input">Subtasks</label>
                             <div class="addSubtask-input-field">
-                                <input type="text" id="addSubtask-input" placeholder="Add new subtask" onfocus="showEditIcons()">
-                                
+                                <input type="text" id="addSubtask-input" placeholder="Add new subtask"
+                                    onfocus="showEditIcons()">
+
                                 <div id="addSubtask-icons" class="addSubtask-icons">
                                     <!-- Default Plus Icon -->
-                                    <svg id="plus-icon" onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
-                                        <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path>
+                                    <svg id="plus-icon" onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg"
+                                        width="24" height="24" fill="#000000" viewBox="0 0 256 256">
+                                        <path
+                                            d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z">
+                                        </path>
                                     </svg>
-                                    
+
                                     <!-- Delete and Confirm Icons (Initially hidden) -->
                                     <div id="edit-icons" class="icon-wrapper" style="display: none;">
-                                        <svg onclick="clearSubtaskInput()" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
-                                            <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
-                                        </svg>
-                                        
-                                        <svg onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
-                                            <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1-11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Subtask list placed outside the icons container to appear below the input field -->
-                            <ul id="addSubtask-list" class="addSubtask-list"></ul>
-                        </div>
-                            <div class="button-row">
-                                <div class="buttons">
-                                    <button class="btn btn-outline">
-                                        Clear
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            viewBox="0 0 256 256" style="fill: #29abe2 !important;">
+                                        <svg onclick="clearSubtaskInput()" xmlns="http://www.w3.org/2000/svg" width="24"
+                                            height="24" fill="#000000" viewBox="0 0 256 256">
                                             <path
                                                 d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z">
                                             </path>
                                         </svg>
-                                    </button>
-                                    <button class="btn btn-lg">
-                                        Create Task
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                            viewBox="0 0 256 256">
+
+                                        <svg onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg" width="24"
+                                            height="24" fill="#000000" viewBox="0 0 256 256">
                                             <path
                                                 d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1-11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z">
                                             </path>
                                         </svg>
-                                    </button>
+                                    </div>
                                 </div>
+                            </div>
+
+                            <!-- Subtask list placed outside the icons container to appear below the input field -->
+                            <ul id="addSubtask-list" class="addSubtask-list"></ul>
+                        </div>
+                        <div class="button-row">
+                            <div class="buttons">
+                                <button class="btn btn-outline">
+                                    Clear
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256"
+                                        style="fill: #29abe2 !important;">
+                                        <path
+                                            d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z">
+                                        </path>
+                                    </svg>
+                                </button>
+                                <button class="btn btn-lg">
+                                    Create Task
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                        viewBox="0 0 256 256">
+                                        <path
+                                            d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1-11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z">
+                                        </path>
+                                    </svg>
+                                </button>
                             </div>
                         </div>
                     </div>
+                </div>
             </section>
         </main>
     </div>
 
     <div include-html="../templates/landscape-modal.html">Landscape Modal loading...</div>
 
+    <script src="../js/setActiveNavLink.js" defer></script>
     <script src="../js/landscape.js" defer></script>
     <script src="../js/openTaskOverlay.js" defer></script>
-    <script src="../js/setActiveNavLink.js" defer></script>
     <script src="../js/addTask.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="../js/addContact.js" defer></script>
