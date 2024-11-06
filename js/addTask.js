@@ -112,16 +112,18 @@ function initializeContactsDropdown() {
             contactDiv.innerHTML = `
                 <div class="contact-avatar" style="background-color: ${avatarColor}">${getInitials(contact.name)}</div>
                 <span>${contact.name}</span>
-                <input type="checkbox" onclick="toggleContactSelection(event, '${contact.id}', '${contact.name}', '${avatarColor}')">
+                <input type="checkbox">
             `;
-
-            // Klick auf den gesamten Bereich der `contact-option`
+    
+            // Klick auf gesamten Bereich der `contact-option`
             contactDiv.addEventListener('click', function (event) {
                 const checkbox = contactDiv.querySelector('input[type="checkbox"]');
-                checkbox.checked = !checkbox.checked;
+                if (event.target.tagName !== 'INPUT') {
+                    checkbox.checked = !checkbox.checked; // Toggle Checkbox-Status
+                }
                 toggleContactSelection(event, contact.id, contact.name, avatarColor);
             });
-
+    
             dropdownContainer.appendChild(contactDiv);
         });
     }
@@ -131,17 +133,16 @@ function initializeContactsDropdown() {
 
 // Funktion zum Hinzufügen oder Entfernen eines Kontakts
 function toggleContactSelection(event, id, name, avatarColor) {
-    event.stopPropagation(); // Verhindert, dass der Event-Listener mehrfach ausgelöst wird
     const selectedContactsDiv = document.getElementById('selected-contacts');
     const existingContact = Array.from(selectedContactsDiv.children).find(child => child.getAttribute('data-id') === id);
 
     if (existingContact) {
-        // Entfernt den Kontakt, wenn er bereits vorhanden ist und das Kontrollkästchen deaktiviert wird
-        if (!event.target.checked) {
+        // Entferne den Kontakt, wenn er vorhanden ist und das Kontrollkästchen deaktiviert wird
+        if (!event?.target.checked && event?.target.tagName === 'INPUT') {
             selectedContactsDiv.removeChild(existingContact);
         }
-    } else if (event.target.checked) {
-        // Fügt den Kontakt hinzu, wenn er noch nicht vorhanden ist und das Kontrollkästchen aktiviert wird
+    } else {
+        // Füge den Kontakt hinzu, wenn er nicht vorhanden ist
         const avatar = document.createElement('div');
         avatar.className = 'contact-avatar';
         avatar.style.backgroundColor = avatarColor;
@@ -582,7 +583,6 @@ async function saveTaskToFirebase(task) {
 }
 
 // Funktion zum Speichern der Task in Firebase
-// Funktion zum Speichern der Task in Firebase
 async function saveTaskToFirebase(task) {
     try {
         const response = await fetch('https://join-379-kanban-board-default-rtdb.europe-west1.firebasedatabase.app/tasks.json', {
@@ -614,12 +614,11 @@ document.querySelector('.btn.btn-lg').addEventListener('click', async (event) =>
     const description = document.getElementById('description').value.trim();
     const dueDate = document.getElementById('due-date').value.trim();
     const category = document.getElementById('category').value.trim();
-    const assignedTo = document.getElementById('selected-contacts').innerHTML.trim(); // Kontakte als HTML
+    const assignedTo = document.getElementById('selected-contacts').innerHTML.trim(); // Kontakte als HTML*******
     const prio = document.querySelector('.prio-button.active')?.innerText.trim() || '';
 
     // Überprüfung auf Pflichtfelder
-    if (!title || !dueDate || !category || !assignedTo) {
-        alert('Please fill in all required fields!');
+    if (!title || !dueDate || !category || !assignedTo) {;
         return;
     }
 
