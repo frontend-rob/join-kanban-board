@@ -268,7 +268,6 @@ function openAddContactOverlay() {
 }
 
 // Dieser Event-Listener wird ausgelöst, sobald das Dokument geladen ist
-// Event-Listener, der ausgelöst wird, sobald das Dokument geladen ist
 document.addEventListener('DOMContentLoaded', () => {
     const subtaskInput = document.getElementById('addSubtask-input');
     
@@ -392,12 +391,291 @@ function confirmEdit(confirmIcon) {
 }
 
 // Funktion zum Löschen einer Subtask
+document.addEventListener('DOMContentLoaded', function () {
+    const clearButton = document.querySelector('.btn.btn-outline');
+    
+    if (clearButton) {
+        clearButton.addEventListener('click', function () {
+            // Alle Input-Felder auswählen und leeren
+            const inputFields = document.querySelectorAll('input[type="text"], input[type="date"], input[type="email"], input[type="number"], input[type="password"]');
+            inputFields.forEach(input => input.value = '');
+
+            // Textareas leeren
+            const textAreas = document.querySelectorAll('textarea');
+            textAreas.forEach(textarea => textarea.value = '');
+
+            // Checkbox-Felder zurücksetzen
+            const checkboxFields = document.querySelectorAll('input[type="checkbox"]');
+            checkboxFields.forEach(checkbox => checkbox.checked = false);
+
+            // Prio-Buttons zurücksetzen
+            const prioButtons = document.querySelectorAll('.prio-button');
+            prioButtons.forEach(button => {
+                button.classList.remove('active'); // Entfernt die aktive Markierung
+                button.style.backgroundColor = ''; // Setzt den Hintergrund zurück
+                const svg = button.querySelector('svg');
+                if (svg) {
+                    svg.style.fill = ''; // Setzt die SVG-Farben zurück
+                    svg.style.stroke = ''; 
+                }
+                button.style.color = ''; // Setzt die Schriftfarbe zurück
+            });
+
+            // Kontakte zurücksetzen (z.B. ausgewählte Kontakte entfernen)
+            const selectedContactsDiv = document.getElementById('selected-contacts');
+            if (selectedContactsDiv) {
+                selectedContactsDiv.innerHTML = ''; // Entfernt alle hinzugefügten Kontakte
+            }
+
+            // Datum zurücksetzen
+            const dateInputs = document.querySelectorAll('input[type="date"]');
+            dateInputs.forEach(dateInput => {
+                dateInput.value = ''; // Leert das Datumsauswahlfeld
+            });
+
+            // Subtask-Listen zurücksetzen
+            const subtaskList = document.getElementById('addSubtask-list');
+            if (subtaskList) {
+                subtaskList.innerHTML = ''; // Entfernt alle angelegten Subtasks
+            }
+
+            console.log('All inputs, textareas, priority buttons, contacts, date fields, and subtasks reset.');
+        });
+    } else {
+        console.warn('Clear button not found.');
+    }
+});
+
+// Funktion zum Löschen eines einzelnen Subtasks (bleibt unverändert)
 function deleteSubtask(deleteIcon) {
     const subtaskItem = deleteIcon.closest('.addSubtask-item');
     if (subtaskItem) subtaskItem.remove();
 }
 
+// Initialisierung des Hauptinhalts
 document.addEventListener('DOMContentLoaded', function() {
     const mainContent = document.querySelector('.main-content');
     mainContent.classList.add('visible');
 });
+
+//Lösch Button
+document.addEventListener('DOMContentLoaded', function () {
+    const createTaskButton = document.querySelector('.btn.btn-lg'); // Button zum Erstellen der Aufgabe
+    const clearButton = document.querySelector('.btn.btn-outline'); // Button zum Löschen der Fehler
+
+    if (createTaskButton) {
+        createTaskButton.addEventListener('click', function (event) {
+            event.preventDefault(); // Verhindert das Absenden des Formulars, falls Fehler vorliegen
+
+            // Pflichtfelder
+            const requiredFields = [
+                { id: 'title', name: 'Title' },
+                { id: 'due-date', name: 'Due Date' },
+                { id: 'assigned', name: 'Assigned To' },
+                { id: 'category', name: 'Category' }
+            ];
+
+            let hasError = false;
+
+            requiredFields.forEach(field => {
+                const input = document.getElementById(field.id);
+                if (input) {
+                    const errorMessage = input.parentElement.querySelector('.error-message-addtask');
+
+                    // Validierung des Feldes
+                    if (!input.value.trim()) {
+                        hasError = true;
+                        showError(input, errorMessage);
+                    } else {
+                        removeError(input, errorMessage);
+                    }
+
+                    // Fehler bei Eingaben automatisch entfernen
+                    input.addEventListener('input', () => removeError(input, errorMessage));
+                    input.addEventListener('change', () => removeError(input, errorMessage));
+                }
+            });
+
+            if (!hasError) {
+                console.log('Task created successfully!');
+                // Hier erfolgreichen Task-Code einfügen
+            }
+        });
+    }
+
+    if (clearButton) {
+        clearButton.addEventListener('click', function () {
+            // Setzt alle Pflichtfelder zurück
+            const requiredFields = ['title', 'due-date', 'assigned', 'category'];
+
+            requiredFields.forEach(fieldId => {
+                const input = document.getElementById(fieldId);
+                if (input) {
+                    input.value = ''; // Setzt den Wert des Eingabefelds zurück
+                    input.classList.remove('error'); // Entfernt rote Umrandung
+
+                    // Entfernt Fehlermeldungen
+                    const errorMessage = input.parentElement.querySelector('.error-message-addtask');
+                    if (errorMessage) {
+                        errorMessage.style.display = 'none'; // Versteckt Fehlermeldung
+                        errorMessage.textContent = ''; // Löscht vorhandenen Text
+                    }
+                }
+            });
+        });
+    }
+
+    // Funktion zum Anzeigen von Fehlermeldungen
+    function showError(input, errorMessage) {
+        if (!input.classList.contains('error')) {
+            input.classList.add('error'); // Rote Umrandung
+        }
+
+        if (errorMessage) {
+            errorMessage.textContent = 'This field is required!';
+            errorMessage.style.display = 'block'; // Fehlermeldung anzeigen
+        } else {
+            // Fehler-Element erstellen, falls es nicht existiert
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message-addtask';
+            errorDiv.innerText = 'This field is required!';
+            errorDiv.style.display = 'block'; // Sicherstellen, dass es angezeigt wird
+            input.parentElement.appendChild(errorDiv);
+        }
+    }
+
+    // Funktion zum Entfernen von Fehlermeldungen
+    function removeError(input, errorMessage) {
+        if (input.classList.contains('error')) {
+            input.classList.remove('error'); // Entfernt rote Umrandung
+        }
+
+        if (errorMessage) {
+            errorMessage.style.display = 'none'; // Fehlermeldung ausblenden
+            errorMessage.textContent = ''; // Text löschen
+        }
+    }
+});
+
+// Funktion zum Speichern der Task in Firebase
+async function saveTaskToFirebase(task) {
+    try {
+        const response = await fetch('https://join-379-kanban-board-default-rtdb.europe-west1.firebasedatabase.app/tasks.json', {
+            method: 'POST',
+            body: JSON.stringify(task),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to save task');
+        }
+
+        const responseData = await response.json();
+        console.log('Task saved to Firebase successfully');
+        return responseData.name; // Gibt die generierte ID zurück
+    } catch (error) {
+        console.error('Error saving task to Firebase:', error);
+        return null;
+    }
+}
+
+// Funktion zum Speichern der Task in Firebase
+// Funktion zum Speichern der Task in Firebase
+async function saveTaskToFirebase(task) {
+    try {
+        const response = await fetch('https://join-379-kanban-board-default-rtdb.europe-west1.firebasedatabase.app/tasks.json', {
+            method: 'POST',
+            body: JSON.stringify(task),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to save task');
+        }
+
+        const responseData = await response.json();
+        console.log('Task saved to Firebase successfully');
+        return responseData.name; // Gibt die generierte ID zurück
+    } catch (error) {
+        console.error('Error saving task to Firebase:', error);
+        return null;
+    }
+}
+
+// Event-Handler für das Erstellen von Tasks
+document.querySelector('.btn.btn-lg').addEventListener('click', async (event) => {
+    event.preventDefault();
+
+    const title = document.getElementById('title').value.trim();
+    const description = document.getElementById('description').value.trim();
+    const dueDate = document.getElementById('due-date').value.trim();
+    const category = document.getElementById('category').value.trim();
+    const assignedTo = document.getElementById('selected-contacts').innerHTML.trim(); // Kontakte als HTML
+    const prio = document.querySelector('.prio-button.active')?.innerText.trim() || '';
+
+    // Überprüfung auf Pflichtfelder
+    if (!title || !dueDate || !category || !assignedTo) {
+        alert('Please fill in all required fields!');
+        return;
+    }
+
+    const newTask = {
+        title,
+        description,
+        dueDate,
+        category,
+        assignedTo,
+        prio,
+        createdAt: new Date().toISOString()
+    };
+
+    const taskId = await saveTaskToFirebase(newTask);
+
+    if (taskId) {
+        console.log(`Task successfully created with ID: ${taskId}`);
+        clearFormFields(); // Alle Felder zurücksetzen
+    }
+});
+
+// Funktion zum Leeren der Formulardaten und Entfernen der Fehler
+function clearFormFields() {
+    document.getElementById('title').value = '';
+    document.getElementById('description').value = '';
+    document.getElementById('due-date').value = '';
+    document.getElementById('category').value = '';
+    document.getElementById('selected-contacts').innerHTML = ''; // Kontakte löschen
+
+    // Zurücksetzen der Prio-Buttons
+    document.querySelectorAll('.prio-button').forEach(button => {
+        button.classList.remove('active');
+        button.style.backgroundColor = ''; // Hintergrundfarbe zurücksetzen
+        button.querySelector('svg').style.fill = ''; // Icon-Farben zurücksetzen
+        button.querySelector('svg').style.stroke = '';
+        button.style.color = ''; // Textfarbe zurücksetzen
+    });
+
+    // Entferne alle roten Rahmen und Fehlernachrichten
+    resetErrorStyles();
+}
+
+// Funktion zum Entfernen der Fehlerstile
+function resetErrorStyles() {
+    const requiredFields = ['title', 'due-date', 'category', 'assigned'];
+    
+    requiredFields.forEach(id => {
+        const input = document.getElementById(id);
+        if (input) {
+            input.classList.remove('error'); // Entfernt roten Rahmen
+        }
+        
+        const errorMessage = input?.parentElement.querySelector('.error-message-addtask');
+        if (errorMessage) {
+            errorMessage.style.display = 'none';
+            errorMessage.textContent = '';
+        }
+    });
+}

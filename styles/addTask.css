@@ -460,3 +460,20 @@ textarea::placeholder {
     position: static;
     width: 100%;
 }
+
+.error {
+    border: 2px solid red; /* Rote Umrandung für Fehler */
+}
+
+.error-message-addtask {
+    color: red; /* Fehlermeldung in roter Schrift */
+    font-size: 16px;
+    margin-top: 4px;
+    position: absolute;
+    z-index: 10; /* Sicherstellen, dass die Fehlermeldung sichtbar bleibt */
+}
+
+.vertical-line {
+    background-color: #d1d1d1;
+    width: 1px;
+}

@@ -33,7 +33,7 @@
                             <label for="title">Title<span class="required">*</span></label>
                             <div class="input-field">
                                 <input type="text" id="title" class="required-input" placeholder="Enter a title">
-                                <div class="error-message"></div>
+                                <div class="error-message-addtask"></div>
                             </div>
                         </div>
 
@@ -48,6 +48,7 @@
                             <label for="assigned">Assigned to<span class="required">*</span></label>
                             <div class="input-field">
                                 <input type="text" id="assigned" placeholder="Select contacts to assign" readonly>
+                                <div class="error-message-addtask"></div>
                                 <svg id="contact-dropdown-icon" class="dropdown-icon" xmlns="http://www.w3.org/2000/svg"
                                     width="16" height="16" fill="#000000" viewBox="0 0 256 256">
                                     <path
@@ -64,7 +65,6 @@
                         </div>
                     </div>
 
-                    <!-- Right Column -->
                     <div class="vertical-line"></div>
 
                     <div class="right-column">
@@ -72,6 +72,7 @@
                             <label for="due-date">Due date<span class="required">*</span></label>
                             <div class="input-field">
                                 <input type="text" id="due-date" placeholder="mm/dd/yyyy" readonly>
+                                <div class="error-message-addtask"></div>
                                 <div id="logo-svg">
                                     <svg id="date-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
                                         fill="#000000" viewBox="0 0 256 256">
@@ -120,6 +121,7 @@
                             <label for="category">Category<span class="required">*</span></label>
                             <div class="input-field">
                                 <input type="text" id="category" placeholder="Select a category" readonly>
+                                <div class="error-message-addtask"></div>
                                 <svg id="dropdown-icon" class="dropdown-icon" xmlns="http://www.w3.org/2000/svg"
                                     width="32" height="32" fill="#000000" viewBox="0 0 256 256">
                                     <path
@@ -137,67 +139,54 @@
                         <div class="addSubtask-container">
                             <label for="addSubtask-input">Subtasks</label>
                             <div class="addSubtask-input-field">
-                                <input type="text" id="addSubtask-input" placeholder="Add new subtask"
-                                    onfocus="showEditIcons()">
+                                <input type="text" id="addSubtask-input" placeholder="Add new subtask" onfocus="showEditIcons()">
+                                
                                 <div id="addSubtask-icons" class="addSubtask-icons">
                                     <!-- Default Plus Icon -->
-                                    <svg id="plus-icon" onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg"
-                                        width="24" height="24" fill="#000000" viewBox="0 0 256 256">
-                                        <path
-                                            d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z">
-                                        </path>
+                                    <svg id="plus-icon" onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
+                                        <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path>
                                     </svg>
+                                    
                                     <!-- Delete and Confirm Icons (Initially hidden) -->
                                     <div id="edit-icons" class="icon-wrapper" style="display: none;">
-                                        <svg onclick="clearSubtaskInput()" xmlns="http://www.w3.org/2000/svg" width="24"
-                                            height="24" fill="#000000" viewBox="0 0 256 256">
-                                            <path
-                                                d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z">
-                                            </path>
+                                        <svg onclick="clearSubtaskInput()" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
+                                            <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
                                         </svg>
-                                        <div class="vertical-divider"></div>
-                                        <svg onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg" width="24"
-                                            height="24" fill="#000000" viewBox="0 0 256 256">
-                                            <path
-                                                d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z">
-                                            </path>
+                                        
+                                        <svg onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
+                                            <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1-11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
                                         </svg>
                                     </div>
-                                    <ul id="addSubtask-list" class="addSubtask-list"></ul>
                                 </div>
                             </div>
-<<<<<<< Updated upstream
+                            
+                            <!-- Subtask list placed outside the icons container to appear below the input field -->
                             <ul id="addSubtask-list" class="addSubtask-list"></ul>
                         </div>
-
-
-=======
-                            
->>>>>>> Stashed changes
-                        <div class="button-row">
-                            <div class="buttons">
-                                <button class="btn btn-outline">
-                                    Clear
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256"
-                                        style="fill: #29abe2 !important;">
-                                        <path
-                                            d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z">
-                                        </path>
-                                    </svg>
-                                </button>
-                                <button class="btn btn-lg">
-                                    Create Task
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                        viewBox="0 0 256 256">
-                                        <path
-                                            d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1-11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z">
-                                        </path>
-                                    </svg>
-                                </button>
+                            <div class="button-row">
+                                <div class="buttons">
+                                    <button class="btn btn-outline">
+                                        Clear
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            viewBox="0 0 256 256" style="fill: #29abe2 !important;">
+                                            <path
+                                                d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z">
+                                            </path>
+                                        </svg>
+                                    </button>
+                                    <button class="btn btn-lg">
+                                        Create Task
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                            viewBox="0 0 256 256">
+                                            <path
+                                                d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1-11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z">
+                                            </path>
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
             </section>
         </main>
     </div>
