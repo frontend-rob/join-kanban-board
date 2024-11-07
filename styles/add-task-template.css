@@ -1,0 +1,48 @@
+.main-headline {
+    font-size: 4rem;
+}
+
+.add-task-form {
+    display: flex;
+    justify-content: space-between;
+    max-width: 65rem;
+    width: 100%;
+    gap: 4rem;
+}
+
+.required {
+    color: var(--error-content);
+}
+
+
+.left-column,
+.right-column {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 2rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+
+
+.add-task-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 60rem;
+    width: 100%;
+    font-size: 1.25rem;
+    color: var(--base-content);
+}
+
+.form-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}

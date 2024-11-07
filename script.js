@@ -219,5 +219,5 @@ function goToPreviousPage() {
 
 document.addEventListener('DOMContentLoaded', function() {
     const mainContent = document.querySelector('.main-content');
-    mainContent.classList.add('visible');
+    mainContent.classList.add('show');
 });

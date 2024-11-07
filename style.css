@@ -58,7 +58,7 @@ h2 {
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-.main-content.visible {
+.main-content.show {
   opacity: 1;
 }
 
@@ -113,11 +113,6 @@ h2 {
   }
 }
 
-@media screen and (max-width: 60rem) {
-  .main-content {
-    /* padding-bottom: 6rem; */
-  }
-}
 
 @media screen and (max-width: 48rem) {
   .main-content {
