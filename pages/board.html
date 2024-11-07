@@ -35,8 +35,9 @@
                                 <div class="divider-vertical" id="divider-search"></div>
                                 <img src="../assets/icons/search.svg" alt="Search Icon" id="search-icon">
                             </div>
-                            <button class="btn" id="add-task-btn"><span id="add-task-text">Add task</span> <img
-                                    src="../assets/icons/add.svg" alt="Add Icon"></button>
+                            <button onclick="openAddTaskOverlay()" class="btn" id="add-task-btn"><span
+                                    id="add-task-text">Add task</span>
+                                <img src="../assets/icons/add.svg" alt="Add Icon"></button>
                         </div>
                     </div>
                     <div id="responsive-search-bar">
@@ -47,7 +48,8 @@
                         <div class="status">
                             <div class="status-header">
                                 <span class="status-name">To do</span>
-                                <img class="plus-button" src="../assets/icons/plus button.svg" alt="Plus Button">
+                                <img onclick="openAddTaskOverlay()" class="plus-button"
+                                    src="../assets/icons/plus button.svg" alt="Plus Button">
                             </div>
                             <div class="drop-zone" id="todo" ondrop="drop(event)" ondragover="allowDrop(event)">
                             </div>
@@ -57,7 +59,8 @@
                         <div class="status">
                             <div class="status-header">
                                 <span class="status-name">In progress</span>
-                                <img class="plus-button" src="../assets/icons/plus button.svg" alt="Plus Button">
+                                <img onclick="openAddTaskOverlay()" class="plus-button"
+                                    src="../assets/icons/plus button.svg" alt="Plus Button">
                             </div>
                             <div class="drop-zone" id="inprogress" ondrop="drop(event)" ondragover="allowDrop(event)">
                             </div>
@@ -67,7 +70,8 @@
                         <div class="status">
                             <div class="status-header">
                                 <span class="status-name">Await feedback</span>
-                                <img class="plus-button" src="../assets/icons/plus button.svg" alt="Plus Button">
+                                <img onclick="openAddTaskOverlay()" class="plus-button"
+                                    src="../assets/icons/plus button.svg" alt="Plus Button">
                             </div>
                             <div class="drop-zone" id="awaitfeedback" ondrop="drop(event)"
                                 ondragover="allowDrop(event)">
@@ -160,6 +164,20 @@
             </div>
         </div>
     </div>
+
+    <div id="add-task-overlay" class="add-task" onclick="closeAddTaskOnOutsideClick(event)">
+        <div class="overlay-content-add-task">
+            <span class="close-add-task-overlay" onclick="closeAddTaskOverlay()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#2a3647" viewBox="0 0 256 256">
+                    <path
+                        d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z">
+                    </path>
+                </svg>
+            </span>
+        </div>
+    </div>
+
+
     <div id="landscape-wrapper"></div>
 
     <script src="../script.js"></script>

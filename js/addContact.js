@@ -12,6 +12,8 @@ async function addContact() {
         return;
     }
 
+
+
     const contacts = await fetchContactsFromFirebase();
     if (isEmailAlreadyUsed(contacts, email)) {
         showEmailUsedNotification();
@@ -193,6 +195,7 @@ async function fetchContactsFromFirebase() {
 function closeTaskOverlay() {
     const overlay = document.getElementById('overlay');
     overlay.style.display = 'none';
+    document.body.classList.remove('no-scroll');
     resetFormNotifications();
     
 }

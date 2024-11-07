@@ -200,6 +200,44 @@
     transition: transform 0.2s ease;
 }
 
+.add-task {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(0.25rem);
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+}
+
+.overlay-content-add-task {
+    display: flex;
+    background-color: white;
+    border-radius: 1.875rem;
+    width: 60%;
+    height: 40rem;
+    position: fixed;
+    top: 50%;
+    right: -100%;
+    transform: translateY(-50%);
+    transition: transform 0.2s ease-in-out, right 0.2s ease-in-out;
+}
+
+.overlay-content-add-task.show {
+    right: calc(50% - 30%);
+    transform: translateY(-50%);
+}
+
+.close-add-task-overlay {
+    cursor: pointer;
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
+}
 
 @media (max-width: 1440px) {
     .drop-zone {

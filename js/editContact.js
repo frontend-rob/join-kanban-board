@@ -11,6 +11,8 @@ async function editContact(contactId) {
     showOverlay(overlay, overlayContent);
     addOverlayClickListener(overlay);
 
+    document.body.classList.add('no-scroll');
+
     try {
         const contact = await fetchContact(contactId);
         if (!contact) return;
@@ -111,6 +113,8 @@ function setOverlayContactId(overlay, contactId) {
 function closeEditOverlay() {
     const overlay = document.getElementById('edit-contact-overlay');
     const overlayContent = document.getElementById('overlay-content-edit-contact');
+
+    document.body.classList.remove('no-scroll');
 
     overlayContent.style.right = '-60%';
 

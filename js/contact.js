@@ -59,8 +59,7 @@ function loadContactTemplates({ header, navigation, landscapeModal }) {
  * if the email is in a valid format, and if the phone number contains only digits.
  *
  * @param {boolean} [isEdit=false] - Indicates whether the form is for editing an existing contact.
- * @returns {boolean} - Returns true if all fields are valid, otherwise false.
- */
+ * @returns {boolean} - Returns true if all fields are valid, otherwise false.*/
 function validateContactForm(isEdit = false) {
     let isValid = true;
 
@@ -74,7 +73,9 @@ function validateContactForm(isEdit = false) {
 
     const name = document.getElementById(nameId);
     const nameParts = name.value.trim().split(' ');
-    if (nameParts.length < 2) {
+    const namePattern = /^[a-zA-ZäöüÄÖÜß]+$/;
+
+    if (nameParts.length < 2 || !nameParts.every(part => namePattern.test(part))) {
         document.getElementById(isEdit ? 'error-edit-contact-name' : 'error-contact-name').classList.add('show');
         isValid = false;
     }
@@ -87,7 +88,8 @@ function validateContactForm(isEdit = false) {
     }
 
     const phone = document.getElementById(phoneId);
-    const phonePattern = /^\d+$/;
+    const phonePattern = /^\+?\d+( \d+)*$/;
+
     if (!phone.value.trim() || !phonePattern.test(phone.value)) {
         document.getElementById(isEdit ? 'error-edit-contact-phone' : 'error-contact-phone').classList.add('show');
         isValid = false;
@@ -95,6 +97,8 @@ function validateContactForm(isEdit = false) {
 
     return isValid;
 }
+
+
 
 
 /**

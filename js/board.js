@@ -52,6 +52,11 @@ function loadBoardTemplates({ header, navigation, landscapeModal }) {
 
 
 
+/**
+ * Updates the responsive layout of the page, specifically the search bar for mobile view.
+ * If the window width is 425px or smaller, it adds a search bar to the responsive-search-bar container.
+ * Otherwise, it removes the search bar.
+ */
 function updateResponsiveLayout() {
     const searchBarContainer = document.getElementById("responsive-search-bar");
 
@@ -78,6 +83,46 @@ function updateResponsiveLayout() {
     }
 }
 
+/**
+ * Opens the "Add Task" overlay and prevents scrolling on the body.
+ */
+function openAddTaskOverlay() {
+    const overlay = document.getElementById("add-task-overlay");
+    const overlayContent = document.querySelector(".overlay-content-add-task");
+
+    document.body.classList.add("no-scroll");
+    overlay.style.display = "flex";
+
+    setTimeout(() => {
+        overlayContent.classList.add("show");
+    }, 10);
+}
+
+/**
+ * Closes the "Add Task" overlay and allows scrolling on the body again.
+ */
+function closeAddTaskOverlay() {
+    const overlay = document.getElementById("add-task-overlay");
+    const overlayContent = document.querySelector(".overlay-content-add-task");
+
+    document.body.classList.remove("no-scroll");
+    overlayContent.classList.remove("show");
+
+    setTimeout(() => {
+        overlay.style.display = "none";
+    }, 300);
+}
+
+/**
+ * Closes the "Add Task" overlay when the user clicks outside the overlay.
+ * 
+ * @param {Event} event - The click event triggered by the user.
+ */
+function closeAddTaskOnOutsideClick(event) {
+    if (event.target === document.getElementById("add-task-overlay")) {
+        closeAddTaskOverlay();
+    }
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     updateResponsiveLayout();

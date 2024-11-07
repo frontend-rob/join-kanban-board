@@ -185,11 +185,17 @@ function getLandscapeModalContent() {
  * @returns {string} - The HTML content for the task.
  */
 function getTaskContent(taskId, task, progressPercentage) {
-    const assignedToHTML = task.assigned_to.map(person => `
+    const maxVisibleIcons = 4;
+    const visibleAssigned = task.assigned_to.slice(0, maxVisibleIcons);
+    const assignedToHTML = visibleAssigned.map(person => `
         <div class="profile-icon" style="background-color: ${person.color};">
             ${person.initials}
         </div>
     `).join('');
+    const remainingCount = task.assigned_to.length - maxVisibleIcons;
+    const additionalIconsHTML = remainingCount > 0 
+        ? `<div class="profile-icon additional-count" style="background-color: ${task.assigned_to[0].color};">+${remainingCount}</div>` 
+        : '';
 
     return `
         <div class="task" draggable="true" ondragstart="drag(event)" id="${taskId}" onclick="getTaskOverlay('${taskId}')">
@@ -203,12 +209,14 @@ function getTaskContent(taskId, task, progressPercentage) {
                 <div class="subtask-text">${task.subtasks.filter(subtask => subtask.status === "checked").length}/${task.subtasks.length} Subtasks</div>
             </div>
             <div class="profile-icon-and-level">
-                <div class="icons">${assignedToHTML}</div>
+                <div class="icons">${assignedToHTML}${additionalIconsHTML}</div>
                 <img class="level" src="../assets/icons/priority-${task.priority}.svg" alt="Priority Level">
             </div>
         </div>
     `;
 }
+
+
 
 /**
  * Creates the HTML template for the task overlay.

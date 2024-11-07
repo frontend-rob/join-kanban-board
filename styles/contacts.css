@@ -200,7 +200,7 @@
 }
 
 .letter-group ul li {
-    padding: 0.5em 1.5em;
+    padding: 0.5em 2em;
 }
 
 .main-headline {
@@ -291,6 +291,7 @@
     height: 3rem;
     width: 3rem;
 }
+
 
 
 @media (max-width: 1440px) {

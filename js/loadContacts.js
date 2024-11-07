@@ -156,8 +156,8 @@ function showContactDetails(contact, contactId) {
     `;
 
     contactDetailsContainer.classList.add('show');
+    document.body.classList.add('no-scroll');
 }
-
 /**
  * Hides the contact details overlay.
  */
@@ -170,5 +170,6 @@ function hideContactDetails() {
     }
     setTimeout(() => {
         contactDetailsContainer.classList.remove('show', 'hide');
+        document.body.classList.remove('no-scroll');
     }, 300);
 }

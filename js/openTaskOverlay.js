@@ -8,12 +8,15 @@ const overlayElement = document.getElementById('overlay');
 function getTaskOverlay(taskId) {
     const task = allTasks[taskId];
 
+
+
     if (task) {
         const overlayContent = getTaskOverlayContent(task);
         const overlayElement = document.getElementById('overlay');
         overlayElement.querySelector('.overlay-content').innerHTML = overlayContent;
         overlayElement.setAttribute('data-task-id', taskId);
         overlayElement.style.display = 'flex';
+        document.body.classList.add('no-scroll');
     }
 }
 
@@ -22,6 +25,7 @@ function getTaskOverlay(taskId) {
  */
 function closeTaskOverlay() {
     document.getElementById('overlay').style.display = 'none';
+    document.body.classList.remove('no-scroll');
 }
 
 /**
