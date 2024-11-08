@@ -73,40 +73,61 @@ function setPriority(button) {
 }
 
 
-// Initialize Flatpickr on the input field
+/**
+ * initialize flatpickr on the input field
+ * 
+ * @param {string} "#due-date" - input field id
+ * @param {Object} options - flatpickr settings
+ * @param {string} options.minDate - disable past dates ("today")
+ * @param {string} options.dateFormat - date format for form submission (yyyy-mm-dd)
+ * @param {boolean} options.altInput - show alternative readable date format
+ * @param {string} options.altFormat - format for visible date in altInput
+ * @param {boolean} options.allowInput - allow manual date input
+ */
 flatpickr("#due-date", {
-    minDate: "today",        // Disable past dates
-    dateFormat: "Y-m-d",     // The format for the hidden input (form submission)
-    altInput: true,          // Enable alt input to display a more readable date format
-    altFormat: "Y-m-d",      // Set the format for the visible date in the altInput field (still yyyy-mm-dd)
-    allowInput: true         // Allow users to type in the input field as well
+    minDate: "today",        // disable past dates
+    dateFormat: "Y-m-d",     // format for hidden input
+    altInput: true,          // readable date format
+    altFormat: "Y-m-d",      // visible format in altInput
+    allowInput: true         // allow manual input
 });
 
 
 
-// Toggle dropdown visibility when input is clicked
+/**
+ * toggle dropdown visibility when input is clicked
+ */
 function toggleDropdown() {
     const dropdown = document.getElementById('category-dropdown');
     dropdown.classList.toggle('hidden');
     dropdown.classList.toggle('show');
 }
 
-// Select category and close the dropdown
+/**
+ * select a category and close the dropdown
+ * 
+ * @param {Event} event - the click event
+ */
 function selectCategory(event) {
     const selectedCategory = event.target.getAttribute('data-category');
-    const categoryInput = document.getElementById('category');
-    categoryInput.value = selectedCategory;  // Set input value to selected category
-    document.getElementById('category-dropdown').classList.add('hidden');  // Hide dropdown
-    document.getElementById('category-dropdown').classList.remove('show');  // Hide dropdown
+    const categoryInput = document.getElementById('task-category');
+    categoryInput.value = selectedCategory;
+    document.getElementById('category-dropdown').classList.add('hidden');
+    document.getElementById('category-dropdown').classList.remove('show');
 }
 
-// Close the dropdown if clicked outside (optional)
+/**
+ * close the dropdown if clicked outside
+ * 
+ * @param {Event} event - the click event
+ */
 document.addEventListener('click', function (event) {
-    const categoryInput = document.getElementById('category');
+    const categoryInput = document.getElementById('task-category');
     const dropdown = document.getElementById('category-dropdown');
     if (!categoryInput.contains(event.target) && !dropdown.contains(event.target)) {
-        dropdown.classList.add('hidden'); // Close the dropdown if clicked outside
-        dropdown.classList.remove('show'); // Close the dropdown if clicked outside
+        dropdown.classList.add('hidden');
+        dropdown.classList.remove('show');
     }
 });
+
 
