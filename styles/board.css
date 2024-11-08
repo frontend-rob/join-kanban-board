@@ -239,27 +239,14 @@
     top: 2rem;
 }
 
-@media (max-width: 1440px) {
-    .drop-zone {
-        padding: 0.5rem;
-        width: 18rem;
-    }
-    .status {
-        width: 18rem;
-    }
-    .task {
-        height: 15rem;
-    }
-}
-
-@media (max-width: 1024px) {
+@media (max-width: 1700px) {
 
     .status {
-        width: 12rem;
+        width: 100%;
     }
     .drop-zone {
         padding: 0;
-        width: 12rem;
+        width: 100%;
     }
     .board-header {
         padding-left: 0.5rem;
@@ -268,8 +255,8 @@
         padding: 0 0.5rem;
     }
     .task {
-        width: 180px;
-        height: 17rem;
+        width: auto;
+        height: 14rem;
     }
     #add-task-btn {
         width: 40px;
@@ -290,22 +277,68 @@
     .status-name {
         font-size: 1rem;
     }
+    .overlay-content-add-task {
+        width: 80%;
+    }
+    .overlay-content-add-task.show {
+        right: calc(50% - 40%);
+    }
+    .task-description {
+        font-size: 14px;
+    }
+    .subtask-text {
+        font-size: 12px;
+    }
+    .subtask {
+        gap: 0.5rem;
+    }
+    .workflow {
+        gap: 1rem
+    }
+    .subtask {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .task-title {
+        font-size: 14px;
+    }
+    .task-type {
+        font-size: 12px;
+    }
 }
 
-@media (max-width: 768px) {
-    .status {
-        width: 100%;
+@media (max-width: 1440px) {
+    .overlay-content-add-task {
+        width: 70%;
+    }
+    .overlay-content-add-task.show {
+        right: calc(50% - 35%);
     }
     .task {
-        width: 240px;
-        height: auto
+        height: 15rem;
     }
-    .drop-zone {
-        width: 100%;
+}
+
+@media (max-width: 1350px) {
+    .task {
+        height: 16rem;
     }
+}
+
+@media (max-width: 1250px) {
+    .task {
+        height: 17rem;
+    }
+}
+
+
+@media (max-width: 960px) {
     .workflow {
         gap: 2rem;
         flex-direction: column;
+    }
+    .status {
+        width: 100%;
     }
     .drop-zone {
         flex-direction: row;
@@ -315,12 +348,34 @@
         scrollbar-width: none;
         width: 100%;
     }
+    .task {
+        width: 240px;
+        height: auto
+    }
 }
 
-@media (max-width: 425px) {
+@media (max-width: 768px) {
+
+    .overlay-content-add-task {
+        width: 90%;
+        height: 90%;
+    }
+    .overlay-content-add-task.show {
+        right: calc(50% - 45%);
+    }
+}
+
+@media (max-width: 560px) {
     .d_none {
         display: none !important;
     }
+    .task {
+        min-width: 240px;
+    }
+}
+
+@media (max-width: 425px) {
+
     .board-header {
         padding-left: 0;
     }

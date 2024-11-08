@@ -93,6 +93,7 @@ nav {
   padding: 0.5rem 3rem;
   color: #a8a8a8;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .footer-link:hover {
@@ -102,6 +103,12 @@ nav {
 
 .footer-link.active:hover {
   color: #a8a8a8;
+}
+
+@media (max-width: 1200px) {
+  nav {
+    width: auto
+  }
 }
 
 @media screen and (max-width: 60rem) {

@@ -170,14 +170,15 @@ textarea::placeholder {
     opacity: 1;
 }
 
+@media screen and (max-width: 960px) {
+    .divider-vertical {
+        height: 2px;
+    }
+}
+
 @media screen and (max-width: 48rem) {
     input {
         font-size: 1rem;
-    }
-
-    .divider-vertical {
-        height: 2px;
-        /* width: 80px; */
     }
 }
 

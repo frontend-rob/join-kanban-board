@@ -292,24 +292,45 @@
     width: 3rem;
 }
 
-
-
-@media (max-width: 1440px) {
-    .contact-list {
-        width: 25%;
-        padding: 1rem 0;
-    }
+@media (max-width: 1700px) {
     .contact-details{
         width: calc(100% - 232px - 25%)
     }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1440px) {
+    .contact-list {
+        width: 28%;
+        padding: 1rem 0;
+    }
+    .contact {
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 1200px) {
+    .contact-details{
+        width: calc(100% - 232px - 27%)
+    }
     .contact-list {
         width: 33%;
     }
+    .responsive-container span {
+        font-size: 1.5rem;
+    }
+    .name-detail {
+        font-size: 2rem;
+    }
+    .main-headline {
+    font-size: 3rem;
+    }
+}
+
+
+@media (max-width: 1024px) {
+
     .contact-details{
-        width: calc(100% - 232px - 30%)
+        width: calc(100% - 232px - 25%)
     }
     .main-headline{
         font-size: 3rem;
@@ -330,12 +351,10 @@
     .name-detail {
         font-size: 1.5rem;
     }
-    .contact {
-        gap: 1rem;
-    }
+
 }
 
-@media (max-width: 768px) {
+@media (max-width: 960px) {
     .contact-list {
         width: 100%;
         padding: 1rem 0;
@@ -347,6 +366,9 @@
         width: 100%;
         z-index: 1;
         background-color: var(--bg-base-200);
+    }
+    .contact-details {
+        padding: 4rem 4rem;
     }
     .contact-list{
         position: static;
@@ -362,10 +384,6 @@
     }
     .contact-name-and-email {
         /* flex-direction: row; */
-    }
-    .name-detail {
-        font-size: 3rem;
-        font-weight: 700;
     }
     .headline-wrapper {
         flex-direction: column;
@@ -414,12 +432,27 @@
         transform: translate(-50%, -50%);
         margin-left: 0
     }
-}
-
-@media (max-width: 425px) {
+    .add-contact-btn-mobile {
+        height: 5rem;
+        width: 5rem;
+    }
+    .edit-contact-btn-mobile{
+        height: 5rem;
+        width: 5rem;
+    }
     .name-detail {
         font-size: 2rem;
     }
+}
+
+@media (max-width: 768px) {
+    .contact-details {
+        padding: 2rem 4rem;
+    }
+}
+
+@media (max-width: 425px) {
+
     .contact-details {
         padding: 2rem 1rem;
     }
@@ -433,14 +466,22 @@
         height: 5.5rem;
         width:  5.5rem;
     }
+    .add-contact-btn-mobile {
+        height: 4rem;
+        width: 4rem;
+    }
+    .edit-contact-btn-mobile{
+        height: 4rem;
+        width: 4rem;
+    }
+    .name-detail {
+        font-size: 1.5rem
+    }
 }
 
 @media (max-width: 320px) {
     .contact {
         gap: 0 
-    }
-    .name-detail {
-        font-size: 1.5rem
     }
     .icon-name-and-action {
         gap: 0;

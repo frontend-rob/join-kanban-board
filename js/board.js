@@ -60,7 +60,7 @@ function loadBoardTemplates({ header, navigation, landscapeModal }) {
 function updateResponsiveLayout() {
     const searchBarContainer = document.getElementById("responsive-search-bar");
 
-    if (window.innerWidth <= 425) {
+    if (window.innerWidth <= 560) {
         if (!searchBarContainer.querySelector("#search-bar")) {
             searchBarContainer.innerHTML = `
                 <div class="input-field-2 search" id="search-bar">
