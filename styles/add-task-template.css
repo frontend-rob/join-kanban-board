@@ -14,7 +14,6 @@
     color: var(--error-content);
 }
 
-
 .left-column,
 .right-column {
     display: flex;
@@ -29,13 +28,29 @@
     gap: 0.5rem;
 }
 
+.input-field .form-control.input.active {
+    background-color: var(--bg-base-100);
+    color: var(--base-content);
+}
 
+.prio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.prio-buttons {
+    display: flex;
+    justify-content: stretch;
+    align-items: center;
+    gap: 1rem;
+}
 
 .add-task-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 60rem;
+    max-width: 65rem;
     width: 100%;
     font-size: 1.25rem;
     color: var(--base-content);
@@ -45,4 +60,26 @@
     display: flex;
     align-items: center;
     gap: 1rem;
+}
+
+.category-dropdown {
+    flex-direction: column;
+    margin-top: 0.5rem;
+    border-radius: 0.625rem;
+    border: 1px solid var(--bg-accent);
+    padding: 12px;
+    gap: 0.25rem;
+    background-color: var(--bg-base-100);
+    font-size: 1.25rem;
+    color: var(--base-content);
+}
+
+.category-dropdown-item {
+    padding: .5rem;
+    border-radius: .3125rem;
+}
+
+.category-dropdown-item:hover {
+    background-color: var(--bg-neutral);
+    cursor: pointer;
 }

@@ -15,6 +15,11 @@
     <link rel="stylesheet" href="../styles/sidebar.css">
     <link rel="stylesheet" href="../styles/add-task-template.css">
     <link rel="stylesheet" href="../style.css">
+
+
+    <!-- Add this to your HTML head section -->
+    <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
 
 <!-- ! in progress -->
@@ -32,19 +37,19 @@
                     <h1 class="main-headline">Add Task</h1>
                 </div>
 
-                <form class="add-task-form" onsubmit="addTask(event); return false;">
+                <form id="add-task-form" class="add-task-form">
                     <div class="left-column">
                         <div class="input-group">
-                            <label for="title">Title<span class="required">*</span></label>
+                            <label for="task-title">Title<span class="required">*</span></label>
                             <div class="input-field">
-                                <input type="text" id="title" class="required-input" placeholder="Enter a title">
+                                <input type="text" id="task-title" class="required-input" placeholder="Enter a title">
                                 <div class="error-message-addtask"></div>
                             </div>
                         </div>
                         <div class="input-group">
-                            <label for="description">Description</label>
+                            <label for="task-description">Description</label>
                             <div class="input-field">
-                                <textarea id="description" placeholder="Enter a Description" rows="5"></textarea>
+                                <textarea id="task-description" placeholder="Enter a Description" rows="5"></textarea>
                             </div>
                         </div>
                         <div class="input-group">
@@ -52,7 +57,8 @@
                             <div class="input-field">
                                 <input type="text" id="assigned" placeholder="Select contacts to assign" readonly>
                                 <div class="error-message-addtask"></div>
-                                <svg id="contact-dropdown-icon" class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#000000" viewBox="0 0 256 256">
+                                <svg id="contact-dropdown-icon" class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#000000"
+                                    viewBox="0 0 256 256">
                                     <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z">
                                     </path>
                                 </svg>
@@ -65,81 +71,82 @@
                             </div>
                         </div>
                     </div>
-                
+
                     <div class="divider-vertical"></div>
-                
+
                     <div class="right-column">
                         <div class="input-group date-input">
                             <label for="due-date">Due date<span class="required">*</span></label>
                             <div class="input-field">
-                                <input type="text" id="due-date" placeholder="mm/dd/yyyy" readonly>
+                                <input type="text" id="due-date" placeholder="yyyy-mm-dd">
                                 <div class="error-message-addtask"></div>
-                                <div id="logo-svg">
-                                    <svg id="date-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256">
-                                        <path
-                                            d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-68-76a12,12,0,1,1-12-12A12,12,0,0,1,140,132Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,132ZM96,172a12,12,0,1,1-12-12A12,12,0,0,1,96,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,140,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,172Z">
-                                        </path>
-                                    </svg>
-                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                                    <path
+                                        d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-68-76a12,12,0,1,1-12-12A12,12,0,0,1,140,132Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,132ZM96,172a12,12,0,1,1-12-12A12,12,0,0,1,96,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,140,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,172Z">
+                                    </path>
+                                </svg>
                             </div>
                         </div>
+
+
                         <div class="prio-group">
                             <label>Prio</label>
                             <div class="prio-buttons">
-                                <button class="prio-button urgent">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#ff3d00" stroke="#ff3d00" stroke-width="16" viewBox="0 0 256 256">
-                                        <path
-                                            d="M210.83,197.17a4,4,0,0,1-5.66,5.66L128,125.66,50.83,202.83a4,4,0,0,1-5.66-5.66l80-80a4,4,0,0,1,5.66,0Zm-160-74.34L128,45.66l77.17,77.17a4,4,0,1,0,5.66-5.66l-80-80a4,4,0,0,0-5.66,0l-80,80a4,4,0,0,0,5.66,5.66Z">
-                                        </path>
-                                    </svg>
+                                <button class="btn btn-urgent" type="button" onclick="setPriority(this)">
                                     Urgent
-                                </button>
-                                <button class="prio-button medium">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fea800" stroke="#fea800" stroke-width="16" viewBox="0 0 256 256">
-                                        <path d="M220,160a4,4,0,0,1-4,4H40a4,4,0,0,1,0-8H216A4,4,0,0,1,220,160ZM40,100H216a4,4,0,0,0,0-8H40a4,4,0,0,0,0,8Z">
-                                        </path>
-                                    </svg>
-                                    Medium
-                                </button>
-                                <button class="prio-button low">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#7be129" stroke="#7be129" stroke-width="16" viewBox="0 0 256 256">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                         <path
-                                            d="M210.83,133.17a4,4,0,0,1,0,5.66l-80,80a4,4,0,0,1-5.66,0l-80-80a4,4,0,0,1,5.66-5.66L128,210.34l77.17-77.17A4,4,0,0,1,210.83,133.17Zm-85.66,5.66a4,4,0,0,0,5.66,0l80-80a4,4,0,1,0-5.66-5.66L128,130.34,50.83,53.17a4,4,0,0,0-5.66,5.66Z">
+                                            d="M216.49,191.51a12,12,0,0,1-17,17L128,137,56.49,208.49a12,12,0,0,1-17-17l80-80a12,12,0,0,1,17,0Zm-160-63L128,57l71.51,71.52a12,12,0,0,0,17-17l-80-80a12,12,0,0,0-17,0l-80,80a12,12,0,0,0,17,17Z">
                                         </path>
                                     </svg>
+                                </button>
+                                <button class="btn btn-medium" type="button" onclick="setPriority(this)">
+                                    Medium
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                                        <path d="M228,160a12,12,0,0,1-12,12H40a12,12,0,0,1,0-24H216A12,12,0,0,1,228,160ZM40,108H216a12,12,0,0,0,0-24H40a12,12,0,0,0,0,24Z"></path>
+                                    </svg>
+                                </button>
+                                <button class="btn btn-low" type="button" onclick="setPriority(this)">
                                     Low
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                                        <path
+                                            d="M216.49,127.51a12,12,0,0,1,0,17l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,1,1,17-17L128,199l71.51-71.52A12,12,0,0,1,216.49,127.51Zm-97,17a12,12,0,0,0,17,0l80-80a12,12,0,0,0-17-17L128,119,56.49,47.51a12,12,0,0,0-17,17Z">
+                                        </path>
+                                    </svg>
                                 </button>
                             </div>
                         </div>
+
                         <div class="input-group category-container">
                             <label for="category">Category<span class="required">*</span></label>
                             <div class="input-field">
-                                <input type="text" id="category" placeholder="Select a category" readonly>
+                                <input type="text" id="category" placeholder="Select a category" onclick="toggleDropdown()">
                                 <div class="error-message-addtask"></div>
-                                <svg id="dropdown-icon" class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#000000" viewBox="0 0 256 256">
+                                <svg id="dropdown-icon" class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                     <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z">
                                     </path>
                                 </svg>
-                                <div id="category-dropdown" class="dropdown hidden">
-                                    <div class="dropdown-item" data-category="Technical Task">Technical Task
-                                    </div>
-                                    <div class="dropdown-item" data-category="User Story">User Story</div>
+                                <div id="category-dropdown" class="category-dropdown hidden" onclick="selectCategory(event)">
+                                    <div class="category-dropdown-item" data-category="Technical Task">Technical Task</div>
+                                    <div class="category-dropdown-item" data-category="User Story">User Story</div>
                                 </div>
                             </div>
                         </div>
-                
-                        <div class="addSubtask-container">
+
+
+
+                        <div class="input-group addSubtask-container">
                             <label for="addSubtask-input">Subtasks</label>
-                            <div class="addSubtask-input-field">
+                            <div class="input-field">
                                 <input type="text" id="addSubtask-input" placeholder="Add new subtask" onfocus="showEditIcons()">
-                
+
                                 <div id="addSubtask-icons" class="addSubtask-icons">
                                     <!-- Default Plus Icon -->
                                     <svg id="plus-icon" onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
                                         <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z">
                                         </path>
                                     </svg>
-                
+
                                     <!-- Delete and Confirm Icons (Initially hidden) -->
                                     <div id="edit-icons" class="icon-wrapper" style="display: none;">
                                         <svg onclick="clearSubtaskInput()" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
@@ -147,7 +154,7 @@
                                                 d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z">
                                             </path>
                                         </svg>
-                
+
                                         <svg onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
                                             <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1-11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z">
                                             </path>
@@ -155,7 +162,7 @@
                                     </div>
                                 </div>
                             </div>
-                
+
                             <!-- Subtask list placed outside the icons container to appear below the input field -->
                             <ul id="addSubtask-list" class="addSubtask-list"></ul>
                         </div>
@@ -168,7 +175,9 @@
                         <button class="btn btn-outline">
                             Clear
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
-                                <path d="M208.49,191.51a12,12,0,0,1-17,17L128,145,64.49,208.49a12,12,0,0,1-17-17L111,128,47.51,64.49a12,12,0,0,1,17-17L128,111l63.51-63.52a12,12,0,0,1,17,17L145,128Z"></path>
+                                <path
+                                    d="M208.49,191.51a12,12,0,0,1-17,17L128,145,64.49,208.49a12,12,0,0,1-17-17L111,128,47.51,64.49a12,12,0,0,1,17-17L128,111l63.51-63.52a12,12,0,0,1,17,17L145,128Z">
+                                </path>
                             </svg>
                         </button>
                         <button type="submit" class="btn btn-lg">
@@ -191,6 +200,7 @@
     <script src="../script.js"></script>
     <script src="../js/landscape.js"></script>
     <script src="../js/setActiveNavLink.js"></script>
+
 </body>
 
 

@@ -59,36 +59,54 @@ function loadAddTaskTemplates({ header, navigation, landscapeModal }) {
 
 
 
-// Prio-Buttons Initialisierung
-function initializePrioButtons() {
-    const buttons = document.querySelectorAll('.prio-button');
-    buttons.forEach(button => {
-        button.addEventListener('click', function () {
-            buttons.forEach(btn => {
-                btn.classList.remove('active');
-                btn.style.backgroundColor = '';
-                btn.querySelector('svg').style.fill = '';
-                btn.querySelector('svg').style.stroke = '';
-                btn.style.color = '';
-            });
-
-            button.classList.add('active');
-            if (button.classList.contains('urgent')) {
-                button.style.backgroundColor = 'var(--priority-urgent)';
-                button.querySelector('svg').style.fill = 'var(--white-content)';
-                button.querySelector('svg').style.stroke = 'var(--white-content)';
-                button.style.color = 'var(--white-content)';
-            } else if (button.classList.contains('medium')) {
-                button.style.backgroundColor = 'var(--priority-medium)';
-                button.querySelector('svg').style.fill = 'var(--white-content)';
-                button.querySelector('svg').style.stroke = 'var(--white-content)';
-                button.style.color = 'var(--white-content)';
-            } else if (button.classList.contains('low')) {
-                button.style.backgroundColor = 'var(--priority-low)';
-                button.querySelector('svg').style.fill = 'var(--white-content)';
-                button.querySelector('svg').style.stroke = 'var(--white-content)';
-                button.style.color = 'var(--white-content)';
-            }
-        });
+/**
+ * sets the priority by applying the `.clicked` class to the selected button
+ * and removing it from all other priority buttons.
+ *
+ * @param {HTMLElement} button - the button to which the `.clicked` class should be applied.
+ */
+function setPriority(button) {
+    document.querySelectorAll('.prio-buttons .btn').forEach(btn => {
+        btn.classList.remove('clicked');
     });
+    button.classList.add('clicked');
 }
+
+
+// Initialize Flatpickr on the input field
+flatpickr("#due-date", {
+    minDate: "today",        // Disable past dates
+    dateFormat: "Y-m-d",     // The format for the hidden input (form submission)
+    altInput: true,          // Enable alt input to display a more readable date format
+    altFormat: "Y-m-d",      // Set the format for the visible date in the altInput field (still yyyy-mm-dd)
+    allowInput: true         // Allow users to type in the input field as well
+});
+
+
+
+// Toggle dropdown visibility when input is clicked
+function toggleDropdown() {
+    const dropdown = document.getElementById('category-dropdown');
+    dropdown.classList.toggle('hidden');
+    dropdown.classList.toggle('show');
+}
+
+// Select category and close the dropdown
+function selectCategory(event) {
+    const selectedCategory = event.target.getAttribute('data-category');
+    const categoryInput = document.getElementById('category');
+    categoryInput.value = selectedCategory;  // Set input value to selected category
+    document.getElementById('category-dropdown').classList.add('hidden');  // Hide dropdown
+    document.getElementById('category-dropdown').classList.remove('show');  // Hide dropdown
+}
+
+// Close the dropdown if clicked outside (optional)
+document.addEventListener('click', function (event) {
+    const categoryInput = document.getElementById('category');
+    const dropdown = document.getElementById('category-dropdown');
+    if (!categoryInput.contains(event.target) && !dropdown.contains(event.target)) {
+        dropdown.classList.add('hidden'); // Close the dropdown if clicked outside
+        dropdown.classList.remove('show'); // Close the dropdown if clicked outside
+    }
+});
+

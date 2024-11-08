@@ -82,6 +82,80 @@
     box-shadow: none;
 }
 
+.btn-urgent,
+.btn-medium,
+.btn-low {
+    background-color: var(--bg-base-100);
+    color: var(--base-content);
+}
+
+.btn-urgent svg,
+.btn-medium svg,
+.btn-low svg {
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+.btn-urgent svg {
+    fill: var(--priority-urgent);
+}
+
+.btn-medium svg {
+    fill: var(--priority-medium);
+}
+
+.btn-low svg {
+    fill: var(--priority-low);
+}
+
+.btn-urgent.clicked,
+.btn-medium.clicked,
+.btn-low.clicked {
+    color: var(--bg-base-100);
+}
+
+.btn-urgent.clicked {
+    background-color: var(--priority-urgent);
+}
+
+.btn-medium.clicked {
+    background-color: var(--priority-medium);
+}
+
+.btn-low.clicked {
+    background-color: var(--priority-low);
+}
+
+.btn-urgent.clicked svg {
+    fill: var(--bg-base-100);
+}
+
+.btn-medium.clicked svg {
+    fill: var(--bg-base-100);
+}
+
+.btn-low.clicked svg {
+    fill: var(--bg-base-100);
+}
+
+.btn-urgent:hover,
+.btn-medium:hover,
+.btn-low:hover {
+    background-color: var(--bg-base-100);
+}
+
+.btn-urgent.clicked:hover {
+    background-color: var(--priority-urgent);
+}
+
+.btn-medium.clicked:hover {
+    background-color: var(--priority-medium);
+}
+
+.btn-low.clicked:hover {
+    background-color: var(--priority-low);
+}
+
 /* divider styles */
 .divider-horizontal,
 .divider-vertical {
@@ -140,6 +214,7 @@ textarea {
 textarea {
     height: 100%;
 }
+
 
 input:focus-visible,
 textarea:focus-visible {
