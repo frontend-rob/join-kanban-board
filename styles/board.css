@@ -257,6 +257,7 @@
     .task {
         width: auto;
         height: 14rem;
+        /* min-width: 200px; */
     }
     #add-task-btn {
         width: 40px;

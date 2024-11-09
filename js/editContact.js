@@ -36,7 +36,7 @@ function showOverlay(overlay, overlayContent) {
     setTimeout(() => {
         overlayContent.classList.add('show-edit-contact');
         if (window.innerWidth > 1024) {
-            overlayContent.style.right = '20%';
+            overlayContent.style.right = '';
         } else {
             overlayContent.style.right = '';
         }

@@ -87,7 +87,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 2rem 2rem 2rem 4rem;
+    padding: 2rem 2rem 2rem 2rem;
     color: white;
 }
 
@@ -126,7 +126,8 @@
     right: 2rem;
 }
 
-@media (max-width : 1024px) {
+
+@media (max-width : 1400px) {
     .overlay-content-add-contact {
         width: 80%;
     }
@@ -143,16 +144,19 @@
     #edit-contact-responsive {
         width: 3rem;
     }
-}
-
-@media (max-width : 768px) {
+    .overlay-content-add-contact.show {
+        right: calc(50% - 45%);
+    }
     .overlay-content-edit-contact {
         flex-direction: column;
         height: 90%;
+        width: 90%;
+        right: calc(50% - 45%);
     }
     .overlay-content-add-contact {
         flex-direction: column;
         height: 90%;
+        width: 90%;
     }
     .overlay-left {
         width: 100%;
