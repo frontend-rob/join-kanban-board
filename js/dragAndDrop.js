@@ -43,20 +43,39 @@ async function drop(event) {
 }
 
 /**
- * Updates the status of the task in Firebase.
- * 
+ * Updates the status of a task in the local `allTasks` object.
+ * @param {string} taskId - The ID of the task to update.
+ * @param {string} newStatus - The new status of the task.
+ */
+function updateTaskStatusInLocalData(taskId, newStatus) {
+    allTasks[taskId].status = newStatus;
+}
+
+/**
+ * Sends a PATCH request to Firebase to update the task status.
+ * @param {string} taskId - The ID of the task to update.
+ * @param {string} newStatus - The new status of the task.
+ * @returns {Promise<Response>} - The response from the Firebase request.
+ */
+async function sendStatusUpdateToFirebase(taskId, newStatus) {
+    const response = await fetch(`${DB_URL}/tasks/${taskId}.json`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus }),
+    });
+
+    return response;
+}
+
+/**
+ * Updates the task status in both local data and Firebase.
  * @param {string} taskId - The ID of the task to update.
  * @param {string} newStatus - The new status of the task.
  */
 async function updateTaskStatus(taskId, newStatus) {
-    allTasks[taskId].status = newStatus;
-
     try {
-        const response = await fetch(`${DB_URL}/tasks/${taskId}.json`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ status: newStatus }),
-        });
+        updateTaskStatusInLocalData(taskId, newStatus);
+        const response = await sendStatusUpdateToFirebase(taskId, newStatus);
 
         if (!response.ok) {
             throw new Error('Error updating task status');
