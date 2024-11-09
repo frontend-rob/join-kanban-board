@@ -107,75 +107,74 @@ nav {
 
 @media (max-width: 1200px) {
   nav {
-    width: auto
+      width: auto;
   }
 }
 
-@media screen and (max-width: 60rem) {
-
+@media screen and (max-width: 960px) {
   aside,
   nav {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 5rem;
-    padding-top: 0;
-    padding-bottom: 0;
-    top: unset;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 5rem;
+      padding-top: 0;
+      padding-bottom: 0;
+      top: unset;
   }
 
   .nav-logo {
-    display: none;
+      display: none;
   }
 
   .menu {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    height: 5rem;
-    padding: 0.25rem;
-    margin-top: unset;
-    flex-grow: 1;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+      width: 100%;
+      height: 5rem;
+      padding: 0.25rem;
+      margin-top: unset;
+      flex-grow: 1;
   }
 
   .nav-link {
-    display: flex;
-    align-items: center;
-    width: 5rem;
-    height: 100%;
-    padding: 0.5rem;
-    border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      width: 5rem;
+      height: 100%;
+      padding: 0.5rem;
+      border-radius: 1rem;
   }
 
   .menu-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    font-size: 0.875rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      font-size: 0.875rem;
   }
 
   .footer-links {
-    display: none;
+      display: none;
   }
 }
 
-@media screen and (max-width: 28rem) {
+@media screen and (max-width: 448px) {
   .nav-link {
-    padding: 0.25rem;
+      padding: 0.25rem;
   }
 
   .menu-item {
-    font-size: 0.75rem;
+      font-size: 0.75rem;
   }
 
   .svg {
-    height: 1.5rem;
-    width: 1.5rem;
+      height: 1.5rem;
+      width: 1.5rem;
   }
 }

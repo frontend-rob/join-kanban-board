@@ -155,7 +155,7 @@ function showContactDetails(contact, contactId) {
         </div>
     `;
 
-    contactDetailsContainer.classList.add('show');
+    contactDetailsContainer.classList.add('show-contact-details');
     document.body.classList.add('no-scroll');
 }
 /**
