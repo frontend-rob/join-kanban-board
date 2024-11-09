@@ -30,6 +30,38 @@
                     "initials": "JD",
                     "name": "John Doe",
                     "phone": "+49 111 1111111"
+                },
+                {
+                    "color": "#ffa35e",
+                    "email": "john.doe@example.com",
+                    "id": "-O0Nob3TV3LADGyIeC4R",
+                    "initials": "JD",
+                    "name": "John Doe",
+                    "phone": "+49 111 1111111"
+                },
+                {
+                    "color": "#ffa35e",
+                    "email": "john.doe@example.com",
+                    "id": "-O0Nob3TV3LADGyIeC4R",
+                    "initials": "JD",
+                    "name": "John Doe",
+                    "phone": "+49 111 1111111"
+                },
+                {
+                    "color": "#ffa35e",
+                    "email": "john.doe@example.com",
+                    "id": "-O0Nob3TV3LADGyIeC4R",
+                    "initials": "JD",
+                    "name": "John Doe",
+                    "phone": "+49 111 1111111"
+                },
+                {
+                    "color": "#ffa35e",
+                    "email": "john.doe@example.com",
+                    "id": "-O0Nob3TV3LADGyIeC4R",
+                    "initials": "JD",
+                    "name": "John Doe",
+                    "phone": "+49 111 1111111"
                 }
             ],
             "category": "Technical Task",
@@ -72,6 +104,30 @@
                     "name": "David Williams",
                     "phone": "+49 111 7777777",
                     "status": "normal"
+                },
+                {
+                    "color": "#ff5eb3",
+                    "email": "sarah.johnson@example.com",
+                    "id": "-O0Nob6T3m8--jcmOUbG",
+                    "initials": "SJ",
+                    "name": "Sarah Johnson",
+                    "phone": "+49 111 4444444"
+                },
+                {
+                    "color": "#ff5eb3",
+                    "email": "sarah.johnson@example.com",
+                    "id": "-O0Nob6T3m8--jcmOUbG",
+                    "initials": "SJ",
+                    "name": "Sarah Johnson",
+                    "phone": "+49 111 4444444"
+                },
+                {
+                    "color": "#ff5eb3",
+                    "email": "sarah.johnson@example.com",
+                    "id": "-O0Nob6T3m8--jcmOUbG",
+                    "initials": "SJ",
+                    "name": "Sarah Johnson",
+                    "phone": "+49 111 4444444"
                 }
             ],
             "category": "User Story",
@@ -135,6 +191,38 @@
         },
         "-O1pM3Uzy5678Gue8HZu8": {
             "assigned_to": [
+                {
+                    "color": "#1fd7c1",
+                    "email": "michael.jones@example.com",
+                    "id": "-O0Nob5S9eiRacAj4uEJ",
+                    "initials": "MJ",
+                    "name": "Michael Jones",
+                    "phone": "+49 111 3333333"
+                },
+                {
+                    "color": "#1fd7c1",
+                    "email": "michael.jones@example.com",
+                    "id": "-O0Nob5S9eiRacAj4uEJ",
+                    "initials": "MJ",
+                    "name": "Michael Jones",
+                    "phone": "+49 111 3333333"
+                },
+                {
+                    "color": "#1fd7c1",
+                    "email": "michael.jones@example.com",
+                    "id": "-O0Nob5S9eiRacAj4uEJ",
+                    "initials": "MJ",
+                    "name": "Michael Jones",
+                    "phone": "+49 111 3333333"
+                },
+                {
+                    "color": "#1fd7c1",
+                    "email": "michael.jones@example.com",
+                    "id": "-O0Nob5S9eiRacAj4uEJ",
+                    "initials": "MJ",
+                    "name": "Michael Jones",
+                    "phone": "+49 111 3333333"
+                },
                 {
                     "color": "#1fd7c1",
                     "email": "michael.jones@example.com",

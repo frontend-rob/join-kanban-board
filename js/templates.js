@@ -185,7 +185,7 @@ function getLandscapeModalContent() {
  * @returns {string} - The HTML content for the task.
  */
 function getTaskContent(taskId, task, progressPercentage) {
-    const maxVisibleIcons = 4;
+    const maxVisibleIcons = window.innerWidth < 1250 ? 2 : 4;
     const visibleAssigned = task.assigned_to.slice(0, maxVisibleIcons);
     const assignedToHTML = visibleAssigned.map(person => `
         <div class="profile-icon" style="background-color: ${person.color};">
