@@ -32,9 +32,9 @@
                             <label for="title">Title<span class="required">*</span></label>
                             <div class="input-field">
                                 <input type="text" id="title" class="required-input" placeholder="Enter a title">
-                            <div class="error-message-addtask" style="display: none;"></div> 
+                                <div class="error-message-addtask" style="display: none;"></div>
+                            </div>
                         </div>
-                    </div>
 
                         <div class="input-group">
                             <label for="description">Description</label>
@@ -47,7 +47,7 @@
                             <label for="assigned">Assigned to<span class="required">*</span></label>
                             <div class="input-field">
                                 <input type="text" id="assigned" placeholder="Select contacts to assign" readonly>
-                                <div class="error-message-addtask" style="display: none;"></div>  
+                                <div class="error-message-addtask" style="display: none;"></div>
                                 <svg id="contact-dropdown-icon" class="dropdown-icon" xmlns="http://www.w3.org/2000/svg"
                                     width="16" height="16" fill="#000000" viewBox="0 0 256 256">
                                     <path
@@ -63,7 +63,7 @@
                             </div>
                         </div>
                     </div>
-                
+
 
                     <div class="vertical-line"></div>
 
@@ -72,7 +72,7 @@
                             <label for="due-date">Due date<span class="required">*</span></label>
                             <div class="input-field">
                                 <input type="text" id="due-date" placeholder="mm/dd/yyyy" readonly>
-                                <div class="error-message-addtask" style="display: none;"></div> 
+                                <div class="error-message-addtask" style="display: none;"></div>
                                 <div id="logo-svg">
                                     <svg id="date-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
                                         fill="#000000" viewBox="0 0 256 256">
@@ -87,7 +87,7 @@
                         <div class="prio-group">
                             <label>Prio</label>
                             <div class="prio-buttons">
-                                <button class="prio-button urgent">
+                                <button class="prio-button urgent" id="urgent-button">                                    
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#ff3d00"
                                         stroke="#ff3d00" stroke-width="16" viewBox="0 0 256 256">
                                         <path
@@ -96,7 +96,7 @@
                                     </svg>
                                     Urgent
                                 </button>
-                                <button class="prio-button medium">
+                                <button class="prio-button medium" id="medium-button">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#fea800"
                                         stroke="#fea800" stroke-width="16" viewBox="0 0 256 256">
                                         <path
@@ -105,7 +105,7 @@
                                     </svg>
                                     Medium
                                 </button>
-                                <button class="prio-button low">
+                                <button class="prio-button low" id="low-button">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#7be129"
                                         stroke="#7be129" stroke-width="16" viewBox="0 0 256 256">
                                         <path
@@ -121,7 +121,7 @@
                             <label for="category">Category<span class="required">*</span></label>
                             <div class="input-field">
                                 <input type="text" id="category" placeholder="Select a category" readonly>
-                                <div class="error-message-addtask" style="display: none;"></div> 
+                                <div class="error-message-addtask" style="display: none;"></div>
                                 <svg id="dropdown-icon" class="dropdown-icon" xmlns="http://www.w3.org/2000/svg"
                                     width="32" height="32" fill="#000000" viewBox="0 0 256 256">
                                     <path
@@ -211,6 +211,9 @@
     <script src="../js/editContact.js" defer></script>
     <script src="../js/summary.js" defer></script>
     <script src="../script.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
 
 
 </body>
