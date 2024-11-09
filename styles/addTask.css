@@ -180,13 +180,13 @@ h1 {
 .input-field {
     position: relative;
     width: 480px;
-    /* Stellt sicher, dass sich das Dropdown daran anpasst */
 }
 
 
 .input-field svg {
     cursor: pointer;
     transition: transform 0.3s ease;
+    right: 0.75rem !important;
 }
 
 .input-field svg.open {
@@ -246,11 +246,6 @@ label[for="assigned"] {
     display: flex;
     gap: 8px;
     max-width: 480px;
-}
-
-.required-input.error {
-    border: 1px solid var(--bg-error);
-    outline: none;
 }
 
 .required-note {
@@ -334,7 +329,7 @@ label[for="assigned"] {
     align-items: center;
     gap: 8px;
     position: absolute;
-    right: 0.5rem;
+    right: 0.7rem;
     top: 50%;
     transform: translateY(-50%);
 }
@@ -451,7 +446,6 @@ textarea::placeholder {
     overflow-y: auto;
     z-index: 1000;
     width: 480px !important;
-    /* Setzt die Breite sicher auf 430px */
 }
 
 #selected-contacts {
@@ -462,15 +456,15 @@ textarea::placeholder {
 }
 
 .error {
-    border: 2px solid red; /* Rote Umrandung für Fehler */
+    border: 2px solid red; 
 }
 
 .error-message-addtask {
-    color: red; /* Fehlermeldung in roter Schrift */
+    color: red; 
     font-size: 16px;
     margin-top: 4px;
     position: absolute;
-    z-index: 10; /* Sicherstellen, dass die Fehlermeldung sichtbar bleibt */
+    z-index: 10;
 }
 
 .vertical-line {

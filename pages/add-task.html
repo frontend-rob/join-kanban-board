@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="../styles/fonts.css">
     <link rel="stylesheet" href="../styles/base.css">
     <link rel="stylesheet" href="../styles/assets.css">
-    <link rel="stylesheet" href="../styles/landscape.css">
     <link rel="stylesheet" href="../styles/header.css">
     <link rel="stylesheet" href="../styles/addTask.css">
     <link rel="stylesheet" href="../styles/sidebar.css">
@@ -33,9 +32,9 @@
                             <label for="title">Title<span class="required">*</span></label>
                             <div class="input-field">
                                 <input type="text" id="title" class="required-input" placeholder="Enter a title">
-                                <div class="error-message-addtask"></div>
-                            </div>
+                            <div class="error-message-addtask" style="display: none;"></div> 
                         </div>
+                    </div>
 
                         <div class="input-group">
                             <label for="description">Description</label>
@@ -48,7 +47,7 @@
                             <label for="assigned">Assigned to<span class="required">*</span></label>
                             <div class="input-field">
                                 <input type="text" id="assigned" placeholder="Select contacts to assign" readonly>
-                                <div class="error-message-addtask"></div>
+                                <div class="error-message-addtask" style="display: none;"></div>  
                                 <svg id="contact-dropdown-icon" class="dropdown-icon" xmlns="http://www.w3.org/2000/svg"
                                     width="16" height="16" fill="#000000" viewBox="0 0 256 256">
                                     <path
@@ -64,6 +63,7 @@
                             </div>
                         </div>
                     </div>
+                
 
                     <div class="vertical-line"></div>
 
@@ -72,7 +72,7 @@
                             <label for="due-date">Due date<span class="required">*</span></label>
                             <div class="input-field">
                                 <input type="text" id="due-date" placeholder="mm/dd/yyyy" readonly>
-                                <div class="error-message-addtask"></div>
+                                <div class="error-message-addtask" style="display: none;"></div> 
                                 <div id="logo-svg">
                                     <svg id="date-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
                                         fill="#000000" viewBox="0 0 256 256">
@@ -121,7 +121,7 @@
                             <label for="category">Category<span class="required">*</span></label>
                             <div class="input-field">
                                 <input type="text" id="category" placeholder="Select a category" readonly>
-                                <div class="error-message-addtask"></div>
+                                <div class="error-message-addtask" style="display: none;"></div> 
                                 <svg id="dropdown-icon" class="dropdown-icon" xmlns="http://www.w3.org/2000/svg"
                                     width="32" height="32" fill="#000000" viewBox="0 0 256 256">
                                     <path
@@ -204,7 +204,6 @@
     <div include-html="../templates/landscape-modal.html">Landscape Modal loading...</div>
 
     <script src="../js/setActiveNavLink.js" defer></script>
-    <script src="../js/landscape.js" defer></script>
     <script src="../js/openTaskOverlay.js" defer></script>
     <script src="../js/addTask.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

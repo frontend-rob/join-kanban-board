@@ -49,8 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Funktion für Category-Dropdown
     function toggleCategoryDropdown() {
-        categoryDropdown.classList.toggle('hidden');
-        categoryDropdownIcon.style.transform = categoryDropdown.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+        toggleDropdown(categoryDropdown, categoryDropdownIcon);
     }
 
     // Funktion für Kontakt-Dropdown
@@ -62,8 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // Dropdown-Anzeige umschalten
-        contactDropdown.classList.toggle('hidden');
-        contactDropdownIcon.style.transform = contactDropdown.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+        toggleDropdown(contactDropdown, contactDropdownIcon);
     }
 
     // Event-Listener für Category-Dropdown
@@ -80,6 +78,21 @@ document.addEventListener('DOMContentLoaded', function () {
     // Event-Listener für Kontakt-Dropdown (Input und Icon)
     assignedInput.addEventListener('click', toggleContactDropdown);
     contactDropdownIcon.addEventListener('click', toggleContactDropdown);
+
+    // Schließe Dropdown, wenn außerhalb geklickt wird
+    document.addEventListener('click', function (event) {
+        if (!assignedInput.contains(event.target) && !contactDropdown.contains(event.target) && event.target !== contactDropdownIcon) {
+            if (!contactDropdown.classList.contains('hidden')) {
+                toggleDropdown(contactDropdown, contactDropdownIcon);
+            }
+        }
+
+        if (!categoryInput.contains(event.target) && !categoryDropdown.contains(event.target) && event.target !== categoryDropdownIcon) {
+            if (!categoryDropdown.classList.contains('hidden')) {
+                toggleDropdown(categoryDropdown, categoryDropdownIcon);
+            }
+        }
+    });
 });
 
 // Funktion, um den Kontakt-Dropdown zu initialisieren und Kontakte zu laden
@@ -150,6 +163,7 @@ function toggleContactSelection(event, id, name, avatarColor) {
         avatar.innerText = getInitials(name);
         selectedContactsDiv.appendChild(avatar);
     }
+    updateAssignedInput();
 }
 
 // Funktion, um Initialen eines Namens zu generieren
@@ -267,6 +281,39 @@ function initializePrioButtons() {
 function openAddContactOverlay() {
     console.log('Opening add contact overlay');
 }
+
+// Funktion zum Umschalten des Dropdowns
+function toggleDropdown(dropdown, icon = null) {
+    if (dropdown.classList.contains('hidden')) {
+        dropdown.classList.remove('hidden');
+        if (icon) {
+            icon.style.transform = 'rotate(180deg)';
+        }
+    } else {
+        dropdown.classList.add('hidden');
+        if (icon) {
+            icon.style.transform = 'rotate(0deg)';
+        }
+    }
+}
+
+// Funktion zum Aktualisieren des `Assigned to` Eingabefelds
+function updateAssignedInput() {
+    const selectedContacts = document.getElementById('selected-contacts');
+    const assignedInput = document.getElementById('assigned');
+    if (selectedContacts && selectedContacts.children.length > 0) {
+        assignedInput.value = "Contacts selected";
+    } else {
+        assignedInput.value = "";
+    }
+}
+
+// Initialisierung des Hauptinhalts
+document.addEventListener('DOMContentLoaded', function() {
+    const mainContent = document.querySelector('.main-content');
+    mainContent.classList.add('visible');
+});
+
 
 // Dieser Event-Listener wird ausgelöst, sobald das Dokument geladen ist
 document.addEventListener('DOMContentLoaded', () => {
@@ -464,17 +511,61 @@ document.addEventListener('DOMContentLoaded', function () {
     const createTaskButton = document.querySelector('.btn.btn-lg'); // Button zum Erstellen der Aufgabe
     const clearButton = document.querySelector('.btn.btn-outline'); // Button zum Löschen der Fehler
 
+    // Pflichtfelder
+    const requiredFields = [
+        { id: 'title', name: 'Title', type: 'input' },
+        { id: 'due-date', name: 'Due Date', type: 'input' },
+        { id: 'assigned', name: 'Assigned To', type: 'dropdown' },
+        { id: 'category', name: 'Category', type: 'dropdown' }
+    ];
+
+    // Eventlistener für jedes Pflichtfeld zur Validierung hinzufügen
+    requiredFields.forEach(field => {
+        const input = document.getElementById(field.id);
+        if (input) {
+            const errorMessage = input.parentElement.querySelector('.error-message-addtask');
+
+            if (field.type === 'input') {
+                input.addEventListener('input', () => {
+                    validateField(input, errorMessage, field);
+                });
+            } else if (field.type === 'dropdown') {
+                if (field.id === 'assigned') {
+                    // MutationObserver für den 'assigned' Bereich
+                    const selectedContacts = document.getElementById('selected-contacts');
+                    const observer = new MutationObserver(() => {
+                        updateAssignedInput();
+                        removeError(input, errorMessage); // Entferne den Fehler direkt, wenn etwas ausgewählt wird
+                    });
+
+                    observer.observe(selectedContacts, {
+                        childList: true, // Beobachtet, ob Kinder hinzugefügt oder entfernt wurden
+                    });
+
+                    input.addEventListener('click', () => {
+                        removeError(input, errorMessage); // Entferne den Fehler, wenn der Benutzer das Dropdown öffnet
+                    });
+
+                } else if (field.id === 'category') {
+                    const categoryDropdown = document.getElementById('category-dropdown');
+                    categoryDropdown.addEventListener('click', (e) => {
+                        if (e.target.classList.contains('dropdown-item')) {
+                            input.value = e.target.dataset.category; // Setze den Wert des Eingabefelds
+                            removeError(input, errorMessage); // Entferne den Fehler direkt nach der Auswahl
+                        }
+                    });
+
+                    input.addEventListener('click', () => {
+                        removeError(input, errorMessage); // Entferne den Fehler, wenn der Benutzer das Dropdown öffnet
+                    });
+                }
+            }
+        }
+    });
+
     if (createTaskButton) {
         createTaskButton.addEventListener('click', function (event) {
             event.preventDefault(); // Verhindert das Absenden des Formulars, falls Fehler vorliegen
-
-            // Pflichtfelder
-            const requiredFields = [
-                { id: 'title', name: 'Title' },
-                { id: 'due-date', name: 'Due Date' },
-                { id: 'assigned', name: 'Assigned To' },
-                { id: 'category', name: 'Category' }
-            ];
 
             let hasError = false;
 
@@ -483,17 +574,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (input) {
                     const errorMessage = input.parentElement.querySelector('.error-message-addtask');
 
-                    // Validierung des Feldes
-                    if (!input.value.trim()) {
+                    if (!isFieldValid(input, field)) {
                         hasError = true;
                         showError(input, errorMessage);
                     } else {
                         removeError(input, errorMessage);
                     }
-
-                    // Fehler bei Eingaben automatisch entfernen
-                    input.addEventListener('input', () => removeError(input, errorMessage));
-                    input.addEventListener('change', () => removeError(input, errorMessage));
                 }
             });
 
@@ -506,21 +592,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (clearButton) {
         clearButton.addEventListener('click', function () {
-            // Setzt alle Pflichtfelder zurück
-            const requiredFields = ['title', 'due-date', 'assigned', 'category'];
-
-            requiredFields.forEach(fieldId => {
-                const input = document.getElementById(fieldId);
+            requiredFields.forEach(field => {
+                const input = document.getElementById(field.id);
                 if (input) {
                     input.value = ''; // Setzt den Wert des Eingabefelds zurück
                     input.classList.remove('error'); // Entfernt rote Umrandung
 
-                    // Entfernt Fehlermeldungen
                     const errorMessage = input.parentElement.querySelector('.error-message-addtask');
                     if (errorMessage) {
                         errorMessage.style.display = 'none'; // Versteckt Fehlermeldung
                         errorMessage.textContent = ''; // Löscht vorhandenen Text
                     }
+                }
+
+                if (field.id === 'assigned') {
+                    document.getElementById('selected-contacts').innerHTML = '';
+                } else if (field.id === 'category') {
+                    input.value = '';
                 }
             });
         });
@@ -535,13 +623,6 @@ document.addEventListener('DOMContentLoaded', function () {
         if (errorMessage) {
             errorMessage.textContent = 'This field is required!';
             errorMessage.style.display = 'block'; // Fehlermeldung anzeigen
-        } else {
-            // Fehler-Element erstellen, falls es nicht existiert
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'error-message-addtask';
-            errorDiv.innerText = 'This field is required!';
-            errorDiv.style.display = 'block'; // Sicherstellen, dass es angezeigt wird
-            input.parentElement.appendChild(errorDiv);
         }
     }
 
@@ -556,125 +637,39 @@ document.addEventListener('DOMContentLoaded', function () {
             errorMessage.textContent = ''; // Text löschen
         }
     }
-});
 
-// Funktion zum Speichern der Task in Firebase
-async function saveTaskToFirebase(task) {
-    try {
-        const response = await fetch('https://join-379-kanban-board-default-rtdb.europe-west1.firebasedatabase.app/tasks.json', {
-            method: 'POST',
-            body: JSON.stringify(task),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to save task');
+    // Funktion zur Validierung eines Feldes, um Fehler zu entfernen
+    function validateField(input, errorMessage, field) {
+        if (isFieldValid(input, field)) {
+            removeError(input, errorMessage);
+        } else {
+            showError(input, errorMessage);
         }
-
-        const responseData = await response.json();
-        console.log('Task saved to Firebase successfully');
-        return responseData.name; // Gibt die generierte ID zurück
-    } catch (error) {
-        console.error('Error saving task to Firebase:', error);
-        return null;
     }
-}
 
-// Funktion zum Speichern der Task in Firebase
-async function saveTaskToFirebase(task) {
-    try {
-        const response = await fetch('https://join-379-kanban-board-default-rtdb.europe-west1.firebasedatabase.app/tasks.json', {
-            method: 'POST',
-            body: JSON.stringify(task),
-            headers: {
-                'Content-Type': 'application/json'
+    // Funktion, um zu überprüfen, ob ein Feld gültig ist
+    function isFieldValid(input, field) {
+        if (field.type === 'input') {
+            return input.value.trim() !== '';
+        } else if (field.type === 'dropdown') {
+            if (field.id === 'assigned') {
+                const selectedContacts = document.getElementById('selected-contacts');
+                return selectedContacts && selectedContacts.children.length > 0;
+            } else if (field.id === 'category') {
+                return input.value.trim() !== '';
             }
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to save task');
         }
-
-        const responseData = await response.json();
-        console.log('Task saved to Firebase successfully');
-        return responseData.name; // Gibt die generierte ID zurück
-    } catch (error) {
-        console.error('Error saving task to Firebase:', error);
-        return null;
-    }
-}
-
-// Event-Handler für das Erstellen von Tasks
-document.querySelector('.btn.btn-lg').addEventListener('click', async (event) => {
-    event.preventDefault();
-
-    const title = document.getElementById('title').value.trim();
-    const description = document.getElementById('description').value.trim();
-    const dueDate = document.getElementById('due-date').value.trim();
-    const category = document.getElementById('category').value.trim();
-    const assignedTo = document.getElementById('selected-contacts').innerHTML.trim(); // Kontakte als HTML*******
-    const prio = document.querySelector('.prio-button.active')?.innerText.trim() || '';
-
-    // Überprüfung auf Pflichtfelder
-    if (!title || !dueDate || !category || !assignedTo) {;
-        return;
+        return false;
     }
 
-    const newTask = {
-        title,
-        description,
-        dueDate,
-        category,
-        assignedTo,
-        prio,
-        createdAt: new Date().toISOString()
-    };
-
-    const taskId = await saveTaskToFirebase(newTask);
-
-    if (taskId) {
-        console.log(`Task successfully created with ID: ${taskId}`);
-        clearFormFields(); // Alle Felder zurücksetzen
+    // Funktion zum Aktualisieren des `Assigned to` Eingabefelds
+    function updateAssignedInput() {
+        const selectedContacts = document.getElementById('selected-contacts');
+        const assignedInput = document.getElementById('assigned');
+        if (selectedContacts && selectedContacts.children.length > 0) {
+            assignedInput.value = "Contacts selected";
+        } else {
+            assignedInput.value = "";
+        }
     }
 });
-
-// Funktion zum Leeren der Formulardaten und Entfernen der Fehler
-function clearFormFields() {
-    document.getElementById('title').value = '';
-    document.getElementById('description').value = '';
-    document.getElementById('due-date').value = '';
-    document.getElementById('category').value = '';
-    document.getElementById('selected-contacts').innerHTML = ''; // Kontakte löschen
-
-    // Zurücksetzen der Prio-Buttons
-    document.querySelectorAll('.prio-button').forEach(button => {
-        button.classList.remove('active');
-        button.style.backgroundColor = ''; // Hintergrundfarbe zurücksetzen
-        button.querySelector('svg').style.fill = ''; // Icon-Farben zurücksetzen
-        button.querySelector('svg').style.stroke = '';
-        button.style.color = ''; // Textfarbe zurücksetzen
-    });
-
-    // Entferne alle roten Rahmen und Fehlernachrichten
-    resetErrorStyles();
-}
-
-// Funktion zum Entfernen der Fehlerstile
-function resetErrorStyles() {
-    const requiredFields = ['title', 'due-date', 'category', 'assigned'];
-    
-    requiredFields.forEach(id => {
-        const input = document.getElementById(id);
-        if (input) {
-            input.classList.remove('error'); // Entfernt roten Rahmen
-        }
-        
-        const errorMessage = input?.parentElement.querySelector('.error-message-addtask');
-        if (errorMessage) {
-            errorMessage.style.display = 'none';
-            errorMessage.textContent = '';
-        }
-    });
-}
