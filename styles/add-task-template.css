@@ -62,16 +62,19 @@
     gap: 1rem;
 }
 
+.contact-dropdown,
 .category-dropdown {
     flex-direction: column;
     margin-top: 0.5rem;
     border-radius: 0.625rem;
+    max-height: 12rem;
     border: 1px solid var(--bg-accent);
     padding: 12px;
     gap: 0.25rem;
     background-color: var(--bg-base-100);
     font-size: 1.25rem;
     color: var(--base-content);
+    overflow-y: auto;
 }
 
 .category-dropdown-item {
@@ -82,4 +85,134 @@
 .category-dropdown-item:hover {
     background-color: var(--bg-neutral);
     cursor: pointer;
+}
+
+#dropdown-icon {
+    transition: transform 250ms ease;
+}
+
+#dropdown-icon.rotated {
+    transform: rotate(180deg);
+}
+
+#contact-dropdown-icon {
+    transition: transform 250ms ease;
+}
+
+#contact-dropdown-icon.rotated {
+    transform: rotate(180deg);
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.25rem 0.5rem;
+    border-radius: .3125rem;
+    cursor: pointer;
+}
+
+.contact-item:hover {
+    background-color: var(--bg-neutral);
+}
+
+.contact-info {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.profil-icon,
+.selected-profile-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    position: relative;
+    font-size: 0.75rem;
+}
+
+.selected-contacts {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0.5rem;
+    gap: 0.5rem;
+}
+
+.input-field-subtask {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+input-field-subtask:focus-visible {
+    border: 1px solid var(--bg-accent);
+    outline: none;
+}
+
+#input-subtask {
+    width: 100%;
+    height: 3rem;
+    padding: 12px 21px;
+    border-radius: .625rem;
+    border: 1px solid var(--input-border-col);
+    background-color: var(--bg-base-100);
+    color: var(--base-content);
+    font-size: 1.25rem;
+    caret-color: var(--base-content);
+}
+
+.subtask-icons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: absolute;
+    top: 0.75rem;
+    right: 1rem;
+}
+
+.subtask-icons svg {
+    cursor: pointer;
+    fill: var(--bg-neutral-accent);
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0.125rem;
+}
+
+.subtask-icons svg:hover {
+    cursor: pointer;
+    fill: var(--base-content);
+    background-color: var(--bg-neutral);
+}
+
+.icon-wrapper {
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.edit-divider-vertical {
+    width: 1px;
+    height: 1.5rem;
+    border-radius: 50%;
+    background-color: var(--bg-neutral);
+}
+
+.subtask-list {
+    padding: 0.125rem;
+    list-style-position: inside;
+}
+
+.subtask-item {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.subtask-item:hover{
+    background-color: var(--bg-neutral);
 }

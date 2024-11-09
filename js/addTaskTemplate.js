@@ -58,21 +58,28 @@ function loadAddTaskTemplates({ header, navigation, landscapeModal }) {
 
 
 
+// ! toogles btns and its colors
+let taskPriority = ''; // Variable für die Priorität
 
-/**
- * sets the priority by applying the `.clicked` class to the selected button
- * and removing it from all other priority buttons.
- *
- * @param {HTMLElement} button - the button to which the `.clicked` class should be applied.
- */
+// Funktion, die die Priorität setzt
 function setPriority(button) {
     document.querySelectorAll('.prio-buttons .btn').forEach(btn => {
         btn.classList.remove('clicked');
     });
     button.classList.add('clicked');
+
+    // Setze die Priorität basierend auf dem Button
+    if (button.id === 'high-priority-button') {
+        taskPriority = 'high';
+    } else if (button.id === 'mid-priority-button') {
+        taskPriority = 'mid';
+    } else if (button.id === 'low-priority-button') {
+        taskPriority = 'low';
+    }
 }
 
 
+// ! date picker
 /**
  * initialize flatpickr on the input field
  * 
@@ -93,41 +100,422 @@ flatpickr("#due-date", {
 });
 
 
-
+// ! category dropdown
 /**
- * toggle dropdown visibility when input is clicked
+ * toggles dropdown visibility and rotates icon when input is clicked
  */
-function toggleDropdown() {
+function toggleCategoryDropdown() {
     const dropdown = document.getElementById('category-dropdown');
+    const dropdownIcon = document.getElementById('dropdown-icon');
+
     dropdown.classList.toggle('hidden');
     dropdown.classList.toggle('show');
+    dropdownIcon.classList.toggle('rotated');
 }
 
 /**
- * select a category and close the dropdown
+ * selects a category and closes the dropdown
  * 
  * @param {Event} event - the click event
  */
 function selectCategory(event) {
     const selectedCategory = event.target.getAttribute('data-category');
     const categoryInput = document.getElementById('task-category');
+
     categoryInput.value = selectedCategory;
-    document.getElementById('category-dropdown').classList.add('hidden');
-    document.getElementById('category-dropdown').classList.remove('show');
+    closeCategoryDropdown();
 }
 
 /**
- * close the dropdown if clicked outside
+ * closes the dropdown and resets icon rotation
+ */
+function closeCategoryDropdown() {
+    const dropdown = document.getElementById('category-dropdown');
+    const dropdownIcon = document.getElementById('dropdown-icon');
+
+    dropdown.classList.add('hidden');
+    dropdown.classList.remove('show');
+    dropdownIcon.classList.remove('rotated');
+}
+
+/**
+ * closes the dropdown if a click occurs outside
  * 
  * @param {Event} event - the click event
  */
 document.addEventListener('click', function (event) {
     const categoryInput = document.getElementById('task-category');
     const dropdown = document.getElementById('category-dropdown');
+
     if (!categoryInput.contains(event.target) && !dropdown.contains(event.target)) {
-        dropdown.classList.add('hidden');
-        dropdown.classList.remove('show');
+        closeCategoryDropdown();
     }
 });
 
 
+// ! contact dropdown
+/**
+ * Funktion zum Umschalten der Dropdown-Sichtbarkeit
+ */
+function toggleContactDropdown() {
+    const contactDropdown = document.getElementById('contact-dropdown');
+    const contactDropdownIcon = document.getElementById('contact-dropdown-icon');
+
+    contactDropdown.classList.toggle('hidden');
+    contactDropdown.classList.toggle('show');
+    contactDropdownIcon.classList.toggle('rotated');
+
+    // Wenn das Dropdown geöffnet wird, rufen wir renderContacts auf
+    if (contactDropdown.classList.contains('show')) {
+        renderContacts(); // Kontakte rendern und den Zustand der Checkboxen wiederherstellen
+    }
+}
+
+/**
+ * closes the contact dropdown and resets icon rotation
+ */
+function closeContactDropdown() {
+    const contactDropdown = document.getElementById('contact-dropdown');
+    const contactDropdownIcon = document.getElementById('contact-dropdown-icon');
+
+    contactDropdown.classList.add('hidden');
+    contactDropdown.classList.remove('show');
+    contactDropdownIcon.classList.remove('rotated');
+}
+
+
+/**
+ * closes the contact dropdown if a click occurs outside
+ */
+document.addEventListener('click', function (event) {
+    const assignedInput = document.getElementById('assigned');
+    const contactDropdown = document.getElementById('contact-dropdown');
+
+    if (!assignedInput.contains(event.target) && !contactDropdown.contains(event.target)) {
+        closeContactDropdown();
+    }
+});
+
+
+
+
+
+
+
+
+let allContacts = []; // Array, das alle Kontakte speichert, wenn sie einmal abgerufen wurden
+
+async function fetchContacts() {
+    try {
+        const response = await fetch(`${DB_URL}/contacts.json`);
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch contacts from Firebase.');
+        }
+
+        const contactsObj = await response.json(); // Die Antwort ist ein Objekt, kein Array
+        console.log('Fetched contacts:', contactsObj); // Überprüfen der abgerufenen Daten
+
+        // Wandelt das Objekt in ein Array um
+        const contacts = Object.entries(contactsObj).map(([contactId, contact]) => ({
+            ...contact,
+            id: contactId // Hier speichern wir die Firebase ID als 'id'
+        }));
+
+        allContacts = contacts; // Speichern der Kontakte im Array
+        return contacts;
+    } catch (error) {
+        console.error('Error fetching contacts:', error);
+        return null;
+    }
+}
+
+// Kontaktdatentemplate für das Dropdown
+const contactTemplate = (contactId, color, initials, name) => `
+    <div class="contact-item" data-id="${contactId}">
+        <div class="contact-info">
+            <div class="profil-icon" style="background-color: ${color};">
+                ${initials}
+            </div>
+            <div class="contact-details">
+                <p class="contact-name">${name}</p>
+            </div>
+        </div>
+        <label class="contact-checkbox">
+            <input type="checkbox" id="${contactId}"/>
+        </label>
+    </div>
+`;
+
+// Speichert den Zustand der Checkboxen in localStorage
+function toggleCheckboxState(contactId, isChecked) {
+    const checkboxStates = JSON.parse(localStorage.getItem('checkboxStates')) || {};
+    checkboxStates[contactId] = isChecked;
+    localStorage.setItem('checkboxStates', JSON.stringify(checkboxStates));
+}
+
+// Wiederherstellen des Zustands der Checkboxen aus localStorage
+function updateCheckboxesState() {
+    const checkboxes = document.querySelectorAll('.contact-checkbox input[type="checkbox"]');
+    const checkboxStates = JSON.parse(localStorage.getItem('checkboxStates')) || {};
+    checkboxes.forEach(checkbox => {
+        const contactId = checkbox.closest('.contact-item').getAttribute('data-id');
+        if (checkboxStates[contactId] !== undefined) {
+            checkbox.checked = checkboxStates[contactId];
+        }
+    });
+}
+
+// Funktion, um das HTML für jedes Kontakt-Item zu erstellen
+function createContactItemHTML(contactId, contact) {
+    return contactTemplate(contactId, contact.color, contact.initials, contact.name);
+}
+
+// Fügt Profil-Icons zu den ausgewählten Kontakten hinzu
+function addSelectedContactIcon(contactId, color, initials) {
+    const existingIcon = document.querySelector(`#selected-contacts .selected-profile-icon[data-id="${contactId}"]`);
+    if (!existingIcon) {
+        // Hier setzen wir die richtige Firebase ID als data-id
+        const selectedIcon = `<div class="selected-profile-icon" style="background-color: ${color};" data-id="${contactId}">
+            ${initials}
+        </div>`;
+        document.getElementById('selected-contacts').innerHTML += selectedIcon;
+    }
+}
+
+// Beispiel für das Hinzufügen eines Kontakts mit seiner Firebase ID
+function addSelectedContacts(contactId) {
+    // Holen des Kontakts aus Firebase-Daten
+    const contact = allContacts.find(c => c.id === contactId);  // allContacts enthält die Kontakte mit der ID von Firebase
+
+    if (contact) {
+        // Rufe die Funktion auf, um das Profil-Icon hinzuzufügen
+        addSelectedContactIcon(contactId, contact.color, contact.initials); // Verwende hier die echte Firebase-ID
+    }
+}
+
+// Entfernt das Profil-Icon eines abgewählten Kontakts
+function removeSelectedContactIcon(contactId) {
+    const selectedIcons = document.querySelectorAll('.selected-profile-icon');
+    selectedIcons.forEach(icon => {
+        if (icon.getAttribute('data-id') === contactId) {
+            icon.remove();
+        }
+    });
+}
+
+// Handhabt das Klicken auf eine Kontaktkarte und toggelt die Checkbox
+function handleContactClick(contactItem) {
+    const checkbox = contactItem.querySelector('input[type="checkbox"]');
+    const contactId = contactItem.getAttribute('data-id');
+    const isChecked = !checkbox.checked;
+    checkbox.checked = isChecked;
+    toggleCheckboxState(contactId, isChecked);
+
+    const initials = contactItem.querySelector('.profil-icon').innerText;
+    const color = contactItem.querySelector('.profil-icon').style.backgroundColor;
+    if (checkbox.checked) {
+        addSelectedContactIcon(contactId, color, initials);
+    } else {
+        removeSelectedContactIcon(contactId);
+    }
+}
+
+// Kontakte aus Firebase holen und im Dropdown rendern
+async function renderContacts() {
+    const contactDropdown = document.getElementById('contact-dropdown');
+    contactDropdown.classList.remove('hidden');
+    contactDropdown.innerHTML = ''; // Leert das Dropdown
+
+    // Kontakte abrufen
+    const contacts = await fetchContacts();
+    if (!contacts) {
+        contactDropdown.innerHTML = '<p>Error loading contacts.</p>';
+        return;
+    }
+
+    // Jedes Kontaktobjekt durchlaufen und das HTML mit der Firebase-ID erstellen
+    const contactItemsHTML = contacts.map(contact =>
+        createContactItemHTML(contact.id, contact)
+    ).join('');
+
+    contactDropdown.innerHTML = contactItemsHTML;
+
+    updateCheckboxesState(); // Zustand der Checkboxen wiederherstellen
+    addContactClickListeners(); // Event-Listener für Klicks auf Kontaktkarten hinzufügen
+}
+
+// Fügt Event-Listener für das Klicken auf Kontaktkarten hinzu
+function addContactClickListeners() {
+    const contactItems = document.querySelectorAll('.contact-item');
+    contactItems.forEach(contactItem => {
+        contactItem.addEventListener('click', () => handleContactClick(contactItem));
+    });
+}
+
+// Umschaltet das Dropdown
+function toggleContactDropdown() {
+    const contactDropdown = document.getElementById('contact-dropdown');
+    const contactDropdownIcon = document.getElementById('contact-dropdown-icon');
+    contactDropdown.classList.toggle('hidden');
+    contactDropdown.classList.toggle('show');
+    contactDropdownIcon.classList.toggle('rotated');
+
+    if (contactDropdown.classList.contains('show')) {
+        renderContacts();
+    }
+}
+
+
+// ! add task to firebase
+async function addTask(event) {
+    event.preventDefault(); // Verhindere das Standard-Formular-Submit-Verhalten
+
+    // Sammle die Formulardaten
+    const taskTitle = document.getElementById('task-title').value;
+    const taskDescription = document.getElementById('task-description').value;
+    const dueDate = document.getElementById('due-date').value;
+    const taskCategory = document.getElementById('task-category').value;
+
+    // Der Status ist immer "inprogress", wenn eine Aufgabe erstellt wird
+    const taskStatus = 'todo';
+
+    // Wenn keine Priorität gesetzt wurde, setze die Priorität auf "medium" (oder eine andere Standardpriorität)
+    if (!taskPriority) {
+        taskPriority = 'medium'; // Standardpriorität, falls der Benutzer keine auswählt
+        alert("Keine Priorität ausgewählt, Standard 'medium' wird verwendet.");
+    }
+
+    // Hier sammeln wir alle ausgewählten Kontakte mit vollständigen Details
+    const selectedContacts = [];
+    const selectedIcons = document.querySelectorAll('.selected-profile-icon');
+
+    selectedIcons.forEach(icon => {
+        const contactId = icon.getAttribute('data-id'); // ID aus dem 'data-id' Attribut holen
+
+        // Hier greifst du direkt auf den Kontakt in der 'contacts' Datenbank zu, die du von Firebase bekommen hast
+        const contact = allContacts.find(c => c.id === contactId); // Zugriff auf den Kontakt anhand der ID als Schlüssel
+
+        // Überprüfen, ob der Kontakt existiert
+        if (contact) {
+            selectedContacts.push({
+                id: contactId,  // Verwende den Kontakt ID-Schlüssel aus der 'contacts' Datenbank
+                name: contact.name,
+                email: contact.email,
+                phone: contact.phone,
+                initials: contact.initials,
+                color: contact.color,
+                status: contact.status // Optional, je nachdem ob du es auch brauchst
+            });
+        }
+    });
+
+    console.log('Selected Contacts:', selectedContacts); // Überprüfen, ob die Kontakte korrekt hinzugefügt wurden
+
+    const taskData = {
+        title: taskTitle,
+        description: taskDescription,
+        due_date: dueDate,
+        category: taskCategory,
+        status: taskStatus, // Der Status bleibt immer "inprogress"
+        priority: taskPriority, // Die gewählte Priorität
+        assigned_to: selectedContacts // Hier kommen nun die ausgewählten Kontakte mit vollständigen Daten rein
+    };
+
+    try {
+        // Pushe die Aufgabe in den 'tasks'-Pfad der Firebase-Datenbank
+        const response = await fetch(`${DB_URL}/tasks.json`, {
+            method: 'POST', // POST für das Erstellen einer neuen Aufgabe
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(taskData) // Konvertiere das Aufgabendaten-Objekt in JSON
+        });
+
+        if (!response.ok) {
+            throw new Error('Fehler beim Hinzufügen der Aufgabe zu Firebase.');
+        }
+
+        console.log('Aufgabe erfolgreich hinzugefügt!');
+        alert('Aufgabe erfolgreich hinzugefügt!');
+
+        // Setze alle Checkboxen zurück
+        resetCheckboxes();
+
+        // Lösche den Zustand der Checkboxen im localStorage
+        localStorage.removeItem('checkboxStates');
+
+        // Entferne die Prioritätsauswahl
+        taskPriority = '';  // Setze die Priorität nach dem Absenden zurück
+        document.querySelectorAll('.prio-buttons .btn').forEach(btn => {
+            btn.classList.remove('clicked'); // Entferne die "clicked" Klasse von allen Prioritätsbuttons
+        });
+
+    } catch (error) {
+        console.error('Fehler beim Hinzufügen der Aufgabe:', error);
+        alert('Fehler beim Hinzufügen der Aufgabe. Bitte versuche es später erneut.');
+    }
+}
+
+
+
+// Funktion zum Zurücksetzen aller Checkboxen
+function resetCheckboxes() {
+    const checkboxes = document.querySelectorAll('.contact-checkbox input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = false; // Setze jede Checkbox auf "unchecked"
+    });
+
+    // Optional: Entferne alle ausgewählten Kontakt-Icons
+    const selectedIcons = document.querySelectorAll('.selected-profile-icon');
+    selectedIcons.forEach(icon => {
+        icon.remove(); // Entferne das Profil-Icon des abgewählten Kontakts
+    });
+}
+
+
+
+
+// ! SUBTASKS
+
+// Hilfsfunktion, um Sichtbarkeit zu toggeln
+function toggleVisibility(element, shouldShow) {
+    element.classList.toggle('hidden', !shouldShow);
+    element.classList.toggle('show', shouldShow);
+}
+
+// Funktion, die die Icons basierend auf dem Eingabefeldstatus wechselt
+function toggleIcons() {
+    const inputField = document.getElementById('input-subtask');
+    const iconWrapper = document.getElementById('edit-icons');
+    const plusIcon = document.getElementById('plus-icon');
+    const isInputEmpty = inputField.value.trim() === "";
+
+    // Zeige oder verstecke die Icons basierend auf dem Eingabezustand
+    toggleVisibility(iconWrapper, !isInputEmpty);
+    toggleVisibility(plusIcon, isInputEmpty);
+}
+
+// Funktion zum Hinzufügen einer Subtask
+function addSubtask() {
+    const inputField = document.getElementById('input-subtask');
+    const subtaskText = inputField.value.trim();
+
+    if (subtaskText === "") return; // Keine leeren Subtasks hinzufügen
+
+    // Erstelle das Listenelement und füge es zur Liste hinzu
+    const subtaskItem = document.createElement('li');
+    subtaskItem.classList.add('subtask-item');
+    subtaskItem.textContent = subtaskText;
+    document.getElementById('subtask-list').appendChild(subtaskItem);
+
+    // Eingabefeld leeren und Icons zurücksetzen
+    inputField.value = "";
+    toggleIcons();
+}
+
+// Funktion zum Löschen des Texts im Eingabefeld
+function clearSubtaskInput() {
+    document.getElementById('input-subtask').value = "";
+    toggleIcons(); // Icons zurücksetzen
+}
