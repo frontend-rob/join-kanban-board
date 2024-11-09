@@ -1,90 +1,81 @@
 let allTasks = {};
 
 /**
- * Loads tasks from Firebase.
+ * loads tasks from firebase and updates allTasks.
  * 
- * @returns {Object} The loaded tasks.
+ * @returns {object} the loaded tasks.
  */
 async function loadTasks() {
     try {
-        const response = await fetch(`${DB_URL}/tasks.json`);
+        const response = await fetch(`${DB_URL}/tasks.json`, { cache: "no-store" }); // prevents caching
         const data = await response.json();
-        allTasks = data || {};
+        allTasks = data ? { ...data } : {}; // ensures data is fully copied
         return allTasks;
     } catch (error) {
-        console.error('Fehler beim Laden der Daten:', error);
+        console.error('error loading data:', error);
         return {};
     }
 }
 
 /**
- * Generates and displays the task templates.
- * @param {Object} tasks - The tasks to display. If empty, display all tasks.
- * @param {boolean} isSearchActive - Indicates if a search is currently active.
+ * generates and displays the task templates.
+ * 
+ * @param {object} tasks - the tasks to display. if empty, displays all tasks.
+ * @param {boolean} isSearchActive - indicates if a search is active.
  */
 function getTaskTemplate(tasks = allTasks, isSearchActive = false) {
-    const taskContainers = initializeTaskContainers();
+    // exit function if no tasks exist or tasks object is empty
+    if (!tasks || Object.keys(tasks).length === 0) return;
 
-    const tasksToDisplay = getTasksToDisplay(tasks);
-
-    for (const taskId in tasksToDisplay) {
-        const task = tasksToDisplay[taskId];
-        const progressPercentage = calculateProgress(task);
-
-        const taskTemplate = createTaskTemplate(taskId, task, progressPercentage);
-        taskContainers[task.status] += taskTemplate;
-    }
-
-    handleEmptyStates(taskContainers, tasks, isSearchActive);
-
-    updateTaskContainerDisplay(taskContainers);
-}
-
-/**
- * Initializes the containers for different task statuses.
- * @returns {Object} - An object with empty containers for each task status.
- */
-function initializeTaskContainers() {
-    return {
+    const taskContainers = {
         todo: '',
         inprogress: '',
         awaitfeedback: '',
         done: ''
     };
-}
 
-/**
- * Determines which tasks to display.
- * @param {Object} tasks - The tasks passed to the function.
- * @returns {Object} - The tasks to display.
- */
-function getTasksToDisplay(tasks) {
-    return Object.keys(tasks).length ? tasks : allTasks;
-}
+    const tasksToDisplay = Object.keys(tasks).length ? tasks : allTasks;
 
-/**
- * Updates the task containers on the page with the generated templates.
- * @param {Object} taskContainers - The containers filled with task templates.
- */
-function updateTaskContainerDisplay(taskContainers) {
+    for (const taskId in tasksToDisplay) {
+        const task = tasksToDisplay[taskId];
+
+        // ensure task object is valid
+        if (!task || typeof task !== "object") continue;
+
+        const progressPercentage = calculateProgress(task);
+
+        // check if task.status is a valid status before adding the template
+        if (taskContainers[task.status] !== undefined) {
+            const taskTemplate = createTaskTemplate(taskId, task, progressPercentage);
+            taskContainers[task.status] += taskTemplate;
+        }
+    }
+
+    handleEmptyStates(taskContainers, tasks, isSearchActive);
+
+    // force html content override
     document.getElementById('todo').innerHTML = taskContainers.todo;
     document.getElementById('inprogress').innerHTML = taskContainers.inprogress;
     document.getElementById('awaitfeedback').innerHTML = taskContainers.awaitfeedback;
     document.getElementById('done').innerHTML = taskContainers.done;
 }
 
-
 /**
- * Calculate the progress percentage of the task's subtasks.
+ * calculates the progress percentage of a task's subtasks.
  * 
- * @param {Object} task - The task object containing subtasks.
- * @returns {number} - The progress percentage.
+ * @param {object} task - the task object containing subtasks.
+ * @returns {number} - the progress percentage.
  */
 function calculateProgress(task) {
+    if (!task.subtasks || task.subtasks.length === 0) {
+        return 0; // default value if no subtasks are present
+    }
+
     const subtasksCompleted = task.subtasks.filter(subtask => subtask.status === "checked").length;
     const totalSubtasks = task.subtasks.length;
-    return totalSubtasks > 0 ? (subtasksCompleted / totalSubtasks) * 100 : 0;
+    return (subtasksCompleted / totalSubtasks) * 100;
 }
+
 
 /**
  * Creates the HTML template for a task.

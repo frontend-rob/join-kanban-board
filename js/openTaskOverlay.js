@@ -46,13 +46,18 @@ function getAssignedToHTML(assignedTo) {
 }
 
 /**
- * Generates HTML for subtasks.
+ * generates html for subtasks.
  * 
- * @param {Array} subtasks - The list of subtasks.
- * @param {string} taskId - The ID of the parent task.
- * @returns {string} The generated HTML.
+ * @param {array} subtasks - the list of subtasks.
+ * @param {string} taskId - the id of the parent task.
+ * @returns {string} the generated html.
  */
 function getSubtasksHTML(subtasks, taskId) {
+    // check if subtasks array exists and has elements
+    if (!Array.isArray(subtasks) || subtasks.length === 0) {
+        return '<div class="no-subtasks">No subtasks available</div>';
+    }
+
     return subtasks.map((subtask, index) => `
         <div class="single-subtask" onclick="toggleSubtask('${taskId}', ${index})">
             <img src="../assets/icons/${subtask.status === 'checked' ? 'checked' : 'unchecked'}.svg" alt="${subtask.status}"> 
@@ -60,6 +65,7 @@ function getSubtasksHTML(subtasks, taskId) {
         </div>
     `).join('');
 }
+
 
 /**
  * Fetches data from Firebase.
