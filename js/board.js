@@ -53,35 +53,54 @@ function loadBoardTemplates({ header, navigation, landscapeModal }) {
 
 
 /**
- * Updates the responsive layout of the page, specifically the search bar for mobile view.
- * If the window width is 425px or smaller, it adds a search bar to the responsive-search-bar container.
- * Otherwise, it removes the search bar.
+ * Adds the search bar to the container if the window width is 560px or smaller.
  */
-function updateResponsiveLayout() {
+function addSearchBar() {
     const searchBarContainer = document.getElementById("responsive-search-bar");
 
-    if (window.innerWidth <= 560) {
-        if (!searchBarContainer.querySelector("#search-bar")) {
-            searchBarContainer.innerHTML = `
-                <div class="input-field-2 search" id="search-bar">
-                    <input type="text" placeholder="Find Task">
-                    <div class="divider-vertical" id="divider-search"></div>
-                    <img src="../assets/icons/search.svg" alt="Search Icon" id="search-icon">
-                </div>
-            `;
-
-            document.querySelectorAll('.search').forEach(searchBar => {
-                searchBar.querySelector('input').addEventListener('input', (event) => {
-                    const query = event.target.value;
-                    searchTasks(query);
-                });
-            });
-            
-        }
-    } else {
-        searchBarContainer.innerHTML = "";
+    if (!searchBarContainer.querySelector("#search-bar")) {
+        searchBarContainer.innerHTML = `
+            <div class="input-field-2 search" id="search-bar">
+                <input type="text" placeholder="Find Task">
+                <div class="divider-vertical" id="divider-search"></div>
+                <img src="../assets/icons/search.svg" alt="Search Icon" id="search-icon">
+            </div>
+        `;
     }
 }
+
+/**
+ * Attaches the event listener to the search input field.
+ */
+function attachSearchEventListener() {
+    document.querySelectorAll('.search').forEach(searchBar => {
+        searchBar.querySelector('input').addEventListener('input', (event) => {
+            const query = event.target.value;
+            searchTasks(query);
+        });
+    });
+}
+
+/**
+ * Clears the search bar container.
+ */
+function clearSearchBar() {
+    const searchBarContainer = document.getElementById("responsive-search-bar");
+    searchBarContainer.innerHTML = "";
+}
+
+/**
+ * Updates the responsive layout of the page based on the window size.
+ */
+function updateResponsiveLayout() {
+    if (window.innerWidth <= 560) {
+        addSearchBar();
+        attachSearchEventListener();
+    } else {
+        clearSearchBar();
+    }
+}
+
 
 /**
  * Opens the "Add Task" overlay and prevents scrolling on the body.

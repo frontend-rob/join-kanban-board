@@ -115,19 +115,34 @@ function closeEditOverlay() {
     const overlayContent = document.getElementById('overlay-content-edit-contact');
 
     document.body.classList.remove('no-scroll');
+    hideOverlayContent(overlayContent);
+    handleOverlayTransition(overlay, overlayContent);
+    resetFormNotifications();
+}
 
+/**
+ * Hides the overlay content by setting its position and removing the show class.
+ * @param {HTMLElement} overlayContent - The content of the overlay.
+ */
+function hideOverlayContent(overlayContent) {
     overlayContent.style.right = '-60%';
-
     setTimeout(() => {
         overlayContent.classList.remove('show-edit-contact');
     }, 200);
+}
 
+/**
+ * Handles the transition end of the overlay content and hides the overlay.
+ * @param {HTMLElement} overlay - The overlay element.
+ * @param {HTMLElement} overlayContent - The content of the overlay.
+ */
+function handleOverlayTransition(overlay, overlayContent) {
     overlayContent.addEventListener('transitionend', function handler() {
         overlay.style.display = 'none';
         overlayContent.removeEventListener('transitionend', handler); 
     });
-    resetFormNotifications();
 }
+
 
 /**
  * Saves the updated contact information to the database.

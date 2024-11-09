@@ -22,7 +22,6 @@
     position: relative;
     min-height: 31.25rem;
     gap: 1.5rem;
-
 }
 
 .close {
@@ -54,10 +53,7 @@
     gap: 2rem;
 }
 
-.date-text {
-    color: var(--secondary-content);
-}
-
+.date-text,
 .priority-text {
     color: var(--secondary-content);
 }
@@ -160,12 +156,11 @@
         gap: 1rem;
         width: 24rem;
     }
-    ;
 }
 
 @media (max-width: 375px) {
     .overlay-content {
-        width: 350px;
+        width: 35rem;
         padding: 2rem;
     }
     .overlay-task-title {
@@ -175,6 +170,6 @@
 
 @media (max-width: 320px) {
     .overlay-content {
-        width: 300px;
+        width: 30rem;
     }
 }

@@ -55,50 +55,83 @@ function loadContactTemplates({ header, navigation, landscapeModal }) {
 }
 
 /**
- * Validates the contact form fields, checking if the name contains both first and last names,
- * if the email is in a valid format, and if the phone number contains only digits.
- *
- * @param {boolean} [isEdit=false] - Indicates whether the form is for editing an existing contact.
- * @returns {boolean} - Returns true if all fields are valid, otherwise false.*/
-function validateContactForm(isEdit = false) {
-    let isValid = true;
-
+ * Clears the error messages from the form fields.
+ */
+function clearErrorMessages() {
     document.querySelectorAll('.error-message').forEach(msg => {
         msg.classList.remove('show');
     });
+}
 
-    const nameId = isEdit ? 'edit-contact-name' : 'contact-name';
-    const emailId = isEdit ? 'edit-contact-email' : 'contact-email';
-    const phoneId = isEdit ? 'edit-contact-phone' : 'contact-phone';
-
+/**
+ * Validates the name field for first and last name.
+ * @param {string} nameId - The ID of the name input field.
+ * @returns {boolean} - Returns true if the name is valid, otherwise false.
+ */
+function validateName(nameId) {
     const name = document.getElementById(nameId);
     const nameParts = name.value.trim().split(' ');
     const namePattern = /^[a-zA-ZäöüÄÖÜß]+$/;
 
-    if (nameParts.length < 2 || !nameParts.every(part => namePattern.test(part))) {
-        document.getElementById(isEdit ? 'error-edit-contact-name' : 'error-contact-name').classList.add('show');
-        isValid = false;
-    }
+    return nameParts.length >= 2 && nameParts.every(part => namePattern.test(part));
+}
 
+/**
+ * Validates the email field.
+ * @param {string} emailId - The ID of the email input field.
+ * @returns {boolean} - Returns true if the email is valid, otherwise false.
+ */
+function validateEmail(emailId) {
     const email = document.getElementById(emailId);
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email.value.trim() || !emailPattern.test(email.value)) {
-        document.getElementById(isEdit ? 'error-edit-contact-email' : 'error-contact-email').classList.add('show');
-        isValid = false;
-    }
 
+    return email.value.trim() && emailPattern.test(email.value);
+}
+
+/**
+ * Validates the phone field.
+ * @param {string} phoneId - The ID of the phone input field.
+ * @returns {boolean} - Returns true if the phone number is valid, otherwise false.
+ */
+function validatePhone(phoneId) {
     const phone = document.getElementById(phoneId);
     const phonePattern = /^\+?\d+( \d+)*$/;
 
-    if (!phone.value.trim() || !phonePattern.test(phone.value)) {
-        document.getElementById(isEdit ? 'error-edit-contact-phone' : 'error-contact-phone').classList.add('show');
-        isValid = false;
+    return phone.value.trim() && phonePattern.test(phone.value);
+}
+
+/**
+ * Handles the validation of the contact form.
+ * @param {boolean} [isEdit=false] - Indicates whether the form is for editing an existing contact.
+ * @returns {boolean} - Returns true if all fields are valid, otherwise false.
+ */
+function handleFieldValidation(isEdit, fieldType, validationFunction) {
+    const fieldId = isEdit ? `edit-contact-${fieldType}` : `contact-${fieldType}`;
+    const errorId = isEdit ? `error-edit-contact-${fieldType}` : `error-contact-${fieldType}`;
+
+    if (!validationFunction(fieldId)) {
+        document.getElementById(errorId).classList.add('show');
+        return false;
     }
+    return true;
+}
+
+/**
+ * Validates the contact form fields, checking the name, email, and phone number.
+ * @param {boolean} [isEdit=false] - Indicates whether the form is for editing an existing contact.
+ * @returns {boolean} - Returns true if all fields are valid, otherwise false.
+ */
+function validateContactForm(isEdit = false) {
+    let isValid = true;
+
+    clearErrorMessages();
+
+    isValid = handleFieldValidation(isEdit, 'name', validateName) && isValid;
+    isValid = handleFieldValidation(isEdit, 'email', validateEmail) && isValid;
+    isValid = handleFieldValidation(isEdit, 'phone', validatePhone) && isValid;
 
     return isValid;
 }
-
-
 
 
 /**
