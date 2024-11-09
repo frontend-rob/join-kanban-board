@@ -217,7 +217,17 @@ function goToPreviousPage() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+
+/**
+ * adds the 'show' class to the main content element if it exists in the DOM.
+ *
+ * @function
+ */
+document.addEventListener('DOMContentLoaded', function () {
     const mainContent = document.querySelector('.main-content');
+
+    // exit if main-content element is not found (e.g. login site)
+    if (!mainContent) return;
+
     mainContent.classList.add('show');
 });
