@@ -197,6 +197,12 @@ function getTaskContent(taskId, task, progressPercentage) {
         ? `<div class="profile-icon additional-count" style="background-color: ${task.assigned_to[0].color};">+${remainingCount}</div>` 
         : '';
 
+    // Sicherstellen, dass `task.subtasks` existiert und eine gültige Liste ist
+    const totalSubtasks = task.subtasks ? task.subtasks.length : 0;
+    const completedSubtasks = task.subtasks
+        ? task.subtasks.filter(subtask => subtask.status === "checked").length
+        : 0;
+
     return `
         <div class="task" draggable="true" ondragstart="drag(event)" id="${taskId}" onclick="getTaskOverlay('${taskId}')">
             <div class="task-type">${task.category}</div>
@@ -206,7 +212,7 @@ function getTaskContent(taskId, task, progressPercentage) {
                 <div class="progress-container">
                     <div class="progress-bar" style="width: ${progressPercentage}%"></div>
                 </div>
-                <div class="subtask-text">${task.subtasks.filter(subtask => subtask.status === "checked").length}/${task.subtasks.length} Subtasks</div>
+                <div class="subtask-text">${completedSubtasks}/${totalSubtasks} Subtasks</div>
             </div>
             <div class="profile-icon-and-level">
                 <div class="icons">${assignedToHTML}${additionalIconsHTML}</div>
@@ -215,6 +221,7 @@ function getTaskContent(taskId, task, progressPercentage) {
         </div>
     `;
 }
+
 
 
 
