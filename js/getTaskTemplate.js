@@ -1,32 +1,29 @@
 let allTasks = {};
 
 /**
- * loads tasks from firebase and updates allTasks.
+ * Loads tasks from Firebase and updates allTasks.
  * 
- * @returns {object} the loaded tasks.
+ * @returns {object} The loaded tasks.
  */
 async function loadTasks() {
     try {
-        const response = await fetch(`${DB_URL}/tasks.json`, { cache: "no-store" }); // prevents caching
+        const response = await fetch(`${DB_URL}/tasks.json`, { cache: "no-store" });
         const data = await response.json();
-        allTasks = data ? { ...data } : {}; // ensures data is fully copied
+        allTasks = data ? { ...data } : {};
         return allTasks;
     } catch (error) {
-        console.error('error loading data:', error);
+        console.error('Error loading data:', error);
         return {};
     }
 }
 
 /**
- * generates and displays the task templates.
+ * Generates and displays task templates.
  * 
- * @param {object} tasks - the tasks to display. if empty, displays all tasks.
- * @param {boolean} isSearchActive - indicates if a search is active.
+ * @param {object} tasks - The tasks to be displayed. If empty, displays all tasks.
+ * @param {boolean} isSearchActive - Indicates if a search is active.
  */
 function getTaskTemplate(tasks = allTasks, isSearchActive = false) {
-    // exit function if no tasks exist or tasks object is empty
-    if (!tasks || Object.keys(tasks).length === 0) return;
-
     const taskContainers = {
         todo: '',
         inprogress: '',
@@ -34,17 +31,17 @@ function getTaskTemplate(tasks = allTasks, isSearchActive = false) {
         done: ''
     };
 
-    const tasksToDisplay = Object.keys(tasks).length ? tasks : allTasks;
+    if (!tasks || Object.keys(tasks).length === 0) {
+        displayNoTasksMessage(isSearchActive);
+        return;
+    }
 
-    for (const taskId in tasksToDisplay) {
-        const task = tasksToDisplay[taskId];
-
-        // ensure task object is valid
+    for (const taskId in tasks) {
+        const task = tasks[taskId];
         if (!task || typeof task !== "object") continue;
 
         const progressPercentage = calculateProgress(task);
 
-        // check if task.status is a valid status before adding the template
         if (taskContainers[task.status] !== undefined) {
             const taskTemplate = createTaskTemplate(taskId, task, progressPercentage);
             taskContainers[task.status] += taskTemplate;
@@ -52,23 +49,34 @@ function getTaskTemplate(tasks = allTasks, isSearchActive = false) {
     }
 
     handleEmptyStates(taskContainers, tasks, isSearchActive);
-
-    // force html content override
-    document.getElementById('todo').innerHTML = taskContainers.todo;
-    document.getElementById('inprogress').innerHTML = taskContainers.inprogress;
-    document.getElementById('awaitfeedback').innerHTML = taskContainers.awaitfeedback;
-    document.getElementById('done').innerHTML = taskContainers.done;
+    updateTaskContainers(taskContainers);
 }
 
 /**
- * calculates the progress percentage of a task's subtasks.
+ * Displays a "No tasks found" message when no tasks exist or the search yields no results.
  * 
- * @param {object} task - the task object containing subtasks.
- * @returns {number} - the progress percentage.
+ * @param {boolean} isSearchActive - Indicates if the search is active.
+ */
+function displayNoTasksMessage(isSearchActive) {
+    const message = isSearchActive
+        ? `<div class="no-tasks-field"><span class="no-tasks-text">No tasks found</span></div>`
+        : `<div class="no-tasks-field"><span class="no-tasks-text">No tasks available</span></div>`;
+
+    document.getElementById('todo').innerHTML = message;
+    document.getElementById('inprogress').innerHTML = message;
+    document.getElementById('awaitfeedback').innerHTML = message;
+    document.getElementById('done').innerHTML = message;
+}
+
+/**
+ * Calculates the progress of a task based on its subtasks.
+ * 
+ * @param {object} task - The task object.
+ * @returns {number} The calculated progress percentage.
  */
 function calculateProgress(task) {
     if (!task.subtasks || task.subtasks.length === 0) {
-        return 0; // default value if no subtasks are present
+        return 0;
     }
 
     const subtasksCompleted = task.subtasks.filter(subtask => subtask.status === "checked").length;
@@ -76,14 +84,13 @@ function calculateProgress(task) {
     return (subtasksCompleted / totalSubtasks) * 100;
 }
 
-
 /**
  * Creates the HTML template for a task.
  * 
  * @param {string} taskId - The ID of the task.
  * @param {Object} task - The task object.
  * @param {number} progressPercentage - The progress percentage of the task.
- * @returns {string} - The HTML template for the task.
+ * @returns {string} The HTML template for the task.
  */
 function createTaskTemplate(taskId, task, progressPercentage) {
     const taskContent = getTaskContent(taskId, task, progressPercentage);
@@ -91,10 +98,10 @@ function createTaskTemplate(taskId, task, progressPercentage) {
 }
 
 /**
- * Handles the empty states for each task category.
+ * Handles empty states for each task category.
  * @param {Object} taskContainers - The container for tasks in each status.
- * @param {Object} tasks - The tasks to display.
- * @param {boolean} isSearchActive - Indicates if a search is currently active.
+ * @param {Object} tasks - The tasks to be displayed.
+ * @param {boolean} isSearchActive - Indicates if the search is active.
  */
 function handleEmptyStates(taskContainers, tasks, isSearchActive) {
     if (isSearchActive && Object.keys(tasks).length === 0) {
@@ -108,7 +115,7 @@ function handleEmptyStates(taskContainers, tasks, isSearchActive) {
 }
 
 /**
- * Sets "No tasks found" for all categories when no tasks are found during a search.
+ * Sets the "No tasks found" message for all categories when no tasks are found during a search.
  * @param {Object} taskContainers - The container for tasks in each status.
  */
 function setAllCategoriesNoTasks(taskContainers) {
@@ -127,7 +134,7 @@ function setAllCategoriesNoTasks(taskContainers) {
  * @param {string} message - The message to display when there are no tasks in the category.
  */
 function handleEmptyStateForCategory(container, category, message) {
-    if (!container) {
+    if (!container || container.trim() === '') {
         container = `
             <div class="no-tasks-field">
                 <span class="no-tasks-text">${message}</span>
@@ -136,24 +143,10 @@ function handleEmptyStateForCategory(container, category, message) {
     }
 }
 
-
 /**
- * Calculates the progress percentage of a task based on its subtasks.
+ * Updates the task UI with the progress and the number of subtasks.
  * 
- * @param {Object} task - The task object.
- * @returns {number} - The calculated progress percentage.
- */
-function calculateTaskProgressPercentage(task) {
-    const subtasksCompleted = task.subtasks.filter(subtask => subtask.status === "checked").length;
-    const totalSubtasks = task.subtasks.length;
-    return totalSubtasks > 0 ? (subtasksCompleted / totalSubtasks) * 100 : 0;
-}
-
-
-/**
- * Updates the task UI with the calculated progress and subtask count.
- * 
- * @param {string} taskId - The ID of the task to update.
+ * @param {string} taskId - The ID of the task.
  * @param {number} progressPercentage - The calculated progress percentage.
  */
 function updateTaskUIWithProgress(taskId, progressPercentage) {
@@ -166,7 +159,7 @@ function updateTaskUIWithProgress(taskId, progressPercentage) {
             progressBar.style.width = `${progressPercentage}%`;
         }
         if (subtaskText) {
-            const task = allTasks[taskId]; // Retrieving the task again here
+            const task = allTasks[taskId];
             const subtasksCompleted = task.subtasks.filter(subtask => subtask.status === "checked").length;
             const totalSubtasks = task.subtasks.length;
             subtaskText.textContent = `${subtasksCompleted}/${totalSubtasks} Subtasks`;
@@ -174,38 +167,59 @@ function updateTaskUIWithProgress(taskId, progressPercentage) {
     }
 }
 
+/**
+ * Updates the task containers with the corresponding task HTML.
+ * 
+ * @param {Object} taskContainers - The task containers to update.
+ */
+function updateTaskContainers(taskContainers) {
+    const categories = ['todo', 'inprogress', 'awaitfeedback', 'done'];
+
+    categories.forEach(category => {
+        const container = taskContainers[category] || getNoTasksHTML(`No tasks ${getCategoryText(category)}`);
+        document.getElementById(category).innerHTML = container;
+    });
+}
 
 /**
- * Updates the progress of the task in the UI.
+ * Returns the display text for a task category.
  * 
- * @param {string} taskId - The ID of the task to update.
+ * @param {string} category - The task category (e.g., "todo", "inprogress").
+ * @returns {string} The display text for the category.
+ */
+function getCategoryText(category) {
+    const categoryTexts = {
+        todo: 'to do',
+        inprogress: 'in progress',
+        awaitfeedback: 'awaiting feedback',
+        done: 'done'
+    };
+    return categoryTexts[category] || category;
+}
+
+/**
+ * Returns the HTML for the "No tasks" message for a given category.
+ * 
+ * @param {string} message - The message to display.
+ * @returns {string} The HTML string for the "No tasks" message.
+ */
+function getNoTasksHTML(message) {
+    return `<div class="no-tasks-field"><span class="no-tasks-text">${message}</span></div>`;
+}
+
+/**
+ * Updates the progress of a task.
+ * 
+ * @param {string} taskId - The ID of the task.
  */
 function updateTaskProgress(taskId) {
     const task = allTasks[taskId];
-    const progressPercentage = calculateTaskProgressPercentage(task);
+    const progressPercentage = calculateProgress(task);
     updateTaskUIWithProgress(taskId, progressPercentage);
 }
 
-
 /**
- * Closes the overlay when clicking outside of it.
- */
-window.onclick = function(event) {
-    const overlay = document.getElementById("overlay");
-    if (event.target === overlay) {
-        closeTaskOverlay();
-    }
-}
-
-/**
- * Loads tasks when the document is fully loaded.
- */
-document.addEventListener('DOMContentLoaded', () => {
-    loadTasks().then(getTaskTemplate);
-});
-
-/**
- * Filters tasks based on search input and updates the display.
+ * Filters tasks based on the search input and updates the display.
  * 
  * @param {string} query - The search query entered by the user.
  */
@@ -232,3 +246,14 @@ document.querySelectorAll('.search').forEach(searchBar => {
         searchTasks(query);
     });
 });
+
+
+// This function is triggered when a click occurs outside the overlay.
+window.onclick = function(event) {
+    const overlay = document.getElementById("overlay");
+    if (overlay && event.target === overlay) {
+        closeTaskOverlay();
+    }
+};
+
+

@@ -151,6 +151,10 @@
     max-height: 6rem;
 }
 
+.overlay-task-description {
+    white-space: pre-wrap;
+}
+
 @media (max-width: 768px) {
     .overlay-content {
         gap: 1rem;

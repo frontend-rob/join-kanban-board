@@ -24,8 +24,11 @@ function getTaskOverlay(taskId) {
  * Closes the task overlay.
  */
 function closeTaskOverlay() {
-    document.getElementById('overlay').style.display = 'none';
-    document.body.classList.remove('no-scroll');
+    const overlay = document.getElementById("overlay");
+    if (overlay) {
+        overlay.style.display = "none";
+        document.body.classList.remove('no-scroll');
+    }
 }
 
 /**
