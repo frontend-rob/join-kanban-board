@@ -378,7 +378,6 @@ async function addTask(event) {
     // Wenn keine Priorität gesetzt wurde, setze die Priorität auf "medium" (oder eine andere Standardpriorität)
     if (!taskPriority) {
         taskPriority = 'medium'; // Standardpriorität, falls der Benutzer keine auswählt
-        alert("Keine Priorität ausgewählt, Standard 'medium' wird verwendet.");
     }
 
     // Hier sammeln wir alle ausgewählten Kontakte mit vollständigen Details
@@ -436,27 +435,14 @@ async function addTask(event) {
             throw new Error('Fehler beim Hinzufügen der Aufgabe zu Firebase.');
         }
 
-        console.log('Aufgabe erfolgreich hinzugefügt!');
-        alert('Aufgabe erfolgreich hinzugefügt!');
-
-        // Setze alle Checkboxen zurück
-        resetCheckboxes();
-
-        // Lösche den Zustand der Checkboxen im localStorage
-        localStorage.removeItem('checkboxStates');
-
-        // Entferne die Prioritätsauswahl
-        taskPriority = '';  // Setze die Priorität nach dem Absenden zurück
-        document.querySelectorAll('.prio-buttons .btn').forEach(btn => {
-            btn.classList.remove('clicked'); // Entferne die "clicked" Klasse von allen Prioritätsbuttons
-        });
+        showTaskAddedModal();
+        clearInputForm();
 
     } catch (error) {
         console.error('Fehler beim Hinzufügen der Aufgabe:', error);
         alert('Fehler beim Hinzufügen der Aufgabe. Bitte versuche es später erneut.');
     }
 
-    clearInputForm();
 }
 
 
@@ -625,3 +611,24 @@ function clearInputForm() {
     }
 }
 
+
+
+
+/**
+ * displays the modal for failed login attempts and hides it after 2 seconds.
+ * 
+ * @function
+ * @param {HTMLInputElement} emailInput - the input field for the email.
+ * @param {HTMLInputElement} passwordInput - the input field for the password.
+ * @returns {Promise<void>} a promise that resolves after the modal is hidden.
+ */
+function showTaskAddedModal() {
+    const modal = document.getElementById('task-added-modal');
+    modal.classList.remove('hidden');
+    modal.classList.add('show');
+
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('show');
+    }, 2000);
+}
