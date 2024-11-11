@@ -14,7 +14,13 @@
     <link rel="stylesheet" href="../styles/board.css">
     <link rel="stylesheet" href="../styles/task-overlay.css">
     <link rel="stylesheet" href="../styles/landscape.css">
+    <!-- <link rel="stylesheet" href="../styles/addTask.css"> -->
+    <link rel="stylesheet" href="../styles/add-task-template.css">
     <link rel="stylesheet" href="../style.css">
+
+    <!-- Add this to your HTML head section -->
+    <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
 
 <body onload="initBoardPage(), initializeDropZones(), getTaskTemplate()">
@@ -167,6 +173,7 @@
 
     <div id="add-task-overlay" class="add-task" onclick="closeAddTaskOnOutsideClick(event)">
         <div class="overlay-content-add-task">
+            <div id="add-task-content"></div>
             <span class="close-add-task-overlay" onclick="closeAddTaskOverlay()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#2a3647" viewBox="0 0 256 256">
                     <path
@@ -182,6 +189,7 @@
 
     <script src="../script.js"></script>
     <script src="../js/board.js"></script>
+    <script src="../js/addTaskTemplate.js"></script>
     <script src="../js/landscape.js"></script>
     <script src="../js/setActiveNavLink.js"></script>
     <script src="../js/openTaskOverlay.js"></script>
