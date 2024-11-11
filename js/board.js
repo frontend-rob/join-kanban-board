@@ -35,7 +35,8 @@ function getBoardComponents() {
     return {
         header: document.getElementById('header-content'),
         navigation: document.getElementById('navigation-content'),
-        landscapeModal: document.getElementById('landscape-wrapper')
+        landscapeModal: document.getElementById('landscape-wrapper'),
+        addTask: document.getElementById('add-task-content')
     };
 }
 
@@ -44,10 +45,11 @@ function getBoardComponents() {
  * 
  * @param {htmlelement} dashboard - the element for injecting summary content.
  */
-function loadBoardTemplates({ header, navigation, landscapeModal }) {
+function loadBoardTemplates({ header, navigation, landscapeModal, addTask }) {
     header.innerHTML = getHeaderContent();
     navigation.innerHTML = getNavigationContent();
     landscapeModal.innerHTML = getLandscapeModalContent();
+    addTask.innerHTML = getAddTaskContent();
 }
 
 
