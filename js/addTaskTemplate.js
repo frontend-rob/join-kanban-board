@@ -12,7 +12,6 @@ async function initAddTask() {
     preventLandscapeOnMobileDevices();
 }
 
-
 /**
  * renders the primary content for the page by loading templates into specific page components.
  * 
@@ -196,13 +195,6 @@ document.addEventListener('click', function (event) {
     }
 });
 
-
-
-
-
-
-
-
 let allContacts = []; // Array, das alle Kontakte speichert, wenn sie einmal abgerufen wurden
 
 async function fetchContacts() {
@@ -366,7 +358,6 @@ function toggleContactDropdown() {
     }
 }
 
-
 // ! add task to firebase
 async function addTask(event) {
     event.preventDefault(); // Verhindere das Standard-Formular-Submit-Verhalten
@@ -457,8 +448,6 @@ async function addTask(event) {
     }
 }
 
-
-
 // Funktion zum Zurücksetzen aller Checkboxen
 function resetCheckboxes() {
     const checkboxes = document.querySelectorAll('.contact-checkbox input[type="checkbox"]');
@@ -472,9 +461,6 @@ function resetCheckboxes() {
         icon.remove(); // Entferne das Profil-Icon des abgewählten Kontakts
     });
 }
-
-
-
 
 // ! SUBTASKS
 
