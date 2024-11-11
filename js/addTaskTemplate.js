@@ -479,9 +479,6 @@ function collectSubtasks() {
 }
 
 
-
-}
-
 // Funktion zum Zurücksetzen aller Checkboxen
 function resetCheckboxes() {
     const checkboxes = document.querySelectorAll('.contact-checkbox input[type="checkbox"]');
