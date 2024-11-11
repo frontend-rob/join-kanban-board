@@ -96,7 +96,7 @@
                                         </path>
                                     </svg>
                                 </button>
-                                <button id="mid-priority-button" class="btn btn-medium" type="button" onclick="setPriority(this)">
+                                <button id="mid-priority-button" class="btn btn-medium clicked" type="button" onclick="setPriority(this)">
                                     Medium
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                         <path d="M228,160a12,12,0,0,1-12,12H40a12,12,0,0,1,0-24H216A12,12,0,0,1,228,160ZM40,108H216a12,12,0,0,0,0-24H40a12,12,0,0,0,0,24Z"></path>
@@ -133,34 +133,25 @@
                             <label for="input-subtask">Subtasks</label>
                             <div class="input-field-subtask">
                                 <input type="text" id="input-subtask" placeholder="Add new subtask" oninput="toggleIcons()">
-
                                 <div id="addSubtask-icons" class="subtask-icons">
-                                    <!-- Default Plus Icon -->
                                     <svg id="plus-icon" onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                         <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z">
                                         </path>
                                     </svg>
-
-                                    <!-- Delete and Confirm Icons (Initially hidden) -->
                                     <div id="edit-icons" class="icon-wrapper hidden">
                                         <svg onclick="clearSubtaskInput()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                             <path
                                                 d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z">
                                             </path>
                                         </svg>
-
                                         <div class="edit-divider-vertical"></div>
-
                                         <svg onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                             <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
                                         </svg>
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- Subtask list placed outside the icons container to appear below the input field -->
                             <ul id="subtask-list" class="subtask-list"></ul>
-
                         </div>
                     </div>
                 </form>
@@ -168,7 +159,7 @@
                 <footer class="add-task-footer">
                     <div><span class="required">*</span> This field is required</div>
                     <div class="form-buttons">
-                        <button class="btn btn-outline">
+                        <button class="btn btn-outline" onclick="clearInputForm()">
                             Clear
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                 <path

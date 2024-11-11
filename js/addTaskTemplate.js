@@ -62,9 +62,12 @@ let taskPriority = ''; // Variable für die Priorität
 
 // Funktion, die die Priorität setzt
 function setPriority(button) {
+    // Alle Buttons zurücksetzen
     document.querySelectorAll('.prio-buttons .btn').forEach(btn => {
         btn.classList.remove('clicked');
     });
+
+    // Den geklickten Button als ausgewählt markieren
     button.classList.add('clicked');
 
     // Setze die Priorität basierend auf dem Button
@@ -359,6 +362,7 @@ function toggleContactDropdown() {
 }
 
 // ! add task to firebase
+// ! Add task to Firebase
 async function addTask(event) {
     event.preventDefault(); // Verhindere das Standard-Formular-Submit-Verhalten
 
@@ -401,7 +405,11 @@ async function addTask(event) {
         }
     });
 
+    // Sammle die Subtasks
+    const subtasks = collectSubtasks();
+
     console.log('Selected Contacts:', selectedContacts); // Überprüfen, ob die Kontakte korrekt hinzugefügt wurden
+    console.log('Subtasks:', subtasks); // Überprüfen, ob die Subtasks korrekt gesammelt wurden
 
     const taskData = {
         title: taskTitle,
@@ -410,7 +418,8 @@ async function addTask(event) {
         category: taskCategory,
         status: taskStatus, // Der Status bleibt immer "inprogress"
         priority: taskPriority, // Die gewählte Priorität
-        assigned_to: selectedContacts // Hier kommen nun die ausgewählten Kontakte mit vollständigen Daten rein
+        assigned_to: selectedContacts, // Hier kommen nun die ausgewählten Kontakte mit vollständigen Daten rein
+        subtasks: subtasks // Hier fügen wir die gesammelten Subtasks hinzu
     };
 
     try {
@@ -446,6 +455,31 @@ async function addTask(event) {
         console.error('Fehler beim Hinzufügen der Aufgabe:', error);
         alert('Fehler beim Hinzufügen der Aufgabe. Bitte versuche es später erneut.');
     }
+
+    clearInputForm();
+}
+
+
+
+// Funktion zum Sammeln der Subtasks
+function collectSubtasks() {
+    const subtasks = [];
+    const subtaskItems = document.querySelectorAll('.subtask-item');
+
+    subtaskItems.forEach(item => {
+        const subtaskText = item.querySelector('.subtask-edit-input').value; // Holen des Subtask-Textes
+        // Da der Status immer "unchecked" ist, setzen wir ihn direkt
+        subtasks.push({
+            text: subtaskText,
+            status: 'unchecked' // Standardstatus für alle Subtasks
+        });
+    });
+
+    return subtasks;
+}
+
+
+
 }
 
 // Funktion zum Zurücksetzen aller Checkboxen
@@ -489,15 +523,77 @@ function addSubtask() {
 
     if (subtaskText === "") return; // Keine leeren Subtasks hinzufügen
 
-    // Erstelle das Listenelement und füge es zur Liste hinzu
-    const subtaskItem = document.createElement('li');
-    subtaskItem.classList.add('subtask-item');
-    subtaskItem.textContent = subtaskText;
-    document.getElementById('subtask-list').appendChild(subtaskItem);
+    // Subtask-HTML erstellen und zur Liste hinzufügen
+    const subtaskList = document.getElementById('subtask-list');
+    subtaskList.innerHTML += `
+        <li class="subtask-item">
+            <input type="text" value="${subtaskText}" class="subtask-edit-input" readonly tabindex="-1" onclick="preventFocus(event)">
+            <div class="subtask-edit-icons">
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256" onclick="editSubtask(this)">
+                    <path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"></path>
+                </svg>
+                <div class="edit-divider-vertical"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256" onclick="deleteSubtask(this)">
+                    <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
+                </svg>
+            </div>
+        </li>
+    `;
 
     // Eingabefeld leeren und Icons zurücksetzen
     inputField.value = "";
     toggleIcons();
+}
+
+// Funktion zum Bearbeiten einer Subtask
+function editSubtask(icon) {
+    const subtaskItem = icon.closest('.subtask-item');
+    const subtaskInput = subtaskItem.querySelector('.subtask-edit-input');
+
+    // Prüfen, ob das Eingabefeld bereits bearbeitbar ist
+    if (!subtaskInput.readOnly) return;
+
+    // Eingabefeld bearbeitbar machen, tabIndex auf 0 setzen und den Fokus setzen
+    subtaskInput.readOnly = false;
+    subtaskInput.tabIndex = 0;
+    subtaskInput.focus();
+
+    // Bearbeiten-Icon durch Speichern-Icon ersetzen
+    icon.outerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256" onclick="saveSubtask(this)">
+            <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
+        </svg>
+    `;
+}
+
+// Funktion zum Speichern der bearbeiteten Subtask
+function saveSubtask(icon) {
+    const subtaskItem = icon.closest('.subtask-item');
+    const subtaskInput = subtaskItem.querySelector('.subtask-edit-input');
+
+    // Eingabefeld speichern, wieder auf readOnly setzen und tabIndex entfernen
+    subtaskInput.readOnly = true;
+    subtaskInput.tabIndex = -1; // Macht es nicht fokussierbar
+
+    // Speichern-Icon wieder durch Bearbeiten-Icon ersetzen
+    icon.outerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256" onclick="editSubtask(this)">
+            <path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"></path>
+        </svg>
+    `;
+}
+
+// Funktion, die das Fokussieren eines readonly Eingabefelds verhindert
+function preventFocus(event) {
+    const inputField = event.target;
+    if (inputField.readOnly) {
+        event.preventDefault(); // verhindert den Fokus auf readonly Felder
+    }
+}
+
+// Funktion zum Löschen einer Subtask
+function deleteSubtask(icon) {
+    icon.closest('.subtask-item').remove();
 }
 
 // Funktion zum Löschen des Texts im Eingabefeld
@@ -505,3 +601,30 @@ function clearSubtaskInput() {
     document.getElementById('input-subtask').value = "";
     toggleIcons(); // Icons zurücksetzen
 }
+
+
+
+
+// Funktion zum Zurücksetzen des Formulars
+function clearInputForm() {
+    document.getElementById('task-title').value = "";
+    document.getElementById('task-description').value = "";
+    document.getElementById('selected-contacts').innerHTML = "";
+    document.getElementById('due-date').value = "";
+    document.getElementById('task-category').value = "";
+    document.getElementById('subtask-list').innerHTML = "";
+    localStorage.removeItem('checkboxStates');
+
+    // Setze das Datum in Flatpickr zurück, falls es vorhanden ist
+    const datePicker = document.getElementById('due-date')._flatpickr;
+    if (datePicker) {
+        datePicker.clear();
+    }
+
+    // Stelle sicher, dass die "Medium" Priorität nach dem Zurücksetzen aktiv ist
+    const mediumPriorityButton = document.getElementById('mid-priority-button');
+    if (mediumPriorityButton) {
+        setPriority(mediumPriorityButton);
+    }
+}
+
