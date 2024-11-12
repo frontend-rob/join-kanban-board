@@ -163,15 +163,8 @@ function getColorForContact(contacts, email) {
  */
 function getRandomColor() {
     const colors = [
-        '#00bee8',
-        '#ff7a00',
-        '#ff4646',
-        '#462f8a',
-        '#1fd7c1',
-        '#ffbb2b',
-        '#fc71ff',
-        '#6e52ff',
-        '#9327ff'
+        '#ff7900', '#9327ff', '#6e52ff', '#fc71ff', '#ffbb2a',
+        '#20d7c1', '#462f8a', '#ff4647', '#00bee7'
     ];
     const randomIndex = Math.floor(Math.random() * colors.length);
     return colors[randomIndex];

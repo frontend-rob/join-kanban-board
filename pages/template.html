@@ -32,18 +32,18 @@
         <main>
             <header id="header-content"></header>
             <section class="main-content">
-
                 <div class="section-headline">
                     <h1 class="main-headline">Add Task</h1>
                 </div>
-
-                <form id="add-task-form" class="add-task-form" onsubmit="addTask(event)">
+                <form id="add-task-form" class="add-task-form" onsubmit="addTask(event); return false;" novalidate>
                     <div class="left-column">
                         <div class="input-group">
                             <label for="task-title">Title<span class="required">*</span></label>
                             <div class="input-field">
-                                <input type="text" id="task-title" class="required-input" placeholder="Enter a title">
-                                <div class="error-message-addtask"></div>
+                                <input type="text" id="task-title" placeholder="Enter a title" required>
+                                <p id="error-task-title" class="error-message">
+                                    *This field is required.
+                                </p>
                             </div>
                         </div>
                         <div class="input-group">
@@ -53,18 +53,16 @@
                             </div>
                         </div>
                         <div class="input-group">
-                            <label for="assigned">Assigned to<span class="required">*</span></label>
+                            <label for="assigned-to">Assigned to</label>
                             <div class="input-field">
-                                <input type="text" id="assigned" placeholder="Select contacts to assign" readonly onclick="toggleContactDropdown()">
-                                <div class="error-message-addtask"></div>
-                                <svg id="contact-dropdown-icon" class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#000000"
-                                    viewBox="0 0 256 256">
-                                    <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z">
+                                <input type="text" id="assigned-to" placeholder="Select contacts to assign" onclick="toggleContactDropdown()" oninput="searchContacts()">
+                                <svg id="contact-dropdown-icon" class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                                    <path 
+                                        d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z">
                                     </path>
                                 </svg>
                                 <div id="contact-dropdown" class="contact-dropdown hidden"></div>
                             </div>
-                            <!-- Contacts will be dynamically inserted here by JavaScript -->
                             <div id="selected-contacts" class="selected-contacts"></div>
                         </div>
                     </div>
@@ -75,7 +73,7 @@
                         <div class="input-group date-input">
                             <label for="due-date">Due date<span class="required">*</span></label>
                             <div class="input-field">
-                                <input type="text" id="due-date" placeholder="yyyy-mm-dd">
+                                <input type="text" id="due-date" placeholder="yyyy-mm-dd" required>
                                 <div class="error-message-addtask"></div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                     <path
@@ -84,7 +82,6 @@
                                 </svg>
                             </div>
                         </div>
-
                         <div class="prio-group">
                             <label>Prio</label>
                             <div class="prio-buttons">
@@ -112,11 +109,10 @@
                                 </button>
                             </div>
                         </div>
-
                         <div class="input-group category-container">
-                            <label for="category">Category<span class="required">*</span></label>
+                            <label for="task-category">Category<span class="required">*</span></label>
                             <div class="input-field">
-                                <input type="text" id="task-category" placeholder="Select a category" onclick="toggleCategoryDropdown()">
+                                <input type="text" id="task-category" placeholder="Select a category" required onclick="toggleCategoryDropdown()">
                                 <div class="error-message-addtask"></div>
                                 <svg id="dropdown-icon" class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                     <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z">
@@ -128,7 +124,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="input-group addSubtask-container">
                             <label for="input-subtask">Subtasks</label>
                             <div class="input-field-subtask">
@@ -155,7 +150,6 @@
                         </div>
                     </div>
                 </form>
-
                 <footer class="add-task-footer">
                     <div><span class="required">*</span> This field is required</div>
                     <div class="form-buttons">

@@ -190,7 +190,7 @@ function closeContactDropdown() {
  * closes the contact dropdown if a click occurs outside
  */
 document.addEventListener('click', function (event) {
-    const assignedInput = document.getElementById('assigned');
+    const assignedInput = document.getElementById('assigned-to');
     const contactDropdown = document.getElementById('contact-dropdown');
 
     if (!assignedInput.contains(event.target) && !contactDropdown.contains(event.target)) {
@@ -209,7 +209,6 @@ async function fetchContacts() {
         }
 
         const contactsObj = await response.json(); // Die Antwort ist ein Objekt, kein Array
-        console.log('Fetched contacts:', contactsObj); // Überprüfen der abgerufenen Daten
 
         // Wandelt das Objekt in ein Array um
         const contacts = Object.entries(contactsObj).map(([contactId, contact]) => ({
@@ -224,6 +223,7 @@ async function fetchContacts() {
         return null;
     }
 }
+
 
 // Kontaktdatentemplate für das Dropdown
 const contactTemplate = (contactId, color, initials, name) => `
@@ -262,8 +262,37 @@ function updateCheckboxesState() {
 }
 
 // Funktion, um das HTML für jedes Kontakt-Item zu erstellen
-function createContactItemHTML(contactId, contact) {
-    return contactTemplate(contactId, contact.color, contact.initials, contact.name);
+function createContactItemHTML(contactId, contact, isUserContact = false) {
+    const contactItemHTML = contactTemplate(contactId, contact.color, contact.initials, contact.name);
+
+    // Add an indicator to the user contact (e.g., a star or special style)
+    if (isUserContact) {
+        return `
+            <div class="contact-item user-contact" data-id="${contactId}">
+                <div class="contact-info">
+                    <div class="profil-icon" style="background-color: ${contact.color};">
+                        ${contact.initials}
+                    </div>
+                    <div class="contact-details">
+                        <p class="contact-name">${contact.name} <span class="user-indicator">(You)</span></p>
+                    </div>
+                </div>
+                <label class="contact-checkbox">
+                    <input type="checkbox" id="${contactId}" />
+                </label>
+            </div>
+        `;
+    }
+
+    return contactItemHTML;
+}
+
+function renderUserIndicator(contactId) {
+    const contactItem = document.querySelector(`.contact-item[data-id="${contactId}"]`);
+    if (contactItem) {
+        const contactNameElement = contactItem.querySelector('.contact-name');
+        contactNameElement.innerHTML += ' <span class="user-indicator">(You)</span>';
+    }
 }
 
 // Fügt Profil-Icons zu den ausgewählten Kontakten hinzu
@@ -317,27 +346,42 @@ function handleContactClick(contactItem) {
 }
 
 // Kontakte aus Firebase holen und im Dropdown rendern
+/**
+ * Renders the contacts, ensuring the user contact (from localStorage) is first in the list.
+ */
 async function renderContacts() {
     const contactDropdown = document.getElementById('contact-dropdown');
     contactDropdown.classList.remove('hidden');
-    contactDropdown.innerHTML = ''; // Leert das Dropdown
+    contactDropdown.innerHTML = ''; // Clear the dropdown
 
-    // Kontakte abrufen
+    // Fetch contacts from Firebase
     const contacts = await fetchContacts();
     if (!contacts) {
         contactDropdown.innerHTML = '<p>Error loading contacts.</p>';
         return;
     }
 
-    // Jedes Kontaktobjekt durchlaufen und das HTML mit der Firebase-ID erstellen
+    const userName = localStorage.getItem('userName');
+    if (userName) {
+        // Find the user contact and move it to the top
+        const userContactIndex = contacts.findIndex(contact => contact.name === userName);
+        if (userContactIndex !== -1) {
+            const userContact = contacts.splice(userContactIndex, 1)[0];
+            // Add a special indicator to the contact
+            userContact.isUserContact = true; // Flag this contact as the user
+            contacts.unshift(userContact); // Move the user contact to the top
+        }
+    }
+
+    // Render the contacts, including the special indicator for the user contact
     const contactItemsHTML = contacts.map(contact =>
-        createContactItemHTML(contact.id, contact)
+        createContactItemHTML(contact.id, contact, contact.isUserContact)
     ).join('');
 
     contactDropdown.innerHTML = contactItemsHTML;
 
-    updateCheckboxesState(); // Zustand der Checkboxen wiederherstellen
-    addContactClickListeners(); // Event-Listener für Klicks auf Kontaktkarten hinzufügen
+    updateCheckboxesState(); // Restore checkbox states
+    addContactClickListeners(); // Add event listeners for contact clicks
 }
 
 // Fügt Event-Listener für das Klicken auf Kontaktkarten hinzu
@@ -361,7 +405,39 @@ function toggleContactDropdown() {
     }
 }
 
-// ! add task to firebase
+function searchContacts() {
+    const searchTerm = document.getElementById('assigned-to').value.toLowerCase();
+
+    // Filtere Kontakte basierend auf dem Suchbegriff
+    const filteredContacts = allContacts.filter(contact =>
+        contact.name.toLowerCase().includes(searchTerm)
+    );
+
+    // Dropdown mit den gefilterten Kontakten aktualisieren
+    renderFilteredContacts(filteredContacts);
+}
+
+// Funktion, die das Dropdown mit den gefilterten Kontakten rendert
+function renderFilteredContacts(contacts) {
+    const contactDropdown = document.getElementById('contact-dropdown');
+    contactDropdown.innerHTML = ''; // Clear previous items
+
+    if (contacts.length === 0) {
+        contactDropdown.innerHTML = '<p>No contacts found.</p>';
+        return;
+    }
+
+    const contactItemsHTML = contacts.map(contact =>
+        createContactItemHTML(contact.id, contact)
+    ).join('');
+
+    contactDropdown.innerHTML = contactItemsHTML;
+
+    updateCheckboxesState(); // Restore checkbox states
+    addContactClickListeners(); // Add event listeners for contact clicks
+}
+
+
 // ! Add task to Firebase
 async function addTask(event) {
     event.preventDefault(); // Verhindere das Standard-Formular-Submit-Verhalten
@@ -526,6 +602,26 @@ function addSubtask() {
     // Eingabefeld leeren und Icons zurücksetzen
     inputField.value = "";
     toggleIcons();
+
+    // Füge Doppelklick-Event-Listener für die neue Subtask hinzu
+    addDoubleClickListenerToSubtasks();
+}
+
+// Funktion zum Hinzufügen eines Doppelklick-Listeners für alle Subtasks
+function addDoubleClickListenerToSubtasks() {
+    const subtaskItems = document.querySelectorAll('.subtask-item');
+
+    subtaskItems.forEach(subtaskItem => {
+        if (!subtaskItem.hasAttribute('data-doubleclick-bound')) {
+            subtaskItem.addEventListener('dblclick', function () {
+                const editIcon = subtaskItem.querySelector('.subtask-edit-icons svg');
+                if (editIcon) {
+                    editSubtask(editIcon); // Bearbeitungsmodus aktivieren
+                }
+            });
+            subtaskItem.setAttribute('data-doubleclick-bound', 'true');
+        }
+    });
 }
 
 // Funktion zum Bearbeiten einer Subtask
@@ -533,15 +629,15 @@ function editSubtask(icon) {
     const subtaskItem = icon.closest('.subtask-item');
     const subtaskInput = subtaskItem.querySelector('.subtask-edit-input');
 
-    // Prüfen, ob das Eingabefeld bereits bearbeitbar ist
+    // Wenn das Eingabefeld bereits bearbeitbar ist, keine erneute Aktion
     if (!subtaskInput.readOnly) return;
 
-    // Eingabefeld bearbeitbar machen, tabIndex auf 0 setzen und den Fokus setzen
+    // Eingabefeld bearbeiten aktivieren
     subtaskInput.readOnly = false;
     subtaskInput.tabIndex = 0;
     subtaskInput.focus();
 
-    // Bearbeiten-Icon durch Speichern-Icon ersetzen
+    // Bearbeiten-Icon zu Speichern-Icon ändern
     icon.outerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256" onclick="saveSubtask(this)">
             <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
@@ -554,11 +650,11 @@ function saveSubtask(icon) {
     const subtaskItem = icon.closest('.subtask-item');
     const subtaskInput = subtaskItem.querySelector('.subtask-edit-input');
 
-    // Eingabefeld speichern, wieder auf readOnly setzen und tabIndex entfernen
+    // Eingabefeld wieder nur lesbar machen
     subtaskInput.readOnly = true;
-    subtaskInput.tabIndex = -1; // Macht es nicht fokussierbar
+    subtaskInput.tabIndex = -1;
 
-    // Speichern-Icon wieder durch Bearbeiten-Icon ersetzen
+    // Speichern-Icon zurück zu Bearbeiten-Icon ändern
     icon.outerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256" onclick="editSubtask(this)">
             <path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"></path>
@@ -573,6 +669,7 @@ function preventFocus(event) {
         event.preventDefault(); // verhindert den Fokus auf readonly Felder
     }
 }
+
 
 // Funktion zum Löschen einer Subtask
 function deleteSubtask(icon) {
@@ -592,6 +689,7 @@ function clearSubtaskInput() {
 function clearInputForm() {
     document.getElementById('task-title').value = "";
     document.getElementById('task-description').value = "";
+    document.getElementById('assigned-to').value = "";
     document.getElementById('selected-contacts').innerHTML = "";
     document.getElementById('due-date').value = "";
     document.getElementById('task-category').value = "";
