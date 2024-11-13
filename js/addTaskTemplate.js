@@ -624,6 +624,15 @@ function addDoubleClickListenerToSubtasks() {
     });
 }
 
+// Function to handle the Enter key event in the input field
+function handleEnter(event) {
+    // Check if the key pressed is Enter
+    if (event.key === 'Enter') {
+        event.preventDefault(); // Prevent form submission
+        addSubtask(); // Call addSubtask function
+    }
+}
+
 // Funktion zum Bearbeiten einer Subtask
 function editSubtask(icon) {
     const subtaskItem = icon.closest('.subtask-item');
