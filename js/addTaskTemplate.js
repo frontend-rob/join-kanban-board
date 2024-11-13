@@ -449,7 +449,7 @@ async function addTask(event) {
     const taskCategory = document.getElementById('task-category').value;
 
     // Der Status ist immer "inprogress", wenn eine Aufgabe erstellt wird
-    const taskStatus = 'todo';
+    const taskStatus = selectedStatus || 'todo';
 
     // Wenn keine Priorität gesetzt wurde, setze die Priorität auf "medium" (oder eine andere Standardpriorität)
     if (!taskPriority) {

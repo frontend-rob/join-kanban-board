@@ -50,48 +50,54 @@
                     </div>
 
                     <div class="workflow">
-                        <!-- Drop-Zone: To Do -->
-                        <div class="status">
-                            <div class="status-header">
-                                <span class="status-name">To do</span>
-                                <img onclick="openAddTaskOverlay()" class="plus-button"
-                                    src="../assets/icons/plus button.svg" alt="Plus Button">
+                        <div class="workflow">
+                            <!-- Drop-Zone: To Do -->
+                            <div class="status">
+                                <div class="status-header">
+                                    <span class="status-name">To do</span>
+                                    <img onclick="openAddTaskOverlay('todo')" class="plus-button"
+                                        src="../assets/icons/plus button.svg" alt="Plus Button" data-status="todo">
+                                </div>
+                                <div class="drop-zone" id="todo" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                </div>
                             </div>
-                            <div class="drop-zone" id="todo" ondrop="drop(event)" ondragover="allowDrop(event)">
+
+                            <!-- Drop-Zone: In Progress -->
+                            <div class="status">
+                                <div class="status-header">
+                                    <span class="status-name">In progress</span>
+                                    <img onclick="openAddTaskOverlay('inprogress')" class="plus-button"
+                                        src="../assets/icons/plus button.svg" alt="Plus Button"
+                                        data-status="inprogress">
+                                </div>
+                                <div class="drop-zone" id="inprogress" ondrop="drop(event)"
+                                    ondragover="allowDrop(event)">
+                                </div>
+                            </div>
+
+                            <!-- Drop-Zone: Await Feedback -->
+                            <div class="status">
+                                <div class="status-header">
+                                    <span class="status-name">Await feedback</span>
+                                    <img onclick="openAddTaskOverlay('awaitfeedback')" class="plus-button"
+                                        src="../assets/icons/plus button.svg" alt="Plus Button"
+                                        data-status="awaitfeedback">
+                                </div>
+                                <div class="drop-zone" id="awaitfeedback" ondrop="drop(event)"
+                                    ondragover="allowDrop(event)">
+                                </div>
+                            </div>
+
+                            <!-- Drop-Zone: Done -->
+                            <div class="status">
+                                <div class="status-header">
+                                    <span class="status-name">Done</span>
+                                </div>
+                                <div class="drop-zone" id="done" ondrop="drop(event)" ondragover="allowDrop(event)">
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Drop-Zone: In Progress -->
-                        <div class="status">
-                            <div class="status-header">
-                                <span class="status-name">In progress</span>
-                                <img onclick="openAddTaskOverlay()" class="plus-button"
-                                    src="../assets/icons/plus button.svg" alt="Plus Button">
-                            </div>
-                            <div class="drop-zone" id="inprogress" ondrop="drop(event)" ondragover="allowDrop(event)">
-                            </div>
-                        </div>
-
-                        <!-- Drop-Zone: Await Feedback -->
-                        <div class="status">
-                            <div class="status-header">
-                                <span class="status-name">Await feedback</span>
-                                <img onclick="openAddTaskOverlay()" class="plus-button"
-                                    src="../assets/icons/plus button.svg" alt="Plus Button">
-                            </div>
-                            <div class="drop-zone" id="awaitfeedback" ondrop="drop(event)"
-                                ondragover="allowDrop(event)">
-                            </div>
-                        </div>
-
-                        <!-- Drop-Zone: Done -->
-                        <div class="status">
-                            <div class="status-header">
-                                <span class="status-name">Done</span>
-                            </div>
-                            <div class="drop-zone" id="done" ondrop="drop(event)" ondragover="allowDrop(event)">
-                            </div>
-                        </div>
                     </div>
                 </div>
             </section>
