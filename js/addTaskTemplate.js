@@ -83,23 +83,20 @@ function setPriority(button) {
 
 // ! date picker
 /**
- * initialize flatpickr on the input field
+ * Initializes the Flatpickr date picker.
  * 
- * @param {string} "#due-date" - input field id
- * @param {Object} options - flatpickr settings
- * @param {string} options.minDate - disable past dates ("today")
- * @param {string} options.dateFormat - date format for form submission (yyyy-mm-dd)
- * @param {boolean} options.altInput - show alternative readable date format
- * @param {string} options.altFormat - format for visible date in altInput
- * @param {boolean} options.allowInput - allow manual date input
+ * @param {string} selector - The ID of the input field to apply Flatpickr.
  */
-flatpickr("#due-date", {
-    minDate: "today",        // disable past dates
-    dateFormat: "Y-m-d",     // format for hidden input
-    altInput: true,          // readable date format
-    altFormat: "Y-m-d",      // visible format in altInput
-    allowInput: true         // allow manual input
-});
+function initializeDatePicker(selector) {
+    flatpickr(selector, {
+        minDate: "today",        // disable past dates
+        dateFormat: "Y-m-d",     // format for hidden input
+        altInput: false,         // do not show an alternative input
+        altFormat: "Y-m-d"      // format for visible input
+    });
+}
+
+initializeDatePicker("#due-date");
 
 
 // ! category dropdown
@@ -123,10 +120,18 @@ function toggleCategoryDropdown() {
 function selectCategory(event) {
     const selectedCategory = event.target.getAttribute('data-category');
     const categoryInput = document.getElementById('task-category');
+    const errorElement = document.getElementById('error-task-category');
 
     categoryInput.value = selectedCategory;
+
+    if (selectedCategory.trim() !== "") {
+        categoryInput.classList.remove('input-error');
+        errorElement.classList.remove('show');
+    }
+
     closeCategoryDropdown();
 }
+
 
 /**
  * closes the dropdown and resets icon rotation
@@ -438,15 +443,199 @@ function renderFilteredContacts(contacts) {
 }
 
 
+// ! validation
+
+
+
+
+
+
+
+// ! validation
+/**
+ * Validates the task form.
+ *
+ * @returns {boolean} true if the form is valid, false otherwise.
+ */
+function validateTaskForm() {
+    const inputs = getTaskFormInputs();
+    const validations = validateTaskInputs(inputs);
+    return areAllTaskValid(validations);
+}
+
+/**
+ * Retrieves the form input elements for the task form.
+ *
+ * @returns {Object} an object containing the input elements.
+ */
+function getTaskFormInputs() {
+    return {
+        title: document.getElementById('task-title'),
+        dueDate: document.getElementById('due-date'),
+        category: document.getElementById('task-category')
+    };
+}
+
+/**
+ * Validates all input fields in the task form.
+ *
+ * @param {Object} inputs - the form input elements.
+ * @returns {Object} an object containing validation results.
+ */
+function validateTaskInputs(inputs) {
+    return {
+        isTitleValid: validateTitle(inputs.title),
+        isDueDateValid: validateDueDate(inputs.dueDate),
+        isCategoryValid: validateCategory(inputs.category)
+    };
+}
+
+/**
+ * Checks if all validations are true.
+ * 
+ * @param {Object} validations - the validation results.
+ * @returns {boolean} true if all validations are valid, false otherwise.
+ */
+function areAllTaskValid(validations) {
+    return Object.values(validations).every(valid => valid);
+}
+
+/**
+ * Clears the task form inputs.
+ * 
+ * @param {Object} inputs - the form input elements.
+ */
+function clearTaskForm(inputs) {
+    inputs.title.value = '';
+    inputs.dueDate.value = '';
+    inputs.category.value = '';
+}
+
+/**
+ * Updates the error state of a task input field and its corresponding error message.
+ * 
+ * @param {HTMLElement} input - the input element to update.
+ * @param {HTMLElement} errorElement - the corresponding error message element.
+ * @param {boolean} isValid - whether the input is valid or not.
+ */
+function setTaskInputErrorState(input, errorElement, isValid) {
+    if (isValid) {
+        input.classList.remove('input-error');
+        errorElement.classList.remove('show');
+    } else {
+        input.classList.add('input-error');
+        errorElement.classList.add('show');
+    }
+}
+
+/**
+ * Validates the task title input.
+ * Checks if the title is not empty.
+ * 
+ * @param {HTMLInputElement} titleInput - the task title input element.
+ * @returns {boolean} true if the title is valid, false otherwise.
+ */
+function validateTitle(titleInput) {
+    const errorTitle = document.getElementById('error-task-title');
+    const isValid = titleInput.value.trim() !== '';
+
+    setTaskInputErrorState(titleInput, errorTitle, isValid);
+    return isValid;
+}
+
+/**
+ * Validates the task due date input.
+ * Checks if the due date is selected.
+ *
+ * @param {HTMLInputElement} dueDateInput - the task due date input element.
+ * @returns {boolean} true if the due date is valid, false otherwise.
+ */
+function validateDueDate(dueDateInput) {
+    const errorDueDate = document.getElementById('error-due-date');
+    const isValid = dueDateInput.value.trim() !== '';
+
+    setTaskInputErrorState(dueDateInput, errorDueDate, isValid);
+    return isValid;
+}
+
+/**
+ * Validates the task category input.
+ * Checks if the category is selected.
+ *
+ * @param {HTMLSelectElement} categoryInput - the task category select element.
+ * @returns {boolean} true if the category is valid, false otherwise.
+ */
+function validateCategory(categoryInput) {
+    const errorCategory = document.getElementById('error-task-category');
+    const isValid = categoryInput.value.trim() !== '';
+
+    setTaskInputErrorState(categoryInput, errorCategory, isValid);
+    return isValid;
+}
+
+
+
+/**
+ * Adds event listeners to inputs for real-time error handling.
+ */
+function addInputEventListeners() {
+    const titleInput = document.getElementById('task-title');
+    const dueDateInput = document.getElementById('due-date');
+    const categoryInput = document.getElementById('task-category');
+
+    // Add event listener for the title input
+    titleInput.addEventListener('input', function () {
+        const errorTitle = document.getElementById('error-task-title');
+        setTaskInputErrorState(titleInput, errorTitle, titleInput.value.trim() !== '');
+    });
+
+    // Add event listener for the due date input
+    dueDateInput.addEventListener('input', function () {
+        const errorDueDate = document.getElementById('error-due-date');
+        setTaskInputErrorState(dueDateInput, errorDueDate, dueDateInput.value.trim() !== '');
+    });
+
+    // Add event listener for the category input
+    categoryInput.addEventListener('input', function () {
+        const errorCategory = document.getElementById('error-task-category');
+        setTaskInputErrorState(categoryInput, errorCategory, categoryInput.value.trim() !== '');
+    });
+}
+
+// Call the function to initialize date picker on the 'due-date' input
+
+
+// Add event listeners for real-time validation
+addInputEventListeners();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // ! Add task to Firebase
+// Hauptfunktion zum Hinzufügen der Aufgabe
 async function addTask(event) {
     event.preventDefault(); // Verhindere das Standard-Formular-Submit-Verhalten
+
+    // Führe die Validierung aus und breche ab, wenn das Formular ungültig ist
+    if (!validateTaskForm()) return;
+
 
     // Sammle die Formulardaten
     const taskTitle = document.getElementById('task-title').value;
     const taskDescription = document.getElementById('task-description').value;
     const dueDate = document.getElementById('due-date').value;
     const taskCategory = document.getElementById('task-category').value;
+    const taskPriority = document.getElementById('task-priority')?.value || 'mid'; // Standard auf "medium" setzen
 
     // Der Status ist immer "inprogress", wenn eine Aufgabe erstellt wird
     const taskStatus = selectedStatus || 'todo';
@@ -461,21 +650,18 @@ async function addTask(event) {
     const selectedIcons = document.querySelectorAll('.selected-profile-icon');
 
     selectedIcons.forEach(icon => {
-        const contactId = icon.getAttribute('data-id'); // ID aus dem 'data-id' Attribut holen
+        const contactId = icon.getAttribute('data-id');
+        const contact = allContacts.find(c => c.id === contactId);
 
-        // Hier greifst du direkt auf den Kontakt in der 'contacts' Datenbank zu, die du von Firebase bekommen hast
-        const contact = allContacts.find(c => c.id === contactId); // Zugriff auf den Kontakt anhand der ID als Schlüssel
-
-        // Überprüfen, ob der Kontakt existiert
         if (contact) {
             selectedContacts.push({
-                id: contactId,  // Verwende den Kontakt ID-Schlüssel aus der 'contacts' Datenbank
+                id: contactId,
                 name: contact.name,
                 email: contact.email,
                 phone: contact.phone,
                 initials: contact.initials,
                 color: contact.color,
-                status: contact.status // Optional, je nachdem ob du es auch brauchst
+                status: contact.status
             });
         }
     });
@@ -483,43 +669,40 @@ async function addTask(event) {
     // Sammle die Subtasks
     const subtasks = collectSubtasks();
 
-    console.log('Selected Contacts:', selectedContacts); // Überprüfen, ob die Kontakte korrekt hinzugefügt wurden
-    console.log('Subtasks:', subtasks); // Überprüfen, ob die Subtasks korrekt gesammelt wurden
-
     const taskData = {
         title: taskTitle,
         description: taskDescription,
         due_date: dueDate,
         category: taskCategory,
-        status: taskStatus, // Der Status bleibt immer "inprogress"
-        priority: taskPriority, // Die gewählte Priorität
-        assigned_to: selectedContacts, // Hier kommen nun die ausgewählten Kontakte mit vollständigen Daten rein
-        subtasks: subtasks // Hier fügen wir die gesammelten Subtasks hinzu
+        status: taskStatus,
+        priority: taskPriority,
+        assigned_to: selectedContacts,
+        subtasks: subtasks
     };
 
     try {
-        // Pushe die Aufgabe in den 'tasks'-Pfad der Firebase-Datenbank
+        // Pushe die Aufgabe in die Firebase-Datenbank
         const response = await fetch(`${DB_URL}/tasks.json`, {
-            method: 'POST', // POST für das Erstellen einer neuen Aufgabe
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(taskData) // Konvertiere das Aufgabendaten-Objekt in JSON
+            body: JSON.stringify(taskData)
         });
 
         if (!response.ok) {
             throw new Error('Fehler beim Hinzufügen der Aufgabe zu Firebase.');
         }
 
-        showTaskAddedModal();
-        clearInputForm();
+        showTaskAddedModal(); // Modal anzeigen
+        clearInputForm(); // Formular zurücksetzen
 
     } catch (error) {
         console.error('Fehler beim Hinzufügen der Aufgabe:', error);
         alert('Fehler beim Hinzufügen der Aufgabe. Bitte versuche es später erneut.');
     }
-
 }
+
 
 
 
@@ -694,29 +877,74 @@ function clearSubtaskInput() {
 
 
 
+// Funktion, um alle Formularelemente zu erhalten
+function getFormElements() {
+    return {
+        taskTitle: document.getElementById('task-title'),
+        taskDescription: document.getElementById('task-description'),
+        assignedTo: document.getElementById('assigned-to'),
+        selectedContacts: document.getElementById('selected-contacts'),
+        dueDate: document.getElementById('due-date'),
+        taskCategory: document.getElementById('task-category'),
+        subtaskList: document.getElementById('subtask-list'),
+        errorTaskTitle: document.getElementById('error-task-title'),
+        errorDueDate: document.getElementById('error-due-date'),
+        errorTaskCategory: document.getElementById('error-task-category'),
+        mediumPriorityButton: document.getElementById('mid-priority-button')
+    };
+}
+
 // Funktion zum Zurücksetzen des Formulars
 function clearInputForm() {
-    document.getElementById('task-title').value = "";
-    document.getElementById('task-description').value = "";
-    document.getElementById('assigned-to').value = "";
-    document.getElementById('selected-contacts').innerHTML = "";
-    document.getElementById('due-date').value = "";
-    document.getElementById('task-category').value = "";
-    document.getElementById('subtask-list').innerHTML = "";
-    localStorage.removeItem('checkboxStates');
-
-    // Setze das Datum in Flatpickr zurück, falls es vorhanden ist
-    const datePicker = document.getElementById('due-date')._flatpickr;
-    if (datePicker) {
-        datePicker.clear();
-    }
-
-    // Stelle sicher, dass die "Medium" Priorität nach dem Zurücksetzen aktiv ist
-    const mediumPriorityButton = document.getElementById('mid-priority-button');
-    if (mediumPriorityButton) {
-        setPriority(mediumPriorityButton);
-    }
+    const elements = getFormElements();
+    resetFormFields(elements);
+    clearFlatpickr(elements.dueDate);
+    resetPriority(elements.mediumPriorityButton);
+    removeErrorClasses(elements);
 }
+
+// Eingabefelder zurücksetzen
+function resetFormFields(elements) {
+    elements.taskTitle.value = "";
+    elements.taskDescription.value = "";
+    elements.assignedTo.value = "";
+    elements.selectedContacts.innerHTML = "";
+    elements.dueDate.value = "";
+    elements.taskCategory.value = "";
+    elements.subtaskList.innerHTML = "";
+    localStorage.removeItem('checkboxStates');
+}
+
+// Flatpickr zurücksetzen, falls vorhanden
+function clearFlatpickr(dueDateElement) {
+    const datePicker = dueDateElement._flatpickr;
+    if (datePicker) datePicker.clear();
+}
+
+// Priorität auf Medium setzen
+function resetPriority(mediumPriorityButton) {
+    if (mediumPriorityButton) setPriority(mediumPriorityButton);
+}
+
+// Fehlerklassen entfernen
+function removeErrorClasses(elements) {
+    const fields = [
+        { input: elements.taskTitle, error: elements.errorTaskTitle },
+        { input: elements.dueDate, error: elements.errorDueDate },
+        { input: elements.taskCategory, error: elements.errorTaskCategory },
+    ];
+
+    fields.forEach(({ input, error }) => {
+        input.classList.remove('input-error');
+        error.classList.remove('show');
+    });
+}
+
+
+
+
+
+
 
 
 
