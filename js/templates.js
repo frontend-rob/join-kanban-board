@@ -282,7 +282,7 @@ function getTaskOverlayContent(task) {
 
 function getAddTaskContent() {
     return `
-        <section class="main-content">
+        <section class="main-content" id="add-task-content">
             <div class="section-headline">
                 <h1 class="main-headline">Add Task</h1>
             </div>

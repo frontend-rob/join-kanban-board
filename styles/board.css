@@ -371,7 +371,15 @@
         width: 100%;
     }
     .task {
-        min-width: 240px;
+        max-width: 240px;
+    }
+    .subtask {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .subtask-text {
+        margin-right: 0;
     }
 }
 
