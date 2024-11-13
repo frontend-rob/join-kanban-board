@@ -282,7 +282,7 @@ function getTaskOverlayContent(task) {
 
 function getAddTaskContent() {
     return `
-        <section class="main-content" id="add-task-content">
+        <section class="main-content">
             <div class="section-headline">
                 <h1 class="main-headline">Add Task</h1>
             </div>
@@ -323,13 +323,15 @@ function getAddTaskContent() {
                     <div class="input-group date-input">
                         <label for="due-date">Due date<span class="required">*</span></label>
                         <div class="input-field">
-                            <input type="text" id="due-date" placeholder="yyyy-mm-dd" required>
-                            <div class="error-message-addtask"></div>
+                            <input type="date" id="due-date" placeholder="yyyy-mm-dd" required>
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                 <path
                                     d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-68-76a12,12,0,1,1-12-12A12,12,0,0,1,140,132Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,132ZM96,172a12,12,0,1,1-12-12A12,12,0,0,1,96,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,140,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,172Z">
                                 </path>
                             </svg>
+                            <p id="error-due-date" class="error-message">
+                                *This field is required.
+                            </p>
                         </div>
                     </div>
                     <div class="prio-group">
@@ -363,7 +365,6 @@ function getAddTaskContent() {
                         <label for="task-category">Category<span class="required">*</span></label>
                         <div class="input-field">
                             <input type="text" id="task-category" placeholder="Select a category" required onclick="toggleCategoryDropdown()">
-                            <div class="error-message-addtask"></div>
                             <svg id="dropdown-icon" class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                 <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z">
                                 </path>
@@ -372,12 +373,15 @@ function getAddTaskContent() {
                                 <div class="category-dropdown-item" data-category="Technical Task">Technical Task</div>
                                 <div class="category-dropdown-item" data-category="User Story">User Story</div>
                             </div>
+                            <p id="error-task-category" class="error-message">
+                                *This field is required.
+                            </p>
                         </div>
                     </div>
                     <div class="input-group addSubtask-container">
                         <label for="input-subtask">Subtasks</label>
                         <div class="input-field-subtask">
-                            <input type="text" id="input-subtask" placeholder="Add new subtask" oninput="toggleIcons()">
+                            <input type="text" id="input-subtask" placeholder="Add new subtask" oninput="toggleIcons()" onkeydown="handleEnter(event)">
                             <div id="addSubtask-icons" class="subtask-icons">
                                 <svg id="plus-icon" onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                     <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z">
