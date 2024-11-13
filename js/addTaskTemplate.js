@@ -573,21 +573,7 @@ function validateCategory(categoryInput) {
     return isValid;
 }
 
-/**
- * Initializes the Flatpickr date picker.
- * 
- * @param {string} selector - The ID of the input field to apply Flatpickr.
- */
-function initializeDatePicker(selector) {
-    flatpickr(selector, {
-        minDate: "today",        // disable past dates
-        dateFormat: "Y-m-d",     // format for hidden input
-        altInput: false,         // do not show an alternative input
-        altFormat: "Y-m-d",      // format for visible input
-        allowInput: true,         // allow manual input
-        clearButton: true
-    });
-}
+
 
 /**
  * Adds event listeners to inputs for real-time error handling.
