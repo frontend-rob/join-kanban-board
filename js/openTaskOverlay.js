@@ -8,15 +8,28 @@ const overlayElement = document.getElementById('overlay');
 function getTaskOverlay(taskId) {
     const task = allTasks[taskId];
 
-
-
     if (task) {
         const overlayContent = getTaskOverlayContent(task);
+
         const overlayElement = document.getElementById('overlay');
         overlayElement.querySelector('.overlay-content').innerHTML = overlayContent;
+
         overlayElement.setAttribute('data-task-id', taskId);
+
+        const subtasksHTML = getSubtasksHTML(task.subtasks, taskId);
+        const subtasksContainer = overlayElement.querySelector(`.all-subtasks`);
+        if (subtasksContainer) {
+            subtasksContainer.id = `subtasks-${taskId}`;
+            subtasksContainer.innerHTML = subtasksHTML;
+        } else {
+            console.error('Subtasks-Container nicht gefunden!');
+        }
+
         overlayElement.style.display = 'flex';
+
         document.body.classList.add('no-scroll');
+    } else {
+        console.error(`Task mit ID ${taskId} nicht gefunden.`);
     }
 }
 
@@ -49,16 +62,15 @@ function getAssignedToHTML(assignedTo) {
 }
 
 /**
- * generates html for subtasks.
+ * Generates HTML for subtasks.
  * 
- * @param {array} subtasks - the list of subtasks.
- * @param {string} taskId - the id of the parent task.
+ * @param {array} subtasks - The list of subtasks.
+ * @param {string} taskId - The id of the parent task.
  * @returns {string} the generated html.
  */
 function getSubtasksHTML(subtasks, taskId) {
-    // check if subtasks array exists and has elements
-    if (!Array.isArray(subtasks) || subtasks.length === 0) {
-        return '<div class="no-subtasks">No subtasks available</div>';
+    if (!subtasks || subtasks.length === 0) {
+        return '<div class="no-subtasks">Keine Subtasks verfügbar</div>';
     }
 
     return subtasks.map((subtask, index) => `
@@ -68,6 +80,7 @@ function getSubtasksHTML(subtasks, taskId) {
         </div>
     `).join('');
 }
+
 
 
 /**
@@ -133,6 +146,11 @@ async function editTask(taskId) {
 /**
  * Toggles the status of a subtask.
  * 
+ * @param {number} subtaskIndex - The index of the subtask to toggle.
+ */
+/**
+ * Toggles the status of a subtask.
+ * 
  * @param {string} taskId - The ID of the task containing the subtask.
  * @param {number} subtaskIndex - The index of the subtask to toggle.
  */
@@ -151,6 +169,8 @@ async function toggleSubtask(taskId, subtaskIndex) {
     const subtasksContainer = document.getElementById(`subtasks-${taskId}`);
     subtasksContainer.innerHTML = getSubtasksHTML(task.subtasks, taskId);
 }
+
+
 
 /**
  * Updates the status of a subtask in Firebase.

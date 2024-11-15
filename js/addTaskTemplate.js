@@ -624,49 +624,29 @@ addInputEventListeners();
 // ! Add task to Firebase
 // Hauptfunktion zum Hinzufügen der Aufgabe
 async function addTask(event) {
-    event.preventDefault(); // Verhindere das Standard-Formular-Submit-Verhalten
+    event.preventDefault();
 
-    // Führe die Validierung aus und breche ab, wenn das Formular ungültig ist
     if (!validateTaskForm()) return;
 
-
-    // Sammle die Formulardaten
     const taskTitle = document.getElementById('task-title').value;
     const taskDescription = document.getElementById('task-description').value;
     const dueDate = document.getElementById('due-date').value;
     const taskCategory = document.getElementById('task-category').value;
-    const taskPriority = document.getElementById('task-priority')?.value || 'mid'; // Standard auf "medium" setzen
-
-    // Der Status ist immer "inprogress", wenn eine Aufgabe erstellt wird
+    const taskPriority = document.getElementById('task-priority')?.value || 'mid';
     const taskStatus = selectedStatus || 'todo';
 
-    // Wenn keine Priorität gesetzt wurde, setze die Priorität auf "medium" (oder eine andere Standardpriorität)
-    if (!taskPriority) {
-        taskPriority = 'medium'; // Standardpriorität, falls der Benutzer keine auswählt
-    }
-
-    // Hier sammeln wir alle ausgewählten Kontakte mit vollständigen Details
     const selectedContacts = [];
-    const selectedIcons = document.querySelectorAll('.selected-profile-icon');
-
-    selectedIcons.forEach(icon => {
+    document.querySelectorAll('.selected-profile-icon').forEach(icon => {
         const contactId = icon.getAttribute('data-id');
         const contact = allContacts.find(c => c.id === contactId);
-
         if (contact) {
             selectedContacts.push({
                 id: contactId,
-                name: contact.name,
-                email: contact.email,
-                phone: contact.phone,
-                initials: contact.initials,
-                color: contact.color,
-                status: contact.status
+                ...contact
             });
         }
     });
 
-    // Sammle die Subtasks
     const subtasks = collectSubtasks();
 
     const taskData = {
@@ -681,7 +661,6 @@ async function addTask(event) {
     };
 
     try {
-        // Pushe die Aufgabe in die Firebase-Datenbank
         const response = await fetch(`${DB_URL}/tasks.json`, {
             method: 'POST',
             headers: {
@@ -694,14 +673,25 @@ async function addTask(event) {
             throw new Error('Fehler beim Hinzufügen der Aufgabe zu Firebase.');
         }
 
-        showTaskAddedModal(); // Modal anzeigen
-        clearInputForm(); // Formular zurücksetzen
+        const responseData = await response.json();
+        const newTaskId = responseData.name;
+        taskData.id = newTaskId;
+
+        // Füge den neuen Task zur globalen Liste hinzu
+        allTasks[newTaskId] = taskData;
+
+        // Aktualisiere die Tasks im Board
+        getTaskTemplate(allTasks);
+
+        showTaskAddedModal();
+        clearInputForm();
 
     } catch (error) {
         console.error('Fehler beim Hinzufügen der Aufgabe:', error);
         alert('Fehler beim Hinzufügen der Aufgabe. Bitte versuche es später erneut.');
     }
 }
+
 
 
 

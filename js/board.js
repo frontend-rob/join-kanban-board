@@ -1,4 +1,4 @@
-let selectedStatus = "todo";
+window.selectedStatus = "todo";
 
 /**
  * initializes the summary page content by rendering the main content
@@ -110,7 +110,7 @@ function updateResponsiveLayout() {
  * Opens the "Add Task" overlay and prevents scrolling on the body.
  */
 function openAddTaskOverlay(status) {
-    selectedStatus = status; // Aktualisiere den globalen Status basierend auf dem Plus-Button
+    selectedStatus = status;
     const overlay = document.getElementById("add-task-overlay");
     const overlayContent = document.querySelector(".overlay-content-add-task");
 
