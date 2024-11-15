@@ -1,3 +1,5 @@
+let selectedStatus = "todo";
+
 /**
  * initializes the summary page content by rendering the main content
  * and preventing landscape orientation on mobile devices.
@@ -107,7 +109,8 @@ function updateResponsiveLayout() {
 /**
  * Opens the "Add Task" overlay and prevents scrolling on the body.
  */
-function openAddTaskOverlay() {
+function openAddTaskOverlay(status) {
+    selectedStatus = status; // Aktualisiere den globalen Status basierend auf dem Plus-Button
     const overlay = document.getElementById("add-task-overlay");
     const overlayContent = document.querySelector(".overlay-content-add-task");
 
@@ -118,6 +121,8 @@ function openAddTaskOverlay() {
         overlayContent.classList.add("show");
     }, 10);
 }
+
+
 
 /**
  * Closes the "Add Task" overlay and allows scrolling on the body again.
