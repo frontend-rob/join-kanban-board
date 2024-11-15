@@ -11,14 +11,11 @@
     <link rel="stylesheet" href="../styles/addTask.css">
     <link rel="stylesheet" href="../styles/assets.css">
 
-
-    <!-- Add this to your HTML head section -->
     <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </head>
 
 <body onload="initAddTask()">
-
     <div class="page-wrapper">
         <aside id="navigation-content"></aside>
         <main>
@@ -27,16 +24,14 @@
                 <div class="section-headline">
                     <h1 class="main-headline">Add Task</h1>
                 </div>
-                <form id="add-task-form" class="add-task-form" onsubmit="addTask(event); return false;" novalidate>
+                <form id="add-task-form" class="add-task-form" novalidate>
                     <div class="left-column">
                         <div class="input-group">
                             <label for="task-title">Title<span class="required">*</span></label>
                             <div class="input-field">
                                 <input type="text" id="task-title" placeholder="Enter a title" required>
-                                <p id="error-task-title" class="error-message">
-                                    *This field is required.
-                                </p>
                             </div>
+                            <p class="error-messages"></p>
                         </div>
                         <div class="input-group">
                             <label for="task-description">Description</label>
@@ -68,7 +63,7 @@
                             <label for="due-date">Due date<span class="required">*</span></label>
                             <div class="input-field">
                                 <input type="text" id="due-date" placeholder="yyyy-mm-dd" required>
-                                <div class="error-message-addtask"></div>
+                                <p class="error-message"></p>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"
                                     viewBox="0 0 256 256">
                                     <path
@@ -78,8 +73,7 @@
                             </div>
                         </div>
                         <div class="prio-group">
-                            <label>Prio</label>
-                            <div class="prio-buttons">
+                            <div class="prio-buttons" id="prio-buttons">
                                 <button id="high-priority-button" class="btn btn-urgent" type="button"
                                     onclick="setPriority(this)">
                                     Urgent
@@ -112,12 +106,13 @@
                                 </button>
                             </div>
                         </div>
+
                         <div class="input-group category-container">
                             <label for="task-category">Category<span class="required">*</span></label>
                             <div class="input-field">
                                 <input type="text" id="task-category" placeholder="Select a category" required
                                     onclick="toggleCategoryDropdown()">
-                                <div class="error-message-addtask"></div>
+                                    <p class="error-messages"></p>
                                 <svg id="dropdown-icon" class="dropdown-icon" xmlns="http://www.w3.org/2000/svg"
                                     width="32" height="32" fill="none" viewBox="0 0 256 256">
                                     <path
@@ -148,7 +143,7 @@
                                         <svg onclick="clearSubtaskInput()" xmlns="http://www.w3.org/2000/svg" width="32"
                                             height="32" fill="none" viewBox="0 0 256 256">
                                             <path
-                                                d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32Z">
+                                                d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z">
                                             </path>
                                         </svg>
                                         <div class="edit-divider-vertical"></div>
@@ -168,7 +163,7 @@
                 <footer class="add-task-footer">
                     <div><span class="required">*</span> This field is required</div>
                     <div class="form-buttons">
-                        <button class="btn btn-outline" onclick="clearInputForm()">
+                        <button id="clear-btn" class="btn btn-outline">
                             Clear
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"
                                 viewBox="0 0 256 256">

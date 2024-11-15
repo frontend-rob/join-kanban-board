@@ -14,6 +14,15 @@
     color: var(--error-content);
 }
 
+.error-border {
+    border: 2px solid red;
+}
+
+.error-messages {
+    color: red;
+    font-size: 0.9rem;
+}
+
 .left-column,
 .right-column {
     display: flex;

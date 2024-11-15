@@ -1,9 +1,9 @@
 /**
- * initializes the start content by rendering main page elements and
- * setting up navigation and orientation restrictions on mobile devices.
+ * Initialisiert den Startinhalt, rendert die Hauptelemente der Seite und
+ * setzt Navigations- und Ausrichtungseinschränkungen auf mobilen Geräten.
  * 
  * @async
- * @returns {Promise<void>} - a promise that resolves once the start content is fully initialized.
+ * @returns {Promise<void>} - Ein Promise, das aufgelöst wird, sobald der Startinhalt vollständig initialisiert ist.
  */
 async function initAddTask() {
   await renderAddTaskContent();
@@ -13,33 +13,28 @@ async function initAddTask() {
 }
 
 /**
-* renders the primary content for the page by loading templates into specific page components.
-* 
-* @async
-* @returns {Promise<void>} - a promise that resolves once the content has been successfully rendered.
-*/
+ * Rendert den primären Seiteninhalt, indem Vorlagen in spezifische Seitenelemente geladen werden.
+ * 
+ * @async
+ * @returns {Promise<void>} - Ein Promise, das aufgelöst wird, sobald der Inhalt erfolgreich gerendert wurde.
+ */
 async function renderAddTaskContent() {
   const addTaskComponents = getAddTaskComponents();
   loadAddTaskTemplates(addTaskComponents);
 }
 
-
 /**
-* retrieves key components for the page by accessing relevant elements in the DOM.
-* 
-* @returns {Object} - an object containing references to essential page components.
-* @property {HTMLElement} header - the element for injecting header content.
-* @property {HTMLElement} navigation - the element for injecting navigation content.
-* @property {HTMLElement} landscapeModal - the element for injecting landscape modal content.
-*/
+ * Ruft die wesentlichen Komponenten der Seite ab, indem relevante DOM-Elemente identifiziert werden.
+ * 
+ * @returns {Object} - Ein Objekt, das Referenzen zu wichtigen Seitenelementen enthält.
+ */
 function getAddTaskComponents() {
   return {
-      header: document.getElementById('header-content'),
-      navigation: document.getElementById('navigation-content'),
-      landscapeModal: document.getElementById('landscape-wrapper')
+    header: document.getElementById('header-content'),
+    navigation: document.getElementById('navigation-content'),
+    landscapeModal: document.getElementById('landscape-wrapper')
   };
 }
-
 
 /**
 * loads HTML templates into specified elements on the page.
@@ -54,8 +49,6 @@ function loadAddTaskTemplates({ header, navigation, landscapeModal }) {
   navigation.innerHTML = getNavigationContent();
   landscapeModal.innerHTML = getLandscapeModalContent();
 }
-
-
 
 // ! toogles btns and its colors
 let taskPriority = ''; // Variable für die Priorität
@@ -80,7 +73,6 @@ function setPriority(button) {
   }
 }
 
-
 // ! date picker
 /**
 * initialize flatpickr on the input field
@@ -100,7 +92,6 @@ flatpickr("#due-date", {
   altFormat: "Y-m-d",      // visible format in altInput
   allowInput: true         // allow manual input
 });
-
 
 // ! category dropdown
 /**
@@ -154,51 +145,124 @@ document.addEventListener('click', function (event) {
   }
 });
 
-
-// ! contact dropdown
-/**
-* Funktion zum Umschalten der Dropdown-Sichtbarkeit
-*/
-function toggleContactDropdown() {
-  const contactDropdown = document.getElementById('contact-dropdown');
-  const contactDropdownIcon = document.getElementById('contact-dropdown-icon');
-
-  contactDropdown.classList.toggle('hidden');
-  contactDropdown.classList.toggle('show');
-  contactDropdownIcon.classList.toggle('rotated');
-
-  // Wenn das Dropdown geöffnet wird, rufen wir renderContacts auf
-  if (contactDropdown.classList.contains('show')) {
-      renderContacts(); // Kontakte rendern und den Zustand der Checkboxen wiederherstellen
-  }
+// ! contact dropdown Einstellungen der Dropdown-Liste
+function initContactDropdown() {
+  document.getElementById('contact-dropdown-icon')
+      .addEventListener('click', toggleContactDropdown);
+  document.addEventListener('click', closeDropdownOnClickOutside);
 }
 
-/**
-* closes the contact dropdown and resets icon rotation
-*/
-function closeContactDropdown() {
-  const contactDropdown = document.getElementById('contact-dropdown');
-  const contactDropdownIcon = document.getElementById('contact-dropdown-icon');
-
-  contactDropdown.classList.add('hidden');
-  contactDropdown.classList.remove('show');
-  contactDropdownIcon.classList.remove('rotated');
-}
-
-
-/**
-* closes the contact dropdown if a click occurs outside
-*/
-document.addEventListener('click', function (event) {
-  const assignedInput = document.getElementById('assigned-to');
-  const contactDropdown = document.getElementById('contact-dropdown');
-
-  if (!assignedInput.contains(event.target) && !contactDropdown.contains(event.target)) {
-      closeContactDropdown();
-  }
+// Fügt Klick-Event-Listener zu allen Kontakt-Checkboxen hinzu, um deren Status zu toggeln
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.contact-checkbox').forEach(label => {
+      label.addEventListener('click', (event) => {
+          event.preventDefault(); // Verhindert Standardverhalten des Labels
+          const checkbox = label.querySelector('input[type="checkbox"]');
+          if (checkbox) checkbox.checked = !checkbox.checked; // Toggle Checkbox-Status
+      });
+  });
 });
 
-let allContacts = []; // Array, das alle Kontakte speichert, wenn sie einmal abgerufen wurden
+// Funktion zum Umschalten des Kontakt-Dropdowns
+function toggleContactDropdown() {
+  const dropdown = document.getElementById('contact-dropdown');
+  const icon = document.getElementById('contact-dropdown-icon');
+  dropdown.classList.toggle('hidden');
+  icon.classList.toggle('rotated');  // Diese Zeile dreht das Icon
+
+  if (dropdown.classList.contains('show')) {
+      renderContacts();
+  }
+}
+
+function closeDropdownOnClickOutside(event) {
+  const contactDropdown = document.getElementById('contact-dropdown');
+  const contactInput = document.getElementById('assigned-to');
+
+  // Prüfen, ob der Klick außerhalb von Dropdown und Input war
+  if (contactDropdown && !contactDropdown.contains(event.target) &&
+      contactInput && !contactInput.contains(event.target)) {
+      
+      // Prüfen, ob der Klick auf eine Checkbox war, die innerhalb des Dropdowns liegt
+      if (!event.target.closest('.contact-checkbox')) {
+          contactDropdown.classList.add('hidden'); // Schließe das Dropdown
+          contactDropdown.classList.remove('show'); // Entferne die Show-Klasse
+          document.getElementById('contact-dropdown-icon').classList.remove('rotated'); // Setze das Icon zurück
+      }
+  }
+}
+
+// Event-Listener hinzufügen
+document.addEventListener('click', closeDropdownOnClickOutside);
+
+function selectContact(checkbox) {
+  const selected = document.getElementById('selected-contacts');
+  if (checkbox.checked) {
+      selected.innerHTML = `<span id="selected-${checkbox.id}">${checkbox.id}</span>`;
+  } else {
+      document.getElementById(`selected-${checkbox.id}`).remove();
+  }
+}
+
+function resetContacts() {
+  document.querySelectorAll('.contact-checkbox input').forEach(cb => cb.checked = false);
+  document.getElementById('selected-contacts').innerHTML = '';
+}
+
+// Funktion zum Zurücksetzen des Formulars
+function clearInputForm() {
+  const form = document.getElementById('add-task-form');
+  form.reset(); // Setzt alle Eingabefelder zurück
+  document.querySelectorAll('.error-messages').forEach(e => e.textContent = ''); // Löscht Fehlermeldungen
+  document.querySelectorAll('input, textarea').forEach(i => i.style.borderColor = ''); // Rahmenfarbe zurücksetzen
+  
+  // Priorität auf "Medium" zurücksetzen
+  document.getElementById('mid-priority-button').classList.add('clicked');
+  document.querySelectorAll('.prio-buttons button').forEach(b => {
+      if (b.id !== 'mid-priority-button') b.classList.remove('clicked');
+  });
+
+  // Subtasks zurücksetzen
+  document.getElementById('subtask-list').innerHTML = ''; // Entfernt alle Subtasks
+
+  // Kontakte zurücksetzen
+  document.getElementById('selected-contacts').innerHTML = ''; // Entfernt alle ausgewählten Kontakte
+
+  // Checkboxen zurücksetzen
+  document.querySelectorAll('.contact-checkbox input[type="checkbox"]').forEach(checkbox => {
+      checkbox.checked = false;
+  });
+
+  // LocalStorage für Checkbox-Zustände leeren
+  localStorage.removeItem('checkboxStates');
+
+  // taskPriority zurücksetzen
+  taskPriority = '';
+
+  // Kontakt-Dropdown-Icon zurücksetzen
+  document.getElementById('contact-dropdown-icon').classList.remove('rotated');
+}
+
+// Event-Listener für das Formular hinzufügen
+document.getElementById('add-task-form').addEventListener('submit', function(event) {
+  event.preventDefault(); // Verhindert das Standard-Formularverhalten
+  addTask(event); // Ruft die Funktion zum Hinzufügen der Aufgabe auf
+  clearInputForm(); // Setzt das Formular zurück
+});
+
+// Event-Listener für den Reset-Button hinzufügen
+document.getElementById('clear-btn').addEventListener('click', clearInputForm);
+
+function resetErrorMessages() {
+  document.querySelectorAll('.error-messages').forEach(e => e.textContent = '');
+}
+
+function resetSubtasks() {
+  document.getElementById('subtask-list').innerHTML = '';
+}
+
+// Initialisierung beim Laden der Seite
+document.addEventListener('DOMContentLoaded', initContactDropdown);
 
 async function fetchContacts() {
   try {
@@ -224,22 +288,22 @@ async function fetchContacts() {
   }
 }
 
-
 // Kontaktdatentemplate für das Dropdown
-const contactTemplate = (contactId, color, initials, name) => `
-  <div class="contact-item" data-id="${contactId}">
-      <div class="contact-info">
-          <div class="profil-icon" style="background-color: ${color};">
-              ${initials}
-          </div>
-          <div class="contact-details">
-              <p class="contact-name">${name}</p>
-          </div>
-      </div>
-      <label class="contact-checkbox">
-          <input type="checkbox" id="${contactId}"/>
-      </label>
-  </div>
+// Template muss vor createContactItemHTML verfügbar sein
+const contactTemplate = (contactId, color = 'gray', initials = 'NA', name = 'Unknown') => `
+    <div class="contact-item" data-id="${contactId}">
+        <div class="contact-info">
+            <div class="profil-icon" style="background-color: ${color};">
+                ${initials}
+            </div>
+            <div class="contact-details">
+                <p class="contact-name">${name}</p>
+            </div>
+        </div>
+        <label class="contact-checkbox">
+            <input type="checkbox" id="${contactId}"/>
+        </label>
+    </div>
 `;
 
 // Speichert den Zustand der Checkboxen in localStorage
@@ -263,26 +327,27 @@ function updateCheckboxesState() {
 
 // Funktion, um das HTML für jedes Kontakt-Item zu erstellen
 function createContactItemHTML(contactId, contact, isUserContact = false) {
-  const contactItemHTML = contactTemplate(contactId, contact.color, contact.initials, contact.name);
-
-  // Add an indicator to the user contact (e.g., a star or special style)
-  if (isUserContact) {
-      return `
-          <div class="contact-item user-contact" data-id="${contactId}">
-              <div class="contact-info">
-                  <div class="profil-icon" style="background-color: ${contact.color};">
-                      ${contact.initials}
-                  </div>
-                  <div class="contact-details">
-                      <p class="contact-name">${contact.name} <span class="user-indicator">(You)</span></p>
-                  </div>
-              </div>
-              <label class="contact-checkbox">
-                  <input type="checkbox" id="${contactId}" />
-              </label>
-          </div>
-      `;
+  if (!contactId || !contact || !contact.name) {
+      console.error('Invalid contact data:', { contactId, contact });
+      return ''; // Leeres HTML zurückgeben, um den Fehler zu verhindern
   }
+
+  const contactItemHTML = `
+      <div class="contact-item" data-id="${contactId}">
+          <div class="contact-info">
+              <div class="profil-icon" style="background-color: ${contact.color || 'gray'};">
+                  ${contact.initials || 'NA'}
+              </div>
+              <div class="contact-details">
+                  <p class="contact-name">${contact.name}</p>
+                  ${isUserContact ? '<span class="user-indicator">(You)</span>' : ''}
+              </div>
+          </div>
+          <label class="contact-checkbox">
+              <input type="checkbox" id="${contactId}"/>
+          </label>
+      </div>
+  `;
 
   return contactItemHTML;
 }
@@ -437,7 +502,6 @@ function renderFilteredContacts(contacts) {
   addContactClickListeners(); // Add event listeners for contact clicks
 }
 
-
 // ! Add task to Firebase
 async function addTask(event) {
   event.preventDefault(); // Verhindere das Standard-Formular-Submit-Verhalten
@@ -518,10 +582,7 @@ async function addTask(event) {
       console.error('Fehler beim Hinzufügen der Aufgabe:', error);
       alert('Fehler beim Hinzufügen der Aufgabe. Bitte versuche es später erneut.');
   }
-
 }
-
-
 
 // Funktion zum Sammeln der Subtasks
 function collectSubtasks() {
@@ -539,7 +600,6 @@ function collectSubtasks() {
 
   return subtasks;
 }
-
 
 // Funktion zum Zurücksetzen aller Checkboxen
 function resetCheckboxes() {
@@ -670,7 +730,6 @@ function preventFocus(event) {
   }
 }
 
-
 // Funktion zum Löschen einer Subtask
 function deleteSubtask(icon) {
   icon.closest('.subtask-item').remove();
@@ -682,51 +741,7 @@ function clearSubtaskInput() {
   toggleIcons(); // Icons zurücksetzen
 }
 
-
-
-
-// Funktion zum Zurücksetzen des Formulars
-function clearInputForm() {
-  document.getElementById('task-title').value = "";
-  document.getElementById('task-description').value = "";
-  document.getElementById('assigned-to').value = "";
-  document.getElementById('selected-contacts').innerHTML = "";
-  document.getElementById('due-date').value = "";
-  document.getElementById('task-category').value = "";
-  document.getElementById('subtask-list').innerHTML = "";
-  localStorage.removeItem('checkboxStates');
-
-  // Setze das Datum in Flatpickr zurück, falls es vorhanden ist
-  const datePicker = document.getElementById('due-date')._flatpickr;
-  if (datePicker) {
-      datePicker.clear();
-  }
-
-  // Stelle sicher, dass die "Medium" Priorität nach dem Zurücksetzen aktiv ist
-  const mediumPriorityButton = document.getElementById('mid-priority-button');
-  if (mediumPriorityButton) {
-      setPriority(mediumPriorityButton);
-  }
-}
-
-
-
-
-/**
-* displays the modal for failed login attempts and hides it after 2 seconds.
-* 
-* @function
-* @param {HTMLInputElement} emailInput - the input field for the email.
-* @param {HTMLInputElement} passwordInput - the input field for the password.
-* @returns {Promise<void>} a promise that resolves after the modal is hidden.
-*/
-function showTaskAddedModal() {
-  const modal = document.getElementById('task-added-modal');
-  modal.classList.remove('hidden');
-  modal.classList.add('show');
-
-  setTimeout(() => {
-      modal.classList.add('hidden');
-      modal.classList.remove('show');
-  }, 2000);
-}
+// Initialisierung
+document.addEventListener('DOMContentLoaded', function() {
+  initAddTask();
+});
