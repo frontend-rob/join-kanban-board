@@ -112,6 +112,18 @@
     transform: rotate(180deg);
 }
 
+#contact-dropdown {
+    position: absolute; /* Unabhängig von anderen Elementen */
+    left: 0;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto; /* Ermöglicht Scrollen bei vielen Kontakten */
+    z-index: 10; /* Sicherstellen, dass es über anderen Elementen liegt */
+    border: 1px solid var(--bg-accent); /* Blauer Rand */
+    border-radius: 8px; /* Abgerundete Ecken */
+    background-clip: padding-box; /* Hintergrund schneidet den Border korrekt */
+}
+
 .contact-item,
 .current-user-item {
     display: flex;
@@ -125,6 +137,7 @@
 .contact-item:hover,
 .current-user-item:hover {
     background-color: var(--bg-neutral);
+    cursor: pointer;
 }
 
 .contact-info,
@@ -215,6 +228,12 @@
     height: 1.5rem;
     border-radius: 1px;
     background-color: var(--bg-neutral);
+}
+
+.divider-vertical {
+    width: 3px;
+    height: 100%;
+    border-radius: 1.5px;
 }
 
 .subtask-list {

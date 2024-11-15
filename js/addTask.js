@@ -232,9 +232,11 @@ function clearInputForm() {
   document.querySelectorAll('.contact-checkbox input[type="checkbox"]').forEach(checkbox => {
       checkbox.checked = false;
   });
-
-  // LocalStorage für Checkbox-Zustände leeren
-  localStorage.removeItem('checkboxStates');
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    resetContactsOnPageLoad(); // Neue Funktion für Reset
+    initAddTask(); // Bestehende Initialisierung
+});
 
   // taskPriority zurücksetzen
   taskPriority = '';
@@ -602,17 +604,18 @@ function collectSubtasks() {
 }
 
 // Funktion zum Zurücksetzen aller Checkboxen
-function resetCheckboxes() {
-  const checkboxes = document.querySelectorAll('.contact-checkbox input[type="checkbox"]');
-  checkboxes.forEach(checkbox => {
-      checkbox.checked = false; // Setze jede Checkbox auf "unchecked"
+function resetContactsOnPageLoad() {
+  // Alle Checkboxen im Dokument zurücksetzen
+  document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+      checkbox.checked = false; // Setze alle Checkboxen auf "unchecked"
   });
 
-  // Optional: Entferne alle ausgewählten Kontakt-Icons
-  const selectedIcons = document.querySelectorAll('.selected-profile-icon');
-  selectedIcons.forEach(icon => {
-      icon.remove(); // Entferne das Profil-Icon des abgewählten Kontakts
-  });
+  // Entferne alle ausgewählten Kontakte (falls vorhanden)
+  const selectedIconsContainer = document.getElementById('selected-contacts');
+  if (selectedIconsContainer) selectedIconsContainer.innerHTML = '';
+
+  // Lösche Checkbox-Zustände aus dem Cache (localStorage)
+  localStorage.removeItem('checkboxStates');
 }
 
 // ! SUBTASKS
@@ -743,5 +746,6 @@ function clearSubtaskInput() {
 
 // Initialisierung
 document.addEventListener('DOMContentLoaded', function() {
-  initAddTask();
+    resetContactsOnPageLoad(); // Kontakte und Checkboxen zurücksetzen
+    initAddTask(); // Initialisiere die Seite
 });
