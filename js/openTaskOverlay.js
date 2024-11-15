@@ -51,7 +51,9 @@ function closeTaskOverlay() {
  * @returns {string} The generated HTML.
  */
 function getAssignedToHTML(assignedTo) {
-    return assignedTo.map(person => `
+    const validAssignedTo = Array.isArray(assignedTo) ? assignedTo : [];
+
+    return validAssignedTo.map(person => `
         <div class="user">
             <div class="profile-icon" style="background-color: ${person.color};">
                 <span style="color: white;">${person.initials}</span>
@@ -60,6 +62,7 @@ function getAssignedToHTML(assignedTo) {
         </div>
     `).join('');
 }
+
 
 /**
  * Generates HTML for subtasks.
@@ -117,31 +120,159 @@ async function sendToFirebase(url, data, method) {
     }
 }
 
-/**
- * Edits a task.
- * 
- * @param {string} taskId - The ID of the task to be edited.
- */
 async function editTask(taskId) {
-    const newTitle = prompt('Gib den neuen Titel ein:');
-    const newDescription = prompt('Gib die neue Beschreibung ein:');
-    const newDueDate = prompt('Gib das neue Fälligkeitsdatum ein (YYYY-MM-DD):');
+    try {
+        // Lade die Task-Daten von Firebase
+        const taskData = await fetchFromFirebase(`${DB_URL}/tasks/${taskId}.json`);
 
-    const updatedData = {
-        ...(newTitle && { title: newTitle }),
-        ...(newDescription && { description: newDescription }),
-        ...(newDueDate && { due_date: newDueDate })
-    };
-
-    if (Object.keys(updatedData).length > 0) {
-        try {
-            await sendToFirebase(`${DB_URL}/tasks/${taskId}.json`, updatedData, 'PATCH');
-            openTaskOverlay(taskId);
-        } catch (error) {
-            console.error('Fehler beim Aktualisieren der Aufgabe:', error);
+        if (!taskData) {
+            console.error('Task not found!');
+            return;
         }
+
+        // Lösche den bestehenden Inhalt der .overlay-content, um das Edit-Formular zu füllen
+        const overlayContent = document.querySelector('.overlay-content');
+        overlayContent.innerHTML = '';
+
+        // Füge das neue Formular hinzu, basierend auf den vorhandenen Task-Daten
+        overlayContent.innerHTML = `
+            <section id="edit-task-content" class="main-content">
+            <span class="close" id="close-edit-task" onclick="closeTaskOverlay()">
+                <img src="../assets/icons/Close.svg" alt="Close Icon">
+            </span>
+                <form id="edit-task-form" class="edit-task-form" onsubmit="saveTaskChanges(event, '${taskId}'); return false;" novalidate>
+                    <div class="left-column">
+                        <div class="input-group">
+                            <label for="task-title">Title<span class="required">*</span></label>
+                            <div class="input-field">
+                                <input type="text" id="task-title" placeholder="Enter a title" value="${taskData.title || ''}" required>
+                                <p id="error-task-title" class="error-message">
+                                    *This field is required.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="task-description">Description</label>
+                            <div class="input-field">
+                                <textarea id="task-description" placeholder="Enter a description" rows="5">${taskData.description || ''}</textarea>
+                            </div>
+                        </div>
+                        <div class="right-column">
+                            <div class="input-group date-input">
+                                <label for="due-date">Due date<span class="required">*</span></label>
+                                <div class="input-field">
+                                    <input type="date" id="due-date" value="${taskData.due_date || ''}" required>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                                        <path d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-68-76a12,12,0,1,1-12-12A12,12,0,0,1,140,132Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,132ZM96,172a12,12,0,1,1-12-12A12,12,0,0,1,96,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,140,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,172Z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                            <!-- Priority Buttons -->
+                            <div class="prio-group">
+                                <label>Prio</label>
+                                <div class="prio-buttons">
+                                    <button id="high-priority-button" class="btn btn-urgent" type="button" onclick="setPriority(this)">
+                                        Urgent
+                                    </button>
+                                    <button id="mid-priority-button" class="btn btn-medium" type="button" onclick="setPriority(this)">
+                                        Medium
+                                    </button>
+                                    <button id="low-priority-button" class="btn btn-low" type="button" onclick="setPriority(this)">
+                                        Low
+                                    </button>
+                                </div>
+                            </div>
+                            <label for="assigned-to">Assigned to</label>
+                            <div class="input-field">
+                                <input type="text" id="assigned-to" placeholder="Select contacts to assign" onclick="toggleContactDropdown()" autocomplete="off">
+                                <svg id="contact-dropdown-icon" class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                                    <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z"></path>
+                                </svg>
+                                <div id="contact-dropdown" class="contact-dropdown hidden"></div>
+                            </div>
+                            <div id="selected-contacts" class="selected-contacts"></div>
+                        </div>
+                    </div>
+
+                    <div class="input-group category-container">
+                        <label for="task-category">Category<span class="required">*</span></label>
+                        <div class="input-field">
+                            <input type="text" id="task-category" placeholder="Select a category" value="${taskData.category || ''}" required autocomplete="off">
+                        </div>
+                    </div>
+
+                    <!-- Subtask section -->
+                    <div class="input-group addSubtask-container">
+                        <label for="input-subtask">Subtasks</label>
+                        <div class="input-field-subtask">
+                            <input type="text" id="input-subtask" placeholder="Add new subtask" oninput="toggleIcons()" onkeydown="handleEnter(event)">
+                            <div id="addSubtask-icons" class="subtask-icons">
+                                <svg id="plus-icon" onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                                    <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path>
+                                </svg>
+                                <div id="edit-icons" class="icon-wrapper hidden">
+                                    <svg onclick="clearSubtaskInput()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                                        <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
+                                    </svg>
+                                    <div class="edit-divider-vertical"></div>
+                                    <svg onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                                        <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="subtask-list">
+                            ${taskData.subtasks ? taskData.subtasks.map(subtask => 
+                                `<div class="subtask-item">
+                                    <input type="checkbox" ${subtask.completed ? 'checked' : ''} class="subtask-checkbox">
+                                    <label class="subtask-text">${subtask.text}</label>
+                                </div>`).join('') : ''}
+                        </div>
+                    </div>
+                </form>
+            </section>
+        `;
+        // Pre-set priority, category, subtasks, and assigned to fields
+        setPriorityButton(taskData.priority);
+        setCategoryButton(taskData.category);
+        setAssignedContacts(taskData.assigned_to);
+
+    } catch (error) {
+        console.error('Error editing task:', error);
     }
 }
+
+
+
+
+/**
+ * Saves the edited task changes back to Firebase.
+ * 
+ * @param {string} taskId - The ID of the task being edited.
+ */
+async function saveTaskChanges(taskId) {
+    const updatedTask = {
+        title: document.getElementById('task-title').value,
+        description: document.getElementById('task-description').value,
+        due_date: document.getElementById('due-date').value,
+        category: document.getElementById('task-category').value,
+        priority: getCurrentPriority(),
+        assigned_to: getSelectedContacts(),
+        subtasks: getUpdatedSubtasks(),
+    };
+
+    try {
+        // Speichere die Änderungen in Firebase
+        await sendToFirebase(`${DB_URL}/tasks/${taskId}.json`, updatedTask, 'PATCH');
+        alert('Task updated successfully!');
+        closeEditForm();
+    } catch (error) {
+        console.error('Error saving task changes:', error);
+    }
+}
+
+
 
 /**
  * Toggles the status of a subtask.

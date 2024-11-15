@@ -224,6 +224,7 @@
 #add-task-content {
     width: 100%;
     opacity: 1 !important;
+    height: 100%;
 }
 
 .overlay-content-add-task {
@@ -250,9 +251,31 @@
     flex-grow: 1;
 }
 
+.edit-task-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 4rem 4rem;
+    gap: 3rem;
+    flex-grow: 1;
+}
+
+
+
+#edit-task-content {
+    opacity: 1;
+    padding: 0;
+    margin-top: 2rem;
+}
+
 .divider-overlay {
     height: auto;
 }
+
+.hidden {
+    display: none;
+}
+
 
 .overlay-content-add-task.show {
     right: calc(50% - 30%);

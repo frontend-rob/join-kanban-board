@@ -186,29 +186,35 @@ function getLandscapeModalContent() {
  */
 function getTaskContent(taskId, task, progressPercentage) {
     const maxVisibleIcons = window.innerWidth < 1250 ? 2 : 4;
-    const visibleAssigned = task.assigned_to.slice(0, maxVisibleIcons);
+
+    const assignedTo = Array.isArray(task.assigned_to) ? task.assigned_to : [];
+    const visibleAssigned = assignedTo.slice(0, maxVisibleIcons);
+
     const assignedToHTML = visibleAssigned.map(person => `
         <div class="profile-icon" style="background-color: ${person.color};">
             ${person.initials}
         </div>
     `).join('');
-    const remainingCount = task.assigned_to.length - maxVisibleIcons;
+
+    const remainingCount = assignedTo.length - maxVisibleIcons;
     const additionalIconsHTML = remainingCount > 0 
-        ? `<div class="profile-icon additional-count" style="background-color: ${task.assigned_to[0].color};">+${remainingCount}</div>` 
+        ? `<div class="profile-icon additional-count" style="background-color: ${assignedTo[0].color};">+${remainingCount}</div>` 
         : '';
 
-    // Sicherstellen, dass `task.subtasks` existiert und eine gültige Liste ist
     const totalSubtasks = task.subtasks ? task.subtasks.length : 0;
     const completedSubtasks = task.subtasks
         ? task.subtasks.filter(subtask => subtask.status === "checked").length
         : 0;
+
+    // Wenn keine Subtasks vorhanden sind, setze display: none auf die Subtask-Div
+    const subtaskClass = totalSubtasks === 0 ? 'subtask hidden' : 'subtask';
 
     return `
         <div class="task" draggable="true" ondragstart="drag(event)" id="${taskId}" onclick="getTaskOverlay('${taskId}')">
             <div class="task-type">${task.category}</div>
             <span class="task-title">${task.title}</span>
             <p class="task-description">${task.description}</p>
-            <div class="subtask">
+            <div class="${subtaskClass}">
                 <div class="progress-container">
                     <div class="progress-bar" style="width: ${progressPercentage}%"></div>
                 </div>
@@ -221,6 +227,8 @@ function getTaskContent(taskId, task, progressPercentage) {
         </div>
     `;
 }
+
+
 
 
 
@@ -270,7 +278,7 @@ function getTaskOverlayContent(task) {
                 <span>Delete</span>
             </div>
             <div class="divider-vertical divider-action"></div>
-            <div class="action-type" onclick="editTask()">
+            <div class="action-type" onclick="editTask('${task.id}')">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
                     <path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"></path>
                 </svg>
@@ -306,7 +314,7 @@ function getAddTaskContent() {
                     <div class="input-group">
                         <label for="assigned-to">Assigned to</label>
                         <div class="input-field">
-                            <input type="text" id="assigned-to" placeholder="Select contacts to assign" onclick="toggleContactDropdown()" oninput="searchContacts()">
+                            <input type="text" id="assigned-to" placeholder="Select contacts to assign" onclick="toggleContactDropdown()" oninput="searchContacts()" autocomplete="off">
                             <svg id="contact-dropdown-icon" class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                 <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z">
                                 </path>
@@ -364,7 +372,7 @@ function getAddTaskContent() {
                     <div class="input-group category-container">
                         <label for="task-category">Category<span class="required">*</span></label>
                         <div class="input-field">
-                            <input type="text" id="task-category" placeholder="Select a category" required onclick="toggleCategoryDropdown()">
+                            <input type="text" id="task-category" placeholder="Select a category" required onclick="toggleCategoryDropdown()" autocomplete="off">
                             <svg id="dropdown-icon" class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                 <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z">
                                 </path>

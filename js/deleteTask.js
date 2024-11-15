@@ -24,7 +24,6 @@ async function deleteTask() {
 async function removeTaskFromFirebase(taskId) {
     try {
         await sendToFirebase(`${DB_URL}/tasks/${taskId}.json`, null, 'DELETE');
-        console.log(`Task with ID ${taskId} successfully deleted from Firebase.`);
     } catch (error) {
         console.error('Error deleting task:', error);
     }

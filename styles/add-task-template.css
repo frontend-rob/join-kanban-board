@@ -10,6 +10,20 @@
     gap: 4rem;
 }
 
+.edit-task-form {
+    display: flex;
+    flex-direction: column;
+    max-height: 700px;
+    overflow-y: auto;
+}
+
+#close-edit-task {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    cursor: pointer;
+}
+
 .required {
     color: var(--error-content);
 }
@@ -75,6 +89,9 @@
     font-size: 1.25rem;
     color: var(--base-content);
     overflow-y: auto;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
 }
 
 .category-dropdown-item {
@@ -212,6 +229,8 @@
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    overflow-y: auto;
+
 }
 
 .subtask-item {
@@ -280,4 +299,20 @@
     right: 1rem;
 }
 
+#assigned-to {
+    cursor: pointer;
+    caret-color: transparent
+}
 
+#contact-dropdown-icon {
+    cursor: pointer;
+}
+
+.input-field svg {
+    cursor: pointer;
+}
+
+#task-category {
+    cursor: pointer;
+    caret-color: transparent
+}
