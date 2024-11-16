@@ -87,6 +87,7 @@ function setPriority(button) {
     }
 }
 
+
 // ! datepicker
 /**
  * initializes the Flatpickr date picker.
@@ -115,6 +116,7 @@ function toggleCategoryDropdown() {
     dropdown.classList.toggle('show');
     dropdownIcon.classList.toggle('rotated');
 }
+
 
 /**
  * selects a category and closes the dropdown
@@ -148,6 +150,7 @@ function closeCategoryDropdown() {
     dropdown.classList.remove('show');
     dropdownIcon.classList.remove('rotated');
 }
+
 
 /**
  * closes the dropdown if a click occurs outside
@@ -210,7 +213,7 @@ document.addEventListener('click', function (event) {
 });
 
 
-let allContacts = []; // Array, das alle Kontakte speichert, wenn sie einmal abgerufen wurden
+let allContacts = []; // array, das alle Kontakte speichert, wenn sie einmal abgerufen wurden
 
 /**
  * fetches all contacts from the firebase database.
@@ -251,7 +254,7 @@ async function fetchContacts() {
  * @param {string} name - the full name of the contact.
  * @returns {string} the html template string for the contact item.
  */
-const contactTemplate = (contactId, color, initials, name) => `
+const contactTemplate = (contactId, color, initials, name, isChecked) => `
     <div class="contact-item" data-id="${contactId}">
         <div class="contact-info">
             <div class="profil-icon" style="background-color: ${color};">
@@ -261,8 +264,11 @@ const contactTemplate = (contactId, color, initials, name) => `
                 <p class="contact-name">${name}</p>
             </div>
         </div>
-        <label class="contact-checkbox">
-            <input type="checkbox" id="${contactId}"/>
+        <label class="contact-checkbox ${isChecked ? 'checked' : 'unchecked'}">
+            <!-- Verstecke die Standard-Checkbox -->
+            <input type="checkbox" id="${contactId}" ${isChecked ? 'checked' : ''} />
+            <!-- Das SVG-Icon für die Checkbox, je nach Status -->
+            <img src="../assets/icons/${isChecked ? 'checked-dark.svg' : 'unchecked.svg'}" alt="checkbox icon" />
         </label>
     </div>
 `;
@@ -282,15 +288,25 @@ function toggleCheckboxState(contactId, isChecked) {
 
 
 /**
- * restores the state of contact checkboxes from local storage.
+ * restores the state of contact checkboxes and applies 'active' classes from local storage.
  */
 function updateCheckboxesState() {
     const checkboxes = document.querySelectorAll('.contact-checkbox input[type="checkbox"]');
     const checkboxStates = JSON.parse(localStorage.getItem('checkboxStates')) || {};
+
     checkboxes.forEach(checkbox => {
         const contactId = checkbox.closest('.contact-item').getAttribute('data-id');
-        if (checkboxStates[contactId] !== undefined) {
-            checkbox.checked = checkboxStates[contactId];
+        const isChecked = checkboxStates[contactId] || false;
+        const checkboxLabel = checkbox.closest('.contact-checkbox');
+        const img = checkboxLabel.querySelector('img');
+        img.src = `../assets/icons/${isChecked ? 'checked-dark' : 'unchecked'}.svg`;
+
+        if (isChecked) {
+            checkbox.checked = true;
+            checkbox.closest('.contact-item').classList.add('active');
+        } else {
+            checkbox.checked = false;
+            checkbox.closest('.contact-item').classList.remove('active');
         }
     });
 }
@@ -347,7 +363,7 @@ function renderUserIndicator(contactId) {
 
 
 /**
- * adds a profile icon to the selected contacts container if not already present.
+ * adds the contact to the selected contacts container.
  * 
  * @param {string} contactId - the unique id of the contact.
  * @param {string} color - the background color for the contact's initials.
@@ -381,7 +397,7 @@ function addSelectedContacts(contactId) {
 
 
 /**
- * removes a contact's profile icon from the selected contacts container.
+ * removes the contact's profile icon from the selected contacts container.
  * 
  * @param {string} contactId - the unique id of the contact to be removed.
  */
@@ -401,10 +417,14 @@ function removeSelectedContactIcon(contactId) {
  * @param {HTMLElement} contactItem - the clicked contact card element.
  */
 function handleContactClick(contactItem) {
+    const checkboxLabel = contactItem.querySelector('.contact-checkbox');
     const checkbox = contactItem.querySelector('input[type="checkbox"]');
     const contactId = contactItem.getAttribute('data-id');
     const isChecked = !checkbox.checked;
-    checkbox.checked = isChecked;
+    
+    const img = checkboxLabel.querySelector('img');
+    img.src = `../assets/icons/${isChecked ? 'checked-dark' : 'unchecked'}.svg`;
+
     toggleCheckboxState(contactId, isChecked);
 
     const initials = contactItem.querySelector('.profil-icon').innerText;
@@ -412,8 +432,10 @@ function handleContactClick(contactItem) {
 
     if (isChecked) {
         addSelectedContactIcon(contactId, color, initials);
+        contactItem.classList.add('active');
     } else {
         removeSelectedContactIcon(contactId);
+        contactItem.classList.remove('active');
     }
 }
 
@@ -473,7 +495,7 @@ function getUserContact(contacts) {
  */
 function moveUserContactToTop(contacts, userContact) {
     userContact.isUserContact = true;
-    contacts.unshift(userContact); // Add user contact at the top
+    contacts.unshift(userContact);
 }
 
 
@@ -488,7 +510,6 @@ function renderContactItems(contactDropdown, contacts) {
         .join('');
     contactDropdown.innerHTML = contactItemsHTML;
 }
-
 
 
 /**
@@ -556,10 +577,6 @@ function renderFilteredContacts(contacts) {
     updateCheckboxesState();
     addContactClickListeners();
 }
-
-
-
-
 
 
 // ! validation
@@ -720,79 +737,6 @@ function addInputEventListeners() {
 
 // ! Add task to Firebase
 
-// async function addTask(event) {
-//     event.preventDefault();
-
-//     if (!validateTaskForm()) return;
-
-//     const taskTitle = document.getElementById('task-title').value;
-//     const taskDescription = document.getElementById('task-description').value;
-//     const dueDate = document.getElementById('due-date').value;
-//     const taskCategory = document.getElementById('task-category').value;
-
-//     const taskStatus = 'todo';
-
-//     if (!taskPriority) {
-//         taskPriority = 'mid';
-//     }
-
-//     const selectedContacts = [];
-//     const selectedIcons = document.querySelectorAll('.selected-profile-icon');
-
-//     selectedIcons.forEach(icon => {
-//         const contactId = icon.getAttribute('data-id'); 
-//         const contact = allContacts.find(c => c.id === contactId);
-
-//         // Überprüfen, ob der Kontakt existiert
-//         if (contact) {
-//             selectedContacts.push({
-//                 id: contactId,
-//                 name: contact.name,
-//                 email: contact.email,
-//                 phone: contact.phone,
-//                 initials: contact.initials,
-//                 color: contact.color,
-//                 status: contact.status
-//             });
-//         }
-//     });
-
-//     // Sammle die Subtasks
-//     const subtasks = collectSubtasks();
-//     const taskData = {
-//         title: taskTitle,
-//         description: taskDescription,
-//         due_date: dueDate,
-//         category: taskCategory,
-//         status: taskStatus,
-//         priority: taskPriority,
-//         assigned_to: selectedContacts,
-//         subtasks: subtasks
-//     };
-
-//     try {
-//         const response = await fetch(`${DB_URL}/tasks.json`, {
-//             method: 'POST',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify(taskData)
-//         });
-
-//         if (!response.ok) {
-//             throw new Error('Fehler beim Hinzufügen der Aufgabe zu Firebase.');
-//         }
-
-//         showTaskAddedModal();
-//         clearInputForm();
-
-//     } catch (error) {
-//         alert('Fehler beim Hinzufügen der Aufgabe. Bitte versuche es später erneut.');
-//     }
-
-// }
-
-
 /**
  * handles the task addition process by validating the form, gathering data,
  * collecting subtasks, and saving the task to the database.
@@ -914,10 +858,6 @@ function handleTaskSuccess() {
 function handleTaskError() {
     alert('error adding task. please try again later.');
 }
-
-
-
-
 
 
 /**

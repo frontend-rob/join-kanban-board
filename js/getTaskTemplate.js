@@ -7,7 +7,7 @@ let allTasks = {};
  */
 async function loadTasks() {
     try {
-        const response = await fetch(`${DB_URL}/tasks.json`, { cache: "no-store" });
+        const response = await fetch(`${DB_URL}/tasks.json`);
         const data = await response.json();
         allTasks = data ? { ...data } : {};
         return allTasks;

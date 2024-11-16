@@ -125,14 +125,24 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.25rem 0.5rem;
-    border-radius: .3125rem;
+    padding: 0.25rem 1rem;
+    border-radius: .5rem;
     cursor: pointer;
 }
 
 .contact-item:hover,
 .current-user-item:hover {
     background-color: var(--bg-neutral);
+}
+
+.contact-item.active {
+    background-color: var(--bg-primary);
+    color: var(--white-content);
+    font-weight: 300;
+}
+
+.contact-item.active:hover {
+    background-color: #091931;
 }
 
 .contact-info,
@@ -315,4 +325,8 @@
 #task-category {
     cursor: pointer;
     caret-color: transparent
+}
+
+.contact-checkbox input[type="checkbox"] {
+    display: none;
 }
