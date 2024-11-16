@@ -92,7 +92,7 @@
                             <div class="prio-buttons">
                                 <button id="high-priority-button" class="btn btn-urgent" type="button"
                                     onclick="setPriority(this)">
-                                    Urgent
+                                    <span class="prio-text">Urgent</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"
                                         viewBox="0 0 256 256">
                                         <path
@@ -102,7 +102,7 @@
                                 </button>
                                 <button id="mid-priority-button" class="btn btn-medium clicked" type="button"
                                     onclick="setPriority(this)">
-                                    Medium
+                                    <span class="prio-text">Medium</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"
                                         viewBox="0 0 256 256">
                                         <path
@@ -112,7 +112,7 @@
                                 </button>
                                 <button id="low-priority-button" class="btn btn-low" type="button"
                                     onclick="setPriority(this)">
-                                    Low
+                                    <span class="prio-text">Low</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none"
                                         viewBox="0 0 256 256">
                                         <path
@@ -178,7 +178,7 @@
                     </div>
                 </form>
                 <footer class="add-task-footer">
-                    <div><span class="required">*</span> This field is required</div>
+                    <div class="footer-text"><span class="required">*</span> This field is required</div>
                     <div class="form-buttons">
                         <button class="btn btn-outline" onclick="clearInputForm()">
                             Clear

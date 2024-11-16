@@ -1,13 +1,17 @@
 .main-headline {
-    font-size: 4rem;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--black-content);
+    line-height: normal;
 }
 
 .add-task-form {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
-    max-width: 65rem;
+    max-width: 60rem;
     width: 100%;
-    gap: 4rem;
+    gap: 3rem;
 }
 
 .edit-task-form {
@@ -33,7 +37,8 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: 2rem;
+    gap: 1rem;
+    flex: 1;
 }
 
 .input-group {
@@ -64,7 +69,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 65rem;
+    max-width: 60rem;
     width: 100%;
     font-size: 1.25rem;
     color: var(--base-content);
@@ -240,7 +245,6 @@
     flex-direction: column;
     gap: 0.5rem;
     overflow-y: auto;
-
 }
 
 .subtask-item {
@@ -329,4 +333,65 @@
 
 .contact-checkbox input[type="checkbox"] {
     display: none;
+}
+
+@media screen and (max-width: 64rem) {
+    .add-task-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .divider-vertical {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 48rem) {
+    .main-headline {
+        font-size: 2.5rem;
+    }
+
+    label,
+    #contact-dropdown p, 
+    .contact-item,
+    .category-dropdown-item,
+    #input-subtask,
+    .footer-text {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 35rem) {
+    .prio-buttons {
+        gap: 0.5rem;
+    }
+
+    .add-task-footer {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .footer-text {
+        align-self: flex-start;
+    }
+}
+
+@media screen and (max-width: 30rem) {
+    .prio-text {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 25rem) {
+    .form-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .form-buttons {
+        .btn {
+            width: 100%;
+        }
+    }
 }

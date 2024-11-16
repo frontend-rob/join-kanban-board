@@ -346,7 +346,7 @@ function getAddTaskContent() {
                         <label>Prio</label>
                         <div class="prio-buttons">
                             <button id="high-priority-button" class="btn btn-urgent" type="button" onclick="setPriority(this)">
-                                Urgent
+                                <span class="prio-text">Urgent</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                     <path
                                         d="M216.49,191.51a12,12,0,0,1-17,17L128,137,56.49,208.49a12,12,0,0,1-17-17l80-80a12,12,0,0,1,17,0Zm-160-63L128,57l71.51,71.52a12,12,0,0,0,17-17l-80-80a12,12,0,0,0-17,0l-80,80a12,12,0,0,0,17,17Z">
@@ -354,13 +354,14 @@ function getAddTaskContent() {
                                 </svg>
                             </button>
                             <button id="mid-priority-button" class="btn btn-medium clicked" type="button" onclick="setPriority(this)">
-                                Medium
+                                <span class="prio-text">Medium</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
-                                    <path d="M228,160a12,12,0,0,1-12,12H40a12,12,0,0,1,0-24H216A12,12,0,0,1,228,160ZM40,108H216a12,12,0,0,0,0-24H40a12,12,0,0,0,0,24Z"></path>
+                                    <path d="M228,160a12,12,0,0,1-12,12H40a12,12,0,0,1,0-24H216A12,12,0,0,1,228,160ZM40,108H216a12,12,0,0,0,0-24H40a12,12,0,0,0,0,24Z">
+                                    </path>
                                 </svg>
                             </button>
                             <button id="low-priority-button" class="btn btn-low" type="button" onclick="setPriority(this)">
-                                Low
+                                <span class="prio-text">Low</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                     <path
                                         d="M216.49,127.51a12,12,0,0,1,0,17l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,1,1,17-17L128,199l71.51-71.52A12,12,0,0,1,216.49,127.51Zm-97,17a12,12,0,0,0,17,0l80-80a12,12,0,0,0-17-17L128,119,56.49,47.51a12,12,0,0,0-17,17Z">
@@ -378,7 +379,8 @@ function getAddTaskContent() {
                                 </path>
                             </svg>
                             <div id="category-dropdown" class="category-dropdown hidden" onclick="selectCategory(event)">
-                                <div class="category-dropdown-item" data-category="Technical Task">Technical Task</div>
+                                <div class="category-dropdown-item" data-category="Technical Task">Technical Task
+                                </div>
                                 <div class="category-dropdown-item" data-category="User Story">User Story</div>
                             </div>
                             <p id="error-task-category" class="error-message">
@@ -403,7 +405,8 @@ function getAddTaskContent() {
                                     </svg>
                                     <div class="edit-divider-vertical"></div>
                                     <svg onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
-                                        <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
+                                        <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z">
+                                        </path>
                                     </svg>
                                 </div>
                             </div>
@@ -413,7 +416,7 @@ function getAddTaskContent() {
                 </div>
             </form>
             <footer class="add-task-footer">
-                <div><span class="required">*</span> This field is required</div>
+                <div class="footer-text"><span class="required">*</span> This field is required</div>
                 <div class="form-buttons">
                     <button class="btn btn-outline" onclick="clearInputForm()">
                         Clear
@@ -426,7 +429,8 @@ function getAddTaskContent() {
                     <button type="submit" form="add-task-form" class="btn btn-lg">
                         Create Task
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
-                            <path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"></path>
+                            <path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z">
+                            </path>
                         </svg>
                     </button>
                 </div>

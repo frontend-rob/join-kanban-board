@@ -119,11 +119,6 @@ h2 {
 @media screen and (max-width: 64rem) {
     .main-content {
         padding: 3rem 1rem;
-    }
-}
-
-@media screen and (max-width: 48rem) {
-    .main-content {
         padding-bottom: 7rem;
     }
 }

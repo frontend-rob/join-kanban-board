@@ -111,7 +111,7 @@ nav {
   }
 }
 
-@media screen and (max-width: 960px) {
+@media screen and (max-width: 64rem) {
   aside,
   nav {
       display: flex;

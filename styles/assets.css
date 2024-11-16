@@ -87,8 +87,8 @@
 .btn-low {
     background-color: var(--bg-base-100);
     color: var(--base-content);
-    width: 136px;
     height: 48px;
+    flex: 1;
     font-size: 20px;
     font-weight: 400;
     box-shadow: var(--shadow-td);
@@ -266,7 +266,8 @@ textarea::placeholder {
 
 @media screen and (max-width: 35rem) {
     .btn-lg {
-        font-size: unset;
+        font-size: 1rem;
+        font-weight: unset;
     }
 
     input,
