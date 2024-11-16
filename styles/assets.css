@@ -117,6 +117,7 @@
 .btn-medium.clicked,
 .btn-low.clicked {
     color: var(--bg-base-100);
+    border: unset;
 }
 
 .btn-urgent.clicked {

@@ -12,6 +12,8 @@ async function initBoardPage() {
     await renderBoardContent();
     initializeNavigation();
     preventLandscapeOnMobileDevices();
+    initializeDatePicker("#due-date");
+    addInputEventListeners();
 }
 
 /**
