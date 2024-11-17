@@ -292,23 +292,66 @@ function toggleCheckboxState(contactId, isChecked) {
  */
 function updateCheckboxesState() {
     const checkboxes = document.querySelectorAll('.contact-checkbox input[type="checkbox"]');
-    const checkboxStates = JSON.parse(localStorage.getItem('checkboxStates')) || {};
+    const checkboxStates = getCheckboxStates();
 
-    checkboxes.forEach(checkbox => {
-        const contactId = checkbox.closest('.contact-item').getAttribute('data-id');
-        const isChecked = checkboxStates[contactId] || false;
-        const checkboxLabel = checkbox.closest('.contact-checkbox');
-        const img = checkboxLabel.querySelector('img');
-        img.src = `../assets/icons/${isChecked ? 'checked-dark' : 'unchecked'}.svg`;
+    checkboxes.forEach(checkbox => updateContactItemState(checkbox, checkboxStates));
+}
 
-        if (isChecked) {
-            checkbox.checked = true;
-            checkbox.closest('.contact-item').classList.add('active');
-        } else {
-            checkbox.checked = false;
-            checkbox.closest('.contact-item').classList.remove('active');
-        }
-    });
+
+/**
+ * retrieves the stored checkbox states from local storage.
+ * 
+ * @returns {object} - the stored states of checkboxes, defaulting to an empty object if not found.
+ */
+function getCheckboxStates() {
+    return JSON.parse(localStorage.getItem('checkboxStates')) || {};
+}
+
+
+/**
+ * updates the visual and functional state of a contact item.
+ * 
+ * @param {htmlinputelement} checkbox - the checkbox element to update.
+ * @param {object} checkboxStates - the stored states of checkboxes.
+ */
+function updateContactItemState(checkbox, checkboxStates) {
+    const contactItem = checkbox.closest('.contact-item');
+    const contactId = contactItem.getAttribute('data-id');
+    const isChecked = checkboxStates[contactId] || false;
+
+    updateCheckboxIcon(checkbox, isChecked);
+    updateContactItemClass(contactItem, checkbox, isChecked);
+}
+
+
+/**
+ * updates the checkbox icon based on its checked state.
+ * 
+ * @param {htmlinputelement} checkbox - the checkbox element.
+ * @param {boolean} isChecked - the checked state of the checkbox.
+ */
+function updateCheckboxIcon(checkbox, isChecked) {
+    const img = checkbox.closest('.contact-checkbox').querySelector('img');
+    if (img) {
+        img.src = `../assets/icons/${isChecked ? 'checked-dark.svg' : 'unchecked.svg'}`;
+    }
+}
+
+
+/**
+ * updates the class and checked state of a contact item.
+ * 
+ * @param {htmlelement} contactItem - the contact item element.
+ * @param {htmlinputelement} checkbox - the checkbox element within the contact item.
+ * @param {boolean} isChecked - the checked state of the checkbox.
+ */
+function updateContactItemClass(contactItem, checkbox, isChecked) {
+    checkbox.checked = isChecked;
+    if (isChecked) {
+        contactItem.classList.add('active');
+    } else {
+        contactItem.classList.remove('active');
+    }
 }
 
 
@@ -316,7 +359,7 @@ function updateCheckboxesState() {
  * creates the html structure for a contact item.
  * 
  * @param {string} contactId - the unique id of the contact.
- * @param {Object} contact - the contact object containing details like color, initials, and name.
+ * @param {object} contact - the contact object containing details like color, initials, and name.
  * @param {string} contact.color - the background color for the contact's initials.
  * @param {string} contact.initials - the initials of the contact.
  * @param {string} contact.name - the full name of the contact.
@@ -324,27 +367,54 @@ function updateCheckboxesState() {
  * @returns {string} the html string for the contact item.
  */
 function createContactItemHTML(contactId, contact, isUserContact = false) {
-    const contactItemHTML = contactTemplate(contactId, contact.color, contact.initials, contact.name);
+    const isChecked = getCheckboxState(contactId);
+    const checkboxHTML = generateCheckboxHTML(contactId, isChecked);
+    const userIndicatorHTML = isUserContact ? '<span class="user-indicator">(you)</span>' : '';
 
-    if (isUserContact) {
-        return `
-            <div class="contact-item user-contact" data-id="${contactId}">
-                <div class="contact-info">
-                    <div class="profil-icon" style="background-color: ${contact.color};">
-                        ${contact.initials}
-                    </div>
-                    <div class="contact-details">
-                        <p class="contact-name">${contact.name} <span class="user-indicator">(you)</span></p>
-                    </div>
+    return `
+        <div class="contact-item ${isUserContact ? 'user-contact' : ''}" data-id="${contactId}">
+            <div class="contact-info">
+                <div class="profil-icon" style="background-color: ${contact.color};">
+                    ${contact.initials}
                 </div>
-                <label class="contact-checkbox">
-                    <input type="checkbox" id="${contactId}" />
-                </label>
+                <div class="contact-details">
+                    <p class="contact-name">
+                        ${contact.name} ${userIndicatorHTML}
+                    </p>
+                </div>
             </div>
-        `;
-    }
+            ${checkboxHTML}
+        </div>
+    `;
+}
 
-    return contactItemHTML;
+
+/**
+ * retrieves the checkbox state for a contact from local storage.
+ * 
+ * @param {string} contactId - the unique id of the contact.
+ * @returns {boolean} the checked state of the checkbox.
+ */
+function getCheckboxState(contactId) {
+    const checkboxStates = JSON.parse(localStorage.getItem('checkboxStates')) || {};
+    return checkboxStates[contactId] || false;
+}
+
+
+/**
+ * generates the html for a checkbox with its associated icon.
+ * 
+ * @param {string} contactId - the unique id of the contact.
+ * @param {boolean} isChecked - the checked state of the checkbox.
+ * @returns {string} the html string for the checkbox element.
+ */
+function generateCheckboxHTML(contactId, isChecked) {
+    return `
+        <label class="contact-checkbox ${isChecked ? 'checked' : 'unchecked'}">
+            <input type="checkbox" id="${contactId}" ${isChecked ? 'checked' : ''} />
+            <img src="../assets/icons/${isChecked ? 'checked-dark.svg' : 'unchecked.svg'}" alt="checkbox icon" />
+        </label>
+    `;
 }
 
 
@@ -417,13 +487,15 @@ function removeSelectedContactIcon(contactId) {
  * @param {HTMLElement} contactItem - the clicked contact card element.
  */
 function handleContactClick(contactItem) {
-    const checkboxLabel = contactItem.querySelector('.contact-checkbox');
     const checkbox = contactItem.querySelector('input[type="checkbox"]');
+    const checkboxLabel = contactItem.querySelector('.contact-checkbox');
     const contactId = contactItem.getAttribute('data-id');
     const isChecked = !checkbox.checked;
 
+    checkbox.checked = isChecked;
+
     const img = checkboxLabel.querySelector('img');
-    img.src = `../assets/icons/${isChecked ? 'checked-dark' : 'unchecked'}.svg`;
+    img.src = `../assets/icons/${isChecked ? 'checked-dark.svg' : 'unchecked.svg'}`;
 
     toggleCheckboxState(contactId, isChecked);
 
@@ -438,6 +510,7 @@ function handleContactClick(contactItem) {
         contactItem.classList.remove('active');
     }
 }
+
 
 
 /**
@@ -465,6 +538,8 @@ async function renderContacts() {
 }
 
 
+
+
 /**
  * displays an error message when contacts can't be loaded.
  * @param {HTMLElement} contactDropdown - the contact dropdown element to update.
@@ -484,8 +559,15 @@ function getUserContact(contacts) {
     if (!userName) return null;
 
     const userContactIndex = contacts.findIndex(contact => contact.name === userName);
-    return userContactIndex !== -1 ? contacts.splice(userContactIndex, 1)[0] : null;
+    if (userContactIndex !== -1) {
+        const userContact = contacts.splice(userContactIndex, 1)[0];
+        userContact.isUserContact = true;
+        return userContact;
+    }
+
+    return null;
 }
+
 
 
 /**
@@ -513,7 +595,7 @@ function renderContactItems(contactDropdown, contacts) {
 
 
 /**
- * adds event listeners for click events on contact cards.
+ * adds click listeners to all contact items to toggle checkboxes and icons.
  */
 function addContactClickListeners() {
     const contactItems = document.querySelectorAll('.contact-item');
@@ -521,6 +603,7 @@ function addContactClickListeners() {
         contactItem.addEventListener('click', () => handleContactClick(contactItem));
     });
 }
+
 
 
 /**
