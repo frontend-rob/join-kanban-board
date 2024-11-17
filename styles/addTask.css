@@ -1,26 +1,35 @@
 .main-headline {
-    font-size: 4rem;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--black-content);
+    line-height: normal;
 }
 
 .add-task-form {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
-    max-width: 65rem;
+    max-width: 60rem;
     width: 100%;
-    gap: 4rem;
+    gap: 3rem;
+}
+
+.edit-task-form {
+    display: flex;
+    flex-direction: column;
+    max-height: 700px;
+    overflow-y: auto;
+}
+
+#close-edit-task {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    cursor: pointer;
 }
 
 .required {
     color: var(--error-content);
-}
-
-.error-border {
-    border: 2px solid red;
-}
-
-.error-messages {
-    color: red;
-    font-size: 0.9rem;
 }
 
 .left-column,
@@ -28,7 +37,8 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: 2rem;
+    gap: 1rem;
+    flex: 1;
 }
 
 .input-group {
@@ -37,7 +47,7 @@
     gap: 0.5rem;
 }
 
-.input-field .form-control.input.active {
+.flatpickr-input.active {
     background-color: var(--bg-base-100);
     color: var(--base-content);
 }
@@ -50,16 +60,16 @@
 
 .prio-buttons {
     display: flex;
-    justify-content: space-between; /* Gleichmäßige Verteilung der Buttons */
+    justify-content: space-between;
     align-items: center;
-    width:100% /* Feste Gesamtbreite */
+    gap: 1rem;
 }
 
 .add-task-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 65rem;
+    max-width: 60rem;
     width: 100%;
     font-size: 1.25rem;
     color: var(--base-content);
@@ -84,6 +94,9 @@
     font-size: 1.25rem;
     color: var(--base-content);
     overflow-y: auto;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
 }
 
 .category-dropdown-item {
@@ -112,32 +125,29 @@
     transform: rotate(180deg);
 }
 
-#contact-dropdown {
-    position: absolute; /* Unabhängig von anderen Elementen */
-    left: 0;
-    width: 100%;
-    max-height: 200px;
-    overflow-y: auto; /* Ermöglicht Scrollen bei vielen Kontakten */
-    z-index: 10; /* Sicherstellen, dass es über anderen Elementen liegt */
-    border: 1px solid var(--bg-accent); /* Blauer Rand */
-    border-radius: 8px; /* Abgerundete Ecken */
-    background-clip: padding-box; /* Hintergrund schneidet den Border korrekt */
-}
-
 .contact-item,
 .current-user-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.25rem 0.5rem;
-    border-radius: .3125rem;
+    padding: 0.25rem 1rem;
+    border-radius: .5rem;
     cursor: pointer;
 }
 
 .contact-item:hover,
 .current-user-item:hover {
     background-color: var(--bg-neutral);
-    cursor: pointer;
+}
+
+.contact-item.active {
+    background-color: var(--bg-primary);
+    color: var(--white-content);
+    font-weight: 300;
+}
+
+.contact-item.active:hover {
+    background-color: #091931;
 }
 
 .contact-info,
@@ -217,6 +227,17 @@
     background-color: var(--bg-neutral);
 }
 
+
+#plus-icon {
+    fill: var(--bg-neutral-accent)
+}
+
+#plus-icon:hover {
+    background-color: unset;
+}
+
+
+
 .icon-wrapper,
 .subtask-edit-icons {
     align-items: center;
@@ -230,16 +251,11 @@
     background-color: var(--bg-neutral);
 }
 
-.divider-vertical {
-    width: 3px;
-    height: 100%;
-    border-radius: 1.5px;
-}
-
 .subtask-list {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    overflow-y: auto;
 }
 
 .subtask-item {
@@ -308,4 +324,85 @@
     right: 1rem;
 }
 
+#assigned-to {
+    cursor: pointer;
+    caret-color: transparent
+}
 
+#contact-dropdown-icon {
+    cursor: pointer;
+}
+
+.input-field svg {
+    cursor: pointer;
+}
+
+#task-category {
+    cursor: pointer;
+    caret-color: transparent
+}
+
+.contact-checkbox input[type="checkbox"] {
+    display: none;
+}
+
+@media screen and (max-width: 64rem) {
+    .add-task-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .divider-vertical {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 48rem) {
+    .main-headline {
+        font-size: 2.5rem;
+    }
+
+    label,
+    #contact-dropdown p, 
+    .contact-item,
+    .category-dropdown-item,
+    #input-subtask,
+    .footer-text {
+        font-size: 1rem;
+    }
+}
+
+@media screen and (max-width: 35rem) {
+    .prio-buttons {
+        gap: 0.5rem;
+    }
+
+    .add-task-footer {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .footer-text {
+        align-self: flex-start;
+    }
+}
+
+@media screen and (max-width: 30rem) {
+    .prio-text {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 25rem) {
+    .form-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .form-buttons {
+        .btn {
+            width: 100%;
+        }
+    }
+}
