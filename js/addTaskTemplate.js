@@ -840,7 +840,11 @@ async function addTask(event) {
         if (!response.ok) throw new Error('error adding task to firebase.');
 
         handleTaskSuccess();
-
+        const responseData = await response.json();
+        const newTaskId = responseData.name;
+        taskData.id = newTaskId;
+        allTasks[newTaskId] = taskData;
+        getTaskTemplate(allTasks);
 
 
     } catch (error) {
@@ -848,15 +852,8 @@ async function addTask(event) {
     }
 }
 
-let taskStatus = 'todo';
 
-async function reloadTasksInBoard() {
-    const responseData = await response.json();
-    const newTaskId = responseData.name;
-    taskData.id = newTaskId;
-    allTasks[newTaskId] = taskData;
-    getTaskTemplate(allTasks);
-}
+let taskStatus = 'todo';
 
 /**
  * gathers the task data from the form inputs.
@@ -946,7 +943,6 @@ function handleTaskSuccess() {
         closeAddTaskOverlay();
     }
     showTaskAddedModal();
-    reloadTasksInBoard();
     clearInputForm();
 }
 
