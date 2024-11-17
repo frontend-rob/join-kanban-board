@@ -122,7 +122,6 @@ async function sendToFirebase(url, data, method) {
 
 async function editTask(taskId) {
     try {
-        // Lade die Task-Daten von Firebase
         const taskData = await fetchFromFirebase(`${DB_URL}/tasks/${taskId}.json`);
 
         if (!taskData) {
@@ -130,11 +129,9 @@ async function editTask(taskId) {
             return;
         }
 
-        // Lösche den bestehenden Inhalt der .overlay-content, um das Edit-Formular zu füllen
         const overlayContent = document.querySelector('.overlay-content');
         overlayContent.innerHTML = '';
 
-        // Füge das neue Formular hinzu, basierend auf den vorhandenen Task-Daten
         overlayContent.innerHTML = `
             <section id="edit-task-content" class="main-content">
             <span class="close" id="close-edit-task" onclick="closeTaskOverlay()">
@@ -233,17 +230,12 @@ async function editTask(taskId) {
                 </form>
             </section>
         `;
-        // Pre-set priority, category, subtasks, and assigned to fields
-        setPriorityButton(taskData.priority);
-        setCategoryButton(taskData.category);
-        setAssignedContacts(taskData.assigned_to);
 
+        
     } catch (error) {
         console.error('Error editing task:', error);
     }
 }
-
-
 
 
 /**

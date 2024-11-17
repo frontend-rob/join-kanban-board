@@ -757,6 +757,13 @@ async function addTask(event) {
         if (!response.ok) throw new Error('error adding task to firebase.');
 
         handleTaskSuccess();
+
+        const responseData = await response.json();
+        const newTaskId = responseData.name;
+        taskData.id = newTaskId;
+        allTasks[newTaskId] = taskData;
+        getTaskTemplate(allTasks);
+
     } catch (error) {
         handleTaskError();
     }
