@@ -762,6 +762,7 @@ async function addTask(event) {
     }
 }
 
+let taskStatus = 'todo'; 
 
 /**
  * gathers the task data from the form inputs.
@@ -782,7 +783,7 @@ function gatherTaskData() {
         description: taskDescription,
         due_date: dueDate,
         category: taskCategory,
-        status: 'todo',
+        status: taskStatus,
         priority: taskPriority,
         assigned_to: selectedContacts
     };

@@ -112,7 +112,7 @@ function updateResponsiveLayout() {
  * Opens the "Add Task" overlay and prevents scrolling on the body.
  */
 function openAddTaskOverlay(status) {
-    selectedStatus = status;
+    taskStatus = status;
     const overlay = document.getElementById("add-task-overlay");
     const overlayContent = document.querySelector(".overlay-content-add-task");
 
