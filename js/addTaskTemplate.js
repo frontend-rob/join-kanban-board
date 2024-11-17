@@ -848,6 +848,9 @@ async function saveTaskToDatabase(taskData) {
  * handles the success scenario after a task is added.
  */
 function handleTaskSuccess() {
+    if (document.getElementById('add-task-content')) {
+        closeAddTaskOverlay();
+    }
     showTaskAddedModal();
     clearInputForm();
 }
