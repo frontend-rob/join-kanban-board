@@ -227,6 +227,17 @@
     background-color: var(--bg-neutral);
 }
 
+
+#plus-icon {
+    fill: var(--bg-neutral-accent)
+}
+
+#plus-icon:hover {
+    background-color: unset;
+}
+
+
+
 .icon-wrapper,
 .subtask-edit-icons {
     align-items: center;
