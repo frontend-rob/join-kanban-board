@@ -96,7 +96,7 @@ function setPriority(button) {
  */
 function initializeDatePicker(selector) {
     flatpickr(selector, {
-        minDate: "today", 
+        minDate: "today",
         dateFormat: "Y-m-d",
         altInput: false,
         altFormat: "Y-m-d"
@@ -421,7 +421,7 @@ function handleContactClick(contactItem) {
     const checkbox = contactItem.querySelector('input[type="checkbox"]');
     const contactId = contactItem.getAttribute('data-id');
     const isChecked = !checkbox.checked;
-    
+
     const img = checkboxLabel.querySelector('img');
     img.src = `../assets/icons/${isChecked ? 'checked-dark' : 'unchecked'}.svg`;
 
@@ -758,18 +758,22 @@ async function addTask(event) {
 
         handleTaskSuccess();
 
-        const responseData = await response.json();
-        const newTaskId = responseData.name;
-        taskData.id = newTaskId;
-        allTasks[newTaskId] = taskData;
-        getTaskTemplate(allTasks);
+
 
     } catch (error) {
         handleTaskError();
     }
 }
 
-let taskStatus = 'todo'; 
+let taskStatus = 'todo';
+
+async function reloadTasksInBoard() {
+    const responseData = await response.json();
+    const newTaskId = responseData.name;
+    taskData.id = newTaskId;
+    allTasks[newTaskId] = taskData;
+    getTaskTemplate(allTasks);
+}
 
 /**
  * gathers the task data from the form inputs.
@@ -859,6 +863,7 @@ function handleTaskSuccess() {
         closeAddTaskOverlay();
     }
     showTaskAddedModal();
+    reloadTasksInBoard();
     clearInputForm();
 }
 
