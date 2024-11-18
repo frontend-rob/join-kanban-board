@@ -101,7 +101,9 @@ function initializeDatePicker(selector) {
     dateFormat: "Y-m-d",
     altInput: false,
     altFormat: "Y-m-d",
-    disableMobile: "true"
+    disableMobile: "true",
+    nextArrow: ">",
+    prevArrow: "<"
   });
 }
 
