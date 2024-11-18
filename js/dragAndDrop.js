@@ -1,38 +1,107 @@
 let isDragging = false;
-let enterCounter = 0;
+let isScrolling = false;
+let touchStartX = 0;
+let touchStartY = 0;
+let scrollStartX = 0;
 let longPressTimer = null;
-let taskIdForClick = null;
 let activeElement = null;
-let startX = 0;
-let startY = 0;
-let isSwipe = false;
+let taskIdForClick = null;
+let autoScrollInterval = null;
+let lastScrollTime = 0;
+let currentMouseY = 0;
+let enterCounter = 0; 
+let lastScrollY = 0; 
+let initialTouchY = 0; 
+let currentTouchY = 0; 
 
 
 
-/**
- * Allows the drop action by preventing the default behavior.
- * @param {Event} event - The dragover event.
- */
+
+const LONG_PRESS_DELAY = 500;
+const SCROLL_THRESHOLD = 10;
+const DRAG_THRESHOLD = 30;
+const AUTO_SCROLL_THRESHOLD = 200; 
+const AUTO_SCROLL_SPEED = 10; 
+const AUTO_SCROLL_INTERVAL = 16; 
+
+function startAutoScroll(e) {
+    currentMouseY = e.touches ? e.touches[0].clientY : e.clientY;
+    currentTouchY = currentMouseY; 
+    
+    if (autoScrollInterval) return;
+
+    lastScrollY = window.scrollY; 
+
+    autoScrollInterval = setInterval(() => {
+        const windowHeight = window.innerHeight;
+        const scrollY = window.scrollY;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        let scrollDelta = 0;
+
+        if (currentMouseY < AUTO_SCROLL_THRESHOLD) {
+            
+            if (scrollY > 0) {
+                scrollDelta = -AUTO_SCROLL_SPEED;
+                window.scrollBy(0, scrollDelta);
+            }
+        } else if (currentMouseY > windowHeight - AUTO_SCROLL_THRESHOLD) {
+            
+            if (scrollY < maxScroll) {
+                scrollDelta = AUTO_SCROLL_SPEED;
+                window.scrollBy(0, scrollDelta);
+            }
+        }
+
+        
+        if (activeElement && scrollDelta !== 0) {
+            const currentTransform = getComputedStyle(activeElement).transform;
+            const matrix = new DOMMatrixReadOnly(currentTransform);
+            const currentY = matrix.m42 || 0;
+            
+            
+            const touchDeltaY = currentTouchY - initialTouchY;
+            const scrollOffset = window.scrollY - lastScrollY;
+            const newY = touchDeltaY + scrollOffset;
+            
+            activeElement.style.transform = `translate(${matrix.m41 || 0}px, ${newY}px)`;
+        }
+    }, AUTO_SCROLL_INTERVAL);
+}
+
+function updateDraggedElementPosition(deltaX, deltaY) {
+    if (activeElement) {
+        const currentTransform = window.getComputedStyle(activeElement).transform;
+        const matrix = new DOMMatrixReadOnly(currentTransform);
+        const currentX = matrix.m41;
+        const currentY = matrix.m42;
+        
+        activeElement.style.transform = `translate(${currentX + deltaX}px, ${currentY + deltaY}px)`;
+    }
+}
+
+
+function stopAutoScroll() {
+    if (autoScrollInterval) {
+        clearInterval(autoScrollInterval);
+        autoScrollInterval = null;
+    }
+}
+
+
+
 function allowDrop(event) {
     event.preventDefault();
 }
 
-/**
- * Handles the start of a drag event, marking the element as "dragging".
- * @param {DragEvent} event - The dragstart event.
- */
+
 function drag(event) {
     const target = event.target;
     if (!target) return;
-
     event.dataTransfer.setData("text", target.id);
     target.classList.add("dragging");
 }
 
-/**
- * Handles the drop action by moving the dragged element to the drop zone.
- * @param {Event} event - The drop event.
- */
+
 async function drop(event) {
     event.preventDefault();
     const data = event.dataTransfer.getData("text");
@@ -44,28 +113,17 @@ async function drop(event) {
         dropZone.appendChild(draggedElement);
         draggedElement.style.pointerEvents = "none";
         const newStatus = dropZone.id;
-
-        
         await updateTaskStatus(data, newStatus);
         resetHighlights();
     }
 }
 
-/**
- * Updates the task status in local data.
- * @param {string} taskId - The ID of the task.
- * @param {string} newStatus - The new status of the task.
- */
+
 function updateTaskStatusInLocalData(taskId, newStatus) {
     allTasks[taskId].status = newStatus;
 }
 
-/**
- * Sends a PATCH request to Firebase to update the task status.
- * @param {string} taskId - The ID of the task.
- * @param {string} newStatus - The new status of the task.
- * @returns {Promise<Response>} - The response from the Firebase request.
- */
+
 async function sendStatusUpdateToFirebase(taskId, newStatus) {
     const response = await fetch(`${DB_URL}/tasks/${taskId}.json`, {
         method: 'PATCH',
@@ -76,32 +134,14 @@ async function sendStatusUpdateToFirebase(taskId, newStatus) {
     return response;
 }
 
-/**
- * Updates the task status both locally and on Firebase.
- * @param {string} taskId - The ID of the task.
- * @param {string} newStatus - The new status of the task.
- */
+
 async function updateTaskStatus(taskId, newStatus) {
     try {
         updateTaskStatusInLocalData(taskId, newStatus);
         const response = await sendStatusUpdateToFirebase(taskId, newStatus);
 
         if (!response.ok) {
-            throw new Error('Error updating task status');async function updateTaskStatus(taskId, newStatus) {
-                try {
-                    updateTaskStatusInLocalData(taskId, newStatus);
-                    const response = await sendStatusUpdateToFirebase(taskId, newStatus);
-            
-                    if (!response.ok) {
-                        throw new Error('Error updating task status');
-                    }
-            
-                    const updatedTasks = await loadTasks();
-                    getTaskTemplate(updatedTasks);
-                } catch (error) {
-                    console.error('Error updating task status in Firebase:', error);
-                }
-            }
+            throw new Error('Error updating task status');
         }
 
         const updatedTasks = await loadTasks();
@@ -111,31 +151,21 @@ async function updateTaskStatus(taskId, newStatus) {
     }
 }
 
-/**
- * Handles the dragover event to allow a drop action.
- * @param {DragEvent} event - The drag event.
- */
+
 function handleDragOver(event) {
     event.preventDefault();
 }
 
-/**
- * Handles the dragenter event to highlight the drop zone.
- * @param {DragEvent} event - The dragenter event.
- */
+
 function handleDragEnter(event) {
+    event.preventDefault(); 
     const dropZone = event.target.closest('.drop-zone');
     if (dropZone) {
-        enterCounter++;
-        resetHighlights();
         dropZone.classList.add('highlight');
     }
 }
 
-/**
- * Handles the dragleave event to manage the enter counter and remove highlight.
- * @param {DragEvent} event - The dragleave event.
- */
+
 function handleDragLeave(event) {
     const dropZone = event.target.closest('.drop-zone');
     if (dropZone) {
@@ -146,21 +176,14 @@ function handleDragLeave(event) {
     }
 }
 
-/**
- * Resets the highlight effect for all drop zones.
- */
+
 function resetHighlights() {
     const dropZones = document.querySelectorAll('.drop-zone');
     dropZones.forEach(zone => {
         zone.classList.remove('highlight');
     });
-    lastHighlightedZone = null;
 }
 
-
-/**
- * Initializes the drop zones and adds event listeners for drag-and-drop functionality.
- */
 function initializeDropZones() {
     const dropZones = document.querySelectorAll('.drop-zone');
     dropZones.forEach(dropZone => {
@@ -171,20 +194,13 @@ function initializeDropZones() {
     });
 }
 
-/**
- * Sets up event listeners for page loading and task rendering.
- */
+
 document.addEventListener('DOMContentLoaded', () => {
     initializeDropZones();
     loadTasks().then(getTaskTemplate);
 });
 
 
-/**
- * Starts the drag process after a long press.
- * @param {Event} event - The touch or mouse event.
- * @param {string} taskId - The ID of the task being dragged.
- */
 function handleLongPressStart(event, taskId) {
     event.preventDefault();
 
@@ -203,10 +219,7 @@ function handleLongPressStart(event, taskId) {
     document.addEventListener('mousemove', handleTouchMove, { passive: false });
 }
 
-/**
- * Ends the drag process, removing event listeners and resetting task styles.
- * @param {Event} event - The touch or mouse event.
- */
+
 function handleLongPressEnd(event) {
     if (!isDragging) return;
 
@@ -223,11 +236,7 @@ function handleLongPressEnd(event) {
     event.preventDefault();
 }
 
-/**
- * Starts the mobile drag event by setting the element as draggable and dispatching a dragstart event.
- * @param {HTMLElement} target - The target element.
- * @param {string} taskId - The task ID.
- */
+
 function startMobileDrag(target, taskId) {
     if (!target) {
         console.error("startMobileDrag: Target is null or undefined.");
@@ -249,11 +258,7 @@ function startMobileDrag(target, taskId) {
     }
 }
 
-/**
- * Handles click events on tasks, opening the task overlay.
- * @param {Event} event - The click event.
- * @param {string} taskId - The task ID.
- */
+
 function handleTaskClick(event, taskId) {
     const target = document.getElementById(taskId);
     if (target.classList.contains("dragging")) {
@@ -263,26 +268,28 @@ function handleTaskClick(event, taskId) {
 }
 
 
-
-/**
- * Starts the touch drag process by marking the element as "dragging".
- * @param {Event} event - The touchstart event.
- * @param {string} taskId - The task ID.
- */
 function handleTouchStart(event, taskId) {
+    const touch = event.touches[0];
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+    initialTouchY = touch.clientY; 
+    currentTouchY = touch.clientY; 
+    lastScrollY = window.scrollY; 
     taskIdForClick = taskId;
+    
+    const dropZone = event.target.closest('.drop-zone');
+    if (dropZone) {
+        scrollStartX = dropZone.scrollLeft;
+    }
 
     longPressTimer = setTimeout(() => {
         isDragging = true;
         startDragging(event, taskId);
-    }, 800);
-
-    event.preventDefault();
+    }, LONG_PRESS_DELAY);
 }
 
-/**
- * Die Funktion behandelt das Starten der Dragging-Aktion nach einem langen Druck.
- */
+
+
 function startDragging(event, taskId) {
     const target = document.getElementById(taskId);
     if (!target) return;
@@ -291,84 +298,107 @@ function startDragging(event, taskId) {
     activeElement.classList.add('dragging');
     activeElement.style.position = 'absolute';
     activeElement.style.zIndex = '1000';
-
-    const touch = event.touches ? event.touches[0] : event;
-    startX = touch.clientX;
-    startY = touch.clientY;
 }
 
-/**
- * Handles touch move events to simulate element dragging visually.
- * @param {Event} event - The touchmove event.
- */
-function handleTouchMove(event) {
-    if (!activeElement || !isDragging) return;
 
-    event.preventDefault();
+
+function handleTouchMove(event) {
+    
+    if (event.cancelable) {
+        event.preventDefault();
+    }
+    if (!taskIdForClick && !isDragging) return;
+
+    const touch = event.touches[0];
+    currentTouchY = touch.clientY; 
+    const deltaX = touch.clientX - touchStartX;
+    const deltaY = touch.clientY - touchStartY;
+    const dropZone = event.target.closest('.drop-zone');
+
+    if (isDragging) {
+        event.preventDefault();
+        startAutoScroll(event);
+        
+        
+        const scrollOffset = window.scrollY - lastScrollY;
+        const newY = deltaY + scrollOffset;
+        
+        if (activeElement) {
+            activeElement.style.transform = `translate(${deltaX}px, ${newY}px)`;
+        }
+    } else if (Math.abs(deltaX) > SCROLL_THRESHOLD && dropZone) {
+        isScrolling = true;
+        dropZone.scrollLeft = scrollStartX - deltaX;
+        event.preventDefault();
+    }
+
+    if (Math.abs(deltaX) > SCROLL_THRESHOLD || Math.abs(deltaY) > SCROLL_THRESHOLD) {
+        clearTimeout(longPressTimer);
+    }
+
+    
+    if (isDragging) {
+        highlightDropZone(event);
+    }
+}
+
+
+function handleDragMove(event, deltaX, deltaY) {
+    if (!activeElement) return;
 
     const touch = event.touches ? event.touches[0] : event;
-    const deltaX = touch.clientX - startX;
-    const deltaY = touch.clientY - startY;
+    const elementUnderCursor = document.elementFromPoint(touch.clientX, touch.clientY);
 
     activeElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-
     activeElement.style.position = "absolute";
     activeElement.style.zIndex = "1000";
-    activeElement.style.transition = 'none';
 
+    
     highlightDropZone(event);
 }
+
 
 function handleMouseMove(event) {
-    if (!activeElement || !isDragging) return;
+    if (!isDragging || !activeElement) return;
 
     event.preventDefault();
 
-    const deltaX = event.clientX - startX;
-    const deltaY = event.clientY - startY;
+    const deltaX = event.clientX - touchStartX;
+    const deltaY = event.clientY - touchStartY;
 
-    // Dragging verschieben
     activeElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+    
+    
+    startAutoScroll(event);
 
-    activeElement.style.position = "absolute";
-    activeElement.style.zIndex = "1000";
-    activeElement.style.transition = 'none';
-
+    
     highlightDropZone(event);
 }
 
-document.addEventListener('mousemove', handleMouseMove, { passive: false });
-document.addEventListener('touchmove', handleTouchMove, { passive: false });
 
-
-/**
- * Ends the touch drag process and checks for a valid drop zone.
- * @param {Event} event - The touchend event.
- */
 function handleTouchEnd(event) {
     clearTimeout(longPressTimer);
+    stopAutoScroll();
 
     if (isDragging) {
         isDragging = false;
         finishDrag(event);
-        return;
+    } else if (!isScrolling && taskIdForClick) {
+        handleTaskClick(event, taskIdForClick);
     }
 
-    if (!isSwipe) {
-        const taskId = taskIdForClick;
-        if (taskId) {
-            handleTaskClick(event, taskId);
-        }
-    }
-
+    
+    isScrolling = false;
     taskIdForClick = null;
-    isSwipe = false;
+    activeElement = null;
+
+    
+    document.querySelectorAll('.drop-zone').forEach(zone => {
+        zone.classList.remove('highlight');
+    });
 }
 
-/**
- * Handles the end of the drag event (mobile).
- * @param {Event} event - The touchend event.
- */
+
 function finishDrag(event) {
     if (!activeElement) return;
 
@@ -377,105 +407,47 @@ function finishDrag(event) {
 
     if (dropZone) {
         dropZone.appendChild(activeElement);
-        const taskId = activeElement.id;
-        updateTaskStatus(taskId, dropZone.id);
-    } else {
-        console.log("Dropped outside any zone.");
+        updateTaskStatus(activeElement.id, dropZone.id);
     }
 
+    
     activeElement.classList.remove('dragging');
     activeElement.style.transform = "";
     activeElement.style.position = "";
     activeElement.style.zIndex = "";
 
-    activeElement = null;
-
     resetHighlights();
 }
 
-/**
- * Sets up touch event listeners on task elements after DOM is loaded.
- */
-document.addEventListener('DOMContentLoaded', () => {
-    const tasks = document.querySelectorAll('.task');
-    tasks.forEach(task => {
-        task.setAttribute("draggable", "true");
-        task.addEventListener('touchstart', (e) => handleTouchStart(e, task.id));
-        task.addEventListener('dragstart', drag);
-        task.addEventListener('dragend', () => task.classList.remove('dragging'));
-    });
-
-    initializeDropZones();
-});
-
-let autoScrollInterval = null;
-
-/**
- * Handles the auto-scroll behavior when the user drags near the edge of the screen.
- * @param {Event} event - The touchmove event.
- */
-function handleAutoScroll(event) {
-    const touch = event.touches[0];
-    const scrollMargin = 50;
-
-    if (touch.clientY < scrollMargin) {
-        startAutoScroll(-5);
-    } else if (touch.clientY > window.innerHeight - scrollMargin) {
-        startAutoScroll(5);
-    } else {
-        stopAutoScroll();
-    }
-}
-
-/**
- * Starts the auto-scroll action.
- * @param {number} scrollSpeed - The speed of scrolling.
- */
-function startAutoScroll(scrollSpeed) {
-    if (autoScrollInterval) return;
-    autoScrollInterval = setInterval(() => {
-        window.scrollBy(0, scrollSpeed);
-    }, 10);
-}
-
-/**
- * Stops the auto-scroll action.
- */
-function stopAutoScroll() {
-    clearInterval(autoScrollInterval);
-    autoScrollInterval = null;
-}
 
 let lastHighlightedZone = null;
-
-/**
- * Highlights the drop zone when the element is dragged over it.
- * @param {Event} event - The touchmove event.
- */
 function highlightDropZone(event) {
     const touch = event.touches ? event.touches[0] : event;
-    const touchY = touch.clientY + window.scrollY;
+    const elementUnderCursor = document.elementFromPoint(touch.clientX, touch.clientY);
+    const dropZone = elementUnderCursor?.closest('.drop-zone');
 
-    let found = false;
-
-    document.querySelectorAll('.drop-zone').forEach(dropZone => {
-        const rect = dropZone.getBoundingClientRect();
-        const dropZoneTop = rect.top + window.scrollY;
-        const dropZoneBottom = dropZoneTop + rect.height;
-
-        if (touchY >= dropZoneTop && touchY <= dropZoneBottom) {
-            if (!found) {
-                resetHighlights();
-                dropZone.classList.add("highlight");
-                lastHighlightedZone = dropZone;
-                found = true;
-            }
-        }
+    
+    document.querySelectorAll('.drop-zone').forEach(zone => {
+        zone.classList.remove('highlight');
     });
 
-
-    if (!found) {
-        resetHighlights();
-        lastHighlightedZone = null;
+    
+    if (dropZone && dropZone !== activeElement?.parentElement) {
+        dropZone.classList.add('highlight');
     }
 }
+
+function initializeDragAndDrop() {
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleTouchEnd);
+    
+    document.addEventListener('mouseleave', () => {
+        stopAutoScroll();
+        if (isDragging) {
+            handleTouchEnd(new MouseEvent('mouseup'));
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', initializeDragAndDrop);
+document.addEventListener('touchmove', handleTouchMove, { passive: false });

@@ -31,6 +31,8 @@ function loadContacts() {
         ul.innerHTML = '';
     });
 
+    const currentUserName = localStorage.getItem("userName");
+
     fetch(`${DB_URL}/contacts.json`)
         .then(response => {
             if (!response.ok) {
@@ -52,6 +54,7 @@ function loadContacts() {
 
                 contactElement.onclick = () => showContactDetails(contact, key);
 
+                const isCurrentUser = contact.name === currentUserName;
                 contactElement.innerHTML = `
                     <div class="user">
                         <div class="profile-icon" style="background-color: ${contact.color};">
@@ -59,7 +62,7 @@ function loadContacts() {
                         </div>
                     </div>
                     <div class="contact-name-and-email">
-                        <span class="name">${contact.name}</span>
+                        <span class="name">${contact.name}${isCurrentUser ? ' (You)' : ''}</span>
                         <span class="email-list">${contact.email}</span>
                     </div>
                 `;
@@ -87,6 +90,7 @@ function loadContacts() {
             console.error("Error loading contacts: ", error);
         });
 }
+
 
 /**
  * Displays contact details in the overlay.
