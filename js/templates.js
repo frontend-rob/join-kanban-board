@@ -176,14 +176,6 @@ function getLandscapeModalContent() {
     `;
 }
 
-/**
- * Creates the HTML content for the task.
- * 
- * @param {string} taskId - The ID of the task.
- * @param {Object} task - The task object.
- * @param {number} progressPercentage - The progress percentage of the task.
- * @returns {string} - The HTML content for the task.
- */
 function getTaskContent(taskId, task, progressPercentage) {
     const maxVisibleIcons = window.innerWidth < 1250 ? 2 : 4;
 
@@ -209,7 +201,17 @@ function getTaskContent(taskId, task, progressPercentage) {
     const subtaskClass = totalSubtasks === 0 ? 'subtask hidden' : 'subtask';
 
     return `
-        <div class="task" draggable="true" ondragstart="drag(event)" id="${taskId}" onclick="getTaskOverlay('${taskId}')">
+<div 
+    class="task" 
+    draggable="true" 
+    ondragstart="drag(event)" 
+    id="${taskId}" 
+    ontouchstart="handleTouchStart(event, '${taskId}')"
+    ontouchmove="handleTouchMove(event)"
+    ontouchend="handleTouchEnd(event)"
+    onclick="handleTaskClick(event, '${taskId}')"
+>
+
             <div class="task-type">${task.category}</div>
             <span class="task-title">${task.title}</span>
             <p class="task-description">${task.description}</p>
@@ -226,6 +228,7 @@ function getTaskContent(taskId, task, progressPercentage) {
         </div>
     `;
 }
+
 
 
 

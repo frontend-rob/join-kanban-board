@@ -128,6 +128,7 @@ async function editTask(taskId) {
             console.error('Task not found!');
             return;
         }
+        
 
         const overlayContent = document.querySelector('.overlay-content');
         overlayContent.innerHTML = '';
@@ -192,13 +193,6 @@ async function editTask(taskId) {
                         </div>
                     </div>
 
-                    <div class="input-group category-container">
-                        <label for="task-category">Category<span class="required">*</span></label>
-                        <div class="input-field">
-                            <input type="text" id="task-category" placeholder="Select a category" value="${taskData.category || ''}" required autocomplete="off">
-                        </div>
-                    </div>
-
                     <!-- Subtask section -->
                     <div class="input-group addSubtask-container">
                         <label for="input-subtask">Subtasks</label>
@@ -230,6 +224,8 @@ async function editTask(taskId) {
                 </form>
             </section>
         `;
+
+        initializeDatePicker("#due-date");
 
         
     } catch (error) {

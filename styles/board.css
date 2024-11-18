@@ -299,6 +299,13 @@
     overflow: hidden;
 }
 
+.task.dragging {
+    /* position: absolute; */
+    z-index: 1000;
+    /* pointer-events: none; */
+  }
+
+
 @media (max-width: 1700px) {
 
     .status {
@@ -374,6 +381,14 @@
     .overlay-content-add-task.show {
         right: calc(50% - 35%);
     }
+}
+
+@media (max-width: 1024px) {
+    .task.dragging {
+        position: absolute;
+        z-index: 1000;
+        pointer-events: none;
+      }
 }
 
 
