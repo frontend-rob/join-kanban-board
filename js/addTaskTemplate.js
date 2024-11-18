@@ -487,6 +487,21 @@ function removeSelectedContactIcon(contactId) {
  * @param {HTMLElement} contactItem - the clicked contact card element.
  */
 function handleContactClick(contactItem) {
+    const { checkbox, checkboxLabel, contactId, isChecked } = getContactDetails(contactItem);
+
+    toggleCheckboxState(contactId, isChecked);
+    updateCheckboxIcon(checkboxLabel, isChecked);
+    toggleContactSelection(contactItem, contactId, isChecked);
+}
+
+
+/**
+ * Retrieves the details of the contact from the contact item.
+ * 
+ * @param {HTMLElement} contactItem - the contact card element.
+ * @returns {Object} - Contains checkbox, checkboxLabel, contactId, and isChecked.
+ */
+function getContactDetails(contactItem) {
     const checkbox = contactItem.querySelector('input[type="checkbox"]');
     const checkboxLabel = contactItem.querySelector('.contact-checkbox');
     const contactId = contactItem.getAttribute('data-id');
@@ -494,11 +509,31 @@ function handleContactClick(contactItem) {
 
     checkbox.checked = isChecked;
 
+    return { checkbox, checkboxLabel, contactId, isChecked };
+}
+
+/**
+ * Updates the checkbox icon based on its checked state.
+ * 
+ * @param {HTMLElement} checkboxLabel - the label containing the checkbox icon.
+ * @param {boolean} isChecked - the new checked state of the checkbox.
+ */
+function updateCheckboxIcon(checkboxLabel, isChecked) {
     const img = checkboxLabel.querySelector('img');
-    img.src = `../assets/icons/${isChecked ? 'checked-dark.svg' : 'unchecked.svg'}`;
+    if (img) {
+        img.src = `../assets/icons/${isChecked ? 'checked-dark.svg' : 'unchecked.svg'}`;
+    }
+}
 
-    toggleCheckboxState(contactId, isChecked);
 
+/**
+ * toggles the contact selection status by updating the icons and adding/removing styles.
+ * 
+ * @param {HTMLElement} contactItem - the contact card element.
+ * @param {string} contactId - the unique id of the contact.
+ * @param {boolean} isChecked - whether the checkbox is checked.
+ */
+function toggleContactSelection(contactItem, contactId, isChecked) {
     const initials = contactItem.querySelector('.profil-icon').innerText;
     const color = contactItem.querySelector('.profil-icon').style.backgroundColor;
 
@@ -512,14 +547,12 @@ function handleContactClick(contactItem) {
 }
 
 
-
 /**
- * fetches and renders contacts in the dropdown, ensuring the user contact appears first.
+ * fetches and renders contacts in the dropdown.
+ * ensures the user contact appears first and the rest are sorted alphabetically.
  */
 async function renderContacts() {
-    const contactDropdown = document.getElementById('contact-dropdown');
-    contactDropdown.classList.remove('hidden');
-    contactDropdown.innerHTML = '';
+    const contactDropdown = prepareContactDropdown();
 
     const contacts = await fetchContacts();
     if (!contacts) {
@@ -527,17 +560,67 @@ async function renderContacts() {
         return;
     }
 
+    const sortedContacts = sortContactsAlphabetically(contacts);
+    const updatedContacts = prioritizeUserContact(sortedContacts);
+
+    renderContactList(contactDropdown, updatedContacts);
+    initializeContactInteractions();
+}
+
+
+/**
+ * prepares the contact dropdown for rendering.
+ * @returns {HTMLElement} the prepared contact dropdown element.
+ */
+function prepareContactDropdown() {
+    const contactDropdown = document.getElementById('contact-dropdown');
+    contactDropdown.classList.remove('hidden');
+    contactDropdown.innerHTML = '';
+    return contactDropdown;
+}
+
+
+/**
+ * sorts the contacts alphabetically by their name.
+ * @param {Array<Object>} contacts - the list of contacts.
+ * @returns {Array<Object>} the sorted contact list.
+ */
+function sortContactsAlphabetically(contacts) {
+    return contacts.sort((a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }));
+}
+
+
+/**
+ * moves the user contact to the top of the contact list if it exists.
+ * @param {Array<Object>} contacts - the sorted list of contacts.
+ * @returns {Array<Object>} the updated contact list with the user contact prioritized.
+ */
+function prioritizeUserContact(contacts) {
     const userContact = getUserContact(contacts);
     if (userContact) {
         moveUserContactToTop(contacts, userContact);
     }
-
-    renderContactItems(contactDropdown, contacts);
-    updateCheckboxesState();
-    addContactClickListeners();
+    return contacts;
 }
 
 
+/**
+ * renders the contact list into the dropdown.
+ * @param {HTMLElement} contactDropdown - the dropdown element.
+ * @param {Array<Object>} contacts - the list of contacts to render.
+ */
+function renderContactList(contactDropdown, contacts) {
+    renderContactItems(contactDropdown, contacts);
+}
+
+
+/**
+ * initializes the interactions for the contacts (checkboxes and click listeners).
+ */
+function initializeContactInteractions() {
+    updateCheckboxesState();
+    addContactClickListeners();
+}
 
 
 /**
@@ -840,17 +923,35 @@ async function addTask(event) {
         if (!response.ok) throw new Error('error adding task to firebase.');
 
         handleTaskSuccess();
-        const responseData = await response.json();
-        const newTaskId = responseData.name;
-        taskData.id = newTaskId;
-        allTasks[newTaskId] = taskData;
-        getTaskTemplate(allTasks);
-
+        await reloadTasksInBoard(response, taskData);
 
     } catch (error) {
         handleTaskError();
     }
 }
+
+/**
+ * processes the task response by checking if the 'add-task-content' element exists,
+ * and if so, updates the task data and the task template.
+ * @param {Object} response - the response object from the database.
+ * @param {Object} taskData - the task data to be updated.
+ */
+async function reloadTasksInBoard(response, taskData) {
+    const addTaskContent = document.getElementById('add-task-content');
+    if (!addTaskContent) {
+        return;
+    }
+
+    const responseData = await response.json();
+    const newTaskId = responseData.name;
+
+    taskData.id = newTaskId;
+    allTasks[newTaskId] = taskData;
+
+    getTaskTemplate(allTasks);
+}
+
+
 
 
 let taskStatus = 'todo';
