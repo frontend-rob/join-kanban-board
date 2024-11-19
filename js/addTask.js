@@ -943,16 +943,15 @@ async function addTask(event) {
 async function reloadTasksInBoard(response, taskData) {
   const addTaskContent = document.getElementById('add-task-content');
   if (!addTaskContent) {
-      return;
+    return;
   }
 
-  if (!taskData.id) {
-      const responseData = await response.json();
-      const newTaskId = responseData.name;
-      taskData.id = newTaskId;
-  }
+  const responseData = await response.json();
+  const newTaskId = responseData.name;
 
-  allTasks[taskData.id] = taskData;
+  taskData.id = newTaskId;
+  allTasks[newTaskId] = taskData;
+
   getTaskTemplate(allTasks);
 }
 
@@ -1130,6 +1129,23 @@ function toggleIcons() {
 
 
 /**
+ * escapes input values to ensure that special characters are safely used in HTML attributes.
+ * this will encode characters like double quotes, ampersands, etc.
+ * 
+ * @function
+ * @param {string} text - the text to escape.
+ * @returns {string} the escaped text.
+ */
+function escapeHTMLTags(text) {
+  return text.replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+
+/**
  * adds a subtask to the list.
  * creates a new subtask HTML element and appends it to the subtask list.
  * also clears the input field and resets the icons.
@@ -1140,10 +1156,12 @@ function addSubtask() {
 
   if (subtaskText === "") return;
 
+  const escapedSubTaskText = escapeHTMLTags(subtaskText);
+
   const subtaskList = document.getElementById('subtask-list');
   subtaskList.innerHTML += `
         <li class="subtask-item">
-            <input type="text" value="${subtaskText}" class="subtask-edit-input" readonly tabindex="-1" onclick="preventFocus(event)">
+            <input type="text" value="${escapedSubTaskText}" class="subtask-edit-input" readonly tabindex="-1" onclick="preventFocus(event)">
             <div class="subtask-edit-icons">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256" onclick="editSubtask(this)">
                     <path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"></path>

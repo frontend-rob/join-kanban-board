@@ -116,11 +116,14 @@ function redirectToDashboard() {
  * @function
  * @param {HTMLInputElement} emailInput - the input field for the email.
  * @param {HTMLInputElement} passwordInput - the input field for the password.
- * @returns {Promise<void>} a promise that resolves after the modal is hidden and inputs are cleared.
  */
 async function handleFailedLogin(emailInput, passwordInput) {
-    await showFailedLoginModal(emailInput, passwordInput);
-    clearLoginInputs(emailInput, passwordInput);
+    passwordInput.value = '';
+    passwordInput.classList.add('input-error');
+    emailInput.classList.add('input-error');
+    const errorPassword = document.getElementById('error-login-password');
+    errorPassword.classList.add('show');
+    errorPassword.textContent = '*Invalid email or password - please try again.';
 }
 
 
@@ -202,29 +205,6 @@ function validateLoginPassword(passwordInput) {
 
     setLoginInputErrorState(passwordInput, errorPassword, isValid);
     return isValid;
-}
-
-
-/**
- * displays the modal for failed login attempts and hides it after 2 seconds.
- * 
- * @function
- * @param {HTMLInputElement} emailInput - the input field for the email.
- * @param {HTMLInputElement} passwordInput - the input field for the password.
- * @returns {Promise<void>} a promise that resolves after the modal is hidden.
- */
-function showFailedLoginModal(emailInput, passwordInput) {
-    return new Promise((resolve) => {
-        const modal = document.getElementById('failed-login-modal');
-        modal.classList.remove('hidden');
-        modal.classList.add('show');
-
-        setTimeout(() => {
-            modal.classList.add('hidden');
-            modal.classList.remove('show');
-            resolve();
-        }, 2000);
-    });
 }
 
 
