@@ -250,6 +250,7 @@
 .subtask-list {
     display: flex;
     flex-direction: column;
+    max-height: 7rem;
     gap: 0.5rem;
     overflow-y: auto;
 }
@@ -275,6 +276,7 @@
     border: none;
     border-radius: unset;
     background-color: var(--bg-base-200);
+    font-size: 1rem;
 }
 
 .subtask-edit-input:hover {

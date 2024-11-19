@@ -1295,6 +1295,7 @@ function getFormElements() {
     selectedContacts: document.getElementById('selected-contacts'),
     dueDate: document.getElementById('due-date'),
     taskCategory: document.getElementById('task-category'),
+    subtaskInput: document.getElementById('input-subtask'),
     subtaskList: document.getElementById('subtask-list'),
     errorTaskTitle: document.getElementById('error-task-title'),
     errorDueDate: document.getElementById('error-due-date'),
@@ -1327,6 +1328,7 @@ function resetFormFields(elements) {
   elements.selectedContacts.innerHTML = "";
   elements.dueDate.value = "";
   elements.taskCategory.value = "";
+  elements.subtaskInput.value = "";
   elements.subtaskList.innerHTML = "";
   localStorage.removeItem('checkboxStates');
 }
