@@ -62,8 +62,7 @@ async function findUserInDatabase(email, password) {
         }
         return null;
     } catch (error) {
-        console.error("error fetching data from firebase:", error);
-        return null;
+        throw new Error(`Error fetching data from Firebase: ${error.message}`);
     }
 }
 

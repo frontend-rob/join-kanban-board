@@ -10,8 +10,7 @@ async function fetchTasksFromFirebase() {
         const tasks = await response.json();
         return tasks;
     } catch (error) {
-        console.error('error fetching tasks from firebase:', error);
-        return null;
+        throw new Error(`Error fetching tasks from Firebase: ${error.message}`);
     }
 }
 

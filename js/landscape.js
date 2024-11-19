@@ -48,20 +48,3 @@ function preventLandscapeOnMobileDevices() {
     checkOrientation();
     setupOrientationEventListeners();
 }
-
-
-
-// !!!! section below must be included site specifically - otherwise we got errors
-/**
- * main function that initializes everything.
- * 
- * @function
- * @returns {Promise<void>}
- */
-async function init() {
-    await includeHTML();
-    preventLandscapeOnMobileDevices();
-
-    const tasks = await loadTasks();
-    getTaskTemplate(tasks);
-}

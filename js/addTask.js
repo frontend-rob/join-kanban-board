@@ -226,26 +226,21 @@ let allContacts = []; // array, das alle Kontakte speichert, wenn sie einmal abg
  * @returns {Promise<Array<Object>|null>} an array of contacts if successful, otherwise null.
  */
 async function fetchContacts() {
-  try {
-    const response = await fetch(`${DB_URL}/contacts.json`);
+  const response = await fetch(`${DB_URL}/contacts.json`);
 
-    if (!response.ok) {
-      throw new Error('failed to fetch contacts from firebase.');
-    }
-
-    const contactsObj = await response.json();
-
-    const contacts = Object.entries(contactsObj).map(([contactId, contact]) => ({
-      ...contact,
-      id: contactId
-    }));
-
-    allContacts = contacts;
-    return contacts;
-  } catch (error) {
-    console.error('error fetching contacts:', error);
-    return null;
+  if (!response.ok) {
+    throw new Error('Failed to fetch contacts from Firebase: Network response was not ok.');
   }
+
+  const contactsObj = await response.json();
+
+  const contacts = Object.entries(contactsObj).map(([contactId, contact]) => ({
+    ...contact,
+    id: contactId
+  }));
+
+  allContacts = contacts;
+  return contacts;
 }
 
 

@@ -24,22 +24,25 @@ async function addUser(event) {
     }
 }
 
+
 /**
  * checks if a user with the given email already exists in firebase.
  *
  * @async
  * @param {string} email - the email to check.
  * @returns {Promise<boolean>} resolves to true if the user exists, false otherwise.
+ * @throws {Error} if the fetch request fails or if the response is not ok.
  */
 async function checkIfUserExists(email) {
     try {
         const users = await fetchUsersFromFirebase();
         return userExists(users, email);
     } catch (error) {
-        console.error('error checking user in firebase:', error);
-        return false;
+        throw new Error(`Error checking user in Firebase: ${error.message}`);
     }
 }
+
+
 
 /**
  * fetches users from firebase.
@@ -50,9 +53,14 @@ async function checkIfUserExists(email) {
  */
 async function fetchUsersFromFirebase() {
     const response = await fetch(`${DB_URL}/users.json`);
-    if (!response.ok) throw new Error(`http error! status: ${response.status}`);
-    return await response.json();
+
+    if (!response.ok) {
+        throw new Error(`Failed to fetch users. HTTP status: ${response.status}`);
+    }
+
+    return response.json();
 }
+
 
 /**
  * checks if a user with the specified email exists in the users object.
@@ -64,6 +72,7 @@ async function fetchUsersFromFirebase() {
 function userExists(users, email) {
     return Object.values(users).some(user => user.email === email);
 }
+
 
 /**
  * registers a new user and creates the corresponding contact in firebase.
@@ -81,16 +90,14 @@ async function registerNewUser(inputs) {
 
     try {
         await registerUserInFirebase(newUser);
-
         const contact = createContact(newUser);
-
         await addContactToFirebase(contact);
-
         saveUserToLocalStorage(newUser.name, newUser.email, contact.initials);
     } catch (error) {
-        console.error('error adding user to firebase:', error);
+        throw new Error(`Error adding user to Firebase: ${error.message}`);
     }
 }
+
 
 /**
  * registers a new user in the firebase realtime database.
@@ -115,6 +122,7 @@ async function registerUserInFirebase(user) {
     return data.name; // return the generated user ID
 }
 
+
 /**
  * creates a contact object from user data.
  *
@@ -131,6 +139,7 @@ function createContact(user) {
     };
 }
 
+
 /**
  * creates initials from the user's full name (first and last name).
  *
@@ -140,6 +149,7 @@ function createContact(user) {
 function createInitials(fullName) {
     return fullName.split(' ').map(word => word.charAt(0).toUpperCase()).join('');
 }
+
 
 /**
  * adds the contact to the firebase contacts database.
@@ -160,6 +170,7 @@ async function addContactToFirebase(contact) {
     }
 }
 
+
 /**
  * saves user details to local storage.
  *
@@ -173,6 +184,7 @@ function saveUserToLocalStorage(name, email, initials) {
     localStorage.setItem('userInitials', initials);
 }
 
+
 /**
  * generates a random color for the contact.
  *
@@ -185,7 +197,6 @@ function getRandomColor() {
     ];
     return colors[Math.floor(Math.random() * colors.length)];
 }
-
 
 
 /**
