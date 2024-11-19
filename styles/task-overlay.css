@@ -21,8 +21,8 @@
     width: 34rem;
     position: relative;
     min-height: 31.25rem;
-    gap: 2rem;
-    height: 55rem;
+    gap: 1.5rem;
+    height: 50rem;
 }
 
 .close {

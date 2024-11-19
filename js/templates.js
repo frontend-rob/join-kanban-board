@@ -176,6 +176,12 @@ function getLandscapeModalContent() {
     `;
 }
 
+function escapeHtml(unsafe) {
+    return unsafe.replace(/[&<>"']/g, function(m) {
+        return `&#${m.charCodeAt(0)};`;
+    });
+}
+
 function getTaskContent(taskId, task, progressPercentage) {
     const maxVisibleIcons = window.innerWidth < 1250 ? 2 : 4;
 
@@ -200,32 +206,35 @@ function getTaskContent(taskId, task, progressPercentage) {
 
     const subtaskClass = totalSubtasks === 0 ? 'subtask hidden' : 'subtask';
 
-    return `
-<div 
-    class="task" 
-    draggable="true" 
-    ondragstart="drag(event)" 
-    id="${taskId}" 
-    ontouchstart="handleTouchStart(event, '${taskId}')"
-    ontouchmove="handleTouchMove(event)"
-    ontouchend="handleTouchEnd(event)"
-    onclick="handleTaskClick(event, '${taskId}')"
->
+    // Escape HTML in task.description so it's treated as text
+    const escapedDescription = escapeHtml(task.description);
 
-            <div class="task-type">${task.category}</div>
-            <span class="task-title">${task.title}</span>
-            <p class="task-description">${task.description}</p>
-            <div class="${subtaskClass}">
-                <div class="progress-container">
-                    <div class="progress-bar" style="width: ${progressPercentage}%"></div>
-                </div>
-                <div class="subtask-text">${completedSubtasks}/${totalSubtasks} Subtasks</div>
+    return `
+        <div 
+            class="task" 
+            draggable="true" 
+            ondragstart="drag(event)" 
+            id="${taskId}" 
+            ontouchstart="handleTouchStart(event, '${taskId}')"
+            ontouchmove="handleTouchMove(event)"
+            ontouchend="handleTouchEnd(event)"
+            onclick="handleTaskClick(event, '${taskId}')"
+        >
+
+        <div class="task-type">${escapeHtml(task.category)}</div>
+        <span class="task-title">${escapeHtml(task.title)}</span>
+        <p class="task-description">${escapedDescription}</p>  <!-- Use escaped description here -->
+        <div class="${subtaskClass}">
+            <div class="progress-container">
+                <div class="progress-bar" style="width: ${progressPercentage}%"></div>
             </div>
-            <div class="profile-icon-and-level">
-                <div class="icons">${assignedToHTML}${additionalIconsHTML}</div>
-                <img class="level" src="../assets/icons/priority-${task.priority}.svg" alt="Priority Level">
-            </div>
+            <div class="subtask-text">${completedSubtasks}/${totalSubtasks} Subtasks</div>
         </div>
+        <div class="profile-icon-and-level">
+            <div class="icons">${assignedToHTML}${additionalIconsHTML}</div>
+            <img class="level" src="../assets/icons/priority-${task.priority}.svg" alt="Priority Level">
+        </div>
+    </div>
     `;
 }
 
@@ -242,6 +251,7 @@ function getTaskContent(taskId, task, progressPercentage) {
  * @returns {string} - The HTML template for the task overlay.
  */
 function getTaskOverlayContent(task) {
+
     return `
         <div class="task-type-and-close-container">
             <p class="overlay-task-type">${task.category}</p>
@@ -249,8 +259,8 @@ function getTaskOverlayContent(task) {
                 <img src="../assets/icons/Close.svg" alt="Close Icon">
             </span>
         </div>
-        <h2 class="overlay-task-title">${task.title}</h2>
-        <p class="overlay-task-description">${task.description}</p>
+        <h2 class="overlay-task-title">${escapeHtml(task.title)}</h2>
+        <p class="overlay-task-description">${escapeHtml(task.description)}</p>
         <div class="task-date">
             <span class="date-text">Due date:</span>
             <span class="date">${task.due_date}</span>
@@ -289,6 +299,7 @@ function getTaskOverlayContent(task) {
         </div>
     `;
 }
+
 
 function getAddTaskContent() {
     return `

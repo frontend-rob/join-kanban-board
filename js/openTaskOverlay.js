@@ -79,7 +79,7 @@ function getSubtasksHTML(subtasks, taskId) {
     return subtasks.map((subtask, index) => `
         <div class="single-subtask" onclick="toggleSubtask('${taskId}', ${index})">
             <img src="../assets/icons/${subtask.status === 'checked' ? 'checked' : 'unchecked'}.svg" alt="${subtask.status}"> 
-            <span>${subtask.text}</span>
+            <span>${escapeHtml(subtask.text)}</span>
         </div>
     `).join('');
 }
