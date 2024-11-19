@@ -943,15 +943,16 @@ async function addTask(event) {
 async function reloadTasksInBoard(response, taskData) {
   const addTaskContent = document.getElementById('add-task-content');
   if (!addTaskContent) {
-    return;
+      return;
   }
 
-  const responseData = await response.json();
-  const newTaskId = responseData.name;
+  if (!taskData.id) {
+      const responseData = await response.json();
+      const newTaskId = responseData.name;
+      taskData.id = newTaskId;
+  }
 
-  taskData.id = newTaskId;
-  allTasks[newTaskId] = taskData;
-
+  allTasks[taskData.id] = taskData;
   getTaskTemplate(allTasks);
 }
 

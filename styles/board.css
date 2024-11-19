@@ -306,6 +306,13 @@
     /* pointer-events: none; */
   }
 
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+}
   
   
 
@@ -415,7 +422,7 @@
         width: 100%;
     }
     .task {
-        max-width: 240px;
+        width: 240px;
     }
     .subtask {
         flex-direction: row;

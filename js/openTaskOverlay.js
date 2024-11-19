@@ -141,7 +141,7 @@ async function editTask(taskId) {
                 <form id="edit-task-form" class="edit-task-form" onsubmit="saveTaskChanges(event, '${taskId}'); return false;" novalidate>
                     <div class="left-column">
                         <div class="input-group">
-                            <label for="task-title">Title<span class="required">*</span></label>
+                            <label for="task-title">Title</label>
                             <div class="input-field">
                                 <input type="text" id="task-title" placeholder="Enter a title" value="${taskData.title || ''}" required>
                                 <p id="error-task-title" class="error-message">
@@ -157,7 +157,7 @@ async function editTask(taskId) {
                         </div>
                         <div class="right-column">
                             <div class="input-group date-input">
-                                <label for="due-date">Due date<span class="required">*</span></label>
+                                <label for="due-date">Due date</label>
                                 <div class="input-field">
                                     <input type="date" id="due-date" value="${taskData.due_date || ''}" required>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
@@ -170,14 +170,26 @@ async function editTask(taskId) {
                             <div class="prio-group">
                                 <label>Prio</label>
                                 <div class="prio-buttons">
-                                    <button id="high-priority-button" class="btn btn-urgent" type="button" onclick="setPriority(this)">
+                                    <button id="high-priority-button" class="btn btn-urgent ${taskData.priority === 'high' ? 'clicked' : ''}" type="button" onclick="setPriority(this)">
                                         Urgent
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                                            <path d="M216.49,191.51a12,12,0,0,1-17,17L128,137,56.49,208.49a12,12,0,0,1-17-17l80-80a12,12,0,0,1,17,0Zm-160-63L128,57l71.51,71.52a12,12,0,0,0,17-17l-80-80a12,12,0,0,0-17,0l-80,80a12,12,0,0,0,17,17Z">
+                                            </path>
+                                        </svg>
                                     </button>
-                                    <button id="mid-priority-button" class="btn btn-medium" type="button" onclick="setPriority(this)">
+                                    <button id="mid-priority-button" class="btn btn-medium ${taskData.priority === 'mid' ? 'clicked' : ''}" type="button" onclick="setPriority(this)">
                                         Medium
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                                            <path d="M228,160a12,12,0,0,1-12,12H40a12,12,0,0,1,0-24H216A12,12,0,0,1,228,160ZM40,108H216a12,12,0,0,0,0-24H40a12,12,0,0,0,0,24Z">
+                                            </path>
+                                        </svg>
                                     </button>
-                                    <button id="low-priority-button" class="btn btn-low" type="button" onclick="setPriority(this)">
+                                    <button id="low-priority-button" class="btn btn-low ${taskData.priority === 'low' ? 'clicked' : ''}" type="button" onclick="setPriority(this)">
                                         Low
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                                            <path d="M216.49,127.51a12,12,0,0,1,0,17l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,1,1,17-17L128,199l71.51-71.52A12,12,0,0,1,216.49,127.51Zm-97,17a12,12,0,0,0,17,0l80-80a12,12,0,0,0-17-17L128,119,56.49,47.51a12,12,0,0,0-17,17Z">
+                                            </path>
+                                        </svg>
                                     </button>
                                 </div>
                             </div>
@@ -189,7 +201,15 @@ async function editTask(taskId) {
                                 </svg>
                                 <div id="contact-dropdown" class="contact-dropdown hidden"></div>
                             </div>
-                            <div id="selected-contacts" class="selected-contacts"></div>
+                            <div id="selected-contacts" class="selected-contacts">
+                                ${taskData.assigned_to ? taskData.assigned_to.map(contact => `
+                                    <div class="selected-profile-icon" 
+                                         style="background-color: ${contact.color};" 
+                                         data-id="${contact.id}">
+                                        ${contact.initials}
+                                    </div>`).join('') : ''}
+                            </div>
+                            </div>
                         </div>
                     </div>
 
@@ -214,12 +234,26 @@ async function editTask(taskId) {
                             </div>
                         </div>
                         <div id="subtask-list">
-                            ${taskData.subtasks ? taskData.subtasks.map(subtask => 
-                                `<div class="subtask-item">
-                                    <input type="checkbox" ${subtask.completed ? 'checked' : ''} class="subtask-checkbox">
-                                    <label class="subtask-text">${subtask.text}</label>
-                                </div>`).join('') : ''}
+                            ${taskData.subtasks ? taskData.subtasks.map(subtask => `
+                                <div class="subtask-item">
+                                    <input type="text" value="${subtask.text}" class="subtask-edit-input" readonly tabindex="-1" onclick="preventFocus(event)">
+                                    <div class="subtask-edit-icons">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256" onclick="editSubtask(this)">
+                                            <path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"></path>
+                                        </svg>
+                                        <div class="edit-divider-vertical"></div>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256" onclick="deleteSubtask(this)">
+                                            <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            `).join('') : ''}
                         </div>
+
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Speichern</button>
                     </div>
                 </form>
             </section>
@@ -239,27 +273,101 @@ async function editTask(taskId) {
  * 
  * @param {string} taskId - The ID of the task being edited.
  */
-async function saveTaskChanges(taskId) {
-    const updatedTask = {
-        title: document.getElementById('task-title').value,
-        description: document.getElementById('task-description').value,
-        due_date: document.getElementById('due-date').value,
-        category: document.getElementById('task-category').value,
-        priority: getCurrentPriority(),
-        assigned_to: getSelectedContacts(),
-        subtasks: getUpdatedSubtasks(),
-    };
-
+async function saveTaskChanges(event, taskId) {
+    event.preventDefault();
+    
     try {
-        // Speichere die Änderungen in Firebase
-        await sendToFirebase(`${DB_URL}/tasks/${taskId}.json`, updatedTask, 'PATCH');
-        alert('Task updated successfully!');
-        closeEditForm();
+        // Collect form data (existing code remains the same)
+        const title = document.getElementById('task-title').value;
+        const description = document.getElementById('task-description').value;
+        const dueDate = document.getElementById('due-date').value;
+        
+        // Collect subtasks
+        const subtaskElements = document.querySelectorAll('#subtask-list .subtask-item');
+        const subtasks = Array.from(subtaskElements).map(subtask => ({
+            text: subtask.querySelector('.subtask-edit-input').value,  // Geändert hier
+            status: subtask.querySelector('.subtask-checkbox') ? subtask.querySelector('.subtask-checkbox').checked : false  // Optional, falls Checkbox vorhanden ist
+        }));
+        
+        // Collect priority
+        const priorityButtons = document.querySelectorAll('.prio-buttons .btn');
+        let priority = '';
+        priorityButtons.forEach(btn => {
+            if (btn.classList.contains('active')) {
+                priority = btn.textContent.toLowerCase();
+            }
+        });
+        
+        // Collect assigned contacts
+        const assignedContacts = [];
+        const selectedContactsContainer = document.getElementById('selected-contacts');
+        const selectedContacts = selectedContactsContainer.querySelectorAll('.contact-chip');
+        selectedContacts.forEach(contact => {
+            assignedContacts.push({
+                id: contact.dataset.contactId,
+                name: contact.dataset.contactName,
+                email: contact.dataset.contactEmail,
+                initials: contact.dataset.contactInitials,
+                color: contact.dataset.contactColor
+            });
+        });
+        
+        // Prepare data for Firebase
+        const updatedTaskData = {
+            title,
+            description,
+            due_date: dueDate,
+            priority,
+            subtasks,
+            assigned_to: assignedContacts
+        };
+        
+        // Send to Firebase
+        const response = await fetch(`${DB_URL}/tasks/${taskId}.json`, {
+            method: 'PATCH',
+            body: JSON.stringify(updatedTaskData)
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update task');
+        }
+
+        // Reload tasks in the board similar to your addTask approach
+        await reloadTasksInBoard(response, updatedTaskData);
+        
+        // Close overlay and show success message
+        closeTaskOverlay();
+        showSuccessMessage('Task erfolgreich aktualisiert');
     } catch (error) {
-        console.error('Error saving task changes:', error);
+        console.error('Fehler beim Speichern der Task:', error);
+        showErrorMessage('Fehler beim Aktualisieren der Task');
     }
 }
 
+
+// Hilfsfunktion zum Anzeigen von Erfolgsmeldungen
+function showSuccessMessage(message) {
+    const messageContainer = document.createElement('div');
+    messageContainer.classList.add('success-message');
+    messageContainer.textContent = message;
+    document.body.appendChild(messageContainer);
+    
+    setTimeout(() => {
+        messageContainer.remove();
+    }, 3000);
+}
+
+// Hilfsfunktion zum Anzeigen von Fehlermeldungen
+function showErrorMessage(message) {
+    const messageContainer = document.createElement('div');
+    messageContainer.classList.add('error-message');
+    messageContainer.textContent = message;
+    document.body.appendChild(messageContainer);
+    
+    setTimeout(() => {
+        messageContainer.remove();
+    }, 3000);
+}
 
 
 /**

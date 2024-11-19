@@ -21,7 +21,8 @@
     width: 34rem;
     position: relative;
     min-height: 31.25rem;
-    gap: 1.5rem;
+    gap: 2rem;
+    height: 55rem;
 }
 
 .close {
@@ -109,6 +110,9 @@
     display: flex;
     gap: 0.5rem;
     justify-content: flex-end;
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
 }
 
 .action-type {
@@ -148,17 +152,29 @@
     flex-direction: column;
     gap: 0.5rem;
     overflow-y: auto;
-    max-height: 6rem;
+    min-height: 6rem;
+    max-height: 9rem;
 }
 
 .overlay-task-description {
     white-space: pre-wrap;
 }
 
+@media (max-width: 1024px) {
+    .overlay-content {
+        height: auto;
+    }
+
+    .action {
+        position: relative;
+        right: 0;
+        bottom: 0;
+    }
+}
+
 @media (max-width: 768px) {
     .overlay-content {
         gap: 1rem;
-        width: 24rem;
     }
 }
 
@@ -166,6 +182,8 @@
     .overlay-content {
         width: 35rem;
         padding: 2rem;
+
+
     }
     .overlay-task-title {
         font-size: 2rem;

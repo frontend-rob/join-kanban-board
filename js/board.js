@@ -112,6 +112,14 @@ function updateResponsiveLayout() {
  * Opens the "Add Task" overlay and prevents scrolling on the body.
  */
 function openAddTaskOverlay(status) {
+    const redirectThreshold = 1024;
+    const redirectURL = 'add-task.html';
+
+    if (window.innerWidth < redirectThreshold) {
+        window.location.href = redirectURL;
+        return;
+    }
+
     taskStatus = status;
     const overlay = document.getElementById("add-task-overlay");
     const overlayContent = document.querySelector(".overlay-content-add-task");
@@ -123,6 +131,7 @@ function openAddTaskOverlay(status) {
         overlayContent.classList.add("show");
     }, 10);
 }
+
 
 
 

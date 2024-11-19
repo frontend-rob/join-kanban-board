@@ -12,7 +12,8 @@ let currentMouseY = 0;
 let enterCounter = 0; 
 let lastScrollY = 0; 
 let initialTouchY = 0; 
-let currentTouchY = 0; 
+let currentTouchY = 0;
+let dropZoneCounters = new Map();
 
 
 
@@ -114,10 +115,9 @@ async function drop(event) {
         draggedElement.style.pointerEvents = "none";
         const newStatus = dropZone.id;
         await updateTaskStatus(data, newStatus);
-        resetHighlights();
+        resetHighlights(); // Hier werden alle Highlights und Counter zurückgesetzt
     }
 }
-
 
 function updateTaskStatusInLocalData(taskId, newStatus) {
     allTasks[taskId].status = newStatus;
@@ -158,21 +158,40 @@ function handleDragOver(event) {
 
 
 function handleDragEnter(event) {
-    event.preventDefault(); 
+    event.preventDefault();
     const dropZone = event.target.closest('.drop-zone');
-    if (dropZone) {
-        dropZone.classList.add('highlight');
-    }
+    
+    if (!dropZone) return;
+
+    // Alle anderen Highlights entfernen
+    document.querySelectorAll('.drop-zone').forEach(zone => {
+        if (zone !== dropZone) {
+            zone.classList.remove('highlight');
+            dropZoneCounters.set(zone, 0);
+        }
+    });
+
+    // Counter für diese Zone erhöhen
+    const counter = dropZoneCounters.get(dropZone) || 0;
+    dropZoneCounters.set(dropZone, counter + 1);
+    
+    dropZone.classList.add('highlight');
 }
 
 
 function handleDragLeave(event) {
     const dropZone = event.target.closest('.drop-zone');
-    if (dropZone) {
-        enterCounter--;
-        if (enterCounter === 0) {
-            dropZone.classList.remove('highlight');
-        }
+    
+    if (!dropZone) return;
+
+    // Counter für diese Zone verringern
+    const counter = dropZoneCounters.get(dropZone) || 0;
+    dropZoneCounters.set(dropZone, counter - 1);
+
+    // Highlight nur entfernen, wenn Counter 0 erreicht
+    if (dropZoneCounters.get(dropZone) <= 0) {
+        dropZone.classList.remove('highlight');
+        dropZoneCounters.set(dropZone, 0);
     }
 }
 
@@ -181,12 +200,14 @@ function resetHighlights() {
     const dropZones = document.querySelectorAll('.drop-zone');
     dropZones.forEach(zone => {
         zone.classList.remove('highlight');
+        dropZoneCounters.set(zone, 0);
     });
 }
 
 function initializeDropZones() {
     const dropZones = document.querySelectorAll('.drop-zone');
     dropZones.forEach(dropZone => {
+        dropZoneCounters.set(dropZone, 0);
         dropZone.addEventListener('dragover', allowDrop);
         dropZone.addEventListener('dragenter', handleDragEnter);
         dropZone.addEventListener('dragleave', handleDragLeave);
