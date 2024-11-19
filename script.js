@@ -38,11 +38,7 @@ async function includeHTML() {
  */
 async function setUserDataFromLocalStorage() {
     const userData = getUserDataFromLocalStorage();
-
-    // update desktop and mobile elements
     updateGreetingElements(userData);
-
-    // set visibility of menu based on user login status
     setMenuVisibility(!!userData.userName);
 }
 
@@ -73,12 +69,10 @@ function updateGreetingElements(userData) {
     const greetingTimeMobileElement = document.getElementById('greeting-time-mobile');
     const greetingUserNameMobileElement = document.getElementById('greeting-username-mobile');
 
-    // set content for desktop elements
     setTextContent(greetingTimeElement, userData.greetingTime);
     setTextContent(greetingUserNameElement, userData.userName);
     setTextContent(userInitialsElement, userData.userInitials);
 
-    // set content for mobile elements
     setTextContent(greetingTimeMobileElement, userData.greetingTime);
     setTextContent(greetingUserNameMobileElement, userData.userName);
 }
@@ -105,7 +99,6 @@ function adjustMobileMenuVisibility(isLoggedIn) {
     if (!asideElement) return;
     const isSmallScreen = window.innerWidth < 960;
 
-    // only hide menu if the user is not logged in and the screen is small
     if (!isLoggedIn && isSmallScreen) {
         asideElement.classList.add('hidden');
     } else {
@@ -201,6 +194,7 @@ async function logOut() {
     localStorage.removeItem('userName');
     localStorage.removeItem('userInitials');
     localStorage.removeItem('greetingTime');
+    localStorage.removeItem('userEmail');
     localStorage.removeItem('hasShownMobileGreeting');
     window.location.replace('../index.html');
 }
@@ -226,7 +220,6 @@ function goToPreviousPage() {
 document.addEventListener('DOMContentLoaded', function () {
     const mainContent = document.querySelector('.main-content');
 
-    // exit if main-content element is not found (e.g. login site)
     if (!mainContent) return;
 
     mainContent.classList.add('show');
