@@ -260,5 +260,3 @@ function handleTouchEnd(event) {
         zone.classList.remove('highlight');
     });
 }
-
-document.addEventListener('touchmove', handleTouchMove, { passive: false });

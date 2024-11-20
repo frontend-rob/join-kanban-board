@@ -305,4 +305,8 @@ textarea::placeholder {
     input {
         height: 2.75rem;
     }
+
+    .error-message {
+        padding: 0
+    }
 }

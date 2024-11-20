@@ -8,6 +8,7 @@
 .btn-contact {
     width: 90%;
     font-weight: 600;
+    /* width: auto; */
 }
 
 .contact {
@@ -290,6 +291,12 @@
     width: 3rem;
 }
 
+.contact-responsive {
+    padding-bottom: 0 !important;
+}
+
+
+
 @media (max-width: 1700px) {
     .contact-details {
         width: calc(100% - 232px - 25%);
@@ -501,12 +508,15 @@
     }
 }
 
-@media (max-width: 320px) {
+@media (max-width: 375px) {
     .contact {
         gap: 0;
     }
 
     .icon-name-and-action {
         gap: 0;
+    }
+    .add-contact-responsive {
+        justify-content: flex-end !important;
     }
 }
