@@ -1,4 +1,3 @@
-// ! validation
 /**
  * validates the task form.
  *

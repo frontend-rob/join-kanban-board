@@ -1,4 +1,3 @@
-// ! SUBTASKS
 /**
  * toggles the visibility of an element based on a condition.
  * 
