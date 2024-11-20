@@ -12,6 +12,19 @@
     z-index: 2000;
 }
 
+.add-contact-buttons {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.close-add-contact-overlay {
+    cursor: pointer;
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
+}
+
 .overlay-content-add-contact {
     display: flex;
     background-color: white;
@@ -49,11 +62,23 @@
     opacity: 1;
 }
 
-.close-add-contact-overlay {
-    cursor: pointer;
-    position: absolute;
-    right: 2rem;
-    top: 2rem;
+.input-card {
+    width: 100%;
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.input-card button {
+    margin-right: 1rem;
+    width: 6.25rem;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
 }
 
 .overlay-left {
@@ -91,109 +116,126 @@
     color: white;
 }
 
-.input-card {
-    width: 100%;
-    display: flex;
-    gap: 2rem;
-    align-items: center;
-}
-
 .profile-icon-add-contact {
     height: 7.5rem;
     width: 7.5rem;
     border-radius: 50%;
 }
 
-.input-card button {
-    margin-right: 1rem;
-    width: 6.25rem;
-}
-
-.add-contact-buttons {
-    display: flex;
-    align-items: center;
-    margin-top: 1rem;
-}
-
-.input-container {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    width: 100%;
+.profile-icon-add-contact {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .input-field svg {
-    right: 2rem;
+    right: 1rem;
+    top: 0.5rem;
 }
 
+.add-contact-buttons {
+    justify-content: center;
+    gap: 1rem;
+}
 
-@media (max-width : 1400px) {
+.input-card {
+    gap: 0;
+}
+
+.input-field {
+    padding-right: 0;
+}
+
+@media (max-width: 425px) {
+    .overlay-left h2 {
+        font-size: 2.5rem;
+    }
+
+    .add-contact-buttons {
+        margin-top: 0;
+    }
+
     .overlay-content-add-contact {
-        width: 80%;
+        width: 90%;
     }
+
     .overlay-content-add-contact.show {
-        right: calc(50% - 40%);
+        right: calc(50% - 45%);
     }
+
     .overlay-content-edit-contact {
-        width: 80%;
-        right: calc(50% - 40%);
+        width: 90%;
+        right: calc(50% - 45%);
     }
 }
 
-@media (max-width : 960px) {
+@media (max-width: 960px) {
     #edit-contact-responsive {
         width: 3rem;
     }
+
     .overlay-content-add-contact.show {
         right: calc(50% - 45%);
     }
+
     .overlay-content-edit-contact {
         flex-direction: column;
         height: 90%;
         width: 90%;
         right: calc(50% - 45%);
     }
+
     .overlay-content-add-contact {
         flex-direction: column;
         height: 90%;
         width: 90%;
     }
+
     .overlay-left {
         width: 100%;
         border-bottom-left-radius: 0;
         border-top-right-radius: 1.875rem;
         align-items: flex-start;
-        height: 50%
+        height: 50%;
     }
+
     .overlay-left img {
         display: none;
-       
     }
+
     .overlay-right {
         width: 100%;
         height: 50%;
-        padding: 2rem 2rem 2rem 2rem
+        padding: 2rem 2rem 2rem 2rem;
     }
-    .profile-icon-add-contact{
+
+    .profile-icon-add-contact {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
     }
+
     .add-contact-buttons {
         justify-content: center;
         gap: 1rem;
     }
+
     .input-card {
         gap: 0;
     }
+
     .input-field {
         padding-right: 0;
     }
+
     .input-card button {
         margin-right: 0;
     }
-    input, textarea{
+
+    input,
+    textarea {
         height: auto;
         padding: 8px 12px;
     }
@@ -204,40 +246,17 @@
     }
 }
 
-@media (max-width : 425px) {
-    .overlay-left h2 {
-        font-size: 2.5rem;
-    }
-
-    .add-contact-buttons {
-        margin-top: 0;
-    }
+@media (max-width: 1400px) {
     .overlay-content-add-contact {
-        width: 90%;
+        width: 80%;
     }
-    .overlay-content-add-contact.show {
-        right: calc(50% - 45%);
-    }
-    .overlay-content-edit-contact {
-        width: 90%;
-        right: calc(50% - 45%);
-    }
-}
 
-@media (max-width : 375px) {
-    .overlay-left h2 {
-        font-size: 2rem;
+    .overlay-content-add-contact.show {
+        right: calc(50% - 40%);
     }
-    .error-message {
-        font-size: 0.5rem;
-    }
-    .profile-icon-add-contact {
-        height: 6rem;
-        width: 6rem;
-    }
-    .input-card button {
-        width: 6rem;
-        height: 2.5rem;
-        height: 2.5rem;
+
+    .overlay-content-edit-contact {
+        width: 80%;
+        right: calc(50% - 40%);
     }
 }

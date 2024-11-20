@@ -166,29 +166,42 @@ async function saveContact() {
     }
 }
 
+
 /**
- * Retrieves the updated contact information from the form.
+ * Retrieves the contact data from the form fields.
  * 
- * @returns {Object|null} - The updated contact object or null if invalid.
+ * @returns {Object} - An object containing the name, email, and phone values.
  */
-function getUpdatedContact() {
+function getContactFormData() {
     const name = document.getElementById('edit-contact-name').value;
     const email = document.getElementById('edit-contact-email').value;
     const phone = document.getElementById('edit-contact-phone').value;
+    return { name, email, phone };
+}
+
+
+/**
+ * Retrieves and validates the updated contact information from the form.
+ * If any field is empty, an alert is shown and null is returned.
+ * 
+ * @returns {Object|null} - The updated contact object with name, email, phone, color, and initials, or null if invalid.
+ */
+function getUpdatedContact() {
+    const { name, email, phone } = getContactFormData();
 
     if (!name || !email || !phone) {
         alert('Please fill in all fields.');
         return null;
     }
 
+    const icon = document.getElementById('edit-profile-icon');
     return {
-        name: name,
-        email: email,
-        phone: phone,
-        color: document.getElementById('edit-profile-icon').querySelector('.profile-icon-contact').style.backgroundColor,
-        initials: document.getElementById('edit-profile-icon').querySelector('.profile-icon-contact span').textContent
+        name, email, phone,
+        color: icon.querySelector('.profile-icon-contact').style.backgroundColor,
+        initials: icon.querySelector('.profile-icon-contact span').textContent
     };
 }
+
 
 /**
  * Updates the contact information in the database.

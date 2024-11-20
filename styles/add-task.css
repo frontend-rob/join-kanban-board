@@ -188,6 +188,7 @@
     width: 100%;
     height: 3rem;
     padding: 12px 21px;
+    padding-right: 6rem;
     border-radius: .625rem;
     border: 1px solid var(--input-border-col);
     background-color: var(--bg-base-100);
@@ -267,7 +268,7 @@
 .subtask-item::before {
     content: '•';
     color: var(--base-content);
-    font-size: 1.5rem;
+    font-size: 1rem;
     position: absolute;
     left: 0.5rem;
 }
@@ -277,6 +278,8 @@
     border-radius: unset;
     background-color: var(--bg-base-200);
     font-size: 1rem;
+    padding-left: 1.5rem;
+    padding-right: 6rem;
 }
 
 .subtask-edit-input:hover {
@@ -345,9 +348,12 @@
 }
 
 #add-task-footer-overlay {
-    position: absolute;
-    bottom: 3rem;
+    position: sticky;
+    /* bottom: 3rem; */
+    width: 100%;
     max-width: 64rem;
+    min-width: 40rem;
+    /* padding-top: rem */
 }
 
 .add-task-overlay {
@@ -356,6 +362,14 @@
 
 .add-task-overlay-main-content {
     gap: 2rem !important;
+    
+}
+
+@media (max-width: 1440px) {
+    #add-task-footer-overlay {
+        max-width: 58rem;
+    }
+    
 }
 
 @media screen and (max-width: 64rem) {
@@ -368,6 +382,7 @@
     .divider-vertical {
         display: none;
     }
+    
 }
 
 @media screen and (max-width: 48rem) {

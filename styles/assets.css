@@ -236,6 +236,21 @@ textarea::placeholder {
     font-weight: 300;
 }
 
+#login-email,
+#login-password,
+#signup-name,
+#signup-email,
+#signup-password,
+#signup-confirm-password,
+#assigned-to,
+#due-date,
+#task-category,
+#contact-name,
+#contact-email,
+#contact-phone {
+    padding-right: 3rem;
+}
+
 .input-error {
     border: 1px solid var(--bg-error);
 }
