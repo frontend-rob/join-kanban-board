@@ -81,10 +81,6 @@
     width: 100%;
 }
 
-.input-field svg {
-    right: 2rem;
-}
-
 .overlay-left {
     width: 40%;
     background-color: var(--bg-primary);
