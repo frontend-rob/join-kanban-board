@@ -4,6 +4,7 @@
     width: 100%;
     gap: 1rem;
     height: 100%;
+    max-width: 95rem;
 }
 
 .board-header {
@@ -36,7 +37,7 @@
 .workflow {
     display: flex;
     flex-grow: 1;
-
+    max-width: 95rem;
 }
 
 .status {
@@ -227,6 +228,7 @@
     width: 100%;
     opacity: 1 !important;
     height: 100%;
+    overflow-y: auto;
 }
 
 .overlay-content-add-task {

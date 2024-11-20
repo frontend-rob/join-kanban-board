@@ -303,11 +303,11 @@ function getTaskOverlayContent(task) {
 
 function getAddTaskContent() {
     return `
-        <section id="add-task-content" class="main-content">
+        <section id="add-task-content" class="main-content add-task-overlay-main-content">
             <div class="section-headline">
                 <h1 class="main-headline">Add Task</h1>
             </div>
-            <form id="add-task-form" class="add-task-form" onsubmit="addTask(event); return false;" novalidate>
+            <form id="add-task-form" class="add-task-form add-task-overlay" onsubmit="addTask(event); return false;" novalidate>
                 <div class="left-column">
                     <div class="input-group">
                         <label for="task-title">Title<span class="required">*</span></label>
@@ -338,7 +338,6 @@ function getAddTaskContent() {
                     </div>
                 </div>
 
-                <div class="divider-vertical"></div>
 
                 <div class="right-column">
                     <div class="input-group date-input">
@@ -428,7 +427,7 @@ function getAddTaskContent() {
                     </div>
                 </div>
             </form>
-            <footer class="add-task-footer">
+            <footer class="add-task-footer" id="add-task-footer-overlay">
                 <div class="footer-text"><span class="required">*</span> This field is required</div>
                 <div class="form-buttons">
                     <button class="btn btn-outline" onclick="clearInputForm()">

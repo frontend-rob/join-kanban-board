@@ -233,7 +233,7 @@ async function editTask(taskId) {
                                 </div>
                             </div>
                         </div>
-                        <div id="subtask-list">
+                        <div class="subtask-list">
                             ${taskData.subtasks ? taskData.subtasks.map(subtask => `
                                 <div class="subtask-item">
                                     <input type="text" value="${subtask.text}" class="subtask-edit-input" readonly tabindex="-1" onclick="preventFocus(event)">

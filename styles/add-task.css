@@ -344,6 +344,20 @@
     display: none;
 }
 
+#add-task-footer-overlay {
+    position: absolute;
+    bottom: 3rem;
+    max-width: 64rem;
+}
+
+.add-task-overlay {
+    max-width: none;
+}
+
+.add-task-overlay-main-content {
+    gap: 2rem !important;
+}
+
 @media screen and (max-width: 64rem) {
     .add-task-form {
         display: flex;
