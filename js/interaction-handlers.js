@@ -55,8 +55,17 @@ function startMobileDrag(target, taskId) {
         console.error("startMobileDrag: Target is null or undefined.");
         return;
     }
+    
+    // Store the original position before dragging
+    const originalRect = target.getBoundingClientRect();
+    target.dataset.originalLeft = originalRect.left + 'px';
+    target.dataset.originalTop = originalRect.top + 'px';
+    
     target.setAttribute("draggable", "true");
     target.classList.add("dragging");
+    target.style.position = 'absolute';
+    target.style.left = originalRect.left + 'px';
+    target.style.top = originalRect.top + 'px';
 
     const dragEvent = new DragEvent("dragstart", {
         bubbles: true,
@@ -202,8 +211,12 @@ function handleDragMove(event, deltaX, deltaY) {
     const touch = event.touches ? event.touches[0] : event;
     const elementUnderCursor = document.elementFromPoint(touch.clientX, touch.clientY);
 
-    activeElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-    activeElement.style.position = "absolute";
+    // Use the stored original position as the reference point
+    const originalLeft = parseFloat(activeElement.dataset.originalLeft || 0);
+    const originalTop = parseFloat(activeElement.dataset.originalTop || 0);
+
+    activeElement.style.left = `${originalLeft + deltaX}px`;
+    activeElement.style.top = `${originalTop + deltaY}px`;
     activeElement.style.zIndex = "1000";
 
     highlightDropZone(event);

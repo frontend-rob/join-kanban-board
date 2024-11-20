@@ -79,6 +79,13 @@
     display: flex;
     align-items: center;
     gap: 1rem;
+    /* position: fixed; */
+    right: 4rem;
+    bottom: 2.5rem;
+}
+
+#form-buttons-overlay {
+    position: fixed;
 }
 
 .contact-dropdown,
@@ -348,12 +355,10 @@
 }
 
 #add-task-footer-overlay {
-    position: sticky;
-    /* bottom: 3rem; */
+    position: fixed;
     width: 100%;
     max-width: 64rem;
-    min-width: 40rem;
-    /* padding-top: rem */
+    bottom: 3rem;
 }
 
 .add-task-overlay {
@@ -362,7 +367,7 @@
 
 .add-task-overlay-main-content {
     gap: 2rem !important;
-    
+    padding-bottom: 2rem !important;
 }
 
 @media (max-width: 1440px) {
@@ -381,6 +386,11 @@
 
     .divider-vertical {
         display: none;
+    }
+    .form-buttons {
+        position: relative;
+        bottom: auto;
+        right: auto;
     }
     
 }

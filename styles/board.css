@@ -128,12 +128,20 @@
 }
 
 .task-type {
-    background-color: var(--task-color-blue);
     border-radius: 0.5rem;
     color: white;
     padding: 0.25rem 1rem;
     width: fit-content;
 }
+
+.technical-task {
+    background-color: #0038FF;
+}
+
+.user-story {
+    background-color: #1FD7C1;
+}
+
 
 .progress-container {
     width: 8rem;
@@ -154,7 +162,7 @@
     font-weight: 700;
     color: var(--bg-primary);
     white-space: pre-wrap; 
-    max-width: 150px;
+    max-width: 250px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -248,6 +256,7 @@
     right: -100%;
     transform: translateY(-50%);
     transition: transform 0.2s ease-in-out, right 0.2s ease-in-out;
+    max-width: 80rem;
 }
 
 .add-task-content {
@@ -361,12 +370,7 @@
     .status-name {
         font-size: 1rem;
     }
-    .overlay-content-add-task {
-        width: 80%;
-    }
-    .overlay-content-add-task.show {
-        right: calc(50% - 40%);
-    }
+
     .task-description {
         font-size: 14px;
     }
@@ -408,7 +412,10 @@
         position: absolute;
         z-index: 1000;
         pointer-events: none;
-      }
+    }
+    .task {
+        min-width: 240px;
+    }
 }
 
 

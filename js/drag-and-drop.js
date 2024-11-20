@@ -169,10 +169,22 @@ function startDragging(event, taskId) {
     const target = document.getElementById(taskId);
     if (!target) return;
 
+    // Calculate the offset from the touch/mouse point to the element's position
+    const rect = target.getBoundingClientRect();
+    const touch = event.touches ? event.touches[0] : event;
+    const offsetX = touch.clientX - rect.left;
+    const offsetY = touch.clientY - rect.top;
+
     activeElement = target;
     activeElement.classList.add('dragging');
-    activeElement.style.position = 'absolute';
+    activeElement.style.position = 'fixed';
+    activeElement.style.left = `${rect.left}px`;
+    activeElement.style.top = `${rect.top}px`;
     activeElement.style.zIndex = '1000';
+    
+    // Store the offset for use in handleDragging
+    activeElement.dataset.offsetX = offsetX;
+    activeElement.dataset.offsetY = offsetY;
 }
 
 
@@ -188,10 +200,15 @@ function handleDragging(deltaX, deltaY, event) {
     startAutoScroll(event);
 
     const scrollOffset = window.scrollY - lastScrollY;
-    const newY = deltaY + scrollOffset;
+    const offsetX = parseFloat(activeElement.dataset.offsetX) || 0;
+    const offsetY = parseFloat(activeElement.dataset.offsetY) || 0;
+
+    // Adjust the position by subtracting the initial offset
+    const newX = deltaX - offsetX;
+    const newY = deltaY - offsetY + scrollOffset;
 
     if (activeElement) {
-        activeElement.style.transform = `translate(${deltaX}px, ${newY}px)`;
+        activeElement.style.transform = `translate(${newX}px, ${newY}px)`;
     }
 }
 

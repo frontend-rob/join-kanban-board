@@ -221,7 +221,9 @@ function getTaskContent(taskId, task, progressPercentage) {
             onclick="handleTaskClick(event, '${taskId}')"
         >
 
-        <div class="task-type">${escapeHtml(task.category)}</div>
+        <div class="task-type ${task.category === 'Technical Task' ? 'technical-task' : 'user-story'}">
+            ${escapeHtml(task.category)}
+        </div>
         <span class="task-title">${escapeHtml(task.title)}</span>
         <p class="task-description">${escapedDescription}</p>  <!-- Use escaped description here -->
         <div class="${subtaskClass}">
@@ -429,7 +431,7 @@ function getAddTaskContent() {
             </form>
             <footer class="add-task-footer" id="add-task-footer-overlay">
                 <div class="footer-text"><span class="required">*</span> This field is required</div>
-                <div class="form-buttons">
+                <div class="form-buttons" id="form-buttons-overlay">
                     <button class="btn btn-outline" onclick="clearInputForm()">
                         Clear
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
