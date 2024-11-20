@@ -109,21 +109,25 @@ function updateResponsiveLayout() {
 
 
 /**
- * Opens the "Add Task" overlay and prevents scrolling on the body.
+ * Redirects to the mobile version of the Add Task page if the screen width is below a threshold.
+ * @param {number} redirectThreshold - The width threshold for redirecting.
+ * @param {string} redirectURL - The URL to redirect to.
+ * @returns {boolean} - Returns true if a redirect occurred, otherwise false.
  */
-function openAddTaskOverlay(status) {
-    const redirectThreshold = 1024;
-    const redirectURL = 'add-task.html';
-
+function handleMobileRedirect(redirectThreshold, redirectURL) {
     if (window.innerWidth < redirectThreshold) {
         window.location.href = redirectURL;
-        return;
+        return true;
     }
+    return false;
+}
 
-    taskStatus = status;
-    const overlay = document.getElementById("add-task-overlay");
-    const overlayContent = document.querySelector(".overlay-content-add-task");
-
+/**
+ * Shows the Add Task overlay and prevents scrolling on the body.
+ * @param {HTMLElement} overlay - The overlay element to display.
+ * @param {HTMLElement} overlayContent - The content inside the overlay to animate.
+ */
+function showOverlay(overlay, overlayContent) {
     document.body.classList.add("no-scroll");
     overlay.style.display = "flex";
 
@@ -132,7 +136,25 @@ function openAddTaskOverlay(status) {
     }, 10);
 }
 
+/**
+ * Opens the "Add Task" overlay or redirects for mobile screens.
+ * @param {string} status - The task status to be set.
+ */
+function openAddTaskOverlay(status) {
+    const redirectThreshold = 1024;
+    const redirectURL = 'add-task.html';
 
+    if (handleMobileRedirect(redirectThreshold, redirectURL)) {
+        return;
+    }
+
+    taskStatus = status;
+
+    const overlay = document.getElementById("add-task-overlay");
+    const overlayContent = document.querySelector(".overlay-content-add-task");
+
+    showOverlay(overlay, overlayContent);
+}
 
 
 /**

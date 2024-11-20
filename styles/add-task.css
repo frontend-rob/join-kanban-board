@@ -345,9 +345,12 @@
 }
 
 #add-task-footer-overlay {
-    position: absolute;
-    bottom: 3rem;
+    position: sticky;
+    /* bottom: 3rem; */
+    width: 100%;
     max-width: 64rem;
+    min-width: 40rem;
+    /* padding-top: rem */
 }
 
 .add-task-overlay {
@@ -356,6 +359,14 @@
 
 .add-task-overlay-main-content {
     gap: 2rem !important;
+    
+}
+
+@media (max-width: 1440px) {
+    #add-task-footer-overlay {
+        max-width: 58rem;
+    }
+    
 }
 
 @media screen and (max-width: 64rem) {
@@ -368,6 +379,7 @@
     .divider-vertical {
         display: none;
     }
+    
 }
 
 @media screen and (max-width: 48rem) {

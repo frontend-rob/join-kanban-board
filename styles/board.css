@@ -154,6 +154,10 @@
     font-weight: 700;
     color: var(--bg-primary);
     white-space: pre-wrap; 
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .subtask {
@@ -228,7 +232,7 @@
     width: 100%;
     opacity: 1 !important;
     height: 100%;
-    overflow-y: auto;
+    overflow-y: hidden;
 }
 
 .overlay-content-add-task {
@@ -296,8 +300,8 @@
 .task-description {
     color: var(--bg-neutral-accent);
     display: -webkit-box;
-    line-clamp: 2;
-    -webkit-line-clamp: 2;
+    line-clamp: 1;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -381,6 +385,7 @@
     }
     .task-title {
         font-size: 14px;
+        max-width: 150px;
     }
     .task-type {
         font-size: 12px;

@@ -12,8 +12,6 @@ async function addContact() {
         return;
     }
 
-
-
     const contacts = await fetchContactsFromFirebase();
     if (isEmailAlreadyUsed(contacts, email)) {
         showEmailUsedNotification();
