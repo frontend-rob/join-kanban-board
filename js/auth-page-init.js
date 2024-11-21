@@ -149,3 +149,49 @@ function updateLogoAndOverlay() {
         }
     });
 }
+
+
+/**
+ * disables scrolling on the body element when the page loads.
+ * re-enables scrolling after a specified delay.
+ */
+window.addEventListener('load', () => {
+    const body = document.body;
+    body.classList.add('no-scroll');
+
+    setTimeout(() => {
+        body.classList.remove('no-scroll');
+    }, 3000);
+});
+
+
+/**
+ * toggles the 'signup-btn' element's classes to adjust styling
+ * when the window's width is 560px or smaller.
+ */
+function toggleSignUpLink() {
+    const signUpLink = document.getElementById('toggle-auth-btn');
+    if (!signUpLink) return;
+
+    if (window.innerWidth <= 560) {
+        signUpLink.classList.remove('btn');
+        signUpLink.classList.add('btn-link');
+    } else {
+        signUpLink.classList.remove('btn-link');
+        signUpLink.classList.add('btn');
+    }
+}
+
+
+/**
+ * adds a resize event listener to toggle the 'signup-btn' element's classes
+ * based on the window width.
+ */
+function initResponsiveSignUpLink() {
+    toggleSignUpLink();
+    window.addEventListener('resize', toggleSignUpLink);
+}
+
+
+// initialize the responsive logic on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', initResponsiveSignUpLink);
