@@ -162,6 +162,51 @@
     white-space: pre-wrap;
 }
 
+.no-assigned-contacts {
+    padding: 10px 0;
+}
+
+.no-contacts-text {
+    color: #666;
+    font-size: 14px;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.subtask-item {
+    transition: all 0.3s ease;
+}
+
+#plus-icon {
+    display: block !important;
+    cursor: pointer;
+}
+
+.subtask-edit-input {
+    border: none;
+    background: transparent;
+    flex-grow: 1;
+    padding: 4px;
+}
+
+.subtask-edit-input:read-only {
+    cursor: default;
+}
+
+.subtask-edit-input:not(:read-only) {
+    border: 1px solid #ccc;
+    background: white;
+    border-radius: 4px;
+}
+
+.subtask-list {
+    max-height: none; 
+    overflow: visible; 
+}
+
 @media (max-width: 1024px) {
     .overlay-content {
         height: auto;
