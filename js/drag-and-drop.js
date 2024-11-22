@@ -15,13 +15,27 @@ let initialTouchY = 0;
 let currentTouchY = 0;
 let lastHighlightedZone = null;
 let dropZoneCounters = new Map();
+let isVerticalScroll = false;
 let LONG_PRESS_DELAY = 500;
 let SCROLL_THRESHOLD = 10;
 let DRAG_THRESHOLD = 30;
 let AUTO_SCROLL_THRESHOLD = 200; 
 let AUTO_SCROLL_SPEED = 10; 
 let AUTO_SCROLL_INTERVAL = 16; 
+let VERTICAL_SCROLL_THRESHOLD = 20;
 
+
+function determineScrollDirection(touchX, touchY) {
+    const deltaX = Math.abs(touchX - touchStartX);
+    const deltaY = Math.abs(touchY - touchStartY);
+    
+    if (deltaY > VERTICAL_SCROLL_THRESHOLD && deltaY > deltaX * 1.5) {
+        return 'vertical';
+    } else if (deltaX > SCROLL_THRESHOLD && deltaX > deltaY * 1.5) {
+        return 'horizontal';
+    }
+    return null;
+}
 
 /**
  * Allows an element to be dropped by preventing the default behavior.

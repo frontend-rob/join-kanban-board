@@ -122,9 +122,6 @@
     width: 100%;
 }
 
-.input-field svg {
-    right: 2rem;
-}
 
 
 @media (max-width : 1400px) {

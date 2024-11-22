@@ -100,6 +100,7 @@ function handleTouchStart(event, taskId) {
     const touch = event.touches[0];
     initializeTouchCoordinates(touch);
     taskIdForClick = taskId;
+    initialScrollTop = window.scrollY;
 
     const dropZone = event.target.closest('.drop-zone');
     if (dropZone) {
@@ -124,6 +125,7 @@ function initializeTouchCoordinates(touch) {
     initialTouchY = touch.clientY;
     currentTouchY = touch.clientY;
     lastScrollY = window.scrollY;
+    isVerticalScroll = false;
 }
 
 
@@ -133,24 +135,34 @@ function initializeTouchCoordinates(touch) {
  * @param {TouchEvent} event - The touchmove event triggered by the user's touch move.
  */
 function handleTouchMove(event) {
-    if (event.cancelable) {
-        event.preventDefault();
-    }
-
     if (!taskIdForClick && !isDragging) return;
 
     const touch = event.touches[0];
-    currentTouchY = touch.clientY; 
+    currentTouchY = touch.clientY;
     const deltaX = touch.clientX - touchStartX;
     const deltaY = touch.clientY - touchStartY;
     const dropZone = event.target.closest('.drop-zone');
 
-    handleDragOrScroll(deltaX, deltaY, event, dropZone);
-    handleLongPressClear(deltaX, deltaY);
+    if (!isDragging && !isScrolling) {
+        const scrollDirection = determineScrollDirection(touch.clientX, touch.clientY);
+        
+        if (scrollDirection === 'vertical') {
+            isVerticalScroll = true;
+            clearTimeout(longPressTimer);
+            return;
+        }
+    }
 
     if (isDragging) {
+        event.preventDefault();
+        handleDragging(deltaX, deltaY, event);
         highlightDropZone(event);
+    } else if (!isVerticalScroll && Math.abs(deltaX) > SCROLL_THRESHOLD && dropZone) {
+        event.preventDefault();
+        handleScrolling(deltaX, event, dropZone);
     }
+
+    handleLongPressClear(deltaX, deltaY);
 }
 
 
@@ -247,16 +259,18 @@ function handleMouseMove(event) {
 function handleTouchEnd(event) {
     clearTimeout(longPressTimer);
     stopAutoScroll();
+    
     if (isDragging) {
         isDragging = false;
         finishDrag(event);
-    } else if (!isScrolling && taskIdForClick) {
+    } else if (!isScrolling && !isVerticalScroll && taskIdForClick) {
         handleTaskClick(event, taskIdForClick);
     }
+    
     isScrolling = false;
+    isVerticalScroll = false;
     taskIdForClick = null;
     activeElement = null;
-    document.querySelectorAll('.drop-zone').forEach(zone => {
-        zone.classList.remove('highlight');
-    });
+    resetHighlights();
 }
+

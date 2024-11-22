@@ -605,4 +605,22 @@
     .icon-name-and-action {
         gap: 0;
     }
+    #edit-contact-name {
+        height: 2.5rem;
+    }
+    #edit-contact-email {
+        height: 2.5rem;
+    }
+    #edit-contact-phone {
+        height: 2.5rem;
+    }
+    #contact-name {
+        height: 2.5rem;
+    }
+    #contact-email {
+        height: 2.5rem;
+    }
+    #contact-phone {
+        height: 2.5rem;
+    }
 }
