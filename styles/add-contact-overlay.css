@@ -132,8 +132,6 @@
 .input-card button {
     margin-right: 1rem;
     width: 6.25rem;
-
-
 }
 
 .add-contact-buttons {
@@ -156,14 +154,6 @@
 
 
 }
-
-
-
-
-
-
-
-
 
 
 @media (max-width : 1400px) {
@@ -219,7 +209,7 @@
     .overlay-right {
         width: 100%;
         height: 50%;
-        padding: 2rem 2rem 2rem 2rem
+        padding: 2rem 2rem 2rem 2rem;
     }
     .profile-icon-add-contact{
 

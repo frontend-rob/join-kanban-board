@@ -38,9 +38,16 @@
                 <img class="add-contact-btn-mobile" src="../assets/icons/add-contact-btn-mobile.svg" alt="">
             </div>
 
-            <section class="main-content contact-responsive">
+            <section class="main-content contact-responsive contact-details-container">
+                <div class="headline-wrapper-contacts">
+                    <h1 class="main-headline">Contacts</h1>
+                    <div class="responsive-container">
+                        <div id="edit-contact-responsive" class="divider-vertical divider-accent divider-contact"></div>
+                        <span>Better with a team</span>
+                    </div>
+                    <img onclick="hideContactDetails()" class="back-btn" src="../assets/icons/back-arrow.svg" alt="">
+                </div>
                 <div class="contact-details">
-                    <!-- The contact card will be dynamically updated here -->
                     <div class="contact-card"></div>
                 </div>
             </section>
@@ -110,8 +117,8 @@
                             </div>
                             <div class="add-contact-buttons">
                                 <button class="btn btn-contact btn-outline"
-                                    onclick="deleteContactInfo() ">Delete</button>
-                                <button type="submit" class="btn btn-contact">Create contact<svg
+                                    onclick="closeTaskOverlay() ">Cancel</button>
+                                <button type="submit" class="btn btn-contact width-auto">Create contact<svg
                                         xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff"
                                         viewBox="0 0 256 256">
                                         <path
@@ -127,7 +134,6 @@
         </div>
     </div>
 
-    <!-- Edit Contact Overlay -->
     <div id="edit-contact-overlay" class="add-contact">
         <div class="overlay-content-edit-contact" id="overlay-content-edit-contact">
             <span class="close-add-contact-overlay" onclick="closeEditOverlay()">
@@ -189,8 +195,7 @@
                                 </div>
                             </div>
                             <div class="add-contact-buttons">
-                                <button class="btn btn-contact btn-outline"
-                                    onclick="deleteContactInfo()">Delete</button>
+                                <button class="btn btn-contact btn-outline" onclick="deleteContact()">Delete</button>
                                 <button type="submit" class="btn btn-contact">Save
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff"
                                         viewBox="0 0 256 256">
@@ -207,14 +212,12 @@
         </div>
     </div>
 
-    <!-- Notification modal for successful contact addition -->
     <div id="successful-contact-add-modal" class="feedback-modal hidden">
         <div class="feedback-modal-content">
             <p>Contact added successfully!</p>
         </div>
     </div>
 
-    <!-- Notification modal for successful contact addition -->
     <div id="email-used-error-modal" class="feedback-modal hidden">
         <div class="feedback-modal-content">
             <p>Email already exists!</p>

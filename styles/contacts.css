@@ -1,14 +1,21 @@
 .btn-contact-container {
+    position: sticky;
+    top: 0rem;
+    left: 10%;
+    z-index: 1000;
+    width: 100%;
+    background-color: var(--bg-base-100);
+    height: 100px;
     display: flex;
-    align-items: center;
     justify-content: center;
-    margin-bottom: 1rem;
+    align-items: center;
 }
 
+
 .btn-contact {
-    width: 90%;
     font-weight: 600;
-    /* width: auto; */
+    width: 100%;
+    max-width: 320px;
 }
 
 .contact {
@@ -39,7 +46,6 @@
     display: flex;
     flex-direction: column;
     border-radius: 1rem;
-    margin-top: 0.5rem;
     margin-bottom: 0.5rem;
 }
 
@@ -50,7 +56,7 @@
     position: fixed;
     height: 100%;
     width: calc(100% - 232px - 20%);
-    top: 6rem;
+    top: 12rem;
     right: 0;
     margin-top: 2rem;
     transform: translateX(100%);
@@ -84,7 +90,7 @@
     height: calc(100% - 6rem);
     top: 6rem;
     overflow-y: auto;
-    padding: 1em;
+    padding: 0 1rem 1rem 1rem;
     background-color: var(--bg-base-100);
     box-shadow: var(--shadow-md);
     z-index: 1;
@@ -144,6 +150,17 @@
     height: auto;
 }
 
+.divider-contact {
+    height: 4rem;
+}
+
+.responsive-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
 .email {
     color: #007CEE;
     cursor: pointer;
@@ -159,11 +176,16 @@
     font-size: 0.875rem;
 }
 
-.headline-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-}
+.headline-wrapper-contacts {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 1.5rem;
+        padding-left: 25rem;
+        min-width: 300px;
+
+}    
+
 
 .headline-wrapper span {
     font-size: 1.75rem;
@@ -295,7 +317,13 @@
     padding-bottom: 0 !important;
 }
 
+.width-auto {
+    width: auto !important;
+}
 
+.d-none {
+    display: none;
+}
 
 @media (max-width: 1700px) {
     .contact-details {
@@ -306,7 +334,6 @@
 @media (max-width: 1440px) {
     .contact-list {
         width: 28%;
-        padding: 1rem 0;
     }
 
     .contact {
@@ -365,14 +392,10 @@
     .name-detail {
         font-size: 1.5rem;
     }
-}
-
-@media (max-width: 960px) {
     .contact-list {
         width: 100%;
         padding: 1rem 0;
     }
-
     .contact-details.show-contact-details {
         position: fixed;
         top: 32px;
@@ -380,29 +403,52 @@
         z-index: 1;
         background-color: var(--bg-base-200);
     }
-
-    .contact-details {
-        padding: 4rem 4rem;
-    }
-
     .contact-list {
         position: static;
     }
-
     .btn-contact-container {
         display: none;
     }
-
-    .action-contact {
-        display: none;
+    .add-contact-btn-mobile {
+        display: flex;
+        position: fixed;
+        bottom: 6rem;
+        right: 1rem;
     }
-
+    .d-none {
+        display: block;
+    }
     .headline-wrapper {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.5rem;
     }
+    .headline-wrapper-contacts {
+        position: fixed;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        flex-direction: column;
+        padding-left: 0;
+        width: 100%;
+    }
+    .contact-card {
+        margin-top: 8rem;
+    }
+    .responsive-container {
+        justify-content: flex-start;
+        align-items: flex-start;
+        flex-direction: column-reverse;
+    }
+}
 
+@media (max-width: 960px) {
+    .contact-details {
+        padding: 4rem 4rem;
+    }
+    .action-contact {
+        display: none;
+    }
     .icon-name-and-action {
         padding-top: 1rem;
     }
@@ -413,26 +459,21 @@
 
     .contact-info {
         gap: 0;
+        padding: 2rem 0;;
     }
 
     .back-btn {
         display: flex;
         position: absolute;
-        top: 3rem;
-        right: 2rem;
+        top: 2rem;
+        right: 10rem
     }
 
     .responsive-container {
         display: flex;
         flex-direction: column-reverse;
         gap: 0.5rem;
-    }
-
-    .add-contact-btn-mobile {
-        display: flex;
-        position: fixed;
-        bottom: 6rem;
-        right: 1rem;
+        justify-content: flex-start;
     }
 
     .edit-contact-btn-mobile {
@@ -467,6 +508,12 @@
     .name-detail {
         font-size: 2rem;
     }
+
+
+    .contact-divider {
+        position: relative;
+    }
+
 }
 
 @media (max-width: 768px) {
@@ -515,8 +562,5 @@
 
     .icon-name-and-action {
         gap: 0;
-    }
-    .add-contact-responsive {
-        justify-content: flex-end !important;
     }
 }

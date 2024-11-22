@@ -241,11 +241,6 @@ function getTaskContent(taskId, task, progressPercentage) {
 }
 
 
-
-
-
-
-
 /**
  * Creates the HTML template for the task overlay.
  * 
@@ -453,6 +448,7 @@ function getAddTaskContent() {
     `;
 }
 
+
 /**
  * Generates the HTML markup for displaying a contact's details.
  * 
@@ -462,13 +458,13 @@ function getAddTaskContent() {
  */
 function generateContactDetails(contact, contactId) {
     return `
-        <div class="headline-wrapper">
+        <div class="headline-wrapper-contacts d-none">
             <h1 class="main-headline">Contacts</h1>
             <div class="responsive-container">
-                <div id="edit-contact-responsive" class="divider-vertical divider-accent"></div>
+                <div class="divider-horizontal divider-add-contact-overlay contact-divider"></div>
                 <span>Better with a team</span>
             </div>
-            <img onclick="hideContactDetails()" class="back-btn" src="../assets/icons/back-arrow.svg" alt="">
+        <img onclick="hideContactDetails()" class="back-btn" src="../assets/icons/back-arrow.svg" alt="">
         </div>
         <div class="contact-card">
             <div class="icon-name-and-action">
