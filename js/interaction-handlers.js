@@ -132,37 +132,95 @@ function initializeTouchCoordinates(touch) {
 /**
  * Handles the touchmove event, managing the drag and scroll behavior during a touch event.
  * 
+ * This function acts as the main entry point, delegating tasks to helper functions for clarity.
+ * 
  * @param {TouchEvent} event - The touchmove event triggered by the user's touch move.
  */
 function handleTouchMove(event) {
     if (!taskIdForClick && !isDragging) return;
 
-    const touch = event.touches[0];
-    currentTouchY = touch.clientY;
-    const deltaX = touch.clientX - touchStartX;
-    const deltaY = touch.clientY - touchStartY;
-    const dropZone = event.target.closest('.drop-zone');
+    const touch = getTouchFromEvent(event);
+    const { deltaX, deltaY } = calculateMovement(touch);
 
-    if (!isDragging && !isScrolling) {
-        const scrollDirection = determineScrollDirection(touch.clientX, touch.clientY);
-        
-        if (scrollDirection === 'vertical') {
-            isVerticalScroll = true;
-            clearTimeout(longPressTimer);
-            return;
-        }
-    }
+    if (shouldStartScroll(touch)) return;
 
     if (isDragging) {
-        event.preventDefault();
-        handleDragging(deltaX, deltaY, event);
-        highlightDropZone(event);
-    } else if (!isVerticalScroll && Math.abs(deltaX) > SCROLL_THRESHOLD && dropZone) {
-        event.preventDefault();
-        handleScrolling(deltaX, event, dropZone);
+        handleDraggingState(event, deltaX, deltaY);
+    } else {
+        handleScrollOrDrag(event, deltaX, deltaY, touch);
     }
 
     handleLongPressClear(deltaX, deltaY);
+}
+
+/**
+ * Retrieves the primary touch point from the event.
+ * 
+ * @param {TouchEvent} event - The touch event.
+ * @returns {Touch} - The primary touch point.
+ */
+function getTouchFromEvent(event) {
+    return event.touches[0];
+}
+
+/**
+ * Calculates the movement deltas based on the current touch position.
+ * 
+ * @param {Touch} touch - The primary touch point.
+ * @returns {Object} - An object containing deltaX and deltaY values.
+ */
+function calculateMovement(touch) {
+    currentTouchY = touch.clientY;
+    const deltaX = touch.clientX - touchStartX;
+    const deltaY = touch.clientY - touchStartY;
+    return { deltaX, deltaY };
+}
+
+/**
+ * Determines if vertical scrolling should start based on the touch movement.
+ * 
+ * @param {Touch} touch - The primary touch point.
+ * @returns {boolean} - True if vertical scrolling should start.
+ */
+function shouldStartScroll(touch) {
+    if (!isDragging && !isScrolling) {
+        const scrollDirection = determineScrollDirection(touch.clientX, touch.clientY);
+        if (scrollDirection === 'vertical') {
+            isVerticalScroll = true;
+            clearTimeout(longPressTimer);
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * Handles the dragging state by preventing default behavior and delegating drag actions.
+ * 
+ * @param {TouchEvent} event - The touchmove event.
+ * @param {number} deltaX - The horizontal movement delta.
+ * @param {number} deltaY - The vertical movement delta.
+ */
+function handleDraggingState(event, deltaX, deltaY) {
+    event.preventDefault();
+    handleDragging(deltaX, deltaY, event);
+    highlightDropZone(event);
+}
+
+/**
+ * Manages whether to scroll horizontally or drag based on movement thresholds.
+ * 
+ * @param {TouchEvent} event - The touchmove event.
+ * @param {number} deltaX - The horizontal movement delta.
+ * @param {number} deltaY - The vertical movement delta.
+ * @param {Touch} touch - The primary touch point.
+ */
+function handleScrollOrDrag(event, deltaX, deltaY, touch) {
+    const dropZone = event.target.closest('.drop-zone');
+    if (!isVerticalScroll && Math.abs(deltaX) > SCROLL_THRESHOLD && dropZone) {
+        event.preventDefault();
+        handleScrolling(deltaX, event, dropZone);
+    }
 }
 
 
@@ -223,7 +281,6 @@ function handleDragMove(event, deltaX, deltaY) {
     const touch = event.touches ? event.touches[0] : event;
     const elementUnderCursor = document.elementFromPoint(touch.clientX, touch.clientY);
 
-    // Use the stored original position as the reference point
     const originalLeft = parseFloat(activeElement.dataset.originalLeft || 0);
     const originalTop = parseFloat(activeElement.dataset.originalTop || 0);
 

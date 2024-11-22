@@ -504,3 +504,26 @@ function generateContactDetails(contact, contactId) {
         </div>
     `;
 }
+
+
+/**
+ * Creates the HTML template for a contact element.
+ * 
+ * @param {Object} contact - The contact object containing details like name, email, and color.
+ * @param {string} key - The unique key for the contact (used as the id).
+ * @param {boolean} isCurrentUser - Flag indicating whether the contact is the current user.
+ * @returns {string} - The HTML string representing the contact element.
+ */
+function createContactTemplate(contact, key, isCurrentUser) {
+    return `
+        <div class="user">
+            <div class="profile-icon" style="background-color: ${contact.color};">
+                <span style="color: white;">${contact.initials}</span>
+            </div>
+        </div>
+        <div class="contact-name-and-email">
+            <span class="name">${contact.name}${isCurrentUser ? ' (You)' : ''}</span>
+            <span class="email-list">${contact.email}</span>
+        </div>
+    `;
+}

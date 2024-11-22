@@ -46,31 +46,21 @@ function fetchContactsData() {
 }
 
 /**
- * Creates a contact list item element for the given contact.
+ * Creates a contact element with the provided contact details and appends it to the contact list.
  * 
- * @param {Object} contact - The contact data.
- * @param {string} key - The unique identifier for the contact.
- * @param {boolean} isCurrentUser - Indicates if the contact is the current user.
- * @returns {HTMLElement} - The created contact list item element.
+ * @param {Object} contact - The contact object containing details like name, email, and color.
+ * @param {string} key - The unique key for the contact (used as the id).
+ * @param {boolean} isCurrentUser - Flag indicating whether the contact is the current user.
+ * @returns {HTMLElement} - The created contact element.
  */
 function createContactElement(contact, key, isCurrentUser) {
     const contactElement = document.createElement('li');
     contactElement.classList.add('contact');
     contactElement.setAttribute('id', key);
-    
+
     contactElement.onclick = () => showContactDetails(contact, key);
 
-    contactElement.innerHTML = `
-        <div class="user">
-            <div class="profile-icon" style="background-color: ${contact.color};">
-                <span style="color: white;">${contact.initials}</span>
-            </div>
-        </div>
-        <div class="contact-name-and-email">
-            <span class="name">${contact.name}${isCurrentUser ? ' (You)' : ''}</span>
-            <span class="email-list">${contact.email}</span>
-        </div>
-    `;
+    contactElement.innerHTML = createContactTemplate(contact, key, isCurrentUser);
 
     return contactElement;
 }
@@ -127,7 +117,6 @@ function hideEmptyGroups() {
 function loadContacts() {
     const currentUserName = localStorage.getItem("userName");
     clearLetterGroups();
-
     fetchContactsData().then(data => {
         const letterGroupsCount = {};
         Object.entries(data).forEach(([key, contact]) => {
@@ -136,7 +125,6 @@ function loadContacts() {
             const contactElement = createContactElement(contact, key, isCurrentUser);
             appendContactToGroup(contactElement, letterGroup, letterGroupsCount);
         });
-
         updateLetterGroupVisibility(letterGroupsCount);
         hideEmptyGroups();
     });

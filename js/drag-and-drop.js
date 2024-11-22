@@ -172,9 +172,8 @@ document.addEventListener('DOMContentLoaded', () => {
 /**
  * Initiates the dragging process for a specified element.
  * 
- * This function sets up the element with the given taskId to be dragged by modifying its
- * style properties and adding a 'dragging' class. It also ensures that the element is positioned 
- * absolutely and has a higher z-index during the dragging process.
+ * This function serves as the entry point for dragging, setting up the element 
+ * and delegating specific tasks to helper functions.
  * 
  * @param {Event} event - The event triggered when the drag starts (usually a mouse or touch event).
  * @param {string} taskId - The id of the element to be dragged.
@@ -183,22 +182,64 @@ function startDragging(event, taskId) {
     const target = document.getElementById(taskId);
     if (!target) return;
 
-    // Calculate the offset from the touch/mouse point to the element's position
+    const touch = getTouchPoint(event);
     const rect = target.getBoundingClientRect();
-    const touch = event.touches ? event.touches[0] : event;
+    const { offsetX, offsetY } = calculateOffsets(touch, rect);
+
+    setupDraggingElement(target, rect, offsetX, offsetY);
+    storeDraggingOffsets(target, offsetX, offsetY);
+}
+
+/**
+ * Retrieves the touch or mouse point from the event.
+ * 
+ * @param {Event} event - The drag start event, either a mouse or touch event.
+ * @returns {Touch|MouseEvent} - The touch or mouse point.
+ */
+function getTouchPoint(event) {
+    return event.touches ? event.touches[0] : event;
+}
+
+/**
+ * Calculates the offset between the touch/mouse point and the element's position.
+ * 
+ * @param {Touch|MouseEvent} touch - The touch or mouse point.
+ * @param {DOMRect} rect - The bounding rectangle of the element.
+ * @returns {Object} - An object containing offsetX and offsetY values.
+ */
+function calculateOffsets(touch, rect) {
     const offsetX = touch.clientX - rect.left;
     const offsetY = touch.clientY - rect.top;
+    return { offsetX, offsetY };
+}
 
+/**
+ * Sets up the element to be dragged by initializing its styles and position.
+ * 
+ * @param {HTMLElement} target - The element to be dragged.
+ * @param {DOMRect} rect - The bounding rectangle of the element.
+ * @param {number} offsetX - The horizontal offset between the touch point and the element.
+ * @param {number} offsetY - The vertical offset between the touch point and the element.
+ */
+function setupDraggingElement(target, rect, offsetX, offsetY) {
     activeElement = target;
     activeElement.classList.add('dragging');
     activeElement.style.position = 'fixed';
     activeElement.style.left = `${rect.left}px`;
     activeElement.style.top = `${rect.top}px`;
     activeElement.style.zIndex = '1000';
-    
-    // Store the offset for use in handleDragging
-    activeElement.dataset.offsetX = offsetX;
-    activeElement.dataset.offsetY = offsetY;
+}
+
+/**
+ * Stores the calculated offsets in the element's dataset for future reference.
+ * 
+ * @param {HTMLElement} target - The element being dragged.
+ * @param {number} offsetX - The horizontal offset between the touch point and the element.
+ * @param {number} offsetY - The vertical offset between the touch point and the element.
+ */
+function storeDraggingOffsets(target, offsetX, offsetY) {
+    target.dataset.offsetX = offsetX;
+    target.dataset.offsetY = offsetY;
 }
 
 
@@ -217,7 +258,6 @@ function handleDragging(deltaX, deltaY, event) {
     const offsetX = parseFloat(activeElement.dataset.offsetX) || 0;
     const offsetY = parseFloat(activeElement.dataset.offsetY) || 0;
 
-    // Adjust the position by subtracting the initial offset
     const newX = deltaX - offsetX;
     const newY = deltaY - offsetY + scrollOffset;
 
