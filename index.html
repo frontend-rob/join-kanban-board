@@ -19,13 +19,12 @@
 
 <body onload="initAuthPage()">
 
-    <div class="overlay show"></div>
-    <img class="main-logo" src="./assets/img/join-logo-dark.svg" alt="Join Logo">
-    <div id="call-to-signup" class="call-to-signup show">
-        <p>Not a Join user?</p>
-        <button class="btn" aria-label="signup" onclick="toggleAuth(true)">Sign up</button>
+    <div class="overlay-wrapper">
+        <div class="overlay show"></div>
+        <img class="main-logo" src="./assets/img/join-logo-dark.svg" alt="Join Logo">
     </div>
-    <main>
+
+    <main class="registry-wrapper">
         <section id="login-wrapper" class="login-wrapper show">
             <form class="login-form" onsubmit="login(event); return false;" novalidate>
                 <div class="login-header">
@@ -122,7 +121,7 @@
                     <label for="signup-checkbox" class="checkbox-label">
                         <img src="../assets/icons/unchecked.svg" alt="Unchecked" class="checkbox-icon">
                         <p>
-                            I accept the <a href="./pages/privacy-policy.html">Privacy policy</a>
+                            I accept the <a href="./pages/privacy-policy.html">Privacy Policy</a>
                         </p>
                     </label>
                 </div>
@@ -131,13 +130,16 @@
                 </div>
             </form>
         </section>
+        <div id="call-to-signup" class="call-to-signup show">
+            <p>Not a Join user?</p>
+            <button id="toggle-auth-btn" class="btn" aria-label="signup" onclick="toggleAuth(true)">Sign up</button>
+        </div>
+        <footer class="login-footer">
+            <a href="./pages/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+            <a href="./pages/legal-notice.html" target="_blank" rel="noopener noreferrer">Legal Notice</a>
+        </footer>
     </main>
-
-    <footer class="login-footer">
-        <a href="./pages/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
-        <a href="./pages/legal-notice.html" target="_blank" rel="noopener noreferrer">Legal Notice</a>
-    </footer>
-
+    
     <div id="landscape-wrapper"></div>
 
     <div id="successful-signup-modal" class="feedback-modal hidden">

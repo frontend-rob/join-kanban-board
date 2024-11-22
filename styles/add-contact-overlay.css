@@ -12,19 +12,6 @@
     z-index: 2000;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 .overlay-content-add-contact {
     display: flex;
     background-color: white;
@@ -67,18 +54,6 @@
     position: absolute;
     right: 2rem;
     top: 2rem;
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 .overlay-left {
@@ -203,7 +178,6 @@
 
     .overlay-left img {
         display: none;
-       
     }
 
     .overlay-right {
@@ -211,8 +185,8 @@
         height: 50%;
         padding: 2rem 2rem 2rem 2rem;
     }
-    .profile-icon-add-contact{
 
+    .profile-icon-add-contact {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -235,17 +209,6 @@
     .input-card button {
         margin-right: 0;
     }
-    input, textarea{
-
-
-        height: auto;
-        padding: 8px 12px;
-    }
-
-    .input-field svg {
-        right: 1rem;
-        top: 0.5rem;
-    }
 }
 
 @media (max-width : 425px) {
@@ -256,6 +219,7 @@
     .add-contact-buttons {
         margin-top: 0;
     }
+
     .overlay-content-add-contact {
         width: 90%;
     }
@@ -263,6 +227,7 @@
     .overlay-content-add-contact.show {
         right: calc(50% - 45%);
     }
+
     .overlay-content-edit-contact {
         width: 90%;
         right: calc(50% - 45%);
@@ -273,13 +238,16 @@
     .overlay-left h2 {
         font-size: 2rem;
     }
+
     .error-message {
         font-size: 0.5rem;
     }
+
     .profile-icon-add-contact {
         height: 6rem;
         width: 6rem;
     }
+
     .input-card button {
         width: 6rem;
         height: 2.5rem;
