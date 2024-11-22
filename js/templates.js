@@ -458,15 +458,15 @@ function getAddTaskContent() {
  */
 function generateContactDetails(contact, contactId) {
     return `
-        <div class="headline-wrapper-contacts d-none">
-            <h1 class="main-headline">Contacts</h1>
-            <div class="responsive-container">
-                <div class="divider-horizontal divider-add-contact-overlay contact-divider"></div>
-                <span>Better with a team</span>
-            </div>
-        <img onclick="hideContactDetails()" class="back-btn" src="../assets/icons/back-arrow.svg" alt="">
+    <div class="contact-card">
+    <div class="headline-wrapper-contacts d-none">
+        <h1 class="main-headline">Contacts</h1>
+        <div class="responsive-container">
+            <div class="divider-horizontal divider-detail-contact-overlay contact-divider"></div>
+            <span>Better with a team</span>
         </div>
-        <div class="contact-card">
+        </div>
+        <img onclick="hideContactDetails()" class="back-btn" src="../assets/icons/back-arrow.svg" alt="">
             <div class="icon-name-and-action">
                 <div class="user-contact">
                     <div class="profile-icon-contact" style="background-color: ${contact.color};">

@@ -15,6 +15,7 @@ async function deleteContact() {
     await deleteContactFromDatabase(contactId);
     await removeContactFromTasks(contactId);
     handleContactDeletion();
+    hideContactDetails()
 }
 
 /**
