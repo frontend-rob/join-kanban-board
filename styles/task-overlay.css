@@ -196,7 +196,42 @@
     }
 }
 
-.subtask-item {
+.subtask-icons,
+.subtask-edit-icons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: absolute;
+    top: 0.75rem;
+    right: 1rem;
+}
+
+.subtask-icons svg,
+.subtask-edit-icons svg {
+    cursor: pointer;
+    fill: var(--base-content);
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0.125rem;
+}
+
+.subtask-icons svg:hover,
+.subtask-edit-icons svg:hover {
+    cursor: pointer;
+    background-color: var(--bg-neutral);
+}
+
+#plus-icon {
+    fill: var(--bg-neutral-accent)
+}
+
+#plus-icon:hover {
+    background-color: unset;
+    cursor: unset;
+}
+
+/* .subtask-item {
     transition: all 0.3s ease;
 }
 
@@ -221,7 +256,7 @@
 .subtask-list {
     max-height: none;
     overflow: visible;
-}
+} */
 
 @media (max-height: 800px){
 

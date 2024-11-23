@@ -147,20 +147,32 @@ async function editTask(taskId) {
                             </div>
                         </div>
                     </div>
-
                     <div class="input-group addSubtask-container">
                         <label for="input-subtask">Subtasks</label>
                         <div class="input-field-subtask">
                             <input type="text" id="input-subtask" placeholder="Add new subtask" oninput="toggleIcons()" onkeydown="handleEnter(event)">
                             <div id="addSubtask-icons" class="subtask-icons">
                                 <svg id="plus-icon" onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
-                                    <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path>
+                                    <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z">
+                                    </path>
                                 </svg>
+                                <div id="edit-icons" class="icon-wrapper hidden">
+                                    <svg onclick="clearSubtaskInput()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                                        <path
+                                            d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z">
+                                        </path>
+                                    </svg>
+                                    <div class="edit-divider-vertical"></div>
+                                    <svg onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                                        <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z">
+                                        </path>
+                                    </svg>
+                                </div>
                             </div>
                         </div>
-                        <div class="subtask-list">
+                        <ul id="subtask-list" class="subtask-list">
                             ${taskData.subtasks ? taskData.subtasks.map(subtask => `
-                            <div class="subtask-item">
+                            <li class="subtask-item">
                                 <input type="text" value="${subtask.text}" class="subtask-edit-input" readonly tabindex="-1" onclick="preventFocus(event)">
                                 <div class="subtask-edit-icons">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256" onclick="editSubtask(this)">
@@ -168,15 +180,16 @@ async function editTask(taskId) {
                                             d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z">
                                         </path>
                                     </svg>
+                                    <div class="edit-divider-vertical"></div>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256" onclick="deleteSubtask(this)">
                                         <path
                                             d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z">
                                         </path>
                                     </svg>
                                 </div>
-                            </div>
+                            </li>
                             `).join('') : ''}
-                        </div>
+                        </ul>
                     </div>
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary">Ok
@@ -251,7 +264,7 @@ async function saveTaskChanges(event, taskId) {
         updateTaskInUI(taskId, updatedTaskData);
         reloadTasksInBoard(response, updatedTaskData);
         localStorage.removeItem('checkboxStates');
-        clearInputForm();
+        clearInputForm()
     } catch (error) {
         console.error('Fehler beim Speichern der Task:', error);
         showErrorMessage('Fehler beim Aktualisieren der Task');

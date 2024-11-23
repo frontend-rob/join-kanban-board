@@ -177,7 +177,7 @@ function getLandscapeModalContent() {
 }
 
 function escapeHtml(unsafe) {
-    return unsafe.replace(/[&<>"']/g, function(m) {
+    return unsafe.replace(/[&<>"']/g, function (m) {
         return `&#${m.charCodeAt(0)};`;
     });
 }
@@ -195,8 +195,8 @@ function getTaskContent(taskId, task, progressPercentage) {
     `).join('');
 
     const remainingCount = assignedTo.length - maxVisibleIcons;
-    const additionalIconsHTML = remainingCount > 0 
-        ? `<div class="profile-icon additional-count" style="background-color: ${assignedTo[0].color};">+${remainingCount}</div>` 
+    const additionalIconsHTML = remainingCount > 0
+        ? `<div class="profile-icon additional-count" style="background-color: ${assignedTo[0].color};">+${remainingCount}</div>`
         : '';
 
     const totalSubtasks = task.subtasks ? task.subtasks.length : 0;
@@ -406,27 +406,27 @@ function getAddTaskContent() {
                     </div>
                     <div class="input-group addSubtask-container">
                         <label for="input-subtask">Subtasks</label>
-                        <div class="input-field-subtask">
-                            <input type="text" id="input-subtask" placeholder="Add new subtask" oninput="toggleIcons()" onkeydown="handleEnter(event)">
-                            <div id="addSubtask-icons" class="subtask-icons">
-                                <svg id="plus-icon" onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
-                                    <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z">
-                                    </path>
-                                </svg>
-                                <div id="edit-icons" class="icon-wrapper hidden">
-                                    <svg onclick="clearSubtaskInput()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
-                                        <path
-                                            d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z">
+                            <div class="input-field-subtask">
+                                <input type="text" id="input-subtask" placeholder="Add new subtask" oninput="toggleIcons()" onkeydown="handleEnter(event)">
+                                <div id="addSubtask-icons" class="subtask-icons">
+                                    <svg id="plus-icon" onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                                        <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z">
                                         </path>
                                     </svg>
-                                    <div class="edit-divider-vertical"></div>
-                                    <svg onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
-                                        <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z">
-                                        </path>
-                                    </svg>
+                                    <div id="edit-icons" class="icon-wrapper hidden">
+                                        <svg onclick="clearSubtaskInput()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                                            <path
+                                                d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z">
+                                            </path>
+                                        </svg>
+                                        <div class="edit-divider-vertical"></div>
+                                        <svg onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                                            <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z">
+                                            </path>
+                                        </svg>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         <ul id="subtask-list" class="subtask-list"></ul>
                     </div>
                 </div>
