@@ -327,7 +327,8 @@
     position: sticky;
     bottom: 0;
     background-color: var(--bg-base-100);
-    padding-top: 1rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
 }
   
 .task-type-overlay {

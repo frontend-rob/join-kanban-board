@@ -44,7 +44,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem 0;
+    padding: 2rem 0;
     position: sticky;
     top: 0;
     background-color: var(--bg-base-100);
@@ -54,8 +54,9 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    /* padding-top: 1.5rem; */
-    padding-right: 1.5rem;
+    padding-right: 2.5rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
     position: sticky;
     top: 0;
     background-color: var(--bg-base-100);
@@ -141,7 +142,7 @@
     justify-content: flex-end;
     position: sticky;
     bottom: 0;
-    padding: 1.5rem 0;
+    padding: 2rem 0;
     background-color: var(--bg-base-100);
 }
 
