@@ -284,7 +284,7 @@ function getAssignedToHTML(assignedTo) {
 
     if (!validAssignedTo || validAssignedTo.length === 0) {
         return `<div class="no-assigned-contacts" style="padding: 10px 0;">
-                    <span style="color: #666; font-size: 14px;">No contacts assigned</span>
+                    <span style="color: #666; font-size: 14px; margin-left: 0.5rem">No contacts assigned</span>
                 </div>`;
     }
 
@@ -307,7 +307,7 @@ function getAssignedToHTML(assignedTo) {
  */
 function getSubtasksHTML(subtasks, taskId) {
     if (!subtasks || subtasks.length === 0) {
-        return '<div class="no-subtasks">Keine Subtasks verfügbar</div>';
+        return '<div class="no-subtasks" style="color: #666; font-size: 14px;">Keine Subtasks verfügbar</div>';
     }
 
     return subtasks.map((subtask, index) => `
