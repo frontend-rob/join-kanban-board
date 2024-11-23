@@ -17,7 +17,7 @@
 .edit-task-form {
     display: flex;
     flex-direction: column;
-    max-height: 39rem;
+    max-height: 45rem;
     overflow-y: auto;
 }
 

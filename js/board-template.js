@@ -53,7 +53,7 @@ function getTaskOverlayContent(task) {
     return `
         <div class="task-details">
             <div class="task-type-and-close-container">
-                <div class="task-type ${task.category === 'Technical Task' ? 'technical-task' : 'user-story'}">
+                <div class="task-type-overlay ${task.category === 'Technical Task' ? 'technical-task' : 'user-story'}">
                     ${escapeHtml(task.category)}
                 </div>
                 <span class="close" onclick="closeTaskOverlay()">

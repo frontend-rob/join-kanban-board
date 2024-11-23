@@ -69,9 +69,11 @@ async function editTask(taskId) {
 
         overlayContent.innerHTML = `
             <section id="edit-task-content" class="edit-task-content">
-                <span class="close" id="close-edit-task" onclick="closeTaskOverlay()">
-                    <img src="../assets/icons/Close.svg" alt="Close Icon">
-                </span>
+                <div class="edit-task-close">
+                    <span class="close" onclick="closeTaskOverlay()">
+                        <img src="../assets/icons/Close.svg" alt="Close Icon">
+                    </span>
+                </div>
                 <form id="edit-task-form" class="edit-task-form" onsubmit="saveTaskChanges(event, '${taskId}'); return false;" novalidate>
                     <div class="left-column">
                         <div class="input-group">
@@ -190,15 +192,15 @@ async function editTask(taskId) {
                             </li>
                             `).join('') : ''}
                         </ul>
-                    </div>
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">Ok
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff" viewBox="0 0 256 256">
-                                <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z">
-                                </path>
-                            </svg>
-                        </button>
-                    </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Ok
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff" viewBox="0 0 256 256">
+                                    <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
                 </form>
             </section>
         `;

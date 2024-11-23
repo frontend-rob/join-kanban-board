@@ -20,19 +20,18 @@
     border-radius: 1.875rem;
     width: 34rem;
     position: relative;
-    min-height: 31.25rem;
     gap: 1.5rem;
-    height: 50rem;
     overflow-y: auto;
 }
 
 .task-details {
     display: flex;
     flex-direction: column;
-    padding: 2rem;
+    padding: 0 2rem;
     gap: 1.5rem;
-    /* max-height: 40rem; */
+    max-height: 50rem;
     overflow-y: auto;
+    height: auto;
 }
 
 .close {
@@ -45,6 +44,21 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 1.5rem 0;
+    position: sticky;
+    top: 0;
+    background-color: var(--bg-base-100);
+}
+
+.edit-task-close {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    /* padding-top: 1.5rem; */
+    padding-right: 1.5rem;
+    position: sticky;
+    top: 0;
+    background-color: var(--bg-base-100);
 }
 
 .overlay-task-type {
@@ -59,8 +73,7 @@
 .overlay-task-title {
     font-weight: 700;
     font-size: 3rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    word-wrap: break-word;
 }
 
 .task-date {
@@ -126,9 +139,10 @@
     display: flex;
     gap: 0.5rem;
     justify-content: flex-end;
-    position: absolute;
-    bottom: 3rem;
-    right: 2rem;
+    position: sticky;
+    bottom: 0;
+    padding: 1.5rem 0;
+    background-color: var(--bg-base-100);
 }
 
 .action-type {
@@ -259,7 +273,9 @@
 } */
 
 @media (max-height: 800px){
-
+    .task-details {
+        max-height: 40rem;
+    }
 }
 
 @media (max-width: 1024px) {
@@ -299,5 +315,5 @@
 
 
 .edit-task-form {
-    padding: 2rem;
+    padding: 0 2rem;
 }

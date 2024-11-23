@@ -273,8 +273,9 @@
     flex-direction: column;
     width: 100%;
     padding: 4rem 4rem;
-    gap: 3rem;
     flex-grow: 1;
+    height: 50rem;
+    justify-content: space-around;
 }
 
 
@@ -282,7 +283,6 @@
 #edit-task-content {
     opacity: 1;
     padding: 0;
-    margin-top: 2rem;
 }
 
 .divider-overlay {
@@ -324,12 +324,19 @@
 .form-actions {
     display: flex;
     justify-content: flex-end;
-    position: absolute;
-    bottom: 2rem;
-    right: 2rem;
+    position: sticky;
+    bottom: 0;
+    background-color: var(--bg-base-100);
+    padding-top: 1rem;
 }
   
-  
+.task-type-overlay {
+    font-size: 1.5rem;
+    border-radius: 0.5rem;
+    color: white;
+    padding: 0.25rem 1rem;
+    width: fit-content;
+}
 
 
 @media (max-width: 1700px) {
