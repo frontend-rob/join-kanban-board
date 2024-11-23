@@ -251,7 +251,9 @@ function getTaskOverlayContent(task) {
     return `
         <div class="task-details">
             <div class="task-type-and-close-container">
-                <p class="overlay-task-type">${task.category}</p>
+                <div class="task-type ${task.category === 'Technical Task' ? 'technical-task' : 'user-story'}">
+                    ${escapeHtml(task.category)}
+                </div>
                 <span class="close" onclick="closeTaskOverlay()">
                     <img src="../assets/icons/Close.svg" alt="Close Icon">
                 </span>
@@ -334,7 +336,7 @@ function getAddTaskContent() {
                                 <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z">
                                 </path>
                             </svg>
-                            <div id="contact-dropdown" class="contact-dropdown hidden"></div>
+                            <div id="contact-dropdown" class="contact-dropdown absolute hidden"></div>
                         </div>
                         <div id="selected-contacts" class="selected-contacts"></div>
                     </div>
@@ -392,7 +394,7 @@ function getAddTaskContent() {
                                 <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z">
                                 </path>
                             </svg>
-                            <div id="category-dropdown" class="category-dropdown hidden" onclick="selectCategory(event)">
+                            <div id="category-dropdown" class="category-dropdown absolute hidden" onclick="selectCategory(event)">
                                 <div class="category-dropdown-item" data-category="Technical Task">Technical Task
                                 </div>
                                 <div class="category-dropdown-item" data-category="User Story">User Story</div>

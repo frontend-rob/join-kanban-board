@@ -136,7 +136,7 @@ async function editTask(taskId) {
                                         <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z">
                                         </path>
                                     </svg>
-                                    <div id="contact-dropdown" class="contact-dropdown hidden"></div>
+                                    <div id="contact-dropdown" class="contact-dropdown absolute hidden"></div>
                                 </div>
                                 <div id="selected-contacts" class="selected-contacts">
                                     ${taskData.assigned_to ? taskData.assigned_to.map(contact => `
@@ -269,7 +269,7 @@ function getAssignedToHTML(assignedTo) {
 
     if (!validAssignedTo || validAssignedTo.length === 0) {
         return `<div class="no-assigned-contacts" style="padding: 10px 0;">
-                    <span style="color: #666; font-size: 14px;">No contacts assigned</span>
+                    <span style="margin-left: 0.5rem">No contacts assigned</span>
                 </div>`;
     }
 
@@ -292,7 +292,7 @@ function getAssignedToHTML(assignedTo) {
  */
 function getSubtasksHTML(subtasks, taskId) {
     if (!subtasks || subtasks.length === 0) {
-        return '<div class="no-subtasks">Keine Subtasks verfügbar</div>';
+        return '<div class="no-subtasks">No subtasks available</div>';
     }
 
     return subtasks.map((subtask, index) => `

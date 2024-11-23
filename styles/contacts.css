@@ -409,6 +409,7 @@
     .headline-wrapper-contacts {
         padding-left: 7rem;
         gap: 0.5rem;
+
     }
 
     .main-headline {
@@ -437,6 +438,7 @@
         left: 0;
         padding-left: 4rem;
         width: 100%;
+        display: none;
     }
 
     .headline-wrapper span {
