@@ -336,7 +336,6 @@
 
 #assigned-to {
     cursor: pointer;
-    caret-color: transparent
 }
 
 #contact-dropdown-icon {
@@ -370,10 +369,6 @@
 .add-task-overlay-main-content {
     gap: 2rem !important;
     padding-bottom: 2rem !important;
-}
-
-.absolute {
-    position: absolute;
 }
 
 @media (max-width: 1440px) {
