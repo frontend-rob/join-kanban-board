@@ -170,6 +170,8 @@ function closeAddTaskOverlay() {
     setTimeout(() => {
         overlay.style.display = "none";
     }, 300);
+    
+    clearInputForm();
 }
 
 /**
