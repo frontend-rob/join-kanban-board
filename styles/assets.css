@@ -199,6 +199,10 @@
     fill: var(--bg-neutral-accent);
 }
 
+.input-field svg:hover {
+    cursor: unset;
+}
+
 label {
     font-size: 1.25rem;
     color: var(--base-content);

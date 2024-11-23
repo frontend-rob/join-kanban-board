@@ -43,7 +43,7 @@ document.addEventListener('click', function (event) {
 });
 
 
-let allContacts = []; // array, das alle Kontakte speichert, wenn sie einmal abgerufen wurden
+let allContacts = [];
 
 /**
  * fetches all contacts from the firebase database.

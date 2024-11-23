@@ -68,7 +68,7 @@ async function editTask(taskId) {
         overlayContent.innerHTML = '';
 
         overlayContent.innerHTML = `
-            <section id="edit-task-content" class="main-content">
+            <section id="edit-task-content" class="edit-task-content">
                 <span class="close" id="close-edit-task" onclick="closeTaskOverlay()">
                     <img src="../assets/icons/Close.svg" alt="Close Icon">
                 </span>
@@ -247,9 +247,11 @@ async function saveTaskChanges(event, taskId) {
         allTasks[taskId] = { ...allTasks[taskId], ...updatedTaskData };
 
         closeTaskOverlay();
-        showSuccessMessage('Task erfolgreich aktualisiert');
+        // showSuccessMessage('Task erfolgreich aktualisiert');
         updateTaskInUI(taskId, updatedTaskData);
         reloadTasksInBoard(response, updatedTaskData);
+        localStorage.removeItem('checkboxStates');
+        clearInputForm();
     } catch (error) {
         console.error('Fehler beim Speichern der Task:', error);
         showErrorMessage('Fehler beim Aktualisieren der Task');

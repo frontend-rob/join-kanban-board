@@ -103,7 +103,7 @@
     overflow-y: auto;
     width: 100%;
     z-index: 100;
-    position: absolute;
+    /* position: absolute; */
 }
 
 .category-dropdown-item {
@@ -241,6 +241,7 @@
 
 #plus-icon:hover {
     background-color: unset;
+    cursor: unset;
 }
 
 .icon-wrapper,
@@ -339,7 +340,7 @@
 }
 
 #contact-dropdown-icon {
-    cursor: pointer;
+    cursor: unset;
 }
 
 .input-field svg {
