@@ -416,10 +416,6 @@
     .task {
         min-width: 240px;
     }
-}
-
-
-@media (max-width: 960px) {
     .workflow {
         gap: 2rem;
         flex-direction: column;
@@ -447,6 +443,7 @@
         margin-right: 0;
     }
 }
+
 
 @media (max-width: 768px) {
 

@@ -224,3 +224,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
     mainContent.classList.add('show');
 });
+
+
+/**
+ * Escapes HTML special characters in a string to their corresponding HTML entities.
+ *
+ * This function replaces the characters `&`, `<`, `>`, `"`, and `'` 
+ * with their respective HTML entity codes to ensure the string can 
+ * be safely embedded in an HTML context without introducing security 
+ * vulnerabilities like XSS (Cross-Site Scripting).
+ *
+ * @param {string} unsafe - The input string containing potentially unsafe characters.
+ * @returns {string} A string with HTML special characters replaced by their entity codes.
+ *
+ * @example
+ * const unsafeString = '<script>alert("XSS");</script>';
+ * const safeString = escapeHtml(unsafeString);
+ * console.log(safeString);
+ */
+function escapeHtml(unsafe) {
+    return unsafe.replace(/[&<>"']/g, function (m) {
+        return `&#${m.charCodeAt(0)};`;
+    });
+}

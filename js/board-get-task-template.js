@@ -257,3 +257,85 @@ window.onclick = function(event) {
 };
 
 
+/**
+ * Generates the HTML content for a task card.
+ *
+ * @param {string} taskId - The unique ID of the task.
+ * @param {Object} task - The task object containing its details.
+ * @param {number} progressPercentage - The progress percentage of the task's subtasks.
+ * @returns {string} The HTML string representing the task card.
+ */
+function getTaskContent(taskId, task, progressPercentage) {
+    const maxVisibleIcons = calculateMaxVisibleIcons();
+    const assignedTo = processAssignedUsers(task.assigned_to, maxVisibleIcons);
+    const subtasks = processSubtasks(task.subtasks);
+    const escapedDescription = escapeHtml(task.description);
+
+    return renderTaskHTML(taskId, task, progressPercentage, assignedTo, subtasks, escapedDescription);
+}
+
+/**
+ * Determines the maximum number of visible profile icons based on screen width.
+ *
+ * @returns {number} The maximum number of visible icons.
+ */
+function calculateMaxVisibleIcons() {
+    return window.innerWidth < 1250 ? 2 : 4;
+}
+
+/**
+ * Processes the assigned users to prepare visible and additional icons data.
+ *
+ * @param {Array<Object>} assignedTo - The list of assigned user objects.
+ * @param {number} maxVisibleIcons - The maximum number of visible icons.
+ * @returns {Object} An object containing visible icons and additional icons data.
+ */
+function processAssignedUsers(assignedTo, maxVisibleIcons) {
+    const users = Array.isArray(assignedTo) ? assignedTo : [];
+    const visibleAssigned = users.slice(0, maxVisibleIcons);
+    const remainingCount = users.length - maxVisibleIcons;
+
+    return {
+        visible: visibleAssigned.map(person => ({
+            color: person.color,
+            initials: person.initials
+        })),
+        additional: remainingCount > 0 ? { color: users[0]?.color, count: remainingCount } : null
+    };
+}
+
+/**
+ * Processes subtasks to calculate totals and determine the subtask visibility class.
+ *
+ * @param {Array<Object>} subtasks - The list of subtasks.
+ * @returns {Object} An object containing total subtasks, completed subtasks, and the subtask class.
+ */
+function processSubtasks(subtasks) {
+    const total = subtasks ? subtasks.length : 0;
+    const completed = subtasks
+        ? subtasks.filter(subtask => subtask.status === "checked").length
+        : 0;
+    const subtaskClass = total === 0 ? 'subtask hidden' : 'subtask';
+
+    return { total, completed, subtaskClass };
+}
+
+/**
+ * Renders the HTML for assigned user icons, including visible and additional icons.
+ *
+ * @param {Object} assignedTo - An object containing visible and additional icons data.
+ * @returns {string} The HTML string for assigned user icons.
+ */
+function renderAssignedIcons(assignedTo) {
+    const iconsHTML = assignedTo.visible.map(person => `
+        <div class="profile-icon" style="background-color: ${person.color};">
+            ${person.initials}
+        </div>
+    `).join('');
+
+    const additionalHTML = assignedTo.additional
+        ? `<div class="profile-icon additional-count" style="background-color: ${assignedTo.additional.color};">+${assignedTo.additional.count}</div>`
+        : '';
+
+    return `${iconsHTML}${additionalHTML}`;
+}

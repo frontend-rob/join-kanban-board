@@ -371,6 +371,10 @@
     padding-bottom: 2rem !important;
 }
 
+.absolute {
+    position: absolute;
+}
+
 @media (max-width: 1440px) {
     #add-task-footer-overlay {
         max-width: 58rem;
