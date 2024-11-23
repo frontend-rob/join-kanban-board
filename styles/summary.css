@@ -120,6 +120,10 @@
     gap: 0.5rem;
 }
 
+.due-date #due-date {
+    padding-right: 0;
+}
+
 .summary-card-number {
     font-size: 4rem;
     font-weight: 700;

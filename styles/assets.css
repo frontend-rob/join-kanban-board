@@ -199,6 +199,10 @@
     fill: var(--bg-neutral-accent);
 }
 
+.input-field svg:hover {
+    cursor: unset;
+}
+
 label {
     font-size: 1.25rem;
     color: var(--base-content);
@@ -248,6 +252,7 @@ textarea::placeholder {
 #contact-name,
 #contact-email,
 #contact-phone {
+    padding: 0.75rem 1rem;
     padding-right: 3rem;
 }
 

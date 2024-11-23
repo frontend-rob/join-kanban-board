@@ -18,9 +18,7 @@ const contactTemplate = (contactId, color, initials, name, isChecked) => `
             </div>
         </div>
         <label class="contact-checkbox ${isChecked ? 'checked' : 'unchecked'}">
-            <!-- Verstecke die Standard-Checkbox -->
             <input type="checkbox" id="${contactId}" ${isChecked ? 'checked' : ''} />
-            <!-- Das SVG-Icon für die Checkbox, je nach Status -->
             <img src="../assets/icons/${isChecked ? 'checked-dark.svg' : 'unchecked.svg'}" alt="checkbox icon" />
         </label>
     </div>
