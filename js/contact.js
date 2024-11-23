@@ -7,7 +7,6 @@
  * @returns {Promise<void>} - a promise that resolves when the start content is initialized.
  */
 async function initContactPage() {
-    console.log('initContactPage called');
     await renderContactContent();
     createLetterGroups();
     loadContacts();

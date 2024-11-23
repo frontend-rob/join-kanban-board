@@ -14,8 +14,8 @@ async function deleteContact() {
 
     await deleteContactFromDatabase(contactId);
     await removeContactFromTasks(contactId);
-    handleContactDeletion();
     hideContactDetails()
+    handleContactDeletion();
 }
 
 /**
@@ -39,9 +39,9 @@ async function deleteContactFromDatabase(contactId) {
  * @returns {void}
  */
 function handleContactDeletion() {
-    loadContacts();
     closeTaskOverlay();
     clearContactDetails();
+    loadContacts();
 }
 
 
@@ -68,7 +68,6 @@ async function removeContactFromTasks(contactId) {
         const taskUpdates = getTaskUpdates(tasks, contactId);
         await executeTaskUpdates(taskUpdates);
 
-        console.log('Contact removed from all relevant tasks.');
     } catch (error) {
         console.error('Error updating tasks:', error);
     }
