@@ -345,6 +345,15 @@
     font-size: 1.5rem;
 }
 
+#edit-contact-name,
+#edit-contact-email,
+#edit-contact-phone,
+#contact-name,
+#contact-email,
+#contact-phone {
+    padding-right: 3rem;
+}
+
 @media (max-width: 1700px) {
     .contact-details {
         width: calc(100% - 232px - 25%);
@@ -634,6 +643,5 @@
     #contact-email,
     #contact-phone {
         height: 2.5rem;
-        padding-right: 3rem;
     }
 }
