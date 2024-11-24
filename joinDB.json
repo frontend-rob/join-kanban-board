@@ -254,7 +254,7 @@
       "description": "Improve code quality by reviewing and optimizing the codebase",
       "due_date": "2024-12-06",
       "priority": "high",
-      "status": "awaitfeedback",
+      "status": "inprogress",
       "subtasks": [
         {
           "status": "checked",
@@ -307,6 +307,14 @@
       ],
       "title": "Performance Optimization"
     },
+    "-OCTJEZzCQHzTSrBnlFt": {
+      "category": "Technical Task",
+      "description": "TEST SUN",
+      "due_date": "2024-11-24",
+      "priority": "high",
+      "status": "todo",
+      "title": "TEST SUN"
+    },
     "-OCTJStRzPDrJMTmTVEc": {
       "assigned_to": [
         {
@@ -332,7 +340,7 @@
       "description": "Implement smooth and engaging animations using CSS for enhanced user experience",
       "due_date": "2024-11-30",
       "priority": "mid",
-      "status": "awaitfeedback",
+      "status": "inprogress",
       "subtasks": [
         {
           "status": "checked",
@@ -497,7 +505,7 @@
           "text": "Add priority and deadline fields"
         },
         {
-          "status": "unchecked",
+          "status": "checked",
           "text": "Implement member assignment"
         },
         {
