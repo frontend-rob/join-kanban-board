@@ -3,19 +3,28 @@
  * @async
  * @function
  */
+let isDeletingContact = false;
+
 async function deleteContact() {
+    if (isDeletingContact) return;
+    isDeletingContact = true;
+
     const overlay = document.getElementById('overlay');
     const contactId = overlay.getAttribute('data-contact-id');
 
     if (!contactId) {
         console.error("No contact ID found");
+        isDeletingContact = false;
         return;
     }
 
     await deleteContactFromDatabase(contactId);
     await removeContactFromTasks(contactId);
-    hideContactDetails()
+    hideContactDetails();
     handleContactDeletion();
+    closeEditOverlay();
+
+    isDeletingContact = false;
 }
 
 /**
@@ -38,10 +47,10 @@ async function deleteContactFromDatabase(contactId) {
  * Loads the updated contacts, closes the overlay, and clears contact details.
  * @returns {void}
  */
-function handleContactDeletion() {
-    closeTaskOverlay();
+async function handleContactDeletion() {
+    await closeTaskOverlay();
     clearContactDetails();
-    loadContacts();
+    await loadContacts();
 }
 
 

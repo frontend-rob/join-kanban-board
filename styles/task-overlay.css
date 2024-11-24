@@ -10,7 +10,6 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    overflow-y: auto;
 }
 
 .overlay-content {
@@ -54,12 +53,12 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding-right: 2.5rem;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
     position: sticky;
     top: 0;
     background-color: var(--bg-base-100);
+    z-index: 2;
 }
 
 .overlay-task-type {
@@ -284,11 +283,6 @@
         height: auto;
     }
 
-    .action {
-        position: relative;
-        right: 0;
-        bottom: 0;
-    }
 }
 
 @media (max-width: 768px) {
@@ -312,9 +306,4 @@
     .overlay-content {
         width: 30rem;
     }
-}
-
-
-.edit-task-form {
-    padding: 0 2rem;
 }

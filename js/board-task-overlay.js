@@ -63,18 +63,20 @@ async function editTask(taskId) {
             throw new Error('Task nicht gefunden');
         }
 
+        document.body.classList.add('no-scroll');
+
         const priority = taskData.priority || 'low';
         const overlayContent = document.querySelector('.overlay-content');
         overlayContent.innerHTML = '';
 
         overlayContent.innerHTML = `
             <section id="edit-task-content" class="edit-task-content">
-                <div class="edit-task-close">
-                    <span class="close" onclick="closeTaskOverlay()">
-                        <img src="../assets/icons/Close.svg" alt="Close Icon">
-                    </span>
-                </div>
                 <form id="edit-task-form" class="edit-task-form" onsubmit="saveTaskChanges(event, '${taskId}'); return false;" novalidate>
+                    <div class="edit-task-close">
+                        <span class="close" onclick="closeTaskOverlay()">
+                            <img src="../assets/icons/Close.svg" alt="Close Icon">
+                        </span>
+                    </div>
                     <div class="left-column">
                         <div class="input-group">
                             <label for="task-title">Title</label>

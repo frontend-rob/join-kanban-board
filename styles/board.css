@@ -125,6 +125,7 @@
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
+    user-select: none;
 }
 
 .task-type {
@@ -482,5 +483,8 @@
         font-size: 12px;
         margin-right: 0;
         padding-left: 12px;
+    }
+    .edit-task-content {
+        max-height: 40rem !important;
     }
 }
