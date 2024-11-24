@@ -53,7 +53,6 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding-top: 2rem;
     padding-bottom: 2rem;
     position: sticky;
     top: 0;
@@ -245,33 +244,6 @@
     cursor: unset;
 }
 
-/* .subtask-item {
-    transition: all 0.3s ease;
-}
-
-
-.subtask-edit-input {
-    border: none;
-    background: transparent;
-    flex-grow: 1;
-    padding: 4px;
-}
-
-.subtask-edit-input:read-only {
-    cursor: default;
-}
-
-.subtask-edit-input:not(:read-only) {
-    border: 1px solid #ccc;
-    background: white;
-    border-radius: 4px;
-}
-
-.subtask-list {
-    max-height: none;
-    overflow: visible;
-} */
-
 @media (max-height: 800px){
     .task-details {
         max-height: 40rem;
@@ -294,7 +266,6 @@
 @media (max-width: 375px) {
     .overlay-content {
         width: 35rem;
-        /* padding: 2rem; */
     }
 
     .overlay-task-title {

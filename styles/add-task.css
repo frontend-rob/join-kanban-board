@@ -80,7 +80,6 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    /* position: fixed; */
     right: 4rem;
     bottom: 2.5rem;
 }
@@ -104,7 +103,6 @@
     overflow-y: auto;
     width: 100%;
     z-index: 100;
-    /* position: absolute; */
 }
 
 .category-dropdown-item {
