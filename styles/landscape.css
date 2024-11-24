@@ -44,7 +44,7 @@
     }
 }
 
-@media only screen and (min-height: 37.5rem) {
+@media only screen and (min-height: 30rem) {
     .landscape-modal {
         display: none;
     }
