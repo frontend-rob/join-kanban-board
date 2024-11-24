@@ -378,7 +378,6 @@
     #add-task-footer-overlay {
         max-width: 58rem;
     }
-    
 }
 
 @media screen and (max-width: 64rem) {
@@ -391,17 +390,21 @@
     .divider-vertical {
         display: none;
     }
+
     .form-buttons {
         position: relative;
         bottom: auto;
         right: auto;
     }
-    
 }
 
 @media screen and (max-width: 48rem) {
     .main-headline {
         font-size: 2.5rem;
+    }
+
+    .edit-task-form {
+        padding: 0 1.5rem;
     }
 
     label,
