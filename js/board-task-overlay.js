@@ -309,7 +309,7 @@ function getAssignedToHTML(assignedTo) {
  */
 function getSubtasksHTML(subtasks, taskId) {
     if (!subtasks || subtasks.length === 0) {
-        return '<div class="no-subtasks" style="color: #666; font-size: 14px;">Keine Subtasks verfügbar</div>';
+        return '<div class="no-subtasks" style="color: #666; font-size: 14px;">No subtasks available</div>';
     }
 
     return subtasks.map((subtask, index) => `
