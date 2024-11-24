@@ -135,8 +135,8 @@ async function handleFailedLogin(emailInput, passwordInput) {
 function guestLogin() {
     const guestUser = {
         name: "Guest",
-        email: "guestuser@example.com",
-        password: "join123"
+        email: "guest@join379.com",
+        password: "join379"
     };
 
     handleGuestLogin(guestUser);
