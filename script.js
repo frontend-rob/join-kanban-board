@@ -196,6 +196,7 @@ async function logOut() {
     localStorage.removeItem('greetingTime');
     localStorage.removeItem('userEmail');
     localStorage.removeItem('hasShownMobileGreeting');
+    localStorage.removeItem('checkboxStates');
     window.location.replace('../index.html');
 }
 
