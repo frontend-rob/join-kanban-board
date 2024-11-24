@@ -121,7 +121,7 @@
 }
 
 .due-date #due-date {
-    padding-right: 0;
+    padding-right: 1rem;
 }
 
 .summary-card-number {

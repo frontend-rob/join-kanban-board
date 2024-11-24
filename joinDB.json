@@ -1,441 +1,574 @@
 {
-    "users": {
-        "0": {
-            "name": "Guest",
-            "email": "guestuser@example.com",
-            "password": "join379"
-        },
-        "-LZq9X3Jc8qj7T3rXOi2": {
-            "name": "Jane Doe",
-            "email": "jane.doe@example.com",
-            "password": "join379"
-        }
+  "contacts": {
+    "-OCT6cTVuBQa_N2nC4Hr": {
+      "color": "#808080",
+      "email": "guest@join379.com",
+      "initials": "G",
+      "name": "Guest",
+      "phone": "+49 000 000000"
     },
-    "tasks": {
-        "-O1pL1Tzy1234Eue6HZu6": {
-            "assigned_to": [
-                {
-                    "color": "#0038ff",
-                    "email": "alice.smith@example.com",
-                    "id": "-O0Nob2HY-b8GwkHNQ1t",
-                    "initials": "AS",
-                    "name": "Alice Smith",
-                    "phone": "+49 111 0000000",
-                    "status": "normal"
-                },
-                {
-                    "color": "#ffa35e",
-                    "email": "john.doe@example.com",
-                    "id": "-O0Nob3TV3LADGyIeC4R",
-                    "initials": "JD",
-                    "name": "John Doe",
-                    "phone": "+49 111 1111111"
-                },
-                {
-                    "color": "#ffa35e",
-                    "email": "john.doe@example.com",
-                    "id": "-O0Nob3TV3LADGyIeC4R",
-                    "initials": "JD",
-                    "name": "John Doe",
-                    "phone": "+49 111 1111111"
-                },
-                {
-                    "color": "#ffa35e",
-                    "email": "john.doe@example.com",
-                    "id": "-O0Nob3TV3LADGyIeC4R",
-                    "initials": "JD",
-                    "name": "John Doe",
-                    "phone": "+49 111 1111111"
-                },
-                {
-                    "color": "#ffa35e",
-                    "email": "john.doe@example.com",
-                    "id": "-O0Nob3TV3LADGyIeC4R",
-                    "initials": "JD",
-                    "name": "John Doe",
-                    "phone": "+49 111 1111111"
-                },
-                {
-                    "color": "#ffa35e",
-                    "email": "john.doe@example.com",
-                    "id": "-O0Nob3TV3LADGyIeC4R",
-                    "initials": "JD",
-                    "name": "John Doe",
-                    "phone": "+49 111 1111111"
-                }
-            ],
-            "category": "Technical Task",
-            "description": "Fix login issue on mobile devices",
-            "due_date": "2024-07-12",
-            "id": "-O1pL1Tzy1234Eue6HZu6",
-            "priority": "high",
-            "status": "inprogress",
-            "subtasks": [
-                {
-                    "status": "checked",
-                    "text": "Identify root cause"
-                },
-                {
-                    "status": "unchecked",
-                    "text": "Implement fix"
-                },
-                {
-                    "status": "unchecked",
-                    "text": "Test on multiple devices"
-                }
-            ],
-            "title": "Mobile Login Bug Fix"
-        },
-        "-O1pM2Uzy5678Gue7HZu7": {
-            "assigned_to": [
-                {
-                    "color": "#ff5eb3",
-                    "email": "sarah.johnson@example.com",
-                    "id": "-O0Nob6T3m8--jcmOUbG",
-                    "initials": "SJ",
-                    "name": "Sarah Johnson",
-                    "phone": "+49 111 4444444"
-                },
-                {
-                    "color": "#00bee8",
-                    "email": "david.williams@example.com",
-                    "id": "-O0Nob9V23TjgsWOlIuH",
-                    "initials": "DW",
-                    "name": "David Williams",
-                    "phone": "+49 111 7777777",
-                    "status": "normal"
-                },
-                {
-                    "color": "#ff5eb3",
-                    "email": "sarah.johnson@example.com",
-                    "id": "-O0Nob6T3m8--jcmOUbG",
-                    "initials": "SJ",
-                    "name": "Sarah Johnson",
-                    "phone": "+49 111 4444444"
-                },
-                {
-                    "color": "#ff5eb3",
-                    "email": "sarah.johnson@example.com",
-                    "id": "-O0Nob6T3m8--jcmOUbG",
-                    "initials": "SJ",
-                    "name": "Sarah Johnson",
-                    "phone": "+49 111 4444444"
-                },
-                {
-                    "color": "#ff5eb3",
-                    "email": "sarah.johnson@example.com",
-                    "id": "-O0Nob6T3m8--jcmOUbG",
-                    "initials": "SJ",
-                    "name": "Sarah Johnson",
-                    "phone": "+49 111 4444444"
-                }
-            ],
-            "category": "User Story",
-            "description": "Implement user profile page",
-            "due_date": "2024-07-25",
-            "id": "-O1pM2Uzy5678Gue7HZu7",
-            "priority": "mid",
-            "status": "todo",
-            "subtasks": [
-                {
-                    "status": "unchecked",
-                    "text": "Design wireframe"
-                },
-                {
-                    "status": "unchecked",
-                    "text": "Develop backend"
-                },
-                {
-                    "status": "unchecked",
-                    "text": "Create frontend"
-                },
-                {
-                    "status": "unchecked",
-                    "text": "Test and deploy"
-                }
-            ],
-            "title": "User Profile Page"
-        },
-        "-O1pM2Uzy1234Eue7HZu7": {
-            "assigned_to": [
-                {
-                    "color": "#ffa35e",
-                    "email": "linda.brown@example.com",
-                    "id": "-O0Nob4Ql0LRcnyVa8oP",
-                    "initials": "LB",
-                    "name": "Linda Brown",
-                    "phone": "+49 111 2222222"
-                }
-            ],
-            "category": "Bug Fix",
-            "description": "Fix payment processing issue",
-            "due_date": "2024-08-10",
-            "id": "-O1pM2Uzy1234Eue7HZu7",
-            "priority": "high",
-            "status": "inprogress",
-            "subtasks": [
-                {
-                    "status": "unchecked",
-                    "text": "Review error logs"
-                },
-                {
-                    "status": "unchecked",
-                    "text": "Update payment gateway API"
-                },
-                {
-                    "status": "unchecked",
-                    "text": "Test transactions"
-                }
-            ],
-            "title": "Payment Processing Fix"
-        },
-        "-O1pM3Uzy5678Gue8HZu8": {
-            "assigned_to": [
-                {
-                    "color": "#1fd7c1",
-                    "email": "michael.jones@example.com",
-                    "id": "-O0Nob5S9eiRacAj4uEJ",
-                    "initials": "MJ",
-                    "name": "Michael Jones",
-                    "phone": "+49 111 3333333"
-                },
-                {
-                    "color": "#1fd7c1",
-                    "email": "michael.jones@example.com",
-                    "id": "-O0Nob5S9eiRacAj4uEJ",
-                    "initials": "MJ",
-                    "name": "Michael Jones",
-                    "phone": "+49 111 3333333"
-                },
-                {
-                    "color": "#1fd7c1",
-                    "email": "michael.jones@example.com",
-                    "id": "-O0Nob5S9eiRacAj4uEJ",
-                    "initials": "MJ",
-                    "name": "Michael Jones",
-                    "phone": "+49 111 3333333"
-                },
-                {
-                    "color": "#1fd7c1",
-                    "email": "michael.jones@example.com",
-                    "id": "-O0Nob5S9eiRacAj4uEJ",
-                    "initials": "MJ",
-                    "name": "Michael Jones",
-                    "phone": "+49 111 3333333"
-                },
-                {
-                    "color": "#1fd7c1",
-                    "email": "michael.jones@example.com",
-                    "id": "-O0Nob5S9eiRacAj4uEJ",
-                    "initials": "MJ",
-                    "name": "Michael Jones",
-                    "phone": "+49 111 3333333"
-                }
-            ],
-            "category": "Feature",
-            "description": "Add dark mode feature",
-            "due_date": "2024-09-15",
-            "id": "-O1pM3Uzy5678Gue8HZu8",
-            "priority": "mid",
-            "status": "todo",
-            "subtasks": [
-                {
-                    "status": "unchecked",
-                    "text": "Design dark mode UI"
-                },
-                {
-                    "status": "unchecked",
-                    "text": "Implement dark mode functionality"
-                },
-                {
-                    "status": "unchecked",
-                    "text": "Conduct user testing"
-                }
-            ],
-            "title": "Dark Mode Feature"
-        },
-        "-O1pM4Uzy6789Gue9HZu9": {
-            "assigned_to": [
-                {
-                    "color": "#ff5eb3",
-                    "email": "sarah.johnson@example.com",
-                    "id": "-O0Nob6T3m8--jcmOUbG",
-                    "initials": "SJ",
-                    "name": "Sarah Johnson",
-                    "phone": "+49 111 4444444"
-                }
-            ],
-            "category": "Improvement",
-            "description": "Optimize performance for mobile",
-            "due_date": "2024-08-20",
-            "id": "-O1pM4Uzy6789Gue9HZu9",
-            "priority": "high",
-            "status": "inprogress",
-            "subtasks": [
-                {
-                    "status": "unchecked",
-                    "text": "Analyze performance bottlenecks"
-                },
-                {
-                    "status": "unchecked",
-                    "text": "Refactor codebase"
-                },
-                {
-                    "status": "unchecked",
-                    "text": "Test performance improvements"
-                }
-            ],
-            "title": "Mobile Performance Optimization"
-        },
-        "-O1pM5Uzy7890Gue0HZu0": {
-            "assigned_to": [
-                {
-                    "color": "#0038ff",
-                    "email": "emma.davis@example.com",
-                    "id": "-O0Nob8RbM6T6eUt6yn1",
-                    "initials": "ED",
-                    "name": "Emma Davis",
-                    "phone": "+49 111 6666666"
-                }
-            ],
-            "category": "Documentation",
-            "description": "Update API documentation",
-            "due_date": "2024-08-30",
-            "id": "-O1pM5Uzy7890Gue0HZu0",
-            "priority": "low",
-            "status": "todo",
-            "subtasks": [
-                {
-                    "status": "unchecked",
-                    "text": "Review existing documentation"
-                },
-                {
-                    "status": "unchecked",
-                    "text": "Add new endpoints"
-                },
-                {
-                    "status": "unchecked",
-                    "text": "Verify examples"
-                }
-            ],
-            "title": "API Documentation Update"
-        }
+    "-OCT8-s_X_SuXHizOEkZ": {
+      "color": "#00bee7",
+      "email": "alice.smith@example.com",
+      "initials": "AS",
+      "name": "Alice Smith",
+      "phone": "+49 111 0000000"
     },
-    "contacts": {
-        "-O0Nob2HY-b8GwkHNQ1t": {
-            "color": "#0038ff",
-            "email": "alice.smith@example.com",
-            "initials": "AS",
-            "name": "Alice Smith",
-            "phone": "+49 111 0000000",
-            "status": "normal"
-        },
-        "-O0Nob3TV3LADGyIeC4R": {
-            "color": "#ffa35e",
-            "email": "john.doe@example.com",
-            "initials": "JD",
-            "name": "John Doe",
-            "phone": "+49 111 1111111"
-        },
-        "-O0Nob4Ql0LRcnyVa8oP": {
-            "color": "#ffa35e",
-            "email": "linda.brown@example.com",
-            "initials": "LB",
-            "name": "Linda Brown",
-            "phone": "+49 111 2222222"
-        },
-        "-O0Nob5S9eiRacAj4uEJ": {
-            "color": "#1fd7c1",
-            "email": "michael.jones@example.com",
-            "initials": "MJ",
-            "name": "Michael Jones",
-            "phone": "+49 111 3333333"
-        },
-        "-O0Nob6T3m8--jcmOUbG": {
-            "color": "#ff5eb3",
-            "email": "sarah.johnson@example.com",
-            "initials": "SJ",
-            "name": "Sarah Johnson",
-            "phone": "+49 111 4444444"
-        },
-        "-O0Nob7PoeMn_cpxEmgW": {
-            "color": "#c3ff2b",
-            "email": "james.wilson@example.com",
-            "initials": "JW",
-            "name": "James Wilson",
-            "phone": "+49 111 5555555"
-        },
-        "-O0Nob8RbM6T6eUt6yn1": {
-            "color": "#0038ff",
-            "email": "emma.davis@example.com",
-            "initials": "ED",
-            "name": "Emma Davis",
-            "phone": "+49 111 6666666",
-            "status": "normal"
-        },
-        "-O0Nob9V23TjgsWOlIuH": {
-            "color": "#00bee8",
-            "email": "david.williams@example.com",
-            "initials": "DW",
-            "name": "David Williams",
-            "phone": "+49 111 7777777",
-            "status": "normal"
-        },
-        "-O0NobATY2jEbHXAHcAm": {
-            "color": "#6e52ff",
-            "email": "julia.clark@example.com",
-            "initials": "JC",
-            "name": "Julia Clark",
-            "phone": "+49 111 8888888"
-        },
-        "-O0NobB2ZY9Kuj0G4WxAa": {
-            "color": "#8b3aff",
-            "email": "charles.miller@example.com",
-            "initials": "CM",
-            "name": "Charles Miller",
-            "phone": "+49 111 9999999"
-        },
-        "-O0NobC2DY4kT8dJQwGf": {
-            "color": "#f39c12",
-            "email": "maria.garcia@example.com",
-            "initials": "MG",
-            "name": "Maria Garcia",
-            "phone": "+49 111 1010101"
-        },
-        "-O0NobD2DY5kT8dJQwGf": {
-            "color": "#8e44ad",
-            "email": "george.brown@example.com",
-            "initials": "GB",
-            "name": "George Brown",
-            "phone": "+49 111 2020202"
-        },
-        "-O0NobE2DY6kT8dJQwGf": {
-            "color": "#c0392b",
-            "email": "lisa.white@example.com",
-            "initials": "LW",
-            "name": "Lisa White",
-            "phone": "+49 111 3030303"
-        },
-        "-O0NobF2DY7kT8dJQwGf": {
-            "color": "#2ecc71",
-            "email": "peter.jones@example.com",
-            "initials": "PJ",
-            "name": "Peter Jones",
-            "phone": "+49 111 4040404"
-        },
-        "-O0NobG2DY8kT8dJQwGf": {
-            "color": "#1fd7c1",
-            "email": "laura.green@example.com",
-            "initials": "LG",
-            "name": "Laura Green",
-            "phone": "+49 111 5050505"
-        },
-        "-O0NobH2DY9kT8dJQwGf": {
-            "color": "#ffa35e",
-            "email": "nathan.kim@example.com",
-            "initials": "NK",
-            "name": "Nathan Kim",
-            "phone": "+49 111 6060606"
-        }
+    "-OCT88YPaBwT9x7YjgkP": {
+      "color": "#9327ff",
+      "email": "jane.doe@example.com",
+      "initials": "JD",
+      "name": "Jane Doe",
+      "phone": "+49 111 1111111"
+    },
+    "-OCT8OViCxkjCaL1l_D7": {
+      "color": "#6e52ff",
+      "email": "linda.brown@example.com",
+      "initials": "LB",
+      "name": "Linda Brown",
+      "phone": "+49 111 2222222"
+    },
+    "-OCT8acFh5VCEmDQXNQM": {
+      "color": "#ffbb2a",
+      "email": "michael.jones@example.com",
+      "initials": "MJ",
+      "name": "Michael Jones",
+      "phone": "+49 111 3333333"
+    },
+    "-OCT8zz6sARagelwT6yt": {
+      "color": "#fc71ff",
+      "email": "sarah.johnson@exmaple.com",
+      "initials": "SJ",
+      "name": "Sarah Johnson",
+      "phone": "+49 111 4444444"
+    },
+    "-OCT966Lf_Vlf2BqAhX-": {
+      "color": "#00bee7",
+      "email": "j.wilson@example.com",
+      "initials": "JW",
+      "name": "James Wilson",
+      "phone": "+49 111 5555555"
+    },
+    "-OCT9Er71f_nKpvRkStI": {
+      "color": "#9327ff",
+      "email": "emma.davis@example.com",
+      "initials": "ED",
+      "name": "Emma Davis",
+      "phone": "+49 111 6666666"
+    },
+    "-OCT9KgGZvOKKcqgj6bC": {
+      "color": "#ff4647",
+      "email": "julia.clark@example.com",
+      "initials": "JC",
+      "name": "Julia Clark",
+      "phone": "+49 111 8888888"
+    },
+    "-OCT9TEWvQxGEIbZ-RyJ": {
+      "color": "#20d7c1",
+      "email": "charles.miller@example.com",
+      "initials": "CM",
+      "name": "Charles Miller",
+      "phone": "+49 111 9999999"
+    },
+    "-OCT9Zr13agFESvT7MFM": {
+      "color": "#462f8a",
+      "email": "lisa.white@example.com",
+      "initials": "LW",
+      "name": "Lisa White",
+      "phone": "+49 111 3030303"
+    },
+    "-OCT9ekvBelRNvcC84Uh": {
+      "color": "#00bee7",
+      "email": "laura.green@example.com",
+      "initials": "LG",
+      "name": "Laura Green",
+      "phone": "+49 111 5050505"
+    },
+    "-OCT9o0BTXNUttlloOzw": {
+      "color": "#20d7c1",
+      "email": "nathan.kim@example.com",
+      "initials": "NK",
+      "name": "Nathan Kim",
+      "phone": "+49 111 6060606"
+    },
+    "-OCT9u35TlSdawrH1slf": {
+      "color": "#00bee7",
+      "email": "peter.jones@example.com",
+      "initials": "PJ",
+      "name": "Peter Jones",
+      "phone": "+49 111 4040404"
+    },
+    "-OCTA1GD0bka28LJu-Wx": {
+      "color": "#ff7900",
+      "email": "maria.garcia@example.com",
+      "initials": "MG",
+      "name": "Maria Garcia",
+      "phone": "+49 111 1010101"
+    },
+    "-OCTA7jlMlxtcTFXqLtt": {
+      "color": "#00bee7",
+      "email": "george.brown@example.com",
+      "initials": "GB",
+      "name": "George Brown",
+      "phone": "+49 111 2020202"
+    },
+    "-OCTAQeBVFq5AdRBmDYE": {
+      "color": "#20d7c1",
+      "email": "tim.tomson@example.com",
+      "initials": "TT",
+      "name": "Tim Tomson",
+      "phone": "+49 111 7070707"
     }
+  },
+  "tasks": {
+    "-OCTFziQ8rAncUCoyjCL": {
+      "assigned_to": [
+        {
+          "color": "#9327ff",
+          "email": "jane.doe@example.com",
+          "id": "-OCT88YPaBwT9x7YjgkP",
+          "initials": "JD",
+          "name": "Jane Doe",
+          "phone": "+49 111 1111111"
+        },
+        {
+          "color": "#ff4647",
+          "email": "julia.clark@example.com",
+          "id": "-OCT9KgGZvOKKcqgj6bC",
+          "initials": "JC",
+          "name": "Julia Clark",
+          "phone": "+49 111 8888888"
+        },
+        {
+          "color": "#20d7c1",
+          "email": "tim.tomson@example.com",
+          "id": "-OCTAQeBVFq5AdRBmDYE",
+          "initials": "TT",
+          "name": "Tim Tomson",
+          "phone": "+49 111 7070707"
+        }
+      ],
+      "category": "Technical Task",
+      "description": "Identify and fix bugs in the front-end codebase",
+      "due_date": "2024-11-30",
+      "priority": "mid",
+      "status": "done",
+      "subtasks": [
+        {
+          "status": "checked",
+          "text": "Identify and document bugs"
+        },
+        {
+          "status": "checked",
+          "text": "Debug to find root causes"
+        },
+        {
+          "status": "checked",
+          "text": "Implement and test fixes"
+        },
+        {
+          "status": "checked",
+          "text": "Compatibility test across browsers"
+        }
+      ],
+      "title": "Front-End Bug Fix"
+    },
+    "-OCTH14UIt91eXghpO_Q": {
+      "assigned_to": [
+        {
+          "color": "#9327ff",
+          "email": "emma.davis@example.com",
+          "id": "-OCT9Er71f_nKpvRkStI",
+          "initials": "ED",
+          "name": "Emma Davis",
+          "phone": "+49 111 6666666"
+        },
+        {
+          "color": "#ff7900",
+          "email": "maria.garcia@example.com",
+          "id": "-OCTA1GD0bka28LJu-Wx",
+          "initials": "MG",
+          "name": "Maria Garcia",
+          "phone": "+49 111 1010101"
+        },
+        {
+          "color": "#ffbb2a",
+          "email": "michael.jones@example.com",
+          "id": "-OCT8acFh5VCEmDQXNQM",
+          "initials": "MJ",
+          "name": "Michael Jones",
+          "phone": "+49 111 3333333"
+        }
+      ],
+      "category": "Technical Task",
+      "description": "Improve website layout and functionality for all screen sizes and devices",
+      "due_date": "2024-12-01",
+      "priority": "high",
+      "status": "inprogress",
+      "subtasks": [
+        {
+          "status": "checked",
+          "text": "Identify layout issues"
+        },
+        {
+          "status": "checked",
+          "text": "Test across screen sizes"
+        },
+        {
+          "status": "unchecked",
+          "text": "Optimize images and media"
+        },
+        {
+          "status": "checked",
+          "text": "Implement media queries"
+        },
+        {
+          "status": "unchecked",
+          "text": "Update CSS for responsiveness"
+        }
+      ],
+      "title": "Responsive Design Optimization"
+    },
+    "-OCTHUxhSMg2VlzDVT8I": {
+      "assigned_to": [
+        {
+          "color": "rgb(255, 187, 42)",
+          "id": "-OCT8acFh5VCEmDQXNQM",
+          "initials": "MJ",
+          "name": "Michael Jones"
+        },
+        {
+          "color": "rgb(32, 215, 193)",
+          "id": "-OCT9o0BTXNUttlloOzw",
+          "initials": "NK",
+          "name": "Nathan Kim"
+        },
+        {
+          "color": "rgb(0, 190, 231)",
+          "id": "-OCT9u35TlSdawrH1slf",
+          "initials": "PJ",
+          "name": "Peter Jones"
+        }
+      ],
+      "category": "Technical Task",
+      "description": "Improve code quality by reviewing and optimizing the codebase",
+      "due_date": "2024-12-06",
+      "priority": "high",
+      "status": "inprogress",
+      "subtasks": [
+        {
+          "status": "checked",
+          "text": "Refactor for readability and efficiency"
+        },
+        {
+          "status": "checked",
+          "text": "Remove unused code or dependencies"
+        },
+        {
+          "status": "unchecked",
+          "text": "Optimize performance-critical sections"
+        },
+        {
+          "status": "unchecked",
+          "text": "Document improvements and changes"
+        }
+      ],
+      "title": "JavaScript Optimization"
+    },
+    "-OCTIo7UcmAYcipmn5wS": {
+      "assigned_to": [
+        {
+          "color": "rgb(32, 215, 193)",
+          "id": "-OCT9TEWvQxGEIbZ-RyJ",
+          "initials": "CM",
+          "name": "Charles Miller"
+        },
+        {
+          "color": "rgb(147, 39, 255)",
+          "id": "-OCT9Er71f_nKpvRkStI",
+          "initials": "ED",
+          "name": "Emma Davis"
+        }
+      ],
+      "category": "Technical Task",
+      "description": "Optimize website performance for faster loading and better user experience",
+      "due_date": "2024-12-10",
+      "priority": "high",
+      "status": "todo",
+      "subtasks": [
+        {
+          "status": "unchecked",
+          "text": "Minify CSS and JavaScript files"
+        },
+        {
+          "status": "unchecked",
+          "text": "Image optimization"
+        }
+      ],
+      "title": "Performance Optimization"
+    },
+    "-OCTJStRzPDrJMTmTVEc": {
+      "assigned_to": [
+        {
+          "color": "rgb(0, 190, 231)",
+          "id": "-OCT8-s_X_SuXHizOEkZ",
+          "initials": "AS",
+          "name": "Alice Smith"
+        },
+        {
+          "color": "rgb(255, 70, 71)",
+          "id": "-OCT9KgGZvOKKcqgj6bC",
+          "initials": "JC",
+          "name": "Julia Clark"
+        },
+        {
+          "color": "rgb(110, 82, 255)",
+          "id": "-OCT8OViCxkjCaL1l_D7",
+          "initials": "LB",
+          "name": "Linda Brown"
+        }
+      ],
+      "category": "Technical Task",
+      "description": "Implement smooth and engaging animations using CSS for enhanced user experience",
+      "due_date": "2024-11-30",
+      "priority": "mid",
+      "status": "inprogress",
+      "subtasks": [
+        {
+          "status": "checked",
+          "text": "Identify elements for animation"
+        },
+        {
+          "status": "checked",
+          "text": "Design animation effects"
+        },
+        {
+          "status": "checked",
+          "text": "Apply CSS keyframes and transitions"
+        },
+        {
+          "status": "unchecked",
+          "text": "Test animation performance on devices"
+        },
+        {
+          "status": "unchecked",
+          "text": "Ensure animations are accessible"
+        }
+      ],
+      "title": "CSS Animation"
+    },
+    "-OCTKj7Jk1K_hBdPMKIQ": {
+      "assigned_to": [
+        {
+          "color": "rgb(70, 47, 138)",
+          "id": "-OCT9Zr13agFESvT7MFM",
+          "initials": "LW",
+          "name": "Lisa White"
+        },
+        {
+          "color": "rgb(0, 190, 231)",
+          "id": "-OCT9u35TlSdawrH1slf",
+          "initials": "PJ",
+          "name": "Peter Jones"
+        },
+        {
+          "color": "rgb(252, 113, 255)",
+          "id": "-OCT8zz6sARagelwT6yt",
+          "initials": "SJ",
+          "name": "Sarah Johnson"
+        }
+      ],
+      "category": "User Story",
+      "description": "Implementation of drag-and-drop functionality for tasks on the board",
+      "due_date": "2024-11-26",
+      "priority": "high",
+      "status": "awaitfeedback",
+      "subtasks": [
+        {
+          "status": "checked",
+          "text": "Integrate drag-and-drop zones"
+        },
+        {
+          "status": "checked",
+          "text": "Make tasks draggable"
+        },
+        {
+          "status": "checked",
+          "text": "Enable task reordering"
+        },
+        {
+          "status": "unchecked",
+          "text": "Test drag functionality"
+        }
+      ],
+      "title": "Drag and Drop"
+    },
+    "-OCTLC11zecKNcc-dqvT": {
+      "assigned_to": [
+        {
+          "color": "#ffbb2a",
+          "email": "michael.jones@example.com",
+          "id": "-OCT8acFh5VCEmDQXNQM",
+          "initials": "MJ",
+          "name": "Michael Jones",
+          "phone": "+49 111 3333333"
+        },
+        {
+          "color": "#9327ff",
+          "email": "jane.doe@example.com",
+          "id": "-OCT88YPaBwT9x7YjgkP",
+          "initials": "JD",
+          "name": "Jane Doe",
+          "phone": "+49 111 1111111"
+        },
+        {
+          "color": "#fc71ff",
+          "email": "sarah.johnson@exmaple.com",
+          "id": "-OCT8zz6sARagelwT6yt",
+          "initials": "SJ",
+          "name": "Sarah Johnson",
+          "phone": "+49 111 4444444"
+        }
+      ],
+      "category": "User Story",
+      "description": "Display an overview of tasks categorized by type and sorted by the most critical deadline",
+      "due_date": "2024-11-28",
+      "priority": "high",
+      "status": "done",
+      "subtasks": [
+        {
+          "status": "checked",
+          "text": "Design task overview layout"
+        },
+        {
+          "status": "checked",
+          "text": "Categorize tasks by type"
+        },
+        {
+          "status": "checked",
+          "text": "Sort tasks by upcoming deadlines"
+        },
+        {
+          "status": "checked",
+          "text": "Test dashboard for accurate data display"
+        }
+      ],
+      "title": "Dashboard Task Overview"
+    },
+    "-OCTMKNsbl0Aw1msXFIO": {
+      "assigned_to": [
+        {
+          "color": "#ffbb2a",
+          "email": "michael.jones@example.com",
+          "id": "-OCT8acFh5VCEmDQXNQM",
+          "initials": "MJ",
+          "name": "Michael Jones",
+          "phone": "+49 111 3333333"
+        },
+        {
+          "color": "#ff7900",
+          "email": "maria.garcia@example.com",
+          "id": "-OCTA1GD0bka28LJu-Wx",
+          "initials": "MG",
+          "name": "Maria Garcia",
+          "phone": "+49 111 1010101"
+        },
+        {
+          "color": "#ff4647",
+          "email": "julia.clark@example.com",
+          "id": "-OCT9KgGZvOKKcqgj6bC",
+          "initials": "JC",
+          "name": "Julia Clark",
+          "phone": "+49 111 8888888"
+        }
+      ],
+      "category": "User Story",
+      "description": "Allow users to create tasks, set priorities, define deadlines, and assign team members to tasks",
+      "due_date": "2024-11-24",
+      "priority": "high",
+      "status": "inprogress",
+      "subtasks": [
+        {
+          "status": "checked",
+          "text": "Create task input form"
+        },
+        {
+          "status": "checked",
+          "text": "Add priority and deadline fields"
+        },
+        {
+          "status": "checked",
+          "text": "Implement member assignment"
+        },
+        {
+          "status": "checked",
+          "text": "Validation of task data"
+        },
+        {
+          "status": "unchecked",
+          "text": "Test task creation process"
+        }
+      ],
+      "title": "Create Tasks"
+    },
+    "-OCTN9AqZfTSo4lCZPSp": {
+      "assigned_to": [
+        {
+          "color": "#462f8a",
+          "email": "lisa.white@example.com",
+          "id": "-OCT9Zr13agFESvT7MFM",
+          "initials": "LW",
+          "name": "Lisa White",
+          "phone": "+49 111 3030303"
+        },
+        {
+          "color": "#00bee7",
+          "email": "peter.jones@example.com",
+          "id": "-OCT9u35TlSdawrH1slf",
+          "initials": "PJ",
+          "name": "Peter Jones",
+          "phone": "+49 111 4040404"
+        },
+        {
+          "color": "#20d7c1",
+          "email": "tim.tomson@example.com",
+          "id": "-OCTAQeBVFq5AdRBmDYE",
+          "initials": "TT",
+          "name": "Tim Tomson",
+          "phone": "+49 111 7070707"
+        }
+      ],
+      "category": "User Story",
+      "description": "Develop a contact management system to store, update, and remove contact information efficiently",
+      "due_date": "2024-11-27",
+      "priority": "mid",
+      "status": "todo",
+      "subtasks": [
+        {
+          "status": "unchecked",
+          "text": "Create contact input form"
+        },
+        {
+          "status": "unchecked",
+          "text": "Implement contact editing feature"
+        },
+        {
+          "status": "unchecked",
+          "text": "Add delete option for contacts"
+        },
+        {
+          "status": "unchecked",
+          "text": "Validate contact data"
+        }
+      ],
+      "title": "Contact Management"
+    }
+  },
+  "users": {
+    "-OCT6cRyZMPqQNLJ4qUd": {
+      "email": "guest@join379.com",
+      "name": "Guest",
+      "password": "join379"
+    }
+  }
 }

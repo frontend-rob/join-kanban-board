@@ -132,14 +132,30 @@ async function handleFailedLogin(emailInput, passwordInput) {
  * @function
  * @returns {void}
  */
-function guestLogin() {
-    const guestUser = {
-        name: "Guest",
-        email: "guestuser@example.com",
-        password: "join123"
-    };
+async function guestLogin() {
+    try {
+        const guestUser = await fetchGuestUser();
+        if (guestUser) {
+            handleGuestLogin(guestUser);
+        } else {
+            throw new Error('Guest user not found!');
+        }
+    } catch (error) {
+        throw new Error(`Error fetching guest user: ${error.message}`);
+    }
+}
 
-    handleGuestLogin(guestUser);
+
+/**
+ * fetches the guest user data from the Firebase database.
+ * 
+ * @returns {Object|null} the guest user object, or null if not found.
+ */
+async function fetchGuestUser() {
+    const usersUrl = `${DB_URL}/users.json`;
+    const response = await fetch(usersUrl);
+    const usersData = await response.json();
+    return Object.values(usersData).find(user => user.name === 'Guest') || null;
 }
 
 
