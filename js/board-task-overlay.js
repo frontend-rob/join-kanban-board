@@ -65,7 +65,7 @@ async function editTask(taskId) {
 
         document.body.classList.add('no-scroll');
 
-        const priority = taskData.priority || 'low';
+        const priority = taskData.priority || 'low';        
         const overlayContent = document.querySelector('.overlay-content');
         overlayContent.innerHTML = '';
 
@@ -97,7 +97,7 @@ async function editTask(taskId) {
                             <div class="input-group date-input">
                                 <label for="due-date">Due date</label>
                                 <div class="input-field">
-                                    <input type="date" id="due-date" value="${taskData.due_date || ''}" required>
+                                    <input type="date" id="due-date-edit-task" value="${taskData.due_date || ''}" required>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                         <path
                                             d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-68-76a12,12,0,1,1-12-12A12,12,0,0,1,140,132Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,132ZM96,172a12,12,0,1,1-12-12A12,12,0,0,1,96,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,140,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,172Z">
@@ -109,22 +109,20 @@ async function editTask(taskId) {
                                 <div class="prio-group">
                                     <label>Prio</label>
                                     <div class="prio-buttons">
-                                        <button id="high-priority-button" class="btn btn-urgent ${priority === 'high' ? 'clicked' : ''}" type="button" onclick="setPriority(this, 'high')">
-                                            <span class="prio-text">Urgent</span>
+                                            <button id="high-priority-button-edit-task" class="btn btn-urgent ${priority === 'high-edit-task' || priority === 'high' ? 'clicked' : ''}" type="button" onclick="setPriority(this, 'high')">                                            <span class="prio-text">Urgent</span>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                                 <path
                                                     d="M216.49,191.51a12,12,0,0,1-17,17L128,137,56.49,208.49a12,12,0,0,1-17-17l80-80a12,12,0,0,1,17,0Zm-160-63L128,57l71.51,71.52a12,12,0,0,0,17-17l-80-80a12,12,0,0,0-17,0l-80,80a12,12,0,0,0,17,17Z">
                                                 </path>
                                             </svg>
                                         </button>
-                                        <button id="mid-priority-button" class="btn btn-medium ${priority === 'mid' ? 'clicked' : ''}" type="button" onclick="setPriority(this, 'mid')">
+                                            <button id="medium-priority-button-edit-task" class="btn btn-medium ${priority === 'medium-edit-task' || priority === 'medium' ? 'clicked' : ''}" type="button" onclick="setPriority(this, 'medium')">
                                             <span class="prio-text">Medium</span>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                                 <path d="M228,160a12,12,0,0,1-12,12H40a12,12,0,0,1,0-24H216A12,12,0,0,1,228,160ZM40,108H216a12,12,0,0,0,0-24H40a12,12,0,0,0,0,24Z"></path>
                                             </svg>
                                         </button>
-                                        <button id="low-priority-button" class="btn btn-low ${priority === 'low' ? 'clicked' : ''}" type="button" onclick="setPriority(this, 'low')">
-                                            <span class="prio-text">Low</span>
+                                            <button id="low-priority-button-edit-task" class="btn btn-low ${priority === 'low-edit-task' || priority === 'low' ? 'clicked' : ''}" type="button" onclick="setPriority(this, 'low')">                                            <span class="prio-text">Low</span>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                                 <path
                                                     d="M216.49,127.51a12,12,0,0,1,0,17l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,1,1,17-17L128,199l71.51-71.52A12,12,0,0,1,216.49,127.51Zm-97,17a12,12,0,0,0,17,0l80-80a12,12,0,0,0-17-17L128,119,56.49,47.51a12,12,0,0,0-17,17Z">
@@ -154,27 +152,27 @@ async function editTask(taskId) {
                     <div class="input-group addSubtask-container">
                         <label for="input-subtask">Subtasks</label>
                         <div class="input-field-subtask">
-                            <input type="text" id="input-subtask" placeholder="Add new subtask" oninput="toggleIcons()" onkeydown="handleEnter(event)">
-                            <div id="addSubtask-icons" class="subtask-icons">
-                                <svg id="plus-icon" onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                            <input type="text" id="input-subtask-edit-task" placeholder="Add new subtask" oninput="toggleIconsEditTask()" onkeydown="handleEnterEditTask(event)">
+                            <div id="addSubtask-icons-edit-task" class="subtask-icons">
+                                <svg id="plus-icon-edit-task" onclick="addSubtaskEditTask()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                     <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z">
                                     </path>
                                 </svg>
-                                <div id="edit-icons" class="icon-wrapper hidden">
+                                <div id="edit-icons-edit-task" class="icon-wrapper hidden">
                                     <svg onclick="clearSubtaskInput()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                         <path
                                             d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z">
                                         </path>
                                     </svg>
                                     <div class="edit-divider-vertical"></div>
-                                    <svg onclick="addSubtask()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
+                                    <svg onclick="addSubtaskEditTask()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                         <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z">
                                         </path>
                                     </svg>
                                 </div>
                             </div>
                         </div>
-                        <ul id="subtask-list" class="subtask-list">
+                        <ul id="subtask-list-edit-task" class="subtask-list">
                             ${taskData.subtasks ? taskData.subtasks.map(subtask => `
                             <li class="subtask-item">
                                 <input type="text" value="${subtask.text}" class="subtask-edit-input" readonly tabindex="-1" onclick="preventFocus(event)">
@@ -207,7 +205,7 @@ async function editTask(taskId) {
             </section>
         `;
 
-        initializeDatePicker("#due-date");
+        initializeDatePicker("#due-date-edit-task");
 
     } catch (error) {
         console.error('Error editing task:', error);
@@ -224,7 +222,7 @@ async function saveTaskChanges(event, taskId) {
     try {
         const title = document.getElementById('task-title').value.trim();
         const description = document.getElementById('task-description').value.trim();
-        const dueDate = document.getElementById('due-date').value;
+        const dueDate = document.getElementById('due-date-edit-task').value;
         const priority = document.querySelector('.prio-buttons .clicked')?.id.replace('-priority-button', '') || 'low';
 
         const assignedContacts = Array.from(document.querySelectorAll('.contact-item.active')).map(contactItem => {
@@ -268,6 +266,7 @@ async function saveTaskChanges(event, taskId) {
         updateTaskInUI(taskId, updatedTaskData);
         reloadTasksInBoard(response, updatedTaskData);
         localStorage.removeItem('checkboxStates');
+        localStorage.removeItem('selectedContacts');
         clearInputForm()
     } catch (error) {
         console.error('Fehler beim Speichern der Task:', error);
@@ -336,6 +335,7 @@ function addSubtask() {
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256" onclick="editSubtask(this)">
                         <path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"></path>
                     </svg>
+                        <div class="edit-divider-vertical"></div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256" onclick="deleteSubtask(this)">
                         <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
                     </svg>
@@ -347,6 +347,35 @@ function addSubtask() {
     }
 }
 
+/**
+ * Fügt eine neue Subtask hinzu.
+ */
+function addSubtaskEditTask() {
+    const inputField = document.getElementById('input-subtask-edit-task');
+    const subtaskText = inputField.value.trim();
+
+    if (subtaskText) {
+        const subtaskList = document.querySelector('.subtask-list');
+        const newSubtask = `
+            <div class="subtask-item">
+                <input type="text" value="${subtaskText}" class="subtask-edit-input" readonly tabindex="-1" onclick="preventFocus(event)">
+                <div class="subtask-edit-icons">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256" onclick="editSubtask(this)">
+                        <path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"></path>
+                    </svg>
+                        <div class="edit-divider-vertical"></div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256" onclick="deleteSubtask(this)">
+                        <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
+                    </svg>
+                </div>
+            </div>
+        `;
+        subtaskList.insertAdjacentHTML('beforeend', newSubtask);
+        inputField.value = '';
+        toggleIconsEditTask()
+    }
+}
+
 function handleEnter(event) {
     if (event.key === 'Enter') {
         event.preventDefault(); // Prevent form submission
@@ -354,10 +383,11 @@ function handleEnter(event) {
     }
 }
 
-function toggleIcons() {
-    const plusIcon = document.getElementById('plus-icon');
-    if (plusIcon) {
-        plusIcon.style.display = 'block';
+
+function handleEnterEditTask(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault(); // Prevent form submission
+        addSubtaskEditTask();
     }
 }
 

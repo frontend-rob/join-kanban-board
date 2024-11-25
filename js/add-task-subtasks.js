@@ -25,6 +25,21 @@ function toggleIcons() {
     toggleVisibility(plusIcon, isInputEmpty);
 }
 
+/**
+ * toggles the visibility of icons based on the state of the input field.
+ * if the input field is empty, the plus icon is shown and other icons are hidden, 
+ * otherwise, the other icons are shown and the plus icon is hidden.
+ */
+function toggleIconsEditTask() {
+    const inputField = document.getElementById('input-subtask-edit-task');
+    const iconWrapper = document.getElementById('edit-icons-edit-task');
+    const plusIcon = document.getElementById('plus-icon-edit-task');
+    const isInputEmpty = inputField.value.trim() === "";
+
+    toggleVisibility(iconWrapper, !isInputEmpty);
+    toggleVisibility(plusIcon, isInputEmpty);
+}
+
 
 /**
  * escapes input values to ensure that special characters are safely used in HTML attributes.

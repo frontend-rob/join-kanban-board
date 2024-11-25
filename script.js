@@ -248,3 +248,23 @@ function escapeHtml(unsafe) {
         return `&#${m.charCodeAt(0)};`;
     });
 }
+
+
+function extractPriority(priorityText) {
+    const validPriorities = ["low", "medium", "high"];
+    const match = validPriorities.find(priority => priorityText.toLowerCase().startsWith(priority));
+    return match || "default";
+}
+
+
+function extractPriorityDisplay(priorityText) {
+    const validPriorities = ["low", "medium", "high"];
+    const lowerText = priorityText.toLowerCase();
+
+    for (const priority of validPriorities) {
+        if (lowerText.startsWith(priority)) {
+            return priority.charAt(0).toUpperCase() + priority.slice(1); // Capitalize
+        }
+    }
+    return "Default";
+}

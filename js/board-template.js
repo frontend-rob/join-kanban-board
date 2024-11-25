@@ -36,7 +36,7 @@ function renderTaskHTML(taskId, task, progressPercentage, assignedTo, subtasks, 
             </div>
             <div class="profile-icon-and-level">
                 <div class="icons">${assignedToHTML}</div>
-                <img class="level" src="../assets/icons/priority-${task.priority}.svg" alt="Priority Level">
+                <img class="level" src="../assets/icons/priority-${extractPriority(task.priority)}.svg" alt="Priority Level">
             </div>
         </div>
     `;
@@ -69,8 +69,8 @@ function getTaskOverlayContent(task) {
             <div class="priority">
                 <span class="priority-text">Priority:</span>
                 <div class="priority-container">
-                    <span class="level">${task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}</span>
-                    <img src="../assets/icons/priority-${task.priority}.svg" alt="">
+                    <span class="level">${extractPriorityDisplay(task.priority)}</span>
+                    <img class="level" src="../assets/icons/priority-${extractPriority(task.priority)}.svg" alt="Priority Level">
                 </div>
             </div>
             <div class="assigned-to">
@@ -182,7 +182,7 @@ function getAddTaskContent() {
                                     </path>
                                 </svg>
                             </button>
-                            <button id="mid-priority-button" class="btn btn-medium clicked" type="button" onclick="setPriority(this)">
+                            <button id="medium-priority-button" class="btn btn-medium clicked" type="button" onclick="setPriority(this)">
                                 <span class="prio-text">Medium</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                     <path d="M228,160a12,12,0,0,1-12,12H40a12,12,0,0,1,0-24H216A12,12,0,0,1,228,160ZM40,108H216a12,12,0,0,0,0-24H40a12,12,0,0,0,0,24Z">

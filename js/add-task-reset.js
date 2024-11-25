@@ -15,7 +15,7 @@ function getFormElements() {
         errorTaskTitle: document.getElementById('error-task-title'),
         errorDueDate: document.getElementById('error-due-date'),
         errorTaskCategory: document.getElementById('error-task-category'),
-        mediumPriorityButton: document.getElementById('mid-priority-button')
+        mediumPriorityButton: document.getElementById('medium-priority-button')
     };
 }
 

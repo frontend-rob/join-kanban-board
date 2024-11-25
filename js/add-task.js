@@ -77,14 +77,15 @@ function setPriority(button) {
         case 'high-priority-button':
             taskPriority = 'high';
             break;
-        case 'mid-priority-button':
-            taskPriority = 'mid';
+        case 'medium-priority-button':
+            taskPriority = 'medium';
             break;
         case 'low-priority-button':
             taskPriority = 'low';
             break;
     }
 }
+
 
 
 /**
@@ -243,11 +244,11 @@ function gatherTaskData() {
 
 
 /**
- * retrieves the priority of the task, defaults to 'mid' if not set.
+ * retrieves the priority of the task, defaults to 'medium' if not set.
  * @returns {string} - the priority of the task.
  */
 function getTaskPriority() {
-    return taskPriority || 'mid';
+    return taskPriority || 'medium';
 }
 
 

@@ -509,3 +509,5 @@ function renderFilteredContacts(contacts) {
     updateCheckboxesState();
     addContactClickListeners();
 }
+
+

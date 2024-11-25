@@ -245,6 +245,15 @@
     cursor: unset;
 }
 
+#plus-icon-edit-task {
+    fill: var(--bg-neutral-accent)
+}
+
+#plus-icon-edit-task:hover {
+    background-color: unset;
+    cursor: unset;
+}
+
 @media (max-height: 800px){
     .task-details {
         max-height: 40rem;

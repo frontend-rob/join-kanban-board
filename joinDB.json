@@ -151,7 +151,7 @@
       "category": "Technical Task",
       "description": "Identify and fix bugs in the front-end codebase",
       "due_date": "2024-11-30",
-      "priority": "mid",
+      "priority": "medium",
       "status": "done",
       "subtasks": [
         {
@@ -331,7 +331,7 @@
       "category": "Technical Task",
       "description": "Implement smooth and engaging animations using CSS for enhanced user experience",
       "due_date": "2024-11-30",
-      "priority": "mid",
+      "priority": "medium",
       "status": "inprogress",
       "subtasks": [
         {
@@ -541,7 +541,7 @@
       "category": "User Story",
       "description": "Develop a contact management system to store, update, and remove contact information efficiently",
       "due_date": "2024-11-27",
-      "priority": "mid",
+      "priority": "medium",
       "status": "todo",
       "subtasks": [
         {
