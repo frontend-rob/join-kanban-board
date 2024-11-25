@@ -333,9 +333,11 @@
     right: 1rem;
 }
 
-#assigned-to {
+#assigned-to,
+#assigned-to-edit-task{
     cursor: pointer;
 }
+
 
 #contact-dropdown-icon {
     cursor: unset;
@@ -409,6 +411,7 @@
 
     label,
     #contact-dropdown p,
+    #contact-dropdown-edit-task p,
     .contact-item,
     .category-dropdown-item,
     #input-subtask,

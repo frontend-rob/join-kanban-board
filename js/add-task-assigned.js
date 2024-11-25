@@ -14,12 +14,43 @@ function toggleContactDropdown() {
     }
 }
 
+/**
+ * toggles the visibility of the contact dropdown and rotates the dropdown icon.
+ */
+function toggleContactDropdownEditTask() {
+    const contactDropdown = document.getElementById('contact-dropdown-edit-task');
+    const contactDropdownIcon = document.getElementById('contact-dropdown-icon');
+
+    contactDropdown.classList.toggle('hidden');
+    contactDropdown.classList.toggle('show');
+    contactDropdownIcon.classList.toggle('rotated');
+
+    if (contactDropdown.classList.contains('show')) {
+        renderContactsEditTask();
+    }
+}
+
+
+
 
 /**
  * closes the contact dropdown and resets the icon rotation.
  */
 function closeContactDropdown() {
     const contactDropdown = document.getElementById('contact-dropdown');
+    const contactDropdownIcon = document.getElementById('contact-dropdown-icon');
+
+    contactDropdown.classList.add('hidden');
+    contactDropdown.classList.remove('show');
+    contactDropdownIcon.classList.remove('rotated');
+}
+
+
+/**
+ * closes the contact dropdown and resets the icon rotation.
+ */
+function closeContactDropdownEditTask() {
+    const contactDropdown = document.getElementById('contact-dropdown-edit-task');
     const contactDropdownIcon = document.getElementById('contact-dropdown-icon');
 
     contactDropdown.classList.add('hidden');
@@ -39,6 +70,25 @@ document.addEventListener('click', function (event) {
 
     if (!assignedInput.contains(event.target) && !contactDropdown.contains(event.target)) {
         closeContactDropdown();
+    }
+});
+
+/**
+ * closes the contact dropdown when a click occurs outside of the dropdown or input field.
+ * 
+ * @param {MouseEvent} event - the mouse event triggered by a click.
+ */
+document.addEventListener('click', function (event) {
+    const assignedInput = document.getElementById('assigned-to-edit-task');
+    const contactDropdown = document.getElementById('contact-dropdown-edit-task');
+
+    if (
+        assignedInput &&
+        contactDropdown &&
+        !assignedInput.contains(event.target) &&
+        !contactDropdown.contains(event.target)
+    ) {
+        closeContactDropdownEditTask();
     }
 });
 
@@ -247,6 +297,25 @@ async function renderContacts() {
     initializeContactInteractions();
 }
 
+/**
+ * fetches and renders contacts in the dropdown.
+ * ensures the user contact appears first and the rest are sorted alphabetically.
+ */
+async function renderContactsEditTask() {
+    const contactDropdown = prepareContactDropdownEditTask();
+
+    const contacts = await fetchContacts();
+    if (!contacts) {
+        displayError(contactDropdown);
+        return;
+    }
+
+    const sortedContacts = sortContactsAlphabetically(contacts);
+    const updatedContacts = prioritizeUserContact(sortedContacts);
+    renderContactList(contactDropdown, updatedContacts);
+    initializeContactInteractions();
+}
+
 
 /**
  * prepares the contact dropdown for rendering.
@@ -259,6 +328,16 @@ function prepareContactDropdown() {
     return contactDropdown;
 }
 
+/**
+ * prepares the contact dropdown for rendering.
+ * @returns {HTMLElement} the prepared contact dropdown element.
+ */
+function prepareContactDropdownEditTask() {
+    const contactDropdown = document.getElementById('contact-dropdown-edit-task');
+    contactDropdown.classList.remove('hidden');
+    contactDropdown.innerHTML = '';
+    return contactDropdown;
+}
 
 /**
  * sorts the contacts alphabetically by their name.
@@ -382,12 +461,23 @@ function toggleContactDropdown() {
     }
 }
 
-
 /**
  * filters contacts based on the search term and updates the dropdown display.
  */
 function searchContacts() {
     const searchTerm = document.getElementById('assigned-to').value.toLowerCase();
+    const filteredContacts = allContacts.filter(contact =>
+        contact.name.toLowerCase().includes(searchTerm)
+    );
+
+    renderFilteredContacts(filteredContacts);
+}
+
+/**
+ * filters contacts based on the search term and updates the dropdown display.
+ */
+function searchContactsEditTask() {
+    const searchTerm = document.getElementById('assigned-to-edit-task').value.toLowerCase();
     const filteredContacts = allContacts.filter(contact =>
         contact.name.toLowerCase().includes(searchTerm)
     );

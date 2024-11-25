@@ -135,12 +135,12 @@ async function editTask(taskId) {
                                 </div>
                                 <label for="assigned-to">Assigned to</label>
                                 <div class="input-field">
-                                    <input type="text" id="assigned-to" placeholder="Select contacts to assign" onclick="toggleContactDropdown()" autocomplete="off">
+                                    <input type="text" id="assigned-to-edit-task" placeholder="Select contacts to assign" onclick="toggleContactDropdownEditTask()" oninput="searchContactsOverlay()" autocomplete="off">
                                     <svg id="contact-dropdown-icon" class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
                                         <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z">
                                         </path>
                                     </svg>
-                                    <div id="contact-dropdown" class="contact-dropdown hidden"></div>
+                                    <div id="contact-dropdown-edit-task" class="contact-dropdown hidden"></div>
                                 </div>
                                 <div id="selected-contacts" class="selected-contacts">
                                     ${taskData.assigned_to ? taskData.assigned_to.map(contact => `
