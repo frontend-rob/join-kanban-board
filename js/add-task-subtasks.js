@@ -72,7 +72,7 @@ function addSubtask() {
     const escapedSubTaskText = escapeHTMLTags(subtaskText);
 
     const subtaskList = document.getElementById('subtask-list');
-    subtaskList.innerHTML += `
+    const newSubtaskHTML = `
         <li class="subtask-item">
             <input type="text" value="${escapedSubTaskText}" class="subtask-edit-input" readonly tabindex="-1" onclick="preventFocus(event)">
             <div class="subtask-edit-icons">
@@ -87,10 +87,13 @@ function addSubtask() {
         </li>
     `;
 
+    subtaskList.insertAdjacentHTML('beforeend', newSubtaskHTML);
+
     inputField.value = "";
     toggleIcons();
     addDoubleClickListenerToSubtasks();
 }
+
 
 
 /**
