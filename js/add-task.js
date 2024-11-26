@@ -298,12 +298,17 @@ async function saveTaskToDatabase(taskData) {
 /**
  * handles the success scenario after a task is added.
  */
-function handleTaskSuccess() {
+async function handleTaskSuccess() {
     if (document.getElementById('add-task-content')) {
         closeAddTaskOverlay();
     }
-    showTaskAddedModal();
-    clearInputForm();
+
+    await showTaskAddedModal();
+    await clearInputForm();
+
+    setTimeout(() => {
+        window.location.href = '/pages/board.html';
+    }, 2000);
 }
 
 
