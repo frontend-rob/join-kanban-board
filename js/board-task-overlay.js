@@ -1,44 +1,62 @@
 const overlayElement = document.getElementById('overlay');
 
 /**
- * Opens the task overlay and displays task details.
+ * Displays a task overlay with detailed task information.
  * 
- * @param {string} taskId - The ID of the task to be displayed.
+ * @param {string} taskId - The ID of the task to display in the overlay.
  */
 function getTaskOverlay(taskId) {
     const task = allTasks[taskId];
 
     if (task) {
-        const overlayContent = getTaskOverlayContent(task);
-
         const overlayElement = document.getElementById('overlay');
-        overlayElement.querySelector('.overlay-content').innerHTML = overlayContent;
-
+        overlayElement.querySelector('.overlay-content').innerHTML = getTaskOverlayContent(task);
         overlayElement.setAttribute('data-task-id', taskId);
 
-        const subtasksHTML = getSubtasksHTML(task.subtasks, taskId);
-        const subtasksContainer = overlayElement.querySelector(`.all-subtasks`);
-        if (subtasksContainer) {
-            subtasksContainer.id = `subtasks-${taskId}`;
-            subtasksContainer.innerHTML = subtasksHTML;
-        } else {
-            console.error('Subtasks-Container nicht gefunden!');
-        }
-
-        const assignedToHTML = getAssignedToHTML(task.assigned_to);
-        const personsContainer = overlayElement.querySelector('.persons');
-        if (personsContainer) {
-            personsContainer.innerHTML = assignedToHTML;
-        } else {
-            console.error('Persons-Container nicht gefunden!');
-        }
+        updateSubtasksContainer(task.subtasks, taskId, overlayElement);
+        updateAssignedToContainer(task.assigned_to, overlayElement);
 
         overlayElement.style.display = 'flex';
         document.body.classList.add('no-scroll');
     } else {
-        console.error(`Task mit ID ${taskId} nicht gefunden.`);
+        console.error(`Task with ID ${taskId} not found.`);
     }
 }
+
+/**
+ * Updates the subtasks section inside the overlay.
+ * 
+ * @param {Array} subtasks - The list of subtasks for the task.
+ * @param {string} taskId - The ID of the task.
+ * @param {HTMLElement} overlayElement - The overlay element to update.
+ */
+function updateSubtasksContainer(subtasks, taskId, overlayElement) {
+    const subtasksHTML = getSubtasksHTML(subtasks, taskId);
+    const subtasksContainer = overlayElement.querySelector('.all-subtasks');
+    if (subtasksContainer) {
+        subtasksContainer.id = `subtasks-${taskId}`;
+        subtasksContainer.innerHTML = subtasksHTML;
+    } else {
+        console.error('Subtasks container not found!');
+    }
+}
+
+/**
+ * Updates the assigned users section inside the overlay.
+ * 
+ * @param {Array} assignedTo - The list of assigned users for the task.
+ * @param {HTMLElement} overlayElement - The overlay element to update.
+ */
+function updateAssignedToContainer(assignedTo, overlayElement) {
+    const assignedToHTML = getAssignedToHTML(assignedTo);
+    const personsContainer = overlayElement.querySelector('.persons');
+    if (personsContainer) {
+        personsContainer.innerHTML = assignedToHTML;
+    } else {
+        console.error('Persons container not found!');
+    }
+}
+
 
 /**
  * Closes the task overlay.
@@ -51,276 +69,11 @@ function closeTaskOverlay() {
     }
 }
 
-/**
- * Handles editing of a task.
- * 
- * @param {string} taskId - The ID of the task to edit.
- */
-async function editTask(taskId) {
-    try {
-        const taskData = await fetchFromFirebase(`${DB_URL}/tasks/${taskId}.json`);
-        if (!taskData) {
-            throw new Error('Task nicht gefunden');
-        }
-
-        document.body.classList.add('no-scroll');
-
-        const priority = taskData.priority || 'low';        
-        const overlayContent = document.querySelector('.overlay-content');
-        overlayContent.innerHTML = '';
-
-        overlayContent.innerHTML = `
-            <section id="edit-task-content" class="edit-task-content">
-                <form id="edit-task-form" class="edit-task-form" onsubmit="saveTaskChanges(event, '${taskId}'); return false;" novalidate>
-                    <div class="edit-task-close">
-                        <span class="close" onclick="closeTaskOverlay()">
-                            <img src="../assets/icons/Close.svg" alt="Close Icon">
-                        </span>
-                    </div>
-                    <div class="left-column">
-                        <div class="input-group">
-                            <label for="task-title">Title</label>
-                            <div class="input-field">
-                                <input type="text" id="task-title" placeholder="Enter a title" value="${taskData.title || ''}" required>
-                                <p id="error-task-title" class="error-message">
-                                    *This field is required.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="input-group">
-                            <label for="task-description">Description</label>
-                            <div class="input-field">
-                                <textarea id="task-description" placeholder="Enter a description" rows="5">${taskData.description || ''}</textarea>
-                            </div>
-                        </div>
-                        <div class="right-column">
-                            <div class="input-group date-input">
-                                <label for="due-date">Due date</label>
-                                <div class="input-field">
-                                    <input type="date" id="due-date-edit-task" value="${taskData.due_date || ''}" required>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
-                                        <path
-                                            d="M208,32H184V24a8,8,0,0,0-16,0v8H88V24a8,8,0,0,0-16,0v8H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32ZM72,48v8a8,8,0,0,0,16,0V48h80v8a8,8,0,0,0,16,0V48h24V80H48V48ZM208,208H48V96H208V208Zm-68-76a12,12,0,1,1-12-12A12,12,0,0,1,140,132Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,132ZM96,172a12,12,0,1,1-12-12A12,12,0,0,1,96,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,140,172Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,172Z">
-                                        </path>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div class="input-group">
-                                <div class="prio-group">
-                                    <label>Prio</label>
-                                    <div class="prio-buttons">
-                                            <button id="high-priority-button-edit-task" class="btn btn-urgent ${priority === 'high-edit-task' || priority === 'high' ? 'clicked' : ''}" type="button" onclick="setPriority(this, 'high')">                                            <span class="prio-text">Urgent</span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
-                                                <path
-                                                    d="M216.49,191.51a12,12,0,0,1-17,17L128,137,56.49,208.49a12,12,0,0,1-17-17l80-80a12,12,0,0,1,17,0Zm-160-63L128,57l71.51,71.52a12,12,0,0,0,17-17l-80-80a12,12,0,0,0-17,0l-80,80a12,12,0,0,0,17,17Z">
-                                                </path>
-                                            </svg>
-                                        </button>
-                                            <button id="medium-priority-button-edit-task" class="btn btn-medium ${priority === 'medium-edit-task' || priority === 'medium' ? 'clicked' : ''}" type="button" onclick="setPriority(this, 'medium')">
-                                            <span class="prio-text">Medium</span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
-                                                <path d="M228,160a12,12,0,0,1-12,12H40a12,12,0,0,1,0-24H216A12,12,0,0,1,228,160ZM40,108H216a12,12,0,0,0,0-24H40a12,12,0,0,0,0,24Z"></path>
-                                            </svg>
-                                        </button>
-                                            <button id="low-priority-button-edit-task" class="btn btn-low ${priority === 'low-edit-task' || priority === 'low' ? 'clicked' : ''}" type="button" onclick="setPriority(this, 'low')">                                            <span class="prio-text">Low</span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
-                                                <path
-                                                    d="M216.49,127.51a12,12,0,0,1,0,17l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,1,1,17-17L128,199l71.51-71.52A12,12,0,0,1,216.49,127.51Zm-97,17a12,12,0,0,0,17,0l80-80a12,12,0,0,0-17-17L128,119,56.49,47.51a12,12,0,0,0-17,17Z">
-                                                </path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-                                <label for="assigned-to">Assigned to</label>
-                                <div class="input-field">
-                                    <input type="text" id="assigned-to-edit-task" placeholder="Select contacts to assign" onclick="toggleContactDropdownEditTask()" oninput="searchContactsOverlay()" autocomplete="off">
-                                    <svg id="contact-dropdown-icon" class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
-                                        <path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z">
-                                        </path>
-                                    </svg>
-                                    <div id="contact-dropdown-edit-task" class="contact-dropdown hidden"></div>
-                                </div>
-                                <div id="selected-contacts" class="selected-contacts">
-                                    ${taskData.assigned_to ? taskData.assigned_to.map(contact => `
-                                    <div class="selected-profile-icon" style="background-color: ${contact.color};" data-id="${contact.id}">
-                                        ${contact.initials}
-                                    </div>`).join('') : ''}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input-group addSubtask-container">
-                        <label for="input-subtask">Subtasks</label>
-                        <div class="input-field-subtask">
-                            <input type="text" id="input-subtask-edit-task" placeholder="Add new subtask" oninput="toggleIconsEditTask()" onkeydown="handleEnterEditTask(event)">
-                            <div id="addSubtask-icons-edit-task" class="subtask-icons">
-                                <svg id="plus-icon-edit-task" onclick="addSubtaskEditTask()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
-                                    <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z">
-                                    </path>
-                                </svg>
-                                <div id="edit-icons-edit-task" class="icon-wrapper hidden">
-                                    <svg onclick="clearSubtaskInput()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
-                                        <path
-                                            d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z">
-                                        </path>
-                                    </svg>
-                                    <div class="edit-divider-vertical"></div>
-                                    <svg onclick="addSubtaskEditTask()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256">
-                                        <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z">
-                                        </path>
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                        <ul id="subtask-list-edit-task" class="subtask-list">
-                            ${taskData.subtasks ? taskData.subtasks.map(subtask => `
-                            <li class="subtask-item">
-                                <input type="text" value="${subtask.text}" class="subtask-edit-input" readonly tabindex="-1" onclick="preventFocus(event)">
-                                <div class="subtask-edit-icons">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256" onclick="editSubtask(this)">
-                                        <path
-                                            d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z">
-                                        </path>
-                                    </svg>
-                                    <div class="edit-divider-vertical"></div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256" onclick="deleteSubtask(this)">
-                                        <path
-                                            d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z">
-                                        </path>
-                                    </svg>
-                                </div>
-                            </li>
-                            `).join('') : ''}
-                        </ul>
-                        </div>
-                        <div class="form-actions">
-                            <button type="submit" class="btn btn-primary">Ok
-                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#ffffff" viewBox="0 0 256 256">
-                                    <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z">
-                                    </path>
-                                </svg>
-                            </button>
-                        </div>
-                </form>
-            </section>
-        `;
-
-        initializeDatePicker("#due-date-edit-task");
-
-    } catch (error) {
-        console.error('Error editing task:', error);
-        showErrorMessage('Fehler beim Laden der Task');
-    }
-}
 
 /**
- * Saves the edited task changes back to Firebase.
- */
-async function saveTaskChanges(event, taskId) {
-    event.preventDefault();
-
-    try {
-        const title = document.getElementById('task-title').value.trim();
-        const description = document.getElementById('task-description').value.trim();
-        const dueDate = document.getElementById('due-date-edit-task').value;
-        const priority = document.querySelector('.prio-buttons .clicked')?.id.replace('-priority-button', '') || 'low';
-
-        const assignedContacts = Array.from(document.querySelectorAll('.contact-item.active')).map(contactItem => {
-            const id = contactItem.dataset.id;
-            const initials = contactItem.querySelector('.profil-icon').textContent.trim();
-            const color = contactItem.querySelector('.profil-icon').style.backgroundColor;
-            const name = contactItem.querySelector('.contact-name').textContent.trim();
-            return { id, initials, color, name };
-        });
-
-        const subtasks = Array.from(document.querySelectorAll('.subtask-item')).map(subtaskItem => {
-            return {
-                text: subtaskItem.querySelector('.subtask-edit-input').value,
-                status: 'unchecked'
-            };
-        });
-
-        const updatedTaskData = {
-            title,
-            description,
-            due_date: dueDate,
-            priority,
-            assigned_to: assignedContacts,
-            subtasks
-        };
-
-        const response = await fetch(`${DB_URL}/tasks/${taskId}.json`, {
-            method: 'PATCH',
-            body: JSON.stringify(updatedTaskData),
-            headers: { 'Content-Type': 'application/json' },
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to update task');
-        }
-
-        allTasks[taskId] = { ...allTasks[taskId], ...updatedTaskData };
-
-        closeTaskOverlay();
-        // showSuccessMessage('Task erfolgreich aktualisiert');
-        updateTaskInUI(taskId, updatedTaskData);
-        reloadTasksInBoard(response, updatedTaskData);
-        localStorage.removeItem('checkboxStates');
-        localStorage.removeItem('selectedContacts');
-        clearInputForm()
-    } catch (error) {
-        console.error('Fehler beim Speichern der Task:', error);
-        showErrorMessage('Fehler beim Aktualisieren der Task');
-    }
-}
-
-/**
- * Generates HTML for assigned persons.
- * 
- * @param {Array} assignedTo - The list of assigned persons.
- * @returns {string} The generated HTML.
- */
-function getAssignedToHTML(assignedTo) {
-    const validAssignedTo = Array.isArray(assignedTo) ? assignedTo : [];
-
-    if (!validAssignedTo || validAssignedTo.length === 0) {
-        return `<div class="no-assigned-contacts" style="padding: 10px 0;">
-                    <span style="color: #666; font-size: 14px; margin-left: 0.5rem">No contacts assigned</span>
-                </div>`;
-    }
-
-    return validAssignedTo.map(person => `
-        <div class="user">
-            <div class="profile-icon" style="background-color: ${person.color};">
-                <span style="color: white;">${person.initials}</span>
-            </div>
-            <span class="profile-name">${person.name}</span>
-        </div>
-    `).join('');
-}
-
-/**
- * Generates HTML for subtasks.
- * 
- * @param {array} subtasks - The list of subtasks.
- * @param {string} taskId - The id of the parent task.
- * @returns {string} the generated html.
- */
-function getSubtasksHTML(subtasks, taskId) {
-    if (!subtasks || subtasks.length === 0) {
-        return '<div class="no-subtasks" style="color: #666; font-size: 14px;">No subtasks available</div>';
-    }
-
-    return subtasks.map((subtask, index) => `
-        <div class="single-subtask" onclick="toggleSubtask('${taskId}', ${index})">
-            <img src="../assets/icons/${subtask.status === 'checked' ? 'checked' : 'unchecked'}.svg" alt="${subtask.status}"> 
-            <span>${escapeHtml(subtask.text)}</span>
-        </div>
-    `).join('');
-}
-
-/**
- * Fügt eine neue Subtask hinzu.
+ * Adds a new subtask to the list. 
+ * It retrieves the subtask text from the input field, creates a new subtask element,
+ * and appends it to the subtask list.
  */
 function addSubtask() {
     const inputField = document.getElementById('input-subtask');
@@ -328,27 +81,16 @@ function addSubtask() {
 
     if (subtaskText) {
         const subtaskList = document.querySelector('.subtask-list');
-        const newSubtask = `
-            <div class="subtask-item">
-                <input type="text" value="${subtaskText}" class="subtask-edit-input" readonly tabindex="-1" onclick="preventFocus(event)">
-                <div class="subtask-edit-icons">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256" onclick="editSubtask(this)">
-                        <path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"></path>
-                    </svg>
-                        <div class="edit-divider-vertical"></div>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256" onclick="deleteSubtask(this)">
-                        <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
-                    </svg>
-                </div>
-            </div>
-        `;
+        const newSubtask = createSubtaskHTML(subtaskText);
         subtaskList.insertAdjacentHTML('beforeend', newSubtask);
-        inputField.value = ''; // Clear the input field after adding
+        inputField.value = '';
     }
 }
 
 /**
- * Fügt eine neue Subtask hinzu.
+ * Adds a new subtask to the edit task list. 
+ * It retrieves the subtask text from the input field, creates a new subtask element,
+ * and appends it to the subtask list. This also toggles icons for edit task mode.
  */
 function addSubtaskEditTask() {
     const inputField = document.getElementById('input-subtask-edit-task');
@@ -356,42 +98,43 @@ function addSubtaskEditTask() {
 
     if (subtaskText) {
         const subtaskList = document.querySelector('.subtask-list');
-        const newSubtask = `
-            <div class="subtask-item">
-                <input type="text" value="${subtaskText}" class="subtask-edit-input" readonly tabindex="-1" onclick="preventFocus(event)">
-                <div class="subtask-edit-icons">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256" onclick="editSubtask(this)">
-                        <path d="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"></path>
-                    </svg>
-                        <div class="edit-divider-vertical"></div>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" viewBox="0 0 256 256" onclick="deleteSubtask(this)">
-                        <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
-                    </svg>
-                </div>
-            </div>
-        `;
+        const newSubtask = createSubtaskEditTaskHTML(subtaskText);
         subtaskList.insertAdjacentHTML('beforeend', newSubtask);
         inputField.value = '';
-        toggleIconsEditTask()
+        toggleIconsEditTask();
     }
 }
 
+/**
+ * Handles the Enter key press event to add a new subtask when Enter is pressed.
+ * 
+ * @param {KeyboardEvent} event - The keypress event triggered when Enter is pressed.
+ */
 function handleEnter(event) {
     if (event.key === 'Enter') {
-        event.preventDefault(); // Prevent form submission
+        event.preventDefault();
         addSubtask();
     }
 }
 
-
+/**
+ * Handles the Enter key press event to add a new subtask in the edit task mode when Enter is pressed.
+ * 
+ * @param {KeyboardEvent} event - The keypress event triggered when Enter is pressed.
+ */
 function handleEnterEditTask(event) {
     if (event.key === 'Enter') {
-        event.preventDefault(); // Prevent form submission
+        event.preventDefault();
         addSubtaskEditTask();
     }
 }
 
-function editSubtask(icon) {
+/**
+ * Edits an existing subtask input field by making it editable and focusing on it.
+ * 
+ * @param {HTMLElement} icon - The edit icon that was clicked to initiate the subtask editing.
+ */
+function editSubtaskInput(icon) {
     const subtaskItem = icon.closest('.subtask-item');
     const input = subtaskItem.querySelector('.subtask-edit-input');
     const originalValue = input.value;
@@ -399,13 +142,22 @@ function editSubtask(icon) {
     input.readOnly = false;
     input.focus();
 
+    setupSubtaskEventListeners(input, originalValue);
+}
+
+/**
+ * Sets up the blur and keydown event listeners for the subtask input.
+ * 
+ * @param {HTMLInputElement} input - The subtask input element.
+ * @param {string} originalValue - The original value of the subtask before editing.
+ */
+function setupSubtaskEventListeners(input, originalValue) {
     input.onblur = () => {
         if (input.value.trim() === '') {
             input.value = originalValue;
         }
         input.readOnly = true;
     };
-
     input.onkeydown = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
@@ -418,48 +170,13 @@ function editSubtask(icon) {
     };
 }
 
-function deleteSubtask(icon) {
-    const subtaskItem = icon.closest('.subtask-item');
-    if (subtaskItem) {
-        subtaskItem.remove();
-    }
-}
 
-function preventFocus(event) {
-    event.preventDefault();
-}
-
-// Funktion zum Bearbeiten einer Subtask
-function editSubtask(icon) {
-    const subtaskItem = icon.closest('.subtask-item');
-    const input = subtaskItem.querySelector('.subtask-edit-input');
-    const originalValue = input.value;
-
-    input.readOnly = false;
-    input.focus();
-
-    // Speichern beim Verlassen des Fokus
-    input.onblur = () => {
-        if (input.value.trim() === '') {
-            input.value = originalValue;
-        }
-        input.readOnly = true;
-    };
-
-    // Speichern bei Enter
-    input.onkeydown = (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            if (input.value.trim() === '') {
-                input.value = originalValue;
-            }
-            input.readOnly = true;
-            input.blur();
-        }
-    };
-}
-
-// Funktion zum Löschen einer Subtask
+/**
+ * Deletes a subtask when the delete icon is clicked. 
+ * The subtask is removed from the DOM after a brief fade-out animation.
+ * 
+ * @param {HTMLElement} icon - The delete icon that was clicked to remove the subtask.
+ */
 function deleteSubtask(icon) {
     const subtaskItem = icon.closest('.subtask-item');
     if (subtaskItem) {
@@ -470,19 +187,34 @@ function deleteSubtask(icon) {
     }
 }
 
-// Hilfsfunktion zum Aktualisieren der Subtasks
+/**
+ * Prevents the input field from being focused when clicked.
+ * This is useful when clicking on read-only inputs to prevent user interaction.
+ * 
+ * @param {MouseEvent} event - The click event triggered on the input field.
+ */
+function preventFocus(event) {
+    event.preventDefault();
+}
+
+/**
+ * Updates the subtasks for a given task in the Firebase database. 
+ * It sends the updated subtasks array to Firebase.
+ * 
+ * @param {string} taskId - The ID of the task for which subtasks are being updated.
+ * @param {Array} subtasks - The updated list of subtasks.
+ */
 function updateSubtasks(taskId, subtasks) {
     if (taskId && allTasks[taskId]) {
         allTasks[taskId].subtasks = subtasks;
-        // Optional: Speichern in Firebase
         const url = `${DB_URL}/tasks/${taskId}/subtasks.json`;
         sendToFirebase(url, subtasks, 'PUT')
-            .catch(error => console.error('Fehler beim Speichern der Subtasks:', error));
+            .catch(error => console.error('Error saving subtasks:', error));
     }
 }
 
 /**
- * Fetches data from Firebase.
+ * Fetches data from Firebase using the provided URL.
  * 
  * @param {string} url - The Firebase URL to fetch data from.
  * @returns {Object} The fetched data.
@@ -496,10 +228,11 @@ async function fetchFromFirebase(url) {
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error('Fehler beim Fetch:', error);
+        console.error('Error fetching data:', error);
         throw error;
     }
 }
+
 
 /**
  * Sends data to Firebase.
@@ -522,6 +255,59 @@ async function sendToFirebase(url, data, method) {
 }
 
 /**
+ * Updates the assigned-to section of a task element.
+ * 
+ * @param {HTMLElement} taskElement - The task element to update.
+ * @param {Object} assignedToData - The new assigned-to data.
+ */
+function updateAssignedTo(taskElement, assignedToData) {
+    const assignedToContainer = taskElement.querySelector('.assigned-to');
+    if (assignedToContainer) {
+        assignedToContainer.innerHTML = getAssignedToHTML(assignedToData);
+    }
+}
+
+/**
+ * Updates the priority icon of a task element.
+ * 
+ * @param {HTMLElement} taskElement - The task element to update.
+ * @param {string} priority - The priority level of the task.
+ */
+function updatePriorityIcon(taskElement, priority) {
+    const priorityIcon = taskElement.querySelector('.priority-icon');
+    if (priorityIcon) {
+        priorityIcon.src = `assets/icons/priority-${priority}.svg`;
+    }
+}
+
+/**
+ * Updates the persons section of a task element.
+ * 
+ * @param {HTMLElement} taskElement - The task element to update.
+ * @param {Object} assignedToData - The new assigned-to data.
+ */
+function updatePersons(taskElement, assignedToData) {
+    const personsContainer = taskElement.querySelector('.persons');
+    if (personsContainer) {
+        personsContainer.innerHTML = getAssignedToHTML(assignedToData);
+    }
+}
+
+/**
+ * Updates the subtasks section of a task element.
+ * 
+ * @param {HTMLElement} taskElement - The task element to update.
+ * @param {Array} subtasks - The new subtasks data.
+ * @param {string} taskId - The task ID.
+ */
+function updateSubtasks(taskElement, subtasks, taskId) {
+    const subtasksContainer = taskElement.querySelector('.subtasks');
+    if (subtasksContainer) {
+        subtasksContainer.innerHTML = getSubtasksHTML(subtasks, taskId);
+    }
+}
+
+/**
  * Updates the task in the UI with new data.
  * 
  * @param {string} taskId - The ID of the task to update.
@@ -530,59 +316,13 @@ async function sendToFirebase(url, data, method) {
 function updateTaskInUI(taskId, updatedTaskData) {
     const taskElement = document.querySelector(`[data-task-id="${taskId}"]`);
     if (taskElement) {
-        const assignedToContainer = taskElement.querySelector('.assigned-to');
-        if (assignedToContainer) {
-            assignedToContainer.innerHTML = getAssignedToHTML(updatedTaskData.assigned_to);
-        }
-
-        const priorityIcon = taskElement.querySelector('.priority-icon');
-        if (priorityIcon) {
-            priorityIcon.src = `assets/icons/priority-${updatedTaskData.priority}.svg`;
-        }
-
-        const personsContainer = taskElement.querySelector('.persons');
-        if (personsContainer) {
-            personsContainer.innerHTML = getAssignedToHTML(updatedTaskData.assigned_to);
-        }
-
-        const subtasksContainer = taskElement.querySelector('.subtasks');
-        if (subtasksContainer) {
-            subtasksContainer.innerHTML = getSubtasksHTML(updatedTaskData.subtasks, taskId);
-        }
+        updateAssignedTo(taskElement, updatedTaskData.assigned_to);
+        updatePriorityIcon(taskElement, updatedTaskData.priority);
+        updatePersons(taskElement, updatedTaskData.assigned_to);
+        updateSubtasks(taskElement, updatedTaskData.subtasks, taskId);
     }
 }
 
-/**
- * Shows a success message to the user.
- * 
- * @param {string} message - The message to show.
- */
-function showSuccessMessage(message) {
-    const messageContainer = document.createElement('div');
-    messageContainer.classList.add('success-message');
-    messageContainer.textContent = message;
-    document.body.appendChild(messageContainer);
-
-    setTimeout(() => {
-        messageContainer.remove();
-    }, 3000);
-}
-
-/**
- * Shows an error message to the user.
- * 
- * @param {string} message - The message to show.
- */
-function showErrorMessage(message) {
-    const messageContainer = document.createElement('div');
-    messageContainer.classList.add('error-message');
-    messageContainer.textContent = message;
-    document.body.appendChild(messageContainer);
-
-    setTimeout(() => {
-        messageContainer.remove();
-    }, 3000);
-}
 
 /**
  * Toggles the status of a subtask.

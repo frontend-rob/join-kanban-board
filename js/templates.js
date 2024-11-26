@@ -1,3 +1,11 @@
+/**
+ * Generates the header content for the page, including logo, navigation links, and profile button.
+ * This function returns an HTML string that contains the layout for the page header,
+ * including the logo, project name, help icon, profile button, and a mobile menu with 
+ * links for help, privacy policy, legal notice, and log out.
+ * 
+ * @returns {string} The HTML string representing the header content.
+ */
 function getHeaderContent() {
     return `
         <a href="../pages/summary.html" class="logo-container">
@@ -25,6 +33,15 @@ function getHeaderContent() {
     `;
 }
 
+
+/**
+ * Generates the navigation content for the page, including the main menu and footer links.
+ * This function returns an HTML string containing the structure for the navigation bar,
+ * including the logo, main menu items (Summary, Add Task, Board, and Contacts), and footer links
+ * (Privacy Policy and Legal Notice). Each menu item includes an SVG icon and a corresponding link.
+ * 
+ * @returns {string} The HTML string representing the navigation content with the menu and footer links.
+ */
 function getNavigationContent() {
     return `
         <nav role="navigation">
@@ -81,6 +98,17 @@ function getNavigationContent() {
     `;
 }
 
+
+/**
+ * Generates the HTML content for the summary page, including statistics and task information.
+ * The function returns an HTML string that contains various sections displaying tasks, including:
+ * - To-Do and Done task counts with links to the board page.
+ * - Urgent tasks count and due date information.
+ * - Total tasks, tasks in progress, and tasks awaiting feedback.
+ * Additionally, a greeting message with the current time of day and the user's name (default is "Guest").
+ * 
+ * @returns {string} The HTML string representing the summary content, including the statistics sections and greeting message.
+ */
 function getSummaryContent() {
     return `
         <section class="summary-stats-container">
@@ -160,6 +188,14 @@ function getSummaryContent() {
     `;
 }
 
+
+/**
+ * Generates the HTML content for a modal that informs users to rotate their device for better viewing.
+ * The modal includes an icon, a message, and a suggestion to switch to portrait mode for optimal page display.
+ * This modal is initially hidden and can be shown when the user is viewing the page in landscape mode.
+ *
+ * @returns {string} The HTML string representing the landscape modal content, including an icon, a message, and a caption.
+ */
 function getLandscapeModalContent() {
     return `
         <div id="landscape-modal" class="landscape-modal hidden">

@@ -56,7 +56,6 @@ function startMobileDrag(target, taskId) {
         return;
     }
     
-    // Store the original position before dragging
     const originalRect = target.getBoundingClientRect();
     target.dataset.originalLeft = originalRect.left + 'px';
     target.dataset.originalTop = originalRect.top + 'px';

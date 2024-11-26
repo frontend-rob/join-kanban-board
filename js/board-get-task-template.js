@@ -17,40 +17,42 @@ async function loadTasks() {
     }
 }
 
-/**
- * Generates and displays task templates.
- * 
- * @param {object} tasks - The tasks to be displayed. If empty, displays all tasks.
- * @param {boolean} isSearchActive - Indicates if a search is active.
- */
 function getTaskTemplate(tasks = allTasks, isSearchActive = false) {
-    const taskContainers = {
-        todo: '',
-        inprogress: '',
-        awaitfeedback: '',
-        done: ''
-    };
+    const taskContainers = initializeTaskContainers();
 
     if (!tasks || Object.keys(tasks).length === 0) {
         displayNoTasksMessage(isSearchActive);
         return;
     }
 
+    populateTaskContainers(tasks, taskContainers);
+    handleEmptyStates(taskContainers, tasks, isSearchActive);
+    updateTaskContainers(taskContainers);
+}
+
+function initializeTaskContainers() {
+    return {
+        todo: '',
+        inprogress: '',
+        awaitfeedback: '',
+        done: ''
+    };
+}
+
+
+function populateTaskContainers(tasks, taskContainers) {
     for (const taskId in tasks) {
         const task = tasks[taskId];
         if (!task || typeof task !== "object") continue;
 
         const progressPercentage = calculateProgress(task);
-
         if (taskContainers[task.status] !== undefined) {
             const taskTemplate = createTaskTemplate(taskId, task, progressPercentage);
             taskContainers[task.status] += taskTemplate;
         }
     }
-
-    handleEmptyStates(taskContainers, tasks, isSearchActive);
-    updateTaskContainers(taskContainers);
 }
+
 
 /**
  * Displays a "No tasks found" message when no tasks exist or the search yields no results.

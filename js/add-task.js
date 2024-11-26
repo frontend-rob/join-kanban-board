@@ -1,3 +1,6 @@
+let taskPriority = '';
+let taskStatus = 'todo';
+
 /**
  * initializes the start content by rendering main page elements and
  * setting up navigation and orientation restrictions on mobile devices.
@@ -57,9 +60,6 @@ function loadAddTaskTemplates({ header, navigation, landscapeModal }) {
     navigation.innerHTML = getNavigationContent();
     landscapeModal.innerHTML = getLandscapeModalContent();
 }
-
-
-let taskPriority = '';
 
 
 /**
@@ -215,8 +215,6 @@ async function reloadTasksInBoard(response, taskData) {
     getTaskTemplate(allTasks);
 }
 
-
-let taskStatus = 'todo';
 
 /**
  * gathers the task data from the form inputs.

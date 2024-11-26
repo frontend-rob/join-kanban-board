@@ -25,6 +25,17 @@ let AUTO_SCROLL_INTERVAL = 16;
 let VERTICAL_SCROLL_THRESHOLD = 20;
 
 
+/**
+ * Determines the scroll direction based on touch movement.
+ * 
+ * This function compares the distance moved horizontally (deltaX) and vertically (deltaY)
+ * to determine whether the scroll is primarily vertical or horizontal.
+ * 
+ * @param {number} touchX - The current X-coordinate of the touch.
+ * @param {number} touchY - The current Y-coordinate of the touch.
+ * @returns {string|null} Returns 'vertical' if the scroll is more vertical, 'horizontal' if more horizontal, 
+ *                        or null if neither direction is clearly dominant.
+ */
 function determineScrollDirection(touchX, touchY) {
     const deltaX = Math.abs(touchX - touchStartX);
     const deltaY = Math.abs(touchY - touchStartY);
@@ -36,6 +47,7 @@ function determineScrollDirection(touchX, touchY) {
     }
     return null;
 }
+
 
 /**
  * Allows an element to be dropped by preventing the default behavior.

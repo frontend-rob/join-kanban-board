@@ -163,14 +163,12 @@ async function fetchAndDisplayNextUrgentDueDate(tasks) {
     const dueDates = getDueDates(urgentTasks);
     const oldestPastDueDate = findOldestPastDueDate(dueDates);
 
-    // show the oldest due date in the past
     if (oldestPastDueDate < new Date('9999-12-31')) {
         updateElementText('due-date', oldestPastDueDate.toLocaleDateString('en-US'));
         updateElementText('due-date-label', 'overdue since');
         return;
     }
 
-    // otherwise find the next future date
     const nextDueDate = findNextDueDate(dueDates);
     updateElementText('due-date', nextDueDate.toLocaleDateString('en-US'));
     updateElementText('due-date-label', 'upcoming deadline');

@@ -263,7 +263,7 @@ function extractPriorityDisplay(priorityText) {
 
     for (const priority of validPriorities) {
         if (lowerText.startsWith(priority)) {
-            return priority.charAt(0).toUpperCase() + priority.slice(1); // Capitalize
+            return priority.charAt(0).toUpperCase() + priority.slice(1);
         }
     }
     return "Default";

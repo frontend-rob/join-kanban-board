@@ -91,22 +91,47 @@ function renderUserIndicator(contactId) {
 
 
 /**
- * adds the contact to the selected contacts container.
+ * Creates the HTML for a profile icon based on the contact ID, background color, and initials.
  * 
- * @param {string} contactId - the unique id of the contact.
- * @param {string} color - the background color for the contact's initials.
- * @param {string} initials - the initials of the contact.
+ * @param {string} contactId - The unique ID of the contact.
+ * @param {string} color - The background color of the icon (in hex, RGB, or color name format).
+ * @param {string} initials - The initials of the contact to display in the icon.
+ * @returns {string} The HTML markup for the profile icon.
+ */
+function createSelectedContactIcon(contactId, color, initials) {
+    return `
+        <div class="selected-profile-icon" 
+             style="background-color: ${color};" 
+             data-id="${contactId}">
+            ${initials}
+        </div>
+    `;
+}
+
+
+/**
+ * Adds a profile icon to specific containers if it doesn't already exist.
+ * 
+ * @param {string} contactId - The unique ID of the contact.
+ * @param {string} color - The background color of the icon.
+ * @param {string} initials - The initials of the contact to display in the icon.
  */
 function addSelectedContactIcon(contactId, color, initials) {
-    const existingIcon = document.querySelector(`#selected-contacts .selected-profile-icon[data-id="${contactId}"]`);
-    if (!existingIcon) {
-        const selectedIcon = `
-            <div class="selected-profile-icon" style="background-color: ${color};" data-id="${contactId}">
-                ${initials}
-            </div>
-        `;
-        document.getElementById('selected-contacts').innerHTML += selectedIcon;
-    }
+    const selectedContactsContainers = [
+        document.querySelector('#selected-contacts'),
+        document.querySelector('#selected-contacts-edit-task')
+    ];
+    selectedContactsContainers.forEach(container => {
+        if (container) {
+            const existingIcon = container.querySelector(`.selected-profile-icon[data-id="${contactId}"]`);
+            if (!existingIcon) {
+                const selectedIcon = createSelectedContactIcon(contactId, color, initials);
+                container.innerHTML += selectedIcon;
+            }
+        } else {
+            console.error('Container not found.');
+        }
+    });
 }
 
 
