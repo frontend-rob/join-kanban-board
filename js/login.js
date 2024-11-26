@@ -4,10 +4,17 @@
  * @async
  * @function
  * @param {Event} event - the event triggered when the form is submitted.
+ * @param {boolean} isGuest - flag indicating if the login is for a guest user.
  * @returns {Promise<void>} a promise that resolves when the login process is complete.
  */
-async function login(event) {
+async function login(event, isGuest = false) {
     event.preventDefault();
+
+    if (isGuest) {
+        await guestLogin();
+        return;
+    }
+
     const emailInput = document.getElementById('login-email');
     const passwordInput = document.getElementById('login-password');
 
