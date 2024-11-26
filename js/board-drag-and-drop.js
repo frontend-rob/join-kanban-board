@@ -16,44 +16,22 @@ let currentTouchY = 0;
 let lastHighlightedZone = null;
 let dropZoneCounters = new Map();
 let isVerticalScroll = false;
-let rafId = null;
 
+// Angepasste Konstanten für einheitliche Empfindlichkeit
 const LONG_PRESS_DELAY = 500;
-const SCROLL_THRESHOLD = 15;
-const DRAG_THRESHOLD = 50;
-const AUTO_SCROLL_THRESHOLD = 200;
-const AUTO_SCROLL_SPEED = 10;
-const AUTO_SCROLL_INTERVAL = 16;
-const VERTICAL_SCROLL_THRESHOLD = 30;
-const TOUCH_SENSITIVITY = 0.5;
-
-const debounce = (func, wait) => {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-};
-
-const throttle = (func, limit) => {
-    let inThrottle;
-    return function(...args) {
-        if (!inThrottle) {
-            func.apply(this, args);
-            inThrottle = true;
-            setTimeout(() => inThrottle = false, limit);
-        }
-    };
-};
+const SCROLL_THRESHOLD = 50;           
+const DRAG_THRESHOLD = 50;             
+const AUTO_SCROLL_THRESHOLD = 200;    
+const AUTO_SCROLL_SPEED = 10;          
+const AUTO_SCROLL_INTERVAL = 16;       
+const VERTICAL_SCROLL_THRESHOLD = 30;  
+const TOUCH_SENSITIVITY = 0.5;           
 
 function determineScrollDirection(touchX, touchY) {
     const deltaX = Math.abs(touchX - touchStartX);
     const deltaY = Math.abs(touchY - touchStartY);
     
+    // Angepasste Schwellenwerte für konsistenteres Verhalten
     if (deltaY > VERTICAL_SCROLL_THRESHOLD && deltaY > deltaX * 1.2) {
         return 'vertical';
     } else if (deltaX > SCROLL_THRESHOLD && deltaX > deltaY * 1.2) {
@@ -79,29 +57,25 @@ async function drop(event) {
     const draggedElement = document.getElementById(data);
     const dropZone = event.target.closest('.drop-zone');
 
-    if (!draggedElement || !dropZone) return;
-
-    draggedElement.classList.remove('dragging');
-    dropZone.appendChild(draggedElement);
-    draggedElement.style.pointerEvents = "none";
-    resetHighlights();
-
-    try {
-        await updateTaskStatus(data, dropZone.id);
-    } catch (error) {
-        console.error('Error updating task status:', error);
+    if (draggedElement && dropZone) {
+        draggedElement.classList.remove('dragging');
+        dropZone.appendChild(draggedElement);
+        draggedElement.style.pointerEvents = "none";
+        const newStatus = dropZone.id;
+        await updateTaskStatus(data, newStatus);
+        resetHighlights();
     }
 }
 
-const handleDragOver = throttle((event) => {
+function handleDragOver(event) {
     event.preventDefault();
-}, 16);
+}
 
-const handleDragEnter = throttle((event) => {
+function handleDragEnter(event) {
     event.preventDefault();
     const dropZone = event.target.closest('.drop-zone');
     if (!dropZone) return;
-
+    
     document.querySelectorAll('.drop-zone').forEach(zone => {
         if (zone !== dropZone) {
             zone.classList.remove('highlight');
@@ -112,12 +86,12 @@ const handleDragEnter = throttle((event) => {
     const counter = dropZoneCounters.get(dropZone) || 0;
     dropZoneCounters.set(dropZone, counter + 1);
     dropZone.classList.add('highlight');
-}, 16);
+}
 
 function handleDragLeave(event) {
     const dropZone = event.target.closest('.drop-zone');
     if (!dropZone) return;
-
+    
     const counter = dropZoneCounters.get(dropZone) || 0;
     dropZoneCounters.set(dropZone, counter - 1);
 
@@ -128,7 +102,8 @@ function handleDragLeave(event) {
 }
 
 function resetHighlights() {
-    document.querySelectorAll('.drop-zone').forEach(zone => {
+    const dropZones = document.querySelectorAll('.drop-zone');
+    dropZones.forEach(zone => {
         zone.classList.remove('highlight');
         dropZoneCounters.set(zone, 0);
     });
@@ -138,12 +113,17 @@ function initializeDropZones() {
     const dropZones = document.querySelectorAll('.drop-zone');
     dropZones.forEach(dropZone => {
         dropZoneCounters.set(dropZone, 0);
-        dropZone.addEventListener('dragover', handleDragOver, { passive: false });
-        dropZone.addEventListener('dragenter', handleDragEnter, { passive: false });
-        dropZone.addEventListener('dragleave', handleDragLeave, { passive: true });
-        dropZone.addEventListener('drop', drop, { passive: false });
+        dropZone.addEventListener('dragover', allowDrop);
+        dropZone.addEventListener('dragenter', handleDragEnter);
+        dropZone.addEventListener('dragleave', handleDragLeave);
+        dropZone.addEventListener('drop', drop);
     });
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    initializeDropZones();
+    loadTasks().then(getTaskTemplate);
+});
 
 function startDragging(event, taskId) {
     const target = document.getElementById(taskId);
@@ -162,6 +142,7 @@ function getTouchPoint(event) {
 }
 
 function calculateOffsets(touch, rect) {
+    // Angepasste Offset-Berechnung mit Berücksichtigung der Touch-Empfindlichkeit
     const offsetX = (touch.clientX - rect.left) * TOUCH_SENSITIVITY;
     const offsetY = (touch.clientY - rect.top) * TOUCH_SENSITIVITY;
     return { offsetX, offsetY };
@@ -174,7 +155,6 @@ function setupDraggingElement(target, rect, offsetX, offsetY) {
     activeElement.style.left = `${rect.left}px`;
     activeElement.style.top = `${rect.top}px`;
     activeElement.style.zIndex = '1000';
-    activeElement.style.pointerEvents = 'none';
 }
 
 function storeDraggingOffsets(target, offsetX, offsetY) {
@@ -183,8 +163,6 @@ function storeDraggingOffsets(target, offsetX, offsetY) {
 }
 
 function handleDragging(deltaX, deltaY, event) {
-    if (!activeElement) return;
-    
     event.preventDefault();
     startAutoScroll(event);
 
@@ -192,35 +170,22 @@ function handleDragging(deltaX, deltaY, event) {
     const offsetX = parseFloat(activeElement.dataset.offsetX) || 0;
     const offsetY = parseFloat(activeElement.dataset.offsetY) || 0;
 
+    // Angepasste Positions-Berechnung mit gleichmäßiger Empfindlichkeit
     const newX = (deltaX * TOUCH_SENSITIVITY) - offsetX;
     const newY = (deltaY * TOUCH_SENSITIVITY) - offsetY + scrollOffset;
 
-    activeElement.style.transform = `translate(${newX}px, ${newY}px)`;
-    highlightDropZone(event);
-}
-
-function highlightDropZone(event) {
-    const touch = event.touches ? event.touches[0] : event;
-    const elementUnderCursor = document.elementFromPoint(touch.clientX, touch.clientY);
-    const dropZone = elementUnderCursor?.closest('.drop-zone');
-
-    if (lastHighlightedZone && lastHighlightedZone !== dropZone) {
-        lastHighlightedZone.classList.remove('highlight');
-    }
-
-    if (dropZone && dropZone !== activeElement?.parentElement) {
-        dropZone.classList.add('highlight');
-        lastHighlightedZone = dropZone;
+    if (activeElement) {
+        activeElement.style.transform = `translate(${newX}px, ${newY}px)`;
+        highlightDropZone(event);
     }
 }
 
-const handleScrolling = throttle((deltaX, event, dropZone) => {
-    if (!dropZone) return;
-    
+function handleScrolling(deltaX, event, dropZone) {
     isScrolling = true;
+    // Angepasstes Scrolling mit reduzierter Empfindlichkeit
     dropZone.scrollLeft = scrollStartX - (deltaX * TOUCH_SENSITIVITY);
     event.preventDefault();
-}, 16);
+}
 
 function finishDrag(event) {
     if (!activeElement) return;
@@ -238,28 +203,42 @@ function finishDrag(event) {
     activeElement.style.transform = "";
     activeElement.style.position = "";
     activeElement.style.zIndex = "";
-    activeElement.style.pointerEvents = "";
     activeElement = null;
     lastHighlightedZone = null;
 }
 
+function highlightDropZone(event) {
+    const touch = event.touches ? event.touches[0] : event;
+    const elementUnderCursor = document.elementFromPoint(touch.clientX, touch.clientY);
+    const dropZone = elementUnderCursor?.closest('.drop-zone');
+
+    if (lastHighlightedZone && lastHighlightedZone !== dropZone) {
+        lastHighlightedZone.classList.remove('highlight');
+    }
+
+    if (dropZone && dropZone !== activeElement?.parentElement) {
+        dropZone.classList.add('highlight');
+        lastHighlightedZone = dropZone;
+    }
+}
+
 function initializeDragAndDrop() {
-    document.addEventListener('mousemove', handleMouseMove, { passive: true });
-    document.addEventListener('mouseup', handleTouchEnd, { passive: true });
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleTouchEnd);
     
     document.addEventListener('mouseleave', () => {
         stopAutoScroll();
         if (isDragging) {
             handleTouchEnd(new MouseEvent('mouseup'));
         }
-    }, { passive: true });
+    });
 
-    document.addEventListener('touchstart', handleTouchStart, { passive: true });
+    document.addEventListener('touchstart', handleTouchStart, { passive: false });
     document.addEventListener('touchmove', handleTouchMove, { passive: false });
-    document.addEventListener('touchend', handleTouchEnd, { passive: true });
+    document.addEventListener('touchend', handleTouchEnd);
 }
 
-const handleTouchStart = (event) => {
+function handleTouchStart(event) {
     const touch = event.touches[0];
     touchStartX = touch.clientX;
     touchStartY = touch.clientY;
@@ -274,9 +253,9 @@ const handleTouchStart = (event) => {
             isDragging = true;
         }, LONG_PRESS_DELAY);
     }
-};
+}
 
-const handleTouchMove = throttle((event) => {
+function handleTouchMove(event) {
     if (!isDragging) {
         clearTimeout(longPressTimer);
         const touch = event.touches[0];
@@ -297,11 +276,10 @@ const handleTouchMove = throttle((event) => {
         const deltaY = touch.clientY - touchStartY;
         handleDragging(deltaX, deltaY, event);
     }
-}, 16);
+}
 
 function handleTouchEnd(event) {
     clearTimeout(longPressTimer);
-    stopAutoScroll();
     if (isDragging) {
         finishDrag(event);
         isDragging = false;
@@ -316,7 +294,7 @@ function handleMouseMove(event) {
     }
 }
 
-const startAutoScroll = throttle((event) => {
+function startAutoScroll(event) {
     const touch = event.touches ? event.touches[0] : event;
     currentMouseY = touch.clientY;
 
@@ -334,34 +312,11 @@ const startAutoScroll = throttle((event) => {
             lastScrollTime = now;
         }, AUTO_SCROLL_INTERVAL);
     }
-}, 16);
+}
 
 function stopAutoScroll() {
-    if (autoScrollInterval) {
-        clearInterval(autoScrollInterval);
-        autoScrollInterval = null;
-    }
+    clearInterval(autoScrollInterval);
+    autoScrollInterval = null;
 }
 
-function cleanup() {
-    stopAutoScroll();
-    clearTimeout(longPressTimer);
-    if (rafId) {
-        cancelAnimationFrame(rafId);
-    }
-    resetHighlights();
-}
-
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        initializeDropZones();
-        initializeDragAndDrop();
-        loadTasks().then(getTaskTemplate);
-    });
-} else {
-    initializeDropZones();
-    initializeDragAndDrop();
-    loadTasks().then(getTaskTemplate);
-}
-
-window.addEventListener('unload', cleanup);
+document.addEventListener('DOMContentLoaded', initializeDragAndDrop);
