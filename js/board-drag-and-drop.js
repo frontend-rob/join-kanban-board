@@ -20,12 +20,12 @@ let isVerticalScroll = false;
 // Angepasste Konstanten für einheitliche Empfindlichkeit
 const LONG_PRESS_DELAY = 500;
 const SCROLL_THRESHOLD = 50;           
-const DRAG_THRESHOLD = 30;             
+const DRAG_THRESHOLD = 50;             
 const AUTO_SCROLL_THRESHOLD = 200;    
 const AUTO_SCROLL_SPEED = 10;          
 const AUTO_SCROLL_INTERVAL = 16;       
 const VERTICAL_SCROLL_THRESHOLD = 30;  
-const TOUCH_SENSITIVITY = 1;           
+const TOUCH_SENSITIVITY = 0.5;           
 
 function determineScrollDirection(touchX, touchY) {
     const deltaX = Math.abs(touchX - touchStartX);
