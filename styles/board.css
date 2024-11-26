@@ -38,6 +38,8 @@
     display: flex;
     flex-grow: 1;
     max-width: 95rem;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .status {
@@ -88,6 +90,8 @@
     flex-direction: column;
     flex-grow: 1;
     padding: 1rem;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .drop-zone.highlight {
@@ -124,6 +128,7 @@
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
+    -webkit-user-select: none;
     user-select: none;
 }
 
@@ -220,6 +225,9 @@
 .dragging {
     transform: rotate(5deg);
     transition: transform 0.2s ease;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: none;
 }
 
 .add-task {
@@ -317,6 +325,9 @@
 
 .task.dragging {
     z-index: 1000;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: none;
   }
 
 .form-actions {

@@ -15,7 +15,6 @@ function getAssignedContactIds() {
  * @param {HTMLElement} contactItem - The contact item element to activate.
  */
 function activateContactItem(contactId, contactItem) {
-    console.log('Found contact item:', contactItem);
     
     contactItem.classList.add('active');
     
@@ -51,10 +50,8 @@ function findContactItemInDropdown(contactId) {
 function preselectAssignedContacts() {
     const assignedContactIds = getAssignedContactIds();
 
-    console.log('Assigned Contact IDs:', assignedContactIds);
 
     assignedContactIds.forEach(contactId => {
-        console.log('Searching for contact with ID:', contactId);
 
         const contactItem = findContactItemInDropdown(contactId);
 
