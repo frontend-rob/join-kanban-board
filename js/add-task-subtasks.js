@@ -208,7 +208,7 @@ function clearSubtaskInput() {
 function clearSubtaskInputEditTask() {
     const inputField = document.getElementById('input-subtask-edit-task');
     inputField.value = "";
-    toggleIcons();
+    toggleIconsEditTask();
 }
 
 /**
