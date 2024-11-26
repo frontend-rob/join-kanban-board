@@ -24,7 +24,6 @@ let AUTO_SCROLL_SPEED = 10;
 let AUTO_SCROLL_INTERVAL = 16; 
 let VERTICAL_SCROLL_THRESHOLD = 20;
 
-
 /**
  * Determines the scroll direction based on touch movement.
  * 
@@ -48,7 +47,6 @@ function determineScrollDirection(touchX, touchY) {
     return null;
 }
 
-
 /**
  * Allows an element to be dropped by preventing the default behavior.
  * 
@@ -57,7 +55,6 @@ function determineScrollDirection(touchX, touchY) {
 function allowDrop(event) {
     event.preventDefault();
 }
-
 
 /**
  * Handles the drag event by adding a "dragging" class and setting the data to be transferred.
@@ -70,7 +67,6 @@ function drag(event) {
     event.dataTransfer.setData("text", target.id);
     target.classList.add("dragging");
 }
-
 
 /**
  * Handles the drop event by moving the dragged element to the drop zone and updating the task status.
@@ -94,7 +90,6 @@ async function drop(event) {
     }
 }
 
-
 /**
  * Handles the dragover event by preventing the default behavior.
  * 
@@ -103,7 +98,6 @@ async function drop(event) {
 function handleDragOver(event) {
     event.preventDefault();
 }
-
 
 /**
  * Handles the dragenter event by highlighting the drop zone.
@@ -125,7 +119,6 @@ function handleDragEnter(event) {
     dropZone.classList.add('highlight');
 }
 
-
 /**
  * Handles the dragleave event by removing the highlight from the drop zone.
  * 
@@ -144,7 +137,6 @@ function handleDragLeave(event) {
     }
 }
 
-
 /**
  * Resets the highlights from all drop zones.
  */
@@ -155,7 +147,6 @@ function resetHighlights() {
         dropZoneCounters.set(zone, 0);
     });
 }
-
 
 /**
  * Initializes the drop zones by adding event listeners for drag events.
@@ -171,7 +162,6 @@ function initializeDropZones() {
     });
 }
 
-
 /**
  * Handles the DOMContentLoaded event by initializing drop zones and loading tasks.
  */
@@ -179,7 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeDropZones();
     loadTasks().then(getTaskTemplate);
 });
-
 
 /**
  * Initiates the dragging process for a specified element.
@@ -254,7 +243,6 @@ function storeDraggingOffsets(target, offsetX, offsetY) {
     target.dataset.offsetY = offsetY;
 }
 
-
 /**
  * Handles the dragging behavior by updating the position of the element being dragged.
  * 
@@ -275,29 +263,9 @@ function handleDragging(deltaX, deltaY, event) {
 
     if (activeElement) {
         activeElement.style.transform = `translate(${newX}px, ${newY}px)`;
+        highlightDropZone(event);
     }
 }
-
-
-/**
- * Handles the dragging logic by updating the element's position during the touch move.
- * 
- * @param {number} deltaX - The horizontal movement during the drag.
- * @param {number} deltaY - The vertical movement during the drag.
- * @param {TouchEvent} event - The touchmove event triggered by the user's touch.
- */
-function handleDragging(deltaX, deltaY, event) {
-    event.preventDefault();
-    startAutoScroll(event);
-
-    const scrollOffset = window.scrollY - lastScrollY;
-    const newY = deltaY + scrollOffset;
-
-    if (activeElement) {
-        activeElement.style.transform = `translate(${deltaX}px, ${newY}px)`;
-    }
-}
-
 
 /**
  * Handles the scrolling behavior when the user drags horizontally over a drop zone.
@@ -312,7 +280,6 @@ function handleScrolling(deltaX, event, dropZone) {
     event.preventDefault();
 }
 
-
 /**
  * Finalizes the drag operation by appending the dragged element to a drop zone.
  * 
@@ -325,14 +292,15 @@ function finishDrag(event) {
     if (dropZone) {
         dropZone.appendChild(activeElement);
         updateTaskStatus(activeElement.id, dropZone.id);
+        dropZone.classList.remove('highlight');
     }
     activeElement.classList.remove('dragging');
     activeElement.style.transform = "";
     activeElement.style.position = "";
     activeElement.style.zIndex = "";
-    resetHighlights();
+    activeElement = null;
+    lastHighlightedZone = null;
 }
-
 
 /**
  * Highlights the drop zone based on the current cursor or touch position.
@@ -344,15 +312,15 @@ function highlightDropZone(event) {
     const elementUnderCursor = document.elementFromPoint(touch.clientX, touch.clientY);
     const dropZone = elementUnderCursor?.closest('.drop-zone');
 
-    document.querySelectorAll('.drop-zone').forEach(zone => {
-        zone.classList.remove('highlight');
-    });
+    if (lastHighlightedZone && lastHighlightedZone !== dropZone) {
+        lastHighlightedZone.classList.remove('highlight');
+    }
 
     if (dropZone && dropZone !== activeElement?.parentElement) {
         dropZone.classList.add('highlight');
+        lastHighlightedZone = dropZone;
     }
 }
-
 
 /**
  * Initializes drag-and-drop events, including mouse and touch interactions.
@@ -367,6 +335,121 @@ function initializeDragAndDrop() {
             handleTouchEnd(new MouseEvent('mouseup'));
         }
     });
+
+    document.addEventListener('touchstart', handleTouchStart, { passive: false });
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+    document.addEventListener('touchend', handleTouchEnd);
+}
+
+/**
+ * Handles the touch start event by initializing the dragging process.
+ * 
+ * @param {TouchEvent} event - The touchstart event triggered by the user's touch.
+ */
+function handleTouchStart(event) {
+    const touch = event.touches[0];
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+    initialTouchY = touch.clientY;
+    lastScrollY = window.scrollY;
+
+    const target = event.target.closest('.task');
+    if (target) {
+        taskIdForClick = target.id;
+        longPressTimer = setTimeout(() => {
+            startDragging(event, taskIdForClick);
+            isDragging = true;
+        }, LONG_PRESS_DELAY);
+    }
+}
+
+/**
+ * Handles the touch move event by updating the dragging behavior.
+ * 
+ * @param {TouchEvent} event - The touchmove event triggered by the user's touch.
+ */
+function handleTouchMove(event) {
+    if (!isDragging) {
+        clearTimeout(longPressTimer);
+        const touch = event.touches[0];
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = touch.clientY - touchStartY;
+        const scrollDirection = determineScrollDirection(touch.clientX, touch.clientY);
+
+        if (scrollDirection === 'vertical') {
+            isVerticalScroll = true;
+            return;
+        } else if (scrollDirection === 'horizontal') {
+            isVerticalScroll = false;
+            handleScrolling(deltaX, event, event.target.closest('.drop-zone'));
+        }
+    } else {
+        const touch = event.touches[0];
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = touch.clientY - touchStartY;
+        handleDragging(deltaX, deltaY, event);
+    }
+}
+
+/**
+ * Handles the touch end event by finalizing the drag operation.
+ * 
+ * @param {TouchEvent} event - The touchend event triggered by the user's touch.
+ */
+function handleTouchEnd(event) {
+    clearTimeout(longPressTimer);
+    if (isDragging) {
+        finishDrag(event);
+        isDragging
+= false;
+    }
+}
+
+/**
+ * Handles the mouse move event by updating the dragging behavior.
+ * 
+ * @param {MouseEvent} event - The mousemove event triggered by the user's mouse move.
+ */
+function handleMouseMove(event) {
+    if (isDragging) {
+        const deltaX = event.clientX - touchStartX;
+        const deltaY = event.clientY - touchStartY;
+        handleDragging(deltaX, deltaY, event);
+    }
+}
+
+/**
+ * Starts the auto-scroll behavior when the user drags near the edge of the viewport.
+ * 
+ * @param {TouchEvent|MouseEvent} event - The touchmove or mousemove event triggered by the user.
+ */
+function startAutoScroll(event) {
+    const touch = event.touches ? event.touches[0] : event;
+    currentMouseY = touch.clientY;
+
+    if (!autoScrollInterval) {
+        autoScrollInterval = setInterval(() => {
+            const now = Date.now();
+            if (now - lastScrollTime < AUTO_SCROLL_INTERVAL) return;
+
+            if (currentMouseY < AUTO_SCROLL_THRESHOLD) {
+                window.scrollBy(0, -AUTO_SCROLL_SPEED);
+            } else if (window.innerHeight - currentMouseY < AUTO_SCROLL_THRESHOLD) {
+                window.scrollBy(0, AUTO_SCROLL_SPEED);
+            }
+
+            lastScrollTime = now;
+        }, AUTO_SCROLL_INTERVAL);
+    }
+}
+
+/**
+ * Stops the auto-scroll behavior.
+ */
+function stopAutoScroll() {
+    clearInterval(autoScrollInterval);
+    autoScrollInterval = null;
 }
 
 document.addEventListener('DOMContentLoaded', initializeDragAndDrop);
+
