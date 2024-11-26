@@ -202,6 +202,16 @@ function clearSubtaskInput() {
 
 
 /**
+ * clears the text in the subtask input field.
+ * resets the input field and toggles the icons back to the default state.
+ */
+function clearSubtaskInputEditTask() {
+    const inputField = document.getElementById('input-subtask-edit-task');
+    inputField.value = "";
+    toggleIcons();
+}
+
+/**
  * collects all subtasks from the current task form.
  * each subtask is stored with its text and a default status of 'unchecked'.
  * 
