@@ -13,7 +13,7 @@ function toggleContactDropdownEditTask() {
         renderContactsEditTask();
         setTimeout(() => {
             preselectAssignedContacts();
-        }, 75);
+        }, 100);
     }
 }
 
