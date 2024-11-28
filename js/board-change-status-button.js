@@ -7,24 +7,60 @@ let openMenuForTask = null;
  */
 function showStatusMenu(taskId, event) {
     event.stopPropagation();
+    closePreviousMenuIfNeeded(taskId);
+    openNewMenuIfNeeded(taskId);
+}
 
+/**
+ * Closes the previous menu if it is not the same as the current task's menu.
+ * @param {string} taskId - The ID of the task to check and close the menu if needed.
+ */
+function closePreviousMenuIfNeeded(taskId) {
     if (openMenuForTask && openMenuForTask !== taskId) {
         closeStatusMenu(openMenuForTask);
     }
 
     if (openMenuForTask === taskId) {
         closeStatusMenu(taskId);
-        return;
     }
+}
 
+/**
+ * Opens the new menu if it doesn't exist or updates the existing one.
+ * @param {string} taskId - The ID of the task to open the menu for.
+ */
+function openNewMenuIfNeeded(taskId) {
     openMenuForTask = taskId;
 
     let statusMenu = getStatusMenu(taskId);
     if (!statusMenu) {
-        statusMenu = createStatusMenu(taskId);
-        document.body.appendChild(statusMenu);
+        createAndAppendStatusMenu(taskId);
+    } else {
+        updateExistingMenu(taskId, statusMenu);
     }
+}
 
+/**
+ * Creates a new status menu and appends it to the body.
+ * @param {string} taskId - The ID of the task to create the menu for.
+ */
+function createAndAppendStatusMenu(taskId) {
+    const statusMenu = createStatusMenu(taskId);
+    document.body.appendChild(statusMenu);
+    positionMenu(statusMenu, taskId);
+    statusMenu.style.display = 'block';
+}
+
+/**
+ * Updates an existing status menu with new menu buttons.
+ * @param {string} taskId - The ID of the task to update the menu for.
+ * @param {HTMLElement} statusMenu - The existing status menu element.
+ */
+function updateExistingMenu(taskId, statusMenu) {
+    const task = allTasks[taskId];
+    const status = task.status;
+    const menuButtons = generateMenuButtons(status, taskId);
+    statusMenu.innerHTML = menuButtons;
     positionMenu(statusMenu, taskId);
     statusMenu.style.display = 'block';
 }
@@ -115,6 +151,8 @@ function moveTaskToCategory(taskId, newStatus) {
     const taskElement = document.getElementById(taskId);
     const newCategoryContainer = document.getElementById(newStatus);
     newCategoryContainer.appendChild(taskElement);
+    closeStatusMenu(taskId);
+    showStatusMenu(taskId, new Event('click'));
 }
 
 /**
@@ -144,23 +182,15 @@ function positionMenu(menu, taskId) {
     menu.style.display = 'block';
 }
 
-/**
- * Event listener that handles clicks on the body to open the overlay only if no menu is open.
- * @param {Event} event - The click event on the document body.
- */
 document.body.addEventListener('click', function(event) {
     if (!event.target.closest('.mobile-status-button') && openMenuForTask === null) {
     }
 });
 
-// Add event listeners for scrolling
 window.addEventListener('scroll', closeMenuOnScroll);
 window.addEventListener('wheel', closeMenuOnScroll);
-window.addEventListener('touchmove', closeMenuOnScroll); // For mobile devices
+window.addEventListener('touchmove', closeMenuOnScroll);
 
-/**
- * Closes the status menu if the user starts scrolling.
- */
 function closeMenuOnScroll() {
     if (openMenuForTask !== null) {
         closeStatusMenu(openMenuForTask);
