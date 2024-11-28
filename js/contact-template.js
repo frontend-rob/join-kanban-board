@@ -47,7 +47,7 @@ function generateContactDetails(contact, contactId) {
                     <a href="mailto:${contact.email}" class="email">${contact.email}</a>
                     <span class="phone-card">Phone</span>
                     <span class="phone">${contact.phone}</span>
-                    <img onclick="editContact('${contactId}')" class="edit-contact-btn-mobile" src="../assets/icons/edit-contact-btn-mobile.svg" alt="">
+                    <img onclick="editContact('${contactId}')" class="edit-contact-btn-mobile" src="../assets/icons/edit-contact-btn-mobile.png" alt="">
                 </div>
             </div>
         </div>

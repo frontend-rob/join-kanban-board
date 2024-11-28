@@ -369,11 +369,14 @@
     height: 1.5rem;
 }
 
-/* Button nur bei mobilen Ansichten anzeigen */
+
 @media (max-width: 1024px) {
     .mobile-status-button {
         display: flex;
     }
+    .task.dragging {
+        background-color: transparent !important;
+      }
 }
 
 
