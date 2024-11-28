@@ -82,7 +82,6 @@ function generateMenuButtons(status, taskId) {
     return menuButtons;
 }
 
-
 /**
  * Handles the click on a menu button to update the task status and close the menu.
  * @param {Event} event - The click event that triggered the status update.
@@ -123,11 +122,6 @@ function moveTaskToCategory(taskId, newStatus) {
  * @param {HTMLElement} menu - The menu element to position.
  * @param {string} taskId - The ID of the task to locate the button.
  */
-/**
- * Positions the status menu near the button that triggered it.
- * @param {HTMLElement} menu - The menu element to position.
- * @param {string} taskId - The ID of the task to locate the button.
- */
 function positionMenu(menu, taskId) {
     const taskElement = document.getElementById(taskId);
     const buttonElement = taskElement.querySelector('.mobile-status-button');
@@ -151,45 +145,6 @@ function positionMenu(menu, taskId) {
 }
 
 /**
- * Handles a click on a task element to either open the overlay or handle other actions.
- * @param {Event} event - The click event on the task.
- * @param {string} taskId - The ID of the clicked task.
- */
-function handleTaskClick(event, taskId) {
-    if (event.target.closest('.mobile-status-button')) {
-        return;
-    }
-
-    getTaskOverlay(taskId);
-}
-
-/**
- * Opens the task overlay for the given task ID.
- * @param {string} taskId - The ID of the task to display the overlay for.
- */
-function getTaskOverlay(taskId) {
-    if (openMenuForTask !== null) {
-        closeStatusMenu(openMenuForTask);
-    }
-
-    const task = allTasks[taskId];
-
-    if (task) {
-        const overlayElement = document.getElementById('overlay');
-        overlayElement.querySelector('.overlay-content').innerHTML = getTaskOverlayContent(task);
-        overlayElement.setAttribute('data-task-id', taskId);
-
-        updateSubtasksContainer(task.subtasks, taskId, overlayElement);
-        updateAssignedToContainer(task.assigned_to, overlayElement);
-
-        overlayElement.style.display = 'flex';
-        document.body.classList.add('no-scroll');
-    } else {
-        console.error(`Task with ID ${taskId} not found.`);
-    }
-}
-
-/**
  * Event listener that handles clicks on the body to open the overlay only if no menu is open.
  * @param {Event} event - The click event on the document body.
  */
@@ -197,3 +152,17 @@ document.body.addEventListener('click', function(event) {
     if (!event.target.closest('.mobile-status-button') && openMenuForTask === null) {
     }
 });
+
+// Add event listeners for scrolling
+window.addEventListener('scroll', closeMenuOnScroll);
+window.addEventListener('wheel', closeMenuOnScroll);
+window.addEventListener('touchmove', closeMenuOnScroll); // For mobile devices
+
+/**
+ * Closes the status menu if the user starts scrolling.
+ */
+function closeMenuOnScroll() {
+    if (openMenuForTask !== null) {
+        closeStatusMenu(openMenuForTask);
+    }
+}

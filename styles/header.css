@@ -53,7 +53,7 @@ header {
   gap: 0.5rem;
   display: none;
   z-index: 1000;
-  width: 9.5rem
+  width: 9.5rem;
 }
 
 .mobile-menu a {
