@@ -34,18 +34,30 @@ async function sendStatusUpdateToFirebase(taskId, newStatus) {
  * @param {string} newStatus - The new status of the task.
  * @returns {Promise<void>} - A promise that resolves when the task status is updated.
  */
+/**
+ * Updates the task status both locally and in Firebase.
+ * 
+ * @param {string} taskId - The ID of the task to be updated.
+ * @param {string} newStatus - The new status of the task.
+ * @returns {Promise<void>} - A promise that resolves when the task status is updated.
+ */
 async function updateTaskStatus(taskId, newStatus) {
     try {
         updateTaskStatusInLocalData(taskId, newStatus);
+
         const response = await sendStatusUpdateToFirebase(taskId, newStatus);
 
         if (!response.ok) {
-            throw new Error('Error updating task status');
+            throw new Error(`Firebase update failed with status: ${response.status}`);
         }
 
         const updatedTasks = await loadTasks();
         getTaskTemplate(updatedTasks);
+
     } catch (error) {
-        console.error('Error updating task status in Firebase:', error);
+        console.error('Error updating task status:', error);
+
+        updateTaskStatusInLocalData(taskId, 'previous_status_here');
     }
 }
+

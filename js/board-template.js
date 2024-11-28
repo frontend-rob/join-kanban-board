@@ -18,9 +18,6 @@ function renderTaskHTML(taskId, task, progressPercentage, assignedTo, subtasks, 
             draggable="true" 
             ondragstart="drag(event)" 
             id="${taskId}" 
-            ontouchstart="handleTouchStart(event, '${taskId}')"
-            ontouchmove="handleTouchMove(event)"
-            ontouchend="handleTouchEnd(event)"
             onclick="handleTaskClick(event, '${taskId}')"
         >
             <div class="task-type ${task.category === 'Technical Task' ? 'technical-task' : 'user-story'}">
@@ -38,9 +35,16 @@ function renderTaskHTML(taskId, task, progressPercentage, assignedTo, subtasks, 
                 <div class="icons">${assignedToHTML}</div>
                 <img class="level" src="../assets/icons/priority-${extractPriority(task.priority)}.svg" alt="Priority Level">
             </div>
+            <button class="mobile-status-button" onclick="showStatusMenu('${taskId}', event)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000000" viewBox="0 0 256 256">
+                    <path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm12-88a12,12,0,1,1-12-12A12,12,0,0,1,140,128Zm44,0a12,12,0,1,1-12-12A12,12,0,0,1,184,128Zm-88,0a12,12,0,1,1-12-12A12,12,0,0,1,96,128Z"></path>
+                </svg>
+            </button>
+            <div class="mobile-menu-status"></div>
         </div>
     `;
 }
+
 
 
 /**
