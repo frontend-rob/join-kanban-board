@@ -20,7 +20,12 @@ function checkOrientation() {
         modal.classList.remove('show');
         body.classList.remove('no-scroll');
     }
+
+    if (window.innerWidth > 815) {
+        body.classList.remove('no-scroll');
+    }
 }
+
 
 
 /**

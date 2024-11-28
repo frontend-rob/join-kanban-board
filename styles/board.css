@@ -130,6 +130,7 @@
     width: 100%;
     -webkit-user-select: none;
     user-select: none;
+    position: relative;
 }
 
 .task-type {
@@ -346,6 +347,35 @@
     padding: 0.25rem 1rem;
     width: fit-content;
 }
+
+.mobile-status-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    box-shadow: var(--shadow-sd);
+    cursor: pointer;
+}
+
+.mobile-status-button img {
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+/* Button nur bei mobilen Ansichten anzeigen */
+@media (max-width: 1024px) {
+    .mobile-status-button {
+        display: flex;
+    }
+}
+
 
 
 @media (max-width: 1700px) {
