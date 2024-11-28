@@ -1,14 +1,20 @@
 let openMenuForTask = null;
 
 /**
- * Shows the status menu for a specific task.
- * @param {string} taskId - The ID of the task to show the menu for.
- * @param {Event} event - The click event that triggered the menu display.
+ * Shows or hides the status menu for a specific task.
+ * @param {string} taskId - The ID of the task to show or hide the menu for.
+ * @param {Event} event - The click event that triggered the menu display or hiding.
  */
 function showStatusMenu(taskId, event) {
     event.stopPropagation();
-    closePreviousMenuIfNeeded(taskId);
-    openNewMenuIfNeeded(taskId);
+    
+    // Wenn der gleiche Button nochmal angeklickt wird, Menü schließen
+    if (openMenuForTask === taskId) {
+        closeStatusMenu(taskId);
+    } else {
+        closePreviousMenuIfNeeded(taskId);
+        openNewMenuIfNeeded(taskId);
+    }
 }
 
 /**
@@ -18,10 +24,6 @@ function showStatusMenu(taskId, event) {
 function closePreviousMenuIfNeeded(taskId) {
     if (openMenuForTask && openMenuForTask !== taskId) {
         closeStatusMenu(openMenuForTask);
-    }
-
-    if (openMenuForTask === taskId) {
-        closeStatusMenu(taskId);
     }
 }
 
@@ -182,11 +184,7 @@ function positionMenu(menu, taskId) {
     menu.style.display = 'block';
 }
 
-document.body.addEventListener('click', function(event) {
-    if (!event.target.closest('.mobile-status-button') && openMenuForTask === null) {
-    }
-});
-
+// Close the menu when the user scrolls or touches the screen
 window.addEventListener('scroll', closeMenuOnScroll);
 window.addEventListener('wheel', closeMenuOnScroll);
 window.addEventListener('touchmove', closeMenuOnScroll);
@@ -195,4 +193,16 @@ function closeMenuOnScroll() {
     if (openMenuForTask !== null) {
         closeStatusMenu(openMenuForTask);
     }
+}
+
+/**
+ * Handles the click event on a task element. Closes the status menu if open and opens the task overlay.
+ * @param {Event} event - The click event triggered by the user.
+ */
+function handleTaskClick(event) {
+    const taskElement = event.currentTarget;
+    const taskId = taskElement.id;
+    closeStatusMenu(taskId);
+
+    getTaskOverlay(taskId);
 }

@@ -4,6 +4,9 @@
     box-sizing: border-box;
     font-family: "Inter", sans-serif;
     transition: all 125ms ease;
+    touch-action: manipulation;
+    -ms-touch-action: manipulation;
+    user-select: none;
 }
 
 :root {

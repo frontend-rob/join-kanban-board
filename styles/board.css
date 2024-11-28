@@ -454,11 +454,6 @@
 }
 
 @media (max-width: 1024px) {
-    .task.dragging {
-        position: absolute;
-        z-index: 1000;
-        pointer-events: none;
-    }
     .task {
         min-width: 240px;
     }

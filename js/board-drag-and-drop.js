@@ -1,4 +1,3 @@
-let isDragging = false;
 let activeElement = null;
 let lastHighlightedZone = null;
 let dropZoneCounters = new Map();
@@ -118,7 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
     loadTasks().then(getTaskTemplate);
 });
 
-
 /**
  * Highlights the drop zone based on the current position of the dragged element.
  * @param {Event} event - The mouse event
@@ -135,18 +133,4 @@ function highlightDropZone(event) {
         dropZone.classList.add('highlight');
         lastHighlightedZone = dropZone;
     }
-}
-
-/**
- * Initializes drag and drop functionality by setting up mouse events for dragging.
- */
-function initializeDragAndDrop() {
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-
-    document.addEventListener('mouseleave', () => {
-        if (isDragging) {
-            handleMouseUp(new MouseEvent('mouseup'));
-        }
-    });
 }
