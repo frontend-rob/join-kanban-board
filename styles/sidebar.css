@@ -17,6 +17,10 @@ nav {
   background-color: var(--bg-primary);
 }
 
+.navigation-content {
+  z-index: 10000;
+}
+
 .nav-logo {
   width: 6.25rem;
   height: 7.625rem;

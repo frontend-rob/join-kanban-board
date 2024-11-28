@@ -627,7 +627,7 @@
     }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 425px) {
     .contact {
         gap: 0;
     }
@@ -642,6 +642,6 @@
     #contact-name,
     #contact-email,
     #contact-phone {
-        height: 2.5rem;
+        height: 2rem;
     }
 }
