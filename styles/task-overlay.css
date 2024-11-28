@@ -45,6 +45,7 @@
     justify-content: space-between;
     align-items: center;
     padding-top: 2rem;
+    padding-bottom: 1.5rem;
     position: sticky;
     top: 0;
     background-color: var(--bg-base-100);
@@ -141,7 +142,8 @@
     justify-content: flex-end;
     position: sticky;
     bottom: 0;
-    padding: 2rem 0;
+    padding-top: 2rem;
+    padding-bottom: 1.5rem; 
     background-color: var(--bg-base-100);
 }
 
@@ -257,6 +259,7 @@
 @media (max-height: 800px){
     .task-details {
         max-height: 40rem;
+        gap: 1rem;
     }
 }
 
@@ -274,15 +277,14 @@
     .task-details {
         padding: 0 1.5rem;
     }
+    .overlay-task-title {
+        font-size: 2rem;
+    }
 }
 
 @media (max-width: 375px) {
     .overlay-content {
         width: 35rem;
-    }
-
-    .overlay-task-title {
-        font-size: 2rem;
     }
 }
 

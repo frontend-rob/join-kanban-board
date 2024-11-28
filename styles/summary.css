@@ -308,7 +308,7 @@
 @media screen and (max-width: 35rem) {
     .summary-content {
         gap: 2rem;
-        padding: 1rem 1rem;
+        padding: 2rem 1rem;
     }
 
     .headline-wrapper {

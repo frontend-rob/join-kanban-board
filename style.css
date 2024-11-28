@@ -126,3 +126,10 @@ h2 {
         padding-bottom: 7rem;
     }
 }
+
+@media screen and (max-width: 35rem) {
+    .main-content {
+        padding: 2rem 1rem;
+        padding-bottom: 7rem;
+    }
+}
