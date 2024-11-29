@@ -309,6 +309,7 @@
     .summary-content {
         gap: 2rem;
         padding: 2rem 1rem;
+        padding-bottom: 7rem;
     }
 
     .headline-wrapper {
