@@ -24,6 +24,11 @@ Here's an overview of the key functionalities:
 
 <br>
 
+## Preview
+
+<img width="1920" alt="mockup-join" src="https://github.com/user-attachments/assets/a94b7ea5-e9f0-403b-9aab-86353fa85219">
+
+
 ## Setup Instructions
 
 To run this project locally, follow these steps:
