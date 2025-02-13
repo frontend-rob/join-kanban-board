@@ -38,7 +38,8 @@ To run this project locally, follow these steps:
 Download the source code by clicking the <kbd>Code</kbd> button or clone the repository using Git:
 
 ```
-git clone https://github.com/robsc0de/join-kanban-board.git
+git clone https://github.com/frontend-rob/join-kanban-board.git
+
 ```
 
 2. Start the Application
